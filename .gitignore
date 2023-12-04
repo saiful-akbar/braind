@@ -1,0 +1,15 @@
+/vendor
+/.idea
+Homestead.json
+Homestead.yaml
+.env
+.phpunit.result.cache
+/node_modules
+run.log
+runner.log
+sev.log
+_hosting.tar.gz
+_hosting
+.nuxt
+myenv
+/public/_nuxt

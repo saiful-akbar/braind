@@ -1,0 +1,133 @@
+.date-control div input{
+  height: 38px;
+  border: 1px solid #ced4da;
+  width: 100%;
+  padding: 5px 12px;
+  color: #495057;
+}
+
+.date-control div input:focus-visible{
+  border: none;
+}
+
+.table th {
+  padding: 0.4rem 0.5rem;
+}
+
+.table td {
+  padding: 0.2rem 0.5rem;
+}
+
+.table tr th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.tex-bold {
+  font-weight: bold;
+}
+
+.link-delete {
+  color: #dc3545;
+}
+
+.link-edit {
+  color: #007bff;
+}
+
+.link-access {
+  color: #28a745;
+}
+
+.galleries img, .galleries video {
+  height: 120px;
+  margin-right: 2px;
+}
+
+.gallery-profile img {
+  width: 100%;
+}
+
+.container {
+  max-width: 100%;
+}
+
+.sidebar-menu .card-header,
+.sidebar-menu .card-body li a,
+.sidebar-menu .card-body ul,
+.nav-top {
+  background-color: #007bff !important;
+}
+
+.sidebar-menu .card-header,
+.sidebar-menu .card-body li a,
+.sidebar-menu .card-body ul,
+.navbar-light .navbar-brand,
+.navbar-light .navbar-toggler,
+.nav-top > a {
+  color: #fff;
+}
+
+.text-white {
+  color: #fff;
+}
+
+footer {
+  position: fixed;
+  height: 50px;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #eaeaea;
+  background-color: #007bff;
+}
+
+footer div {
+  line-height: 50px;
+  color: #ffffff;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.carousel-item {
+  height: 400px;
+}
+
+.gallery {
+  min-height: 400px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.galleries h5 {
+  line-height: 400px !important;
+}
+
+.upload-button {
+  border: 1px solid gray;
+  padding: 4px;
+  background-color: white;
+  border-radius: 3px;
+}
+
+.upload-button:active,
+.upload-button:hover,
+.upload-button:focus {
+  border: 1px solid green;
+  background-color: azure;
+}
+
+.upload svg {
+  padding: 16px;
+}
