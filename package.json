@@ -1,42 +1,23 @@
 {
-  "private": true,
-  "scripts": {
-    "dev": "nuxt -c client/nuxt.config.js --dotenv .env.dev",
-    "build": "nuxt build -c client/nuxt.config.js --dotenv .env.production",
-    "start": "nuxt start -c client/nuxt.config.js",
-    "lint": "eslint --fix --ext .js,.vue client/"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.32",
-    "@fortawesome/free-brands-svg-icons": "^5.15.1",
-    "@fortawesome/free-regular-svg-icons": "^5.15.1",
-    "@fortawesome/free-solid-svg-icons": "^5.15.1",
-    "@fortawesome/vue-fontawesome": "^2.0.0",
-    "@nuxtjs/router": "^1.5.0",
-    "@vuesimple/vs-pagination": "^1.4.6",
-    "axios": "^0.21.0",
-    "bootstrap": "^4.5.3",
-    "chart.js": "^3.9.1",
-    "dotenv": "^8.2.0",
-    "eslint": "^8.51.0",
-    "jquery": "^3.5.1",
-    "js-cookie": "^2.2.1",
-    "node-sass": "^9.0.0",
-    "nuxt": "^2.14.7",
-    "popper.js": "^1.16.1",
-    "sass": "^1.69.4",
-    "sweetalert2": "^10.10.4",
-    "vform": "^1.0.1",
-    "vue-chartjs": "^4.1.1",
-    "vue-i18n": "^8.22.2",
-    "vue3-datepicker": "^0.3.4",
-    "vuejs-datepicker": "^1.6.2"
-  },
-  "devDependencies": {
-    "@babel/eslint-parser": "^7.12.1",
-    "@nuxtjs/eslint-config": "^5.0.0",
-    "eslint": "^7.14.0",
-    "fs-extra": "^9.0.1",
-    "sass-loader": "^10.1.0"
-  }
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "build-ssr": "vite build && vite build --ssr"
+    },
+    "devDependencies": {
+        "@headlessui/react": "^1.4.2",
+        "@inertiajs/react": "^1.0.0",
+        "@tailwindcss/forms": "^0.5.3",
+        "@vitejs/plugin-react": "^4.0.3",
+        "autoprefixer": "^10.4.12",
+        "axios": "^1.6.1",
+        "laravel-vite-plugin": "^0.8.0",
+        "postcss": "^8.4.18",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "tailwindcss": "^3.2.1",
+        "vite": "^4.0.0"
+    }
 }

@@ -1,4 +1,5 @@
-#!/bin/sh
-yarn build
-cp public/_nuxt/index.html resources/views/index.blade.php
-# sh deploy_hosting.sh
+composer install --optimize-autoloader --no-dev
+php artisan config:cache
+php artisan view:cache
+php artisan event:cache
+npm run build

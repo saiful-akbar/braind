@@ -2,83 +2,44 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model implements
-    AuthenticatableContract,
-    AuthorizableContract,
-    JWTSubject
+class User extends Authenticatable
 {
-    use Authenticatable, Authorizable, HasFactory;
-
-    public static $ROLE_SA = 'sa';
-    public static $ROLE_ADMIN = 'admin';
-    public static $ROLE_USER = 'user';
-
-    public static $GUARDS = [
-        'sa' => ['sa'],
-        'admin' => ['sa', 'admin'],
-        'merchant' => ['sa', 'admin'],
-        'user' => ['sa', 'admin', 'user'],
-        'kanwil' => ['sa', 'admin', 'user', 'kanwil'],
-        'api' => ['sa', 'admin', 'user', 'api', 'kanwil'],
-    ];
-
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'sex', 'place_of_birth', 'birth_date',
-        'phone', 'instagram', 'avatar', 'division_id',
-        'role'
+        'name',
+        'email',
+        'password',
     ];
 
     /**
-     * @inheritDoc
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
      */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     /**
-     * @inheritDoc
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
      */
-    public function getJWTCustomClaims()
-    {
-        return [
-            'role' => $this->role,
-            'division_id' => $this->division_id,
-        ];
-    }
-
-    public function email()
-    {
-        return $this->hasOne(UserEmail::class)->where('primary', 1)
-            ->where('active', 1);
-    }
-
-    public function emails()
-    {
-        return $this->hasMany(UserEmail::class);
-    }
-
-    public function password()
-    {
-        return $this->hasOne(UserPassword::class)->where('active', 1);
-    }
-
-    public function division()
-    {
-        return $this->belongsTo(Division::class);
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 }

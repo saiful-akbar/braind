@@ -1,66 +1,36 @@
-# Braind Application
+Braind
 
-## 1. Requirements
+# 1. Persyaratan
 
-- PHP >= 7.3
-- node v12.22.12
-- mysql 5.7
+- php >= 8.1
+- composer >= 2.6
+- node js >= 20.10
+- npm >= 10.2
+- database MySQL atau MariaDB
 
-## 2. How to install
+# 2. Instalasi
 
-- Clone
+## 2.1. Pengembangan
 
-  ```bash
-  git clone git@github.com:mafaaza/brain.git
-
-  ```
-
-- Install Package
+- Clone repository
 
   ```bash
-  composer install && yarn
-
+  git clone https://github.com/saiful-akbar/braind.git && cd braind && git checkout develop
   ```
 
-- Run PHP Service
+- Jalankan file development.sh
 
+  ```sh
+  sh development.sh
+  ```
+
+- Atur konfigurasi database pada file `.env`
+
+- Buat database dan jalankan migrasi
   ```bash
-  php -S localhost:8000 -t public
+  php artisan migrate:fresh --seed
   ```
-
-- Run Client
-
+- Jalankan local server
   ```bash
-  yarn dev
+  npm run dev
   ```
-
-- Deployment
-
-  ```bash
-  sh build.sh
-  ```
-
-## 3. Fix
-
-### 3.1. Modul
-
-1. Memperbaiki menu pada admin yang sebelumnya tidak muncul.
-2. Memperbaiki link pada children menu yang sebelumnya hanya mengarah pada path `/`.
-
-### 3.2. Data Perusahaan
-
-1. Memberika titik atau koma pada angka.
-2. Menambahkan 2 angka dibelakang koma.
-3. Merubah sub menu **Cukai HT + HTPL** menjadi **Cukai HT + HPTL**.
-4. Merubah sub menu cukai HT + HTPL pada table jenis BKC menjadi format text.
-
-### 3.3. Data Pengawasan
-
-1. Menambahkan titik koma dan 2 angka dibelakang koma agar selaras dengan data lainnya.
-2. Menyembunyikan tabel **Total Kerugian** untuk sementara pada menu **Cukai MMEA**, **Cukai HT** dan **Cukai EA** dikarenakan nominal tersebut sama dengan tabel **Potensi Kerugian Negara**.
-
-### 3.4. Data Pengoperasian
-
-1. Merubah menu **Data Pengoperasian** menjadi **Sarana Operasi**.
-2. Memberbaiki format titik koma dan angka dibelakang koma untuk tabel harga perolehan.
-3. Merubah format pada sub menu senjata api pada kolom jumlah amunisi menjadi format angka.
