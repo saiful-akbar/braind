@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class EmailVerification extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'email',
+        'token',
+        'expired_at',
+        'request_remaining',
+        'verified',
+    ];
+
+    protected $hidden = [
+        'token'
+    ];
+
+    protected $casts = [
+        'verified' => 'boolean'
+    ];
 }

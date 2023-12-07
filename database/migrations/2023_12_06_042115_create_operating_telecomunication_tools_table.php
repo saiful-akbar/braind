@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('nup', 20);
             $table->string('device_type', 30);
             $table->double('aquisition_cost');
-            $table->string('year_of_aquisition', 4);
+            $table->string('year_of_acquisition', 4);
             $table->string('brand', 50);
             $table->string('type', 50);
             $table->string('frequency_range', 20);

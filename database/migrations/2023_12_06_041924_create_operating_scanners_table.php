@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('type', 20);
             $table->string('serial_number', 30);
             $table->string('singgle_dual_view', 10);
-            $table->string('year_of_aquisition', 4);
+            $table->string('year_of_acquisition', 4);
             $table->string('condition', 50);
             $table->string('placement_location', 50);
             $table->string('operating_hours', 50);

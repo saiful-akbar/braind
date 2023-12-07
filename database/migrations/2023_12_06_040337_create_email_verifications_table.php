@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('email');
             $table->string('token');
             $table->integer('expired_at');
+            $table->tinyInteger('request_remaining');
+            $table->boolean('verified');
             $table->timestamps();
         });
     }

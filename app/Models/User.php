@@ -3,43 +3,64 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\UserEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
+        'division_id',
         'name',
-        'email',
-        'password',
+        'sex',
+        'place_of_birth',
+        'birth_date',
+        'phone',
+        'role',
+        'instagram',
+        'avatar',
     ];
+    
+    /**
+     * Ambil Division yang memiliki User.
+     */
+    public function division(): BelongsTo
+    {
+        return $this->belongsTo(Division::class, 'division_id', 'id');
+    }
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * Ambil UserPassword yang dimiliki User
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function password(): HasOne
+    {
+        return $this->hasOne(UserPassword::class, 'user_id', 'id');
+    }
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * Ambil UserEmail yang dimiliki User.
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function emails(): HasMany
+    {
+        return $this->hasMany(UserEmail::class, 'user_id', 'id');
+    }
+
+    /**
+     * Merubah value pada attriute avatar.
+     */
+    public function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? null : asset("/storage/$value"),
+        );
+    }
 }
