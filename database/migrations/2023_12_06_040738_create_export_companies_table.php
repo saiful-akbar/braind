@@ -23,7 +23,7 @@ return new class extends Migration
             $table->double('export_duty');
             $table->double('netto');
             $table->double('number_of_liters')->nullable();
-            $table->double('number_of_excise_duty')->nullable();
+            $table->double('amount_of_excise_duty')->nullable();
             $table->date('input_date');
             $table->timestamps();
             $table->softDeletes();

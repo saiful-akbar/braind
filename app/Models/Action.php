@@ -22,7 +22,7 @@ class Action extends Model
         'commodity_code',
         'amount',
         'description',
-        'extimated_item_value',
+        'estimated_item_value',
         'underpayment_potential',
         'follow_up',
         'input_date',

@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('division_id')->nullable()->constrained();
-            $table->string('kppbs');
+            $table->string('kppbc');
             $table->string('sbp_number');
             $table->date('sbp_date');
             $table->string('comodity_code');
             $table->double('amount');
             $table->text('description');
-            $table->double('extimated_item_value');
+            $table->double('estimated_item_value');
             $table->double('underpayment_potential');
             $table->string('follow_up');
             $table->date('input_date');

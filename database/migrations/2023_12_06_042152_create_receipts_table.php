@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('division_id')->nullable()->constrained();
-            $table->double('target_amount_duty');
+            $table->double('target_import_duty');
             $table->double('target_export_duty');
             $table->double('target_tax');
             $table->double('realization_import_duty');

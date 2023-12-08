@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('cukai_ht_hptl_companies', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('division_id')->nullable()->constrained();
+            $table->string('name', 50);
             $table->string('nppbkc');
             $table->double('tax_amount');
             $table->double('amount');

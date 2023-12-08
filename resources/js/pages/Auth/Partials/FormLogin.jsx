@@ -17,20 +17,28 @@ const FormLogin = () => {
   /**
    * Fungsi untuk menangani ketika form diinput
    */
-  const handleInputChange = useCallback((event) => {
-    const { name, value } = event.target;
-    setData(name, value);
-  }, [setData]);
+  const handleInputChange = useCallback(
+    (event) => {
+      const { name, value } = event.target;
+      setData(name, value);
+    },
+    [setData]
+  );
 
   /**
    * Fungsi untuk menangani ketika form disubmit
    */
   const handleSubmit = (event) => {
     event.preventDefault();
-    post(route("login.store"), {
-      preserveScroll: true
-    });
-  }
+
+    const { email, password } = data;
+
+    if (email !== "" && password !== "") {
+      post(route("login.store"), {
+        preserveScroll: true,
+      });
+    }
+  };
 
   return (
     <Box
@@ -87,7 +95,7 @@ const FormLogin = () => {
         Log in
       </LoadingButton>
     </Box>
-  )
-}
+  );
+};
 
 export default FormLogin;
