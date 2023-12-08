@@ -1,3 +1,13 @@
+// Fonts
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import "@fontsource/roboto/900.css";
+import "material-icons/iconfont/filled.css";
+import "material-icons/iconfont/outlined.css";
+import "./styles/globals.scss";
+
 import "./bootstrap";
 
 import { createRoot } from "react-dom/client";
@@ -5,9 +15,9 @@ import { createInertiaApp } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import Document from "./_document";
 
-const appName = import.meta.env.VITE_APP_NAME || "Braind";
+const appName =
+  import.meta.env.VITE_APP_NAME || "Braind";
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
@@ -20,9 +30,7 @@ createInertiaApp({
   setup({ el, App, props }) {
     createRoot(el).render(
       <Provider store={store}>
-        <Document>
-          <App {...props} />
-        </Document>
+        <App {...props} />
       </Provider>
     );
   },

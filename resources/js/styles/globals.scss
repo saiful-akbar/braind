@@ -1,0 +1,43 @@
+@use "variable";
+@use "vendor/nprogress.scss";
+
+::-webkit-scrollbar {
+  width: 15px;
+  background-color: inherit;
+}
+
+::-webkit-scrollbar-track {
+  background-color: inherit;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 5px solid transparent;
+  border-radius: 1em;
+  background-clip: content-box;
+  background-color: variable.$light-scrollbar-thumb-color;
+  min-height: 50px;
+
+  &:hover {
+    background-color: variable.$light-scrollbar-thumb-color-hover;
+  }
+}
+
+html[data-appearance="dark"] {
+  color-scheme: dark;
+
+  ::-webkit-scrollbar-thumb {
+    background-color: variable.$dark-scrollbar-thumb-color;
+
+    &:hover {
+      background-color: variable.$dark-scrollbar-thumb-color-hover;
+    }
+  }
+}
+
+table tr th,
+table tr td {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

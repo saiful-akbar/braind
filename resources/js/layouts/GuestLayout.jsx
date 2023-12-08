@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Head } from "@inertiajs/react";
+import BaseLayout from "./BaseLayout";
+import { Box } from "@mui/material";
 
 /**
  * Guest layout
@@ -12,13 +14,20 @@ const GuestLayout = (props) => {
   const { children, title } = props;
 
   return (
-    <div>
+    <BaseLayout>
       <Head>
         <title>{title}</title>
       </Head>
 
-      <main>{children}</main>
-    </div>
+      <Box
+        sx={{
+          width: "100%",
+          position: "relative",
+        }}
+      >
+        {children}
+      </Box>
+    </BaseLayout>
   );
 };
 
