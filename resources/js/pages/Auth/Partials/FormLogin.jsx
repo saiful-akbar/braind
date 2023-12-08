@@ -27,12 +27,9 @@ const FormLogin = () => {
    */
   const handleSubmit = (event) => {
     event.preventDefault();
-
     post(route("login.store"), {
       preserveScroll: true
     });
-
-    console.log("submit", data);
   }
 
   return (
