@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Inertia\Response;
 
 class AuthController extends Controller
@@ -18,7 +16,7 @@ class AuthController extends Controller
      */
     public function login(): Response
     {
-        return Inertia::render('Auth/Login');
+        return $this->render('Auth/Login');
     }
 
     /**

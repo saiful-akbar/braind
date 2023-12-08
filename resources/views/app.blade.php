@@ -7,11 +7,11 @@
     <meta name="description" content="braind">
     <meta name="keywords" content="braind">
 
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    <title inertia>{{ config('app.name', 'Braind') }}</title>
 
     @routes
     @viteReactRefresh
-    @vite(['resources/js/app.jsx', "resources/js/pages/{$page['component']}.jsx"])
+    @vite(['resources/js/_app.jsx', "resources/js/pages/{$page['component']}.jsx"])
     @inertiaHead
 </head>
 

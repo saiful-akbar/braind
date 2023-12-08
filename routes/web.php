@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,26 +21,33 @@ Route::get('/', function () {
 });
 
 // Route untuk user yang belum login
-Route::middleware('guest')->group(function(): void {
-    
+Route::middleware('guest')->group(function (): void {
+
     // Login
     Route::controller(AuthController::class)
         ->prefix('/login')
         ->name('login')
-        ->group(function(): void {
+        ->group(function (): void {
             Route::get('/', 'login');
             Route::post('/', 'store')->name('.store');
         });
 });
 
 // Route untuk user yang sudah login
-Route::middleware('auth')->group(function(): void {
-    
+Route::middleware('auth')->group(function (): void {
+
     // Logout
     Route::controller(AuthController::class)
         ->prefix('/logout')
         ->name('logout')
-        ->group(function(): void {
+        ->group(function (): void {
             Route::delete('/', 'logout');
+        });
+
+    // Dashboard
+    Route::controller(DashboardController::class)
+        ->name('dashboard')
+        ->group(function (): void {
+            Route::get('/', 'index');
         });
 });
