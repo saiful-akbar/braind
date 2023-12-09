@@ -1,12 +1,12 @@
 import React, { useEffect, useLayoutEffect } from "react";
 import PropTypes from "prop-types";
+import CssBaseline from "@mui/material/CssBaseline";
 import { useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { setAppearance } from "@/redux/reducers/appearanceReducer";
+import { setAppearance } from "@/redux/reducers/settingsReducer";
 import { router } from "@inertiajs/react";
 import { ThemeProvider } from "@mui/material/styles";
 import NProgress from "nprogress";
-import CssBaseline from "@mui/material/CssBaseline";
 import lightTheme from "@/themes/lightTheme";
 import darkTheme from "@/themes/darkTheme";
 
@@ -20,7 +20,7 @@ const BaseLayout = ({ children }) => {
 
   // redux
   const dispatch = useDispatch();
-  const appearance = useSelector((state) => state.appearance);
+  const { appearance } = useSelector((state) => state.settings);
 
   // Nprogress
   NProgress.configure({ showSpinner: false, includeCSS: true });
@@ -33,31 +33,29 @@ const BaseLayout = ({ children }) => {
     router.on("start", () => NProgress.start());
     router.on("finish", () => NProgress.done());
 
+    const html = document.querySelector("html");
+
     switch (appearanceStorage) {
       case "dark":
         dispatch(setAppearance("dark"));
+        html.dataset.appearance = "dark";
         break;
 
       case "light":
         dispatch(setAppearance("light"));
+        html.dataset.appearance = "light";
         break;
 
       default:
         dispatch(setAppearance(mode));
+        html.dataset.appearance = mode;
         localStorage.setItem("appearance", "auto");
         break;
     }
   }, []);
 
-  /**
-   * Update tema dan local storage pada browser
-   */
-  useEffect(() => {
-    document.querySelector("html").dataset.appearance = mode;
-  }, [appearance]);
-
   return (
-    <ThemeProvider theme={appearance.mode === "dark" ? darkTheme : lightTheme}>
+    <ThemeProvider theme={appearance === "dark" ? darkTheme : lightTheme}>
       <CssBaseline />
       {children}
     </ThemeProvider>

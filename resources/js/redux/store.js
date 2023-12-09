@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import appearanceReducer from "./reducers/appearanceReducer";
+import sidebarReducer from "./reducers/sidebarReducer";
+import settingsReducer from "./reducers/settingsReducer";
 
 const store = configureStore({
   reducer: {
-    appearance: appearanceReducer,
+    sidebar: sidebarReducer,
+    settings: settingsReducer,
   },
 });
 

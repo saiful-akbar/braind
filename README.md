@@ -34,3 +34,44 @@ Braind
   ```bash
   npm run dev
   ```
+
+# Menu
+
+- Master
+
+  - Kanwil
+  - SBP
+  - User
+  - Kode Komoditi
+
+- Kanwil
+
+  - Profile
+  - Peta Kerawanan
+
+- Penerimaan
+
+  - Data Penerimaan
+
+- Perusahaan
+
+  - Perusahaan Impor
+  - Perusahaan Ekspor
+  - Cukai MMEA
+  - Cukai HT + HPTL
+
+- Pengawasan
+
+  - Pengawasan Impor
+  - Pengawasan Ekspor
+  - Pengawasan Cuka MMEA
+  - Pengawasan Cukai HT
+  - Pengawasan Cukai EA
+  - Pengawasan Penindakan
+
+- Sarana Operasi
+  - Kapal Patroli
+  - Alat Telekomunikasi
+  - Senjata Api
+  - Alat Pemindai dan Pendeteksi
+  - Sarana Operasi Lainnya

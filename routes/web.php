@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DivisionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +52,16 @@ Route::middleware('auth')->group(function (): void {
         ->group(function (): void {
             Route::get('/', 'index');
         });
+
+    // Division
+    Route::controller(DivisionController::class)
+        ->prefix('/division')
+        ->name('division')
+        ->group(function (): void {
+            Route::get('/', 'index');
+        });
+
+    Route::get('/commodity', fn () => inertia('Dashboard/index'))->name('commodity');
+    Route::get('/sbp', fn () => inertia('Dashboard/index'))->name('sbp');
+    Route::get('/user', fn () => inertia('User/index'))->name('user');
 });

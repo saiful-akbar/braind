@@ -7,6 +7,7 @@ export default createTheme({
   components,
   palette: {
     mode: "light",
+    divider: "#EEEEEE",
     tooltip: {
       background: "rgba(51, 51, 51, 0.9)",
       text: "#FFFFFF",

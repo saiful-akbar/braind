@@ -32,15 +32,19 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            'auth' => [
+            'auth' => fn () => [
                 'user' => $request->user(),
+                'menu' => menu_access()
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
             'app' => fn () => [
-                'csrf' => csrf_token()
+                'csrf' => csrf_token(),
+                'url' => [
+                    'params' => (object) $request->all(),
+                ]
             ]
         ];
     }

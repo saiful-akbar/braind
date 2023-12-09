@@ -3,16 +3,18 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\MenuUser;
 use App\Models\UserEmail;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -29,7 +31,7 @@ class User extends Authenticatable
         'instagram',
         'avatar',
     ];
-    
+
     /**
      * Ambil Division yang memiliki User.
      */
@@ -52,6 +54,27 @@ class User extends Authenticatable
     public function emails(): HasMany
     {
         return $this->hasMany(UserEmail::class, 'user_id', 'id');
+    }
+
+    /**
+     * Ambil Menu yang dimiliki User
+     */
+    public function menus(): BelongsToMany
+    {
+        return $this->belongsToMany(Menu::class, 'menu_user', 'user_id', 'menu_id')
+            ->using(MenuUser::class)
+            ->withPivot('create', 'read', 'update', 'delete', 'destroy');
+    }
+
+    /**
+     * Ambil Menu yang dimiliki User dengan read access
+     */
+    public function menusWithReadAccess(): BelongsToMany
+    {
+        return $this->belongsToMany(Menu::class, 'menu_user', 'user_id', 'menu_id')
+            ->using(MenuUser::class)
+            ->withPivot('create', 'read', 'update', 'delete', 'destroy')
+            ->wherePivot('read', true);
     }
 
     /**
