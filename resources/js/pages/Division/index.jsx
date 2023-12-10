@@ -103,17 +103,20 @@ const Kanwil = (props) => {
   );
 
   // fungsi untuk menangani ketika form search di-blur
-  const handleSearchBlur = useCallback(() => {
-    if (params.search) {
-      if (params.search !== searchValue) {
+  const handleSearchBlur = useCallback(
+    (event) => {
+      const searchParam = params.search ?? "";
+
+      if (searchParam !== searchValue) {
         fetchData({
           ...params,
           page: 1,
           search: searchValue,
         });
       }
-    }
-  }, [params, searchValue, fetchData]);
+    },
+    [params, searchValue, fetchData]
+  );
 
   // fungsi untuk menangani ketika form search dibersihlan.
   const handleSearchClear = useCallback(() => {
