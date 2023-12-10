@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
                 'csrf' => csrf_token(),
                 'url' => [
                     'params' => (object) $request->all(),
-                ]
+                ],
             ]
         ];
     }

@@ -19,13 +19,8 @@ class Menu extends Model
         'menu_group_id',
         'name',
         'icon',
-        'uri',
+        'url',
         'route',
-        'active',
-    ];
-
-    protected $casts = [
-        'active' => 'boolean'
     ];
 
     /**
@@ -60,7 +55,7 @@ class Menu extends Model
     /**
      * Ubah value pada attribute uri
      */
-    public function uri(): Attribute
+    public function url(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => is_null($value) ? null : url($value),

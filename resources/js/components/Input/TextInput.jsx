@@ -1,5 +1,4 @@
 import React from "react";
-import PropType from "prop-types"
 import { TextField } from "@mui/material";
 
 /**
@@ -11,11 +10,11 @@ const TextInput = React.memo(({ ...rest }) => {
       {...rest}
       InputProps={{
         sx: {
-          backgroundColor: "background.paper"
-        }
+          backgroundColor: "background.paper",
+        },
       }}
     />
-  )
+  );
 });
 
 export default TextInput;

@@ -16,9 +16,8 @@ return new class extends Migration
             $table->foreignId('menu_group_id')->constrained();
             $table->string('name', 50)->unique();
             $table->string('icon', 30)->nullable();
-            $table->string('uri', 100)->unique();
-            $table->string('route', 100)->unique();
-            $table->boolean('active')->default(true);
+            $table->string('url', 50)->unique();
+            $table->string('route', 50)->unique();
             $table->timestamps();
         });
     }

@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="braind">
     <meta name="keywords" content="braind">
+
     <title inertia>{{ config('app.name', 'Braind') }}</title>
+
     @routes
     @viteReactRefresh
     @vite(['resources/js/app.jsx', "resources/js/pages/{$page['component']}.jsx"])

@@ -21,6 +21,7 @@ import { utcToLocale } from "@/utils";
  */
 const DataTable = memo((props) => {
   const {
+    name,
     columns,
     data,
     update,
@@ -48,51 +49,61 @@ const DataTable = memo((props) => {
             </TableRow>
           </TableHead>
 
-          <TableBody>
-            {data.map((row, rowKey) => (
-              <TableRow key={rowKey} hover>
-                {columns.map((column, columnKey) => {
-                  if (column.timeFormat) {
+          {data.length > 0 ? (
+            <TableBody>
+              {data.map((row, rowKey) => (
+                <TableRow key={rowKey} hover>
+                  {columns.map((column, columnKey) => {
+                    if (column.timeFormat) {
+                      return (
+                        <TableCell key={columnKey}>
+                          {utcToLocale(row[column.field])}
+                        </TableCell>
+                      );
+                    }
+
                     return (
-                      <TableCell key={columnKey}>
-                        {utcToLocale(row[column.field])}
-                      </TableCell>
+                      <TableCell key={columnKey}>{row[column.field]}</TableCell>
                     );
-                  }
+                  })}
 
-                  return (
-                    <TableCell key={columnKey}>{row[column.field]}</TableCell>
-                  );
-                })}
+                  <TableCell align="center">
+                    {update && (
+                      <Tooltip title="Edit" disableInteractive>
+                        <IconButton onClick={() => onUpdate(row)}>
+                          <EditIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    )}
 
-                <TableCell align="center">
-                  {update && (
-                    <Tooltip title="Edit" disableInteractive>
-                      <IconButton onClick={() => onUpdate(row)}>
-                        <EditIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  )}
+                    {remove && (
+                      <Tooltip title="Pindahkan ke sampah" disableInteractive>
+                        <IconButton onClick={() => onRemove(row)}>
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    )}
 
-                  {remove && (
-                    <Tooltip title="Pindahkan ke sampah" disableInteractive>
-                      <IconButton onClick={() => onRemove(row)}>
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  )}
-
-                  {destroy && (
-                    <Tooltip title="Hapus permanen" disableInteractive>
-                      <IconButton onClick={() => onDestroy(row)}>
-                        <DeleteForeverIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  )}
+                    {destroy && (
+                      <Tooltip title="Hapus permanen" disableInteractive>
+                        <IconButton onClick={() => onDestroy(row)}>
+                          <DeleteForeverIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          ) : (
+            <TableBody>
+              <TableRow>
+                <TableCell colSpan={columns.length + 1} align="center">
+                  {`Tidak ada data ${name}`}
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
 
@@ -100,7 +111,7 @@ const DataTable = memo((props) => {
         showFirstButton
         showLastButton
         component="div"
-        rowsPerPageOptions={[2, 10, 25, 50, 100, 200]}
+        rowsPerPageOptions={[10, 25, 50, 100, 200]}
         count={pagination.count}
         rowsPerPage={pagination.rowsPerPage}
         page={pagination.page}
@@ -132,6 +143,7 @@ const paginationTypes = PropTypes.shape({
  * Prop types
  */
 DataTable.propTypes = {
+  name: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   columns: PropTypes.arrayOf(columnsType).isRequired,
   update: PropTypes.bool,

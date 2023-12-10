@@ -1,9 +1,12 @@
 import DataTable from "@/components/DataTable";
 import Header from "@/components/Header";
+import SearchInput from "@/components/Input/SearchInput";
+import RefreshButton from "@/components/MyButton/RefreshButton";
 import AuthLayout from "@/layouts/AuthLayout";
 import { router } from "@inertiajs/react";
-import { Box } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import React, { useCallback } from "react";
+import { useState } from "react";
 
 /**
  * Daftar kolom yang akan ditampilkan pada tabel
@@ -45,6 +48,7 @@ const columns = [
 const Kanwil = (props) => {
   const { data, pagination, app } = props;
   const { params } = app.url;
+  const [searchValue, setSearchValue] = useState(params.search ?? "");
 
   // Fungsi untuk request (fetch) data division.
   const fetchData = (parameters) => {
@@ -70,35 +74,131 @@ const Kanwil = (props) => {
     (event) => {
       fetchData({
         ...params,
+        page: 1,
         per_page: event.target.value,
       });
     },
     [params, fetchData]
   );
 
-  const handleClick = useCallback((data) => {
+  // fungsi untuk menangani ketika form search diisi.
+  const handleSearchChange = useCallback(
+    (event) => {
+      setSearchValue(event.target.value);
+    },
+    [setSearchValue]
+  );
+
+  // fungsi untuk menangani ketika form search di-submit
+  const handleSearchSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      fetchData({
+        ...params,
+        page: 1,
+        search: searchValue,
+      });
+    },
+    [params, searchValue, fetchData]
+  );
+
+  // fungsi untuk menangani ketika form search di-blur
+  const handleSearchBlur = useCallback(() => {
+    if (params.search) {
+      if (params.search !== searchValue) {
+        fetchData({
+          ...params,
+          page: 1,
+          search: searchValue,
+        });
+      }
+    }
+  }, [params, searchValue, fetchData]);
+
+  // fungsi untuk menangani ketika form search dibersihlan.
+  const handleSearchClear = useCallback(() => {
+    if (!params.search || params.search === "") {
+      setSearchValue("");
+    } else {
+      fetchData({
+        ...params,
+        page: 1,
+        search: "",
+      });
+    }
+  }, [params, setSearchValue, fetchData]);
+
+  // fungsi untuk menangani ketika
+  // tombol refresh diklik
+  const handleRefreshClick = useCallback(() => {
+    fetchData(params);
+  }, [params, fetchData]);
+
+  const handleActionClick = useCallback((data) => {
     console.log("aksi", data);
   }, []);
 
   return (
     <Box sx={{ mt: 5 }}>
-      <DataTable
-        columns={columns}
-        data={data}
-        update
-        remove
-        destroy
-        onUpdate={handleClick}
-        onRemove={handleClick}
-        onDestroy={handleClick}
-        paginationProps={{
-          count: pagination.total,
-          page: pagination.page - 1,
-          rowsPerPage: pagination.per_page,
-          onPageChange: (event, page) => handleChangePage(event, page),
-          onRowsPerPageChange: (event) => handleChangeRowPerPage(event),
-        }}
-      />
+      <Grid container spacing={3}>
+        <Grid
+          item
+          md={4}
+          xs={12}
+          sx={{
+            ".buttonAction": {
+              mr: 1,
+              ":last-child": {
+                mr: 0,
+              },
+            },
+          }}
+        >
+          <Button className="buttonAction" variant="contained" color="primary">
+            Tambah Kanwil
+          </Button>
+
+          <RefreshButton
+            className="buttonAction"
+            onClick={handleRefreshClick}
+          />
+        </Grid>
+
+        <Grid item md={8} xs={12}>
+          <form onSubmit={handleSearchSubmit} autoComplete="off">
+            <SearchInput
+              fullWidth
+              placeholder="Cari berdasarkan nama kanwil..."
+              size="small"
+              value={searchValue}
+              onClear={handleSearchClear}
+              onBlur={handleSearchBlur}
+              onChange={handleSearchChange}
+            />
+          </form>
+        </Grid>
+
+        <Grid item xs={12}>
+          <DataTable
+            name="Kanwil"
+            columns={columns}
+            data={data}
+            update
+            remove
+            destroy
+            onUpdate={handleActionClick}
+            onRemove={handleActionClick}
+            onDestroy={handleActionClick}
+            paginationProps={{
+              count: pagination.total,
+              page: pagination.page - 1,
+              rowsPerPage: pagination.per_page,
+              onPageChange: (event, page) => handleChangePage(event, page),
+              onRowsPerPageChange: (event) => handleChangeRowPerPage(event),
+            }}
+          />
+        </Grid>
+      </Grid>
     </Box>
   );
 };

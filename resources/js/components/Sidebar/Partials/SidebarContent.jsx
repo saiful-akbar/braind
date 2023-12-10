@@ -62,48 +62,12 @@ export default function SidebarContent() {
       >
         {/* Dashboard */}
         <List>
-          <ListItem disablePadding sx={{ px: 2 }}>
-            <Tooltip title="Dashboard" placement="right" disableInteractive>
-              <ListItemButton
-                dense
-                selected={route().current("dashboard*")}
-                component={Link}
-                href={route("dashboard")}
-                preserveScroll
-                onClick={handleCloseMobileSidebar}
-                sx={{
-                  borderRadius: 2,
-                  px: 1,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 30,
-                    color: route().current("dashboard")
-                      ? "secondary.light"
-                      : "text.sidebar",
-                  }}
-                >
-                  <Icon fontSize="small">home</Icon>
-                </ListItemIcon>
-
-                <ListItemText
-                  primary="Dashboard"
-                  primaryTypographyProps={{
-                    variant: "body2",
-                    noWrap: true,
-                    component: "div",
-                    sx: {
-                      fontWeight: 500,
-                      color: route().current("dashboard")
-                        ? "secondary.light"
-                        : "text.sidebar",
-                    },
-                  }}
-                />
-              </ListItemButton>
-            </Tooltip>
-          </ListItem>
+          <SidebarLink
+            name="Dashboard"
+            icon="home"
+            url={route("dashboard")}
+            route="dashboard"
+          />
         </List>
 
         <Divider variant="middle" sx={{ my: 2 }} />
@@ -128,10 +92,9 @@ export default function SidebarContent() {
               {menu.childrens.map((item) => (
                 <SidebarLink
                   key={item.route}
-                  id={item.id}
                   name={item.name}
                   icon={item.icon}
-                  uri={item.uri}
+                  url={item.url}
                   route={item.route}
                 />
               ))}

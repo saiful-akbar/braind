@@ -1,14 +1,14 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import PropTypes from "prop-types";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useMediaQuery } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { setAppearance } from "@/redux/reducers/settingsReducer";
-import { router } from "@inertiajs/react";
 import { ThemeProvider } from "@mui/material/styles";
-import NProgress from "nprogress";
-import lightTheme from "@/themes/lightTheme";
+import { setAppearance } from "@/redux/reducers/settingsReducer";
 import darkTheme from "@/themes/darkTheme";
+import lightTheme from "@/themes/lightTheme";
+import { router } from "@inertiajs/react";
+import { useMediaQuery } from "@mui/material";
+import NProgress from "nprogress";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
  * Base layout

@@ -14,11 +14,6 @@ class MenuGroup extends Model
     protected $fillable = [
         'name',
         'icon',
-        'active',
-    ];
-
-    protected $casts = [
-        'active' => 'boolean'
     ];
 
     /**

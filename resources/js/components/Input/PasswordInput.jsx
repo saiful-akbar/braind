@@ -1,13 +1,8 @@
 import React from "react";
 import PropType from "prop-types";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import {
-  TextField,
-  IconButton,
-  Tooltip,
-  InputAdornment,
-} from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { TextField, IconButton, Tooltip, InputAdornment } from "@mui/material";
 
 /**
  * Komponen password input
@@ -20,53 +15,55 @@ const PasswordInput = React.memo(({ disabled, ...rest }) => {
    * button toggle password diklik
    */
   const handleClick = (event) => {
-  	setShow((prevState) => !prevState);
-  }
+    setShow((prevState) => !prevState);
+  };
 
   return (
     <TextField
-			{...rest}
-			type={show ? "text" : "password"}
-			disabled={disabled}
-			InputProps={{
-				sx: {
-					backgroundColor: "background.paper"
-				},
-				endAdornment: (
-					<InputAdornment position="end">
-						<Tooltip title={show ? "Hide password" : "Show password"}>
-							<IconButton
-								onClick={handleClick}
-								disabled={disabled}
-								sx={{
-									color: "text.secondary",
-									"&:hover": {
-										color: "text.primary"
-									}
-								}}
-							>
-								{show ? <VisibilityIcon /> : <VisibilityOffIcon />}
-							</IconButton>
-						</Tooltip>
-					</InputAdornment>
-				)
-			}}
-		/>
-	)
+      {...rest}
+      type={show ? "text" : "password"}
+      disabled={disabled}
+      InputProps={{
+        sx: {
+          backgroundColor: "background.paper",
+        },
+        endAdornment: (
+          <InputAdornment position="end">
+            <Tooltip
+              title={show ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+            >
+              <IconButton
+                onClick={handleClick}
+                disabled={disabled}
+                sx={{
+                  color: "text.secondary",
+                  "&:hover": {
+                    color: "text.primary",
+                  },
+                }}
+              >
+                {show ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </IconButton>
+            </Tooltip>
+          </InputAdornment>
+        ),
+      }}
+    />
+  );
 });
 
 /**
  * Prop types
  */
 PasswordInput.propTypes = {
-	disabled: PropType.bool,
+  disabled: PropType.bool,
 };
 
 /**
  * Default props
  */
 PasswordInput.defaultProps = {
-	disabled: false,
+  disabled: false,
 };
 
 export default PasswordInput;

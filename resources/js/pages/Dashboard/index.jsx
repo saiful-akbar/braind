@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/react";
 import { Typography } from "@mui/material";
 import React from "react";
 
-const Dashboard = (props) => {
+const Dashboard = () => {
   return (
     <div>
       <Typography variant="h3" component="h1">

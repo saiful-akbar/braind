@@ -20,12 +20,19 @@ import { useDispatch } from "react-redux";
  * @returns {React.ReactElement}
  */
 const SidebarLink = (props) => {
-  const { id, name, icon, uri, route: routeName, ...rest } = props;
+  const { name, icon, url, route: routeName, ...rest } = props;
   const dispatch = useDispatch();
 
   // fungsi untuk menutup mobile sidebar
   const handleCloseMobileSidebar = () => {
     dispatch(openMobileSidebar(false));
+  };
+
+  // fungsi untuk menandakan apakah link aktif atau tidak.
+  const isActive = (routeName) => {
+    return route().current(`${routeName}*`)
+      ? "secondary.light"
+      : "text.sidebar";
   };
 
   return (
@@ -35,7 +42,7 @@ const SidebarLink = (props) => {
           dense
           selected={route().current(`${routeName}*`)}
           component={Link}
-          href={route(routeName)}
+          href={url}
           preserveScroll
           onClick={handleCloseMobileSidebar}
           sx={{
@@ -46,9 +53,7 @@ const SidebarLink = (props) => {
           <ListItemIcon
             sx={{
               minWidth: 30,
-              color: route().current(`${routeName}*`)
-                ? "secondary.light"
-                : "text.sidebar",
+              color: isActive(routeName),
             }}
           >
             {icon === null ? (
@@ -67,9 +72,7 @@ const SidebarLink = (props) => {
               sx: {
                 display: "block",
                 fontWeight: 500,
-                color: route().current(`${routeName}*`)
-                  ? "secondary.light"
-                  : "text.sidebar",
+                color: isActive(routeName),
               },
             }}
           />
@@ -80,11 +83,14 @@ const SidebarLink = (props) => {
 };
 
 SidebarLink.propTypes = {
-  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  uri: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
-  icon: PropTypes.oneOfType([PropTypes.string.isRequired]),
+  icon: PropTypes.oneOfType([PropTypes.string, () => null]),
+};
+
+SidebarLink.defaultProps = {
+  icon: null,
 };
 
 export default SidebarLink;

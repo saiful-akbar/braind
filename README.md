@@ -15,22 +15,27 @@ Braind
 - Clone repository
 
   ```bash
-  git clone https://github.com/saiful-akbar/braind.git && cd braind && git checkout develop
+  git clone https://github.com/saiful-akbar/braind.git
+  cd braind
+  git checkout develop
   ```
 
-- Jalankan file development.sh
+- Jalankan file dev.sh
 
   ```sh
-  sh development.sh
+  sh dev.sh
   ```
 
 - Atur konfigurasi database pada file `.env`
 
 - Buat database dan jalankan migrasi
+
   ```bash
   php artisan migrate:fresh --seed
   ```
+
 - Jalankan local server
+
   ```bash
   npm run dev
   ```

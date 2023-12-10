@@ -36,9 +36,10 @@ const Login = () => {
           },
           backgroundColor: {
             md: "background.default",
-            xs: palette.mode === "dark"
-              ? "rgba(29, 29, 29, 0.9)"
-              : "rgba(255, 255, 255, 0.9)",
+            xs:
+              palette.mode === "dark"
+                ? "rgba(29, 29, 29, 0.9)"
+                : "rgba(255, 255, 255, 0.9)",
           },
         })}
       >

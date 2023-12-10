@@ -24,7 +24,7 @@ class DivisionRequest extends FormRequest
     /**
      * Jumlah baris per halaman
      */
-    private array $rowsPerPage = [2, 10, 25, 50, 100, 200];
+    private array $rowsPerPage = [10, 25, 50, 100, 200];
 
     /**
      * Default baris per halaman

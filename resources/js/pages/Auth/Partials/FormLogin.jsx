@@ -30,7 +30,6 @@ const FormLogin = () => {
    */
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const { email, password } = data;
 
     if (email !== "" && password !== "") {
@@ -51,11 +50,11 @@ const FormLogin = () => {
       }}
     >
       <Typography component="h1" variant="h3" sx={{ mb: 2 }}>
-        Log in
+        Masuk
       </Typography>
 
       <Typography component="div" variant="body2" color="text.secondary">
-        Please login with your registered account.
+        Silakan masuk dengan akun anda yang terdaftar.
       </Typography>
 
       <Grid container spacing={3} sx={{ mt: 3, mb: 6 }}>
@@ -76,7 +75,7 @@ const FormLogin = () => {
         <Grid item xs={12}>
           <PasswordInput
             fullWidth
-            label="Password"
+            label="Kata sandi"
             name="password"
             onChange={handleInputChange}
             value={data.password}
@@ -92,7 +91,7 @@ const FormLogin = () => {
         size="large"
         loading={processing}
       >
-        Log in
+        Masuk
       </LoadingButton>
     </Box>
   );
