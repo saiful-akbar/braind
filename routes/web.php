@@ -22,7 +22,9 @@ Route::get('/', function () {
     return Inertia::render('Dashboard/Index');
 });
 
-// Route untuk user yang belum login
+/**
+ * Route untuk user yang belum login
+ */
 Route::middleware('guest')->group(function (): void {
 
     // Login
@@ -35,7 +37,9 @@ Route::middleware('guest')->group(function (): void {
         });
 });
 
-// Route untuk user yang sudah login
+/**
+ * Route untuk user yang sudah login
+ */
 Route::middleware('auth')->group(function (): void {
 
     // Logout
@@ -58,7 +62,7 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/division')
         ->name('division')
         ->group(function (): void {
-            Route::get('/', 'index');
+            Route::get('/', 'index')->middleware('access:division,create');
         });
 
     Route::get('/commodity', fn () => inertia('Dashboard/index'))->name('commodity');
