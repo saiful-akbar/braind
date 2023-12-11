@@ -97,29 +97,26 @@ class LoginRequest extends FormRequest
      */
     public function generateSessionMenu(): void
     {
-        $columns = [
-            'menus.*',
-            'menu_user.create',
-            'menu_user.read',
-            'menu_user.update',
-            'menu_user.delete',
-            'menu_user.destroy',
-        ];
-
-        $query = MenuGroup::with([
-            'childrens' => function ($query) use($columns): void {
-                $query->whereRelation('usersWithReadAccess', 'user_id', '=', user()?->id)
-                    ->leftJoin('menu_user', 'menus.id', '=', 'menu_user.menu_id')
+        $menu = MenuGroup::with([
+            'childrens' => function ($query): void {
+                $query->join('menu_user', 'menus.id', '=', 'menu_user.menu_id')
+                    ->where('menu_user.user_id', user()?->id)
                     ->orderBy('menus.name', 'asc')
-                    ->select($columns);
+                    ->select([
+                        'menus.*',
+                        'menu_user.create',
+                        'menu_user.read',
+                        'menu_user.update',
+                        'menu_user.remove',
+                        'menu_user.destroy',
+                    ]);
             }
-        ]);
-        
-        $result = $query->whereRelation('childrens.usersWithReadAccess', 'user_id', '=', user()->id)
+        ])
+            ->whereRelation('childrens.usersWithReadAccess', 'user_id', '=', user()->id)
             ->orderBy('menu_groups.name', 'asc')
             ->get();
 
-        session(['menu' => $result]);
+        session(['menu' => $menu]);
     }
 
     /**

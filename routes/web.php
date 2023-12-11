@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/division')
         ->name('division')
         ->group(function (): void {
-            Route::get('/', 'index')->middleware('access:division,create');
+            Route::get('/', 'index')->middleware('access:division,read');
         });
 
     Route::get('/commodity', fn () => inertia('Dashboard/index'))->name('commodity');

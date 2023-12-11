@@ -19,7 +19,7 @@ class MenuAccess
         $menu = access()->firstWhere('route', $route);
 
         // Jika user memiliki akses lanjutkan proses
-        if (!$menu->pivot[$access]) {
+        if ($menu->pivot[$access]) {
             return $next($request);
         }
 

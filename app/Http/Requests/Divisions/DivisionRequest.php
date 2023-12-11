@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Divisions;
 
 use App\Models\Division;
+use App\Models\MenuUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -34,7 +35,7 @@ class DivisionRequest extends FormRequest
     /**
      * Default kolom yang diorder
      */
-    private string $sortBy = 'id';
+    private string $sortBy = 'name';
     private string $sort = 'asc';
 
     /**
@@ -48,9 +49,14 @@ class DivisionRequest extends FormRequest
     /**
      * Buat query pagination pada model
      */
-    public function paginate(): LengthAwarePaginator
+    public function paginate(MenuUser $access): LengthAwarePaginator
     {
         $query = Division::select($this->columns);
+
+        // Periksa apakah user memiliki akses untuk destroy
+        if ($access->destroy) {
+            $query->withTrashed();
+        }
 
         // periksa jika ada request untuk merubah jumlah baris perhalaman.
         if (in_array($this->per_page, $this->rowsPerPage)) {

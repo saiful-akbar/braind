@@ -14,7 +14,7 @@ class MenuUser extends Pivot
         'create',
         'read',
         'update',
-        'delete',
+        'remove',
         'destroy',
     ];
 
@@ -22,7 +22,7 @@ class MenuUser extends Pivot
         'create' => 'boolean',
         'read' => 'boolean',
         'update' => 'boolean',
-        'delete' => 'boolean',
+        'remove' => 'boolean',
         'destroy' => 'boolean',
     ];
 }

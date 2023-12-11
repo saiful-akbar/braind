@@ -63,7 +63,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Menu::class, 'menu_user', 'user_id', 'menu_id')
             ->using(MenuUser::class)
-            ->withPivot('create', 'read', 'update', 'delete', 'destroy');
+            ->withPivot('create', 'read', 'update', 'remove', 'destroy');
     }
 
     /**
@@ -73,7 +73,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Menu::class, 'menu_user', 'user_id', 'menu_id')
             ->using(MenuUser::class)
-            ->withPivot('create', 'read', 'update', 'delete', 'destroy')
+            ->withPivot('create', 'read', 'update', 'remove', 'destroy')
             ->wherePivot('read', true);
     }
 

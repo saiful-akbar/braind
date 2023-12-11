@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Divisions\DivisionRequest;
 use Inertia\Response;
+use App\Http\Requests\Divisions\DivisionRequest;
 
 class DivisionController extends Controller
 {
+    /**
+     * Menampilkan halaman division (Kanwil)
+     */
     function index(DivisionRequest $request): Response
     {
-        return $this->renderPaginate('Division/index', $request->paginate());
+        $access = $this->getAccessByRoute('division');
+
+        return $this->renderPaginate(
+            component: 'Division/index',
+            paginator: $request->paginate($access),
+            access: $access
+        );
     }
 }

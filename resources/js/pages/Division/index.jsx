@@ -9,54 +9,53 @@ import { Box, Button, Grid } from "@mui/material";
 import { useState } from "react";
 
 /**
- * Daftar kolom yang akan ditampilkan pada tabel
- */
-const columns = [
-  {
-    field: "id",
-    label: "ID",
-    align: "left",
-    sort: true,
-    timeFormat: false,
-  },
-  {
-    field: "name",
-    label: "Nama Kanwil",
-    align: "left",
-    sort: true,
-    timeFormat: false,
-  },
-  {
-    field: "created_at",
-    label: "Dibuat",
-    align: "left",
-    sort: true,
-    timeFormat: true,
-  },
-  {
-    field: "updated_at",
-    label: "Diperbarui",
-    align: "left",
-    sort: true,
-    timeFormat: true,
-  },
-  {
-    field: "deleted_at",
-    label: "Dihapus",
-    align: "left",
-    sort: true,
-    timeFormat: true,
-  },
-];
-
-/**
  * Halaman Division (Kanwil)
  */
 const Kanwil = (props) => {
-  const { data, pagination, app } = props;
+  const { data, pagination, app, access } = props;
   const { params } = app.url;
   const searchParam = params.search ?? "";
+  const order = params.order ?? "asc";
+  const orderBy = params.order_by ?? "name";
   const [searchValue, setSearchValue] = useState(searchParam);
+
+  /**
+   * Daftar kolom yang akan ditampilkan pada tabel
+   */
+  const columns = [
+    {
+      field: "name",
+      label: "Nama Kanwil",
+      align: "left",
+      sort: true,
+      timeFormat: false,
+      show: true,
+    },
+    {
+      field: "created_at",
+      label: "Dibuat",
+      align: "left",
+      sort: true,
+      timeFormat: true,
+      show: true,
+    },
+    {
+      field: "updated_at",
+      label: "Diperbarui",
+      align: "left",
+      sort: true,
+      timeFormat: true,
+      show: true,
+    },
+    {
+      field: "deleted_at",
+      label: "Dihapus",
+      align: "left",
+      sort: true,
+      timeFormat: true,
+      show: access.destroy,
+    },
+  ];
 
   /**
    * Fungsi untuk request (fetch) data division.
@@ -140,15 +139,18 @@ const Kanwil = (props) => {
   /**
    * fungsi untuk menangani ketika form search dibersihlan.
    */
-  const handleSearchClear = useCallback((event) => {
-    event.stopPropagation();
+  const handleSearchClear = useCallback(
+    (event) => {
+      event.stopPropagation();
 
-    fetchData({
-      ...params,
-      page: 1,
-      search: "",
-    });
-  }, [params, setSearchValue, fetchData, searchParam]);
+      fetchData({
+        ...params,
+        page: 1,
+        search: "",
+      });
+    },
+    [params, setSearchValue, fetchData, searchParam]
+  );
 
   /**
    * fungsi untuk menangani ketika tombol refresh diklik.
@@ -156,6 +158,20 @@ const Kanwil = (props) => {
   const handleRefreshClick = useCallback(() => {
     fetchData(params);
   }, [params, fetchData]);
+
+  /**
+   * fungsi untuk menangani kerika kolom di order (sort)
+   */
+  const handleOrder = useCallback(
+    (field) => {
+      fetchData({
+        ...params,
+        order_by: field,
+        order: field === orderBy && order === "asc" ? "desc" : "asc",
+      });
+    },
+    [fetchData, params, orderBy, order]
+  );
 
   /**
    * [description]
@@ -209,9 +225,14 @@ const Kanwil = (props) => {
             name="Kanwil"
             columns={columns}
             data={data}
-            update
-            remove
-            destroy
+            from={pagination.from}
+            to={pagination.to}
+            order={order}
+            orderBy={orderBy}
+            update={access.update}
+            remove={access.remove}
+            destroy={access.destroy}
+            onOrder={(field) => handleOrder(field)}
             onUpdate={handleActionClick}
             onRemove={handleActionClick}
             onDestroy={handleActionClick}

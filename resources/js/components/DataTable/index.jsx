@@ -9,12 +9,14 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TableSortLabel,
   Tooltip,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { utcToLocale } from "@/utils";
+import RestoreIcon from "@mui/icons-material/Restore";
+import { numberFormat, utcToLocale } from "@/utils";
 
 /**
  * Komponen datatable
@@ -23,6 +25,10 @@ const DataTable = memo((props) => {
   const {
     name,
     columns,
+    from,
+    to,
+    order,
+    orderBy,
     data,
     update,
     remove,
@@ -30,6 +36,8 @@ const DataTable = memo((props) => {
     onUpdate,
     onRemove,
     onDestroy,
+    onRestore,
+    onOrder,
     paginationProps: pagination,
   } = props;
 
@@ -39,71 +47,98 @@ const DataTable = memo((props) => {
         <Table size="small">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column.field} align={column.align}>
-                  {column.label}
-                </TableCell>
-              ))}
+              {from > 0 && to > 0 && <TableCell>No</TableCell>}
 
-              <TableCell align="center">Aksi</TableCell>
+              {columns.map((column) => {
+                if (!column.show) return;
+
+                if (column.sort) {
+                  return (
+                    <TableCell key={column.field} align={column.align}>
+                      {column.sort ? (
+                        <TableSortLabel
+                          active={orderBy === column.field}
+                          direction={orderBy === column.field ? order : "asc"}
+                          onClick={() => onOrder(column.field)}
+                        >
+                          {column.label}
+                        </TableSortLabel>
+                      ) : (
+                        column.label
+                      )}
+                    </TableCell>
+                  );
+                }
+
+                return (
+                  <TableCell key={column.field} align={column.align}>
+                    {column.label}
+                  </TableCell>
+                );
+              })}
+              <TableCell />
             </TableRow>
           </TableHead>
 
-          {data.length > 0 ? (
-            <TableBody>
-              {data.map((row, rowKey) => (
-                <TableRow key={rowKey} hover>
-                  {columns.map((column, columnKey) => {
-                    if (column.timeFormat) {
-                      return (
-                        <TableCell key={columnKey}>
-                          {utcToLocale(row[column.field])}
-                        </TableCell>
-                      );
-                    }
+          <TableBody>
+            {data.map((row, rowKey) => (
+              <TableRow key={rowKey} hover>
+                {from > 0 && to > 0 && (
+                  <TableCell>{numberFormat(from + rowKey)}</TableCell>
+                )}
 
+                {columns.map((column, columnKey) => {
+                  if (!column.show) return;
+
+                  if (column.timeFormat) {
                     return (
-                      <TableCell key={columnKey}>{row[column.field]}</TableCell>
+                      <TableCell key={columnKey}>
+                        {utcToLocale(row[column.field])}
+                      </TableCell>
                     );
-                  })}
+                  }
 
-                  <TableCell align="center">
-                    {update && (
-                      <Tooltip title="Edit" disableInteractive>
-                        <IconButton onClick={() => onUpdate(row)}>
-                          <EditIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    )}
+                  return (
+                    <TableCell key={columnKey}>{row[column.field]}</TableCell>
+                  );
+                })}
 
-                    {remove && (
+                <TableCell align="center">
+                  {update && (
+                    <Tooltip title="Edit" disableInteractive>
+                      <IconButton onClick={() => onUpdate(row)}>
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+
+                  {remove && (
+                    <>
                       <Tooltip title="Pindahkan ke sampah" disableInteractive>
                         <IconButton onClick={() => onRemove(row)}>
                           <DeleteIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>
-                    )}
 
-                    {destroy && (
-                      <Tooltip title="Hapus permanen" disableInteractive>
-                        <IconButton onClick={() => onDestroy(row)}>
-                          <DeleteForeverIcon fontSize="small" />
+                      <Tooltip title="Pulihkan" disableInteractive>
+                        <IconButton onClick={() => onRestore(row)}>
+                          <RestoreIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          ) : (
-            <TableBody>
-              <TableRow>
-                <TableCell colSpan={columns.length + 1} align="center">
-                  {`Tidak ada data ${name}`}
+                    </>
+                  )}
+
+                  {destroy && (
+                    <Tooltip title="Hapus permanen" disableInteractive>
+                      <IconButton color="error" onClick={() => onDestroy(row)}>
+                        <DeleteForeverIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
                 </TableCell>
               </TableRow>
-            </TableBody>
-          )}
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
 
@@ -126,9 +161,10 @@ const DataTable = memo((props) => {
 const columnsType = PropTypes.shape({
   field: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  sort: PropTypes.bool.isRequired,
   align: PropTypes.string.isRequired,
   timeFormat: PropTypes.bool.isRequired,
+  show: PropTypes.bool.isRequired,
+  sort: PropTypes.bool.isRequired,
 });
 
 const paginationTypes = PropTypes.shape({
@@ -146,12 +182,18 @@ DataTable.propTypes = {
   name: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   columns: PropTypes.arrayOf(columnsType).isRequired,
+  from: PropTypes.number,
+  to: PropTypes.number,
   update: PropTypes.bool,
+  order: PropTypes.oneOf(["asc", "desc"]),
+  orderBy: PropTypes.string.isRequired,
   remove: PropTypes.bool,
   destroy: PropTypes.bool,
   onUpdate: PropTypes.func,
   onRemove: PropTypes.func,
   onDestroy: PropTypes.func,
+  onRestore: PropTypes.func,
+  onOder: PropTypes.func,
   paginationProps: paginationTypes,
 };
 
@@ -159,12 +201,16 @@ DataTable.propTypes = {
  * Default props
  */
 DataTable.defaultProps = {
+  from: -1,
+  to: -1,
   update: false,
   remove: false,
   destroy: false,
   onUpdate: () => {},
   onRemove: () => {},
   onDestroy: () => {},
+  onRestore: () => {},
+  onOrder: () => {},
 };
 
 export default DataTable;

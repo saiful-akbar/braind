@@ -38,7 +38,7 @@ class Menu extends Model
     {
         return $this->belongsToMany(User::class, 'menu_user', 'menu_id', 'user_id')
             ->using(MenuUser::class)
-            ->withPivot('create', 'read', 'update', 'delete', 'destroy');
+            ->withPivot('create', 'read', 'update', 'remove', 'destroy');
     }
 
     /**
@@ -48,7 +48,7 @@ class Menu extends Model
     {
         return $this->belongsToMany(User::class, 'menu_user', 'menu_id', 'user_id')
             ->using(MenuUser::class)
-            ->withPivot('create', 'read', 'update', 'delete', 'destroy')
+            ->withPivot('create', 'read', 'update', 'remove', 'destroy')
             ->wherePivot('read', true);
     }
 

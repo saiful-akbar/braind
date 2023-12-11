@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50)->unique();
             $table->string('slug', 50)->unique();
-            $table->index('slug');
             $table->tinyInteger('seq')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->fullText(['name'], 'division_fulltext');
+            $table->index('slug');
         });
     }
 

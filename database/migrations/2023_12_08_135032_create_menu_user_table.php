@@ -24,11 +24,11 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->boolean('create')->default(false);
-            $table->boolean('read')->default(false);
-            $table->boolean('update')->default(false);
-            $table->boolean('delete')->default(false);
-            $table->boolean('destroy')->default(false);
+            $table->boolean('create')->default(false)->comment('Akses untuk membuat');
+            $table->boolean('read')->default(false)->comment('Akses untuk melihat');
+            $table->boolean('update')->default(false)->comment('Akses untuk edit');
+            $table->boolean('remove')->default(false)->comment('Akses untuk hapus');
+            $table->boolean('destroy')->default(false)->comment('Akses untuk hapus permanen');
             $table->timestamps();
         });
     }
