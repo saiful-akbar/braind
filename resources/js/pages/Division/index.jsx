@@ -1,11 +1,11 @@
-import DataTable from "@/components/DataTable";
+import React, { useCallback } from "react";
+import AuthLayout from "@/layouts/AuthLayout";
 import Header from "@/components/Header";
+import DataTable from "@/components/DataTable";
 import SearchInput from "@/components/Input/SearchInput";
 import RefreshButton from "@/components/MyButton/RefreshButton";
-import AuthLayout from "@/layouts/AuthLayout";
 import { router } from "@inertiajs/react";
 import { Box, Button, Grid } from "@mui/material";
-import React, { useCallback } from "react";
 import { useState } from "react";
 
 /**
@@ -40,6 +40,13 @@ const columns = [
     sort: true,
     timeFormat: true,
   },
+  {
+    field: "deleted_at",
+    label: "Dihapus",
+    align: "left",
+    sort: true,
+    timeFormat: true,
+  },
 ];
 
 /**
@@ -48,16 +55,21 @@ const columns = [
 const Kanwil = (props) => {
   const { data, pagination, app } = props;
   const { params } = app.url;
-  const [searchValue, setSearchValue] = useState(params.search ?? "");
+  const searchParam = params.search ?? "";
+  const [searchValue, setSearchValue] = useState(searchParam);
 
-  // Fungsi untuk request (fetch) data division.
+  /**
+   * Fungsi untuk request (fetch) data division.
+   */
   const fetchData = (parameters) => {
     router.get(route("division"), parameters, {
       preserveScroll: true,
     });
   };
 
-  // fungsi untuk menangani ketika baris tabel dirubah.
+  /**
+   * fungsi untuk menangani ketika baris tabel dirubah.
+   */
   const handleChangePage = useCallback(
     (event, page) => {
       fetchData({
@@ -68,8 +80,10 @@ const Kanwil = (props) => {
     [params, fetchData]
   );
 
-  // fungsi untuk menangani ketika baris per halaman
-  // pada tabel dirubah oleh user.
+  /**
+   * fungsi untuk menangani ketika baris
+   * per halamanpada tabel dirubah oleh user.
+   */
   const handleChangeRowPerPage = useCallback(
     (event) => {
       fetchData({
@@ -81,7 +95,9 @@ const Kanwil = (props) => {
     [params, fetchData]
   );
 
-  // fungsi untuk menangani ketika form search diisi.
+  /**
+   * fungsi untuk menangani ketika form search diisi.
+   */
   const handleSearchChange = useCallback(
     (event) => {
       setSearchValue(event.target.value);
@@ -89,10 +105,13 @@ const Kanwil = (props) => {
     [setSearchValue]
   );
 
-  // fungsi untuk menangani ketika form search di-submit
+  /**
+   * fungsi untuk menangani ketika form search di-submit.
+   */
   const handleSearchSubmit = useCallback(
     (event) => {
       event.preventDefault();
+
       fetchData({
         ...params,
         page: 1,
@@ -102,11 +121,11 @@ const Kanwil = (props) => {
     [params, searchValue, fetchData]
   );
 
-  // fungsi untuk menangani ketika form search di-blur
+  /**
+   * fungsi untuk menangani ketika form search di-blur.
+   */
   const handleSearchBlur = useCallback(
     (event) => {
-      const searchParam = params.search ?? "";
-
       if (searchParam !== searchValue) {
         fetchData({
           ...params,
@@ -115,28 +134,32 @@ const Kanwil = (props) => {
         });
       }
     },
-    [params, searchValue, fetchData]
+    [params, searchValue, fetchData, searchParam]
   );
 
-  // fungsi untuk menangani ketika form search dibersihlan.
-  const handleSearchClear = useCallback(() => {
-    if (!params.search || params.search === "") {
-      setSearchValue("");
-    } else {
-      fetchData({
-        ...params,
-        page: 1,
-        search: "",
-      });
-    }
-  }, [params, setSearchValue, fetchData]);
+  /**
+   * fungsi untuk menangani ketika form search dibersihlan.
+   */
+  const handleSearchClear = useCallback((event) => {
+    event.stopPropagation();
 
-  // fungsi untuk menangani ketika
-  // tombol refresh diklik
+    fetchData({
+      ...params,
+      page: 1,
+      search: "",
+    });
+  }, [params, setSearchValue, fetchData, searchParam]);
+
+  /**
+   * fungsi untuk menangani ketika tombol refresh diklik.
+   */
   const handleRefreshClick = useCallback(() => {
     fetchData(params);
   }, [params, fetchData]);
 
+  /**
+   * [description]
+   */
   const handleActionClick = useCallback((data) => {
     console.log("aksi", data);
   }, []);
@@ -175,8 +198,8 @@ const Kanwil = (props) => {
               size="small"
               value={searchValue}
               onClear={handleSearchClear}
-              onBlur={handleSearchBlur}
               onChange={handleSearchChange}
+              onBlur={handleSearchBlur}
             />
           </form>
         </Grid>
@@ -211,7 +234,8 @@ const Kanwil = (props) => {
  */
 Kanwil.layout = (page) => (
   <AuthLayout title="Kanwil">
-    <Header title="Kanwil">{page}</Header>
+    <Header title="Kanwil" />
+    {page}
   </AuthLayout>
 );
 

@@ -17,22 +17,22 @@ class MenuSeeder extends Seeder
             'menus' => [
                 [
                     'name' => 'Kanwil',
-                    'uri' => '/division',
+                    'url' => '/division',
                     'route' => 'division',
                 ],
                 [
                     'name' => 'SBP',
-                    'uri' => '/sbp',
+                    'url' => '/sbp',
                     'route' => 'sbp',
                 ],
                 [
                     'name' => 'Kode Komoditi',
-                    'uri' => '/commodity',
+                    'url' => '/commodity',
                     'route' => 'commodity',
                 ],
                 [
                     'name' => 'User',
-                    'uri' => '/user',
+                    'url' => '/user',
                     'route' => 'user',
                 ],
             ],
@@ -42,12 +42,12 @@ class MenuSeeder extends Seeder
         //     'menus' => [
         //         [
         //             'name' => 'Profil',
-        //             'uri' => '/division/profile',
+        //             'url' => '/division/profile',
         //             'route' => 'division.profile',
         //         ],
         //         [
         //             'name' => 'Peta Kerawanan',
-        //             'uri' => '/division/map',
+        //             'url' => '/division/map',
         //             'route' => 'division.map',
         //         ],
         //     ],

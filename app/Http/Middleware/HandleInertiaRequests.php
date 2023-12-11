@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => fn () => [
                 'user' => $request->user(),
-                'menu' => menu_access()
+                'menu' => menu()
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

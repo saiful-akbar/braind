@@ -1,26 +1,37 @@
+import React from "react";
 import AuthLayout from "@/layouts/AuthLayout";
 import { Link } from "@inertiajs/react";
 import { Typography } from "@mui/material";
-import React from "react";
+import Header from "@/components/Header";
+import { Box } from "@mui/material";
 
-const Dashboard = () => {
+/**
+ * Halaman dashboard.
+ */
+const Dashboard = (props) => {
+  console.log(props);
+  
   return (
-    <div>
-      <Typography variant="h3" component="h1">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
-        reiciendis a perspiciatis ducimus odio quae natus quia consequatur.
-        Nesciunt aspernatur maiores enim quidem unde nisi animi quae porro
-        provident iusto!
-      </Typography>
+    <>
+      <Header title="Dashboard" />
 
-      <Link href={route("division")}>Division</Link>
-    </div>
+      <Box sx={{ my: 5 }}>
+        <Typography variant="h3" component="h1">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
+          reiciendis a perspiciatis ducimus odio quae natus quia consequatur.
+          Nesciunt aspernatur maiores enim quidem unde nisi animi quae porro
+          provident iusto!
+        </Typography>
+
+        <Link href={route("division")}>Division</Link>
+      </Box>
+    </>
   );
 };
 
 /**
  * Layout
  */
-Dashboard.layout = (page) => <AuthLayout children={page} title="Dashboard" />;
+Dashboard.layout = (page) => <AuthLayout title="Dashboard" children={page} />;
 
 export default Dashboard;

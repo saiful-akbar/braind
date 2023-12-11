@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\MenuGroup;
 use App\Models\User;
 use App\Models\UserEmail;
 use App\Models\UserPassword;
@@ -89,5 +90,43 @@ class LoginRequest extends FormRequest
         return ValidationException::withMessages([
             'email' => trans('auth.failed'),
         ]);
+    }
+
+    /**
+     * Buat sessio untuk menu user.
+     */
+    public function generateSessionMenu(): void
+    {
+        $columns = [
+            'menus.*',
+            'menu_user.create',
+            'menu_user.read',
+            'menu_user.update',
+            'menu_user.delete',
+            'menu_user.destroy',
+        ];
+
+        $query = MenuGroup::with([
+            'childrens' => function ($query) use($columns): void {
+                $query->whereRelation('usersWithReadAccess', 'user_id', '=', user()?->id)
+                    ->leftJoin('menu_user', 'menus.id', '=', 'menu_user.menu_id')
+                    ->orderBy('menus.name', 'asc')
+                    ->select($columns);
+            }
+        ]);
+        
+        $result = $query->whereRelation('childrens.usersWithReadAccess', 'user_id', '=', user()->id)
+            ->orderBy('menu_groups.name', 'asc')
+            ->get();
+
+        session(['menu' => $result]);
+    }
+
+    /**
+     * Buat session untuk akses user
+     */
+    public function generateSessionAccess(): void
+    {
+        session(['access' => auth()->user()->menus]);
     }
 }

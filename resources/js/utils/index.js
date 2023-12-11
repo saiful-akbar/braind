@@ -5,5 +5,6 @@
  * @returns {string}
  */
 export function utcToLocale(utc) {
+  if (utc === null) return utc;
   return new Date(utc).toLocaleString("id-ID");
 }

@@ -26,6 +26,8 @@ class AuthController extends Controller
     {
         $request->authenticate();
         $request->session()->regenerate();
+        $request->generateSessionMenu();
+        $request->generateSessionAccess();
 
         return redirect()->intended('/');
     }
