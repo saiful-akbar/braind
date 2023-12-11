@@ -112,20 +112,20 @@ const DataTable = memo((props) => {
                     </Tooltip>
                   )}
 
-                  {remove && (
-                    <>
-                      <Tooltip title="Pindahkan ke sampah" disableInteractive>
-                        <IconButton onClick={() => onRemove(row)}>
-                          <DeleteIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
+                  {remove && row?.deleted_at === null && (
+                    <Tooltip title="Pindahkan ke sampah" disableInteractive>
+                      <IconButton onClick={() => onRemove(row)}>
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
 
-                      <Tooltip title="Pulihkan" disableInteractive>
-                        <IconButton onClick={() => onRestore(row)}>
-                          <RestoreIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    </>
+                  {destroy && row?.deleted_at !== null && (
+                    <Tooltip title="Pulihkan" disableInteractive>
+                      <IconButton onClick={() => onRestore(row)}>
+                        <RestoreIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
                   )}
 
                   {destroy && (
