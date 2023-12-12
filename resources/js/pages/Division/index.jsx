@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import DataTable from "@/components/DataTable";
 import SearchInput from "@/components/Input/SearchInput";
 import RefreshButton from "@/components/Buttons/RefreshButton";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { Box, Button, Grid } from "@mui/material";
 import { useState } from "react";
 
@@ -181,7 +181,7 @@ const Kanwil = (props) => {
   }, []);
 
   return (
-    <Box sx={{ mt: 5 }}>
+    <Box sx={{ my: 5 }}>
       <Grid container spacing={3}>
         <Grid
           item
@@ -201,16 +201,14 @@ const Kanwil = (props) => {
               className="action-button"
               variant="contained"
               color="primary"
+              component={Link}
+              href={route("division.create")}
             >
               Tambah
             </Button>
           )}
 
-          <Button
-            className="action-button"
-            variant="outlined"
-            color="primary"
-          >
+          <Button className="action-button" variant="outlined" color="primary">
             Export
           </Button>
 

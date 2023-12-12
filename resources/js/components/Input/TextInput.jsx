@@ -10,7 +10,7 @@ const TextInput = React.memo(({ ...rest }) => {
       {...rest}
       InputProps={{
         sx: {
-          backgroundColor: "background.paper",
+          backgroundColor: "background.default",
         },
       }}
     />

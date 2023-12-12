@@ -29,7 +29,7 @@ if (!function_exists('menu_access')) {
 }
 
 if (!function_exists('access')) {
-    
+
     /**
      * Ambil akses user pada menu
      */

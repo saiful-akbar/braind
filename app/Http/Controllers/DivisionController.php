@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Inertia\Response;
 use App\Http\Requests\Divisions\DivisionRequest;
+use App\Http\Requests\Divisions\StoreDivisionRequest;
+use Illuminate\Http\RedirectResponse;
 
 class DivisionController extends Controller
 {
@@ -27,5 +29,18 @@ class DivisionController extends Controller
     public function create(): Response
     {
         return $this->render('Division/Create/index');
+    }
+
+    /**
+     * Method untuk menambahkan data division (kanwil) baru.
+     */
+    public function store(StoreDivisionRequest $request): RedirectResponse
+    {
+        $request->save();
+
+        return to_route('division.create')->with([
+            'flash.status' => 'success',
+            'flash.message' => '1 data kanwil berhasil ditambahkan'
+        ]);
     }
 }
