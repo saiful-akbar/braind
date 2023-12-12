@@ -5,7 +5,7 @@ import { Head } from "@inertiajs/react";
 import { Box, Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import Sidebar from "@/components/Sidebar";
-import ModalSettings from "@/components/ModalSettings";
+import SettingsModal from "@/components/Modals/SettingsModal";
 
 /**
  * Auth layout
@@ -39,7 +39,7 @@ const AuthLayout = (props) => {
           <Container maxWidth="xl">{children}</Container>
         </Box>
 
-        <ModalSettings />
+        <SettingsModal />
       </Box>
     </BaseLayout>
   );

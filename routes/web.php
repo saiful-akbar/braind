@@ -63,6 +63,12 @@ Route::middleware('auth')->group(function (): void {
         ->name('division')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:division,read');
+            Route::get('/create', 'create')->middleware('access:division,create');
+            Route::post('/', 'store')->middleware('access:division,create');
+            Route::get('/{division}/edit', 'edit')->middleware('access:division,update');
+            Route::patch('/{division}', 'update')->middleware('access:division,update');
+            Route::delete('/{division}', 'remove')->middleware('access:division,remove');
+            Route::delete('/{division}/destroy', 'destroy')->middleware('access:division,destroy');
         });
 
     Route::get('/commodity', fn () => inertia('Dashboard/index'))->name('commodity');

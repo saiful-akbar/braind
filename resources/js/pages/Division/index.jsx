@@ -3,7 +3,7 @@ import AuthLayout from "@/layouts/AuthLayout";
 import Header from "@/components/Header";
 import DataTable from "@/components/DataTable";
 import SearchInput from "@/components/Input/SearchInput";
-import RefreshButton from "@/components/MyButton/RefreshButton";
+import RefreshButton from "@/components/Buttons/RefreshButton";
 import { router } from "@inertiajs/react";
 import { Box, Button, Grid } from "@mui/material";
 import { useState } from "react";
@@ -188,7 +188,7 @@ const Kanwil = (props) => {
           md={4}
           xs={12}
           sx={{
-            ".buttonAction": {
+            ".action-button": {
               mr: 1,
               ":last-child": {
                 mr: 0,
@@ -196,12 +196,26 @@ const Kanwil = (props) => {
             },
           }}
         >
-          <Button className="buttonAction" variant="contained" color="primary">
-            Tambah Kanwil
+          {access.create && (
+            <Button
+              className="action-button"
+              variant="contained"
+              color="primary"
+            >
+              Tambah
+            </Button>
+          )}
+
+          <Button
+            className="action-button"
+            variant="outlined"
+            color="primary"
+          >
+            Export
           </Button>
 
           <RefreshButton
-            className="buttonAction"
+            className="action-button"
             onClick={handleRefreshClick}
           />
         </Grid>

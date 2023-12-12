@@ -20,4 +20,12 @@ class DivisionController extends Controller
             access: $access
         );
     }
+
+    /**
+     * Menampilkan halaman tambah divisi baru.
+     */
+    public function create(): Response
+    {
+        return $this->render('Division/Create/index');
+    }
 }

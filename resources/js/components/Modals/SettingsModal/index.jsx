@@ -14,7 +14,7 @@ import AppearanceSettings from "./Partials/AppearanceSettings";
  *
  * @returns React.ReactElement
  */
-export default function ModalSettings() {
+export default function SettingsModal() {
   const { open } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 

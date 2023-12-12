@@ -1,6 +1,6 @@
 import { openMobileSidebar } from "@/redux/reducers/sidebarReducer";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Container, Grid, IconButton, Typography } from "@mui/material";
+import { Container, Grid, IconButton, Typography, Tooltip } from "@mui/material";
 import PropTypes from "prop-types";
 import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,19 +38,21 @@ const Header = memo((props) => {
             alignItems: "center",
           }}
         >
-          <IconButton
-            onClick={toggleSidebar}
-            sx={{
-              backgroundColor: "background.paper",
-              mr: 2,
-              display: {
-                lg: "none",
-                xs: "flex",
-              },
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Tooltip title="Buka menu" placement="right" disableInteractive>
+            <IconButton
+              onClick={toggleSidebar}
+              sx={{
+                backgroundColor: "background.paper",
+                mr: 2,
+                display: {
+                  lg: "none",
+                  xs: "flex",
+                },
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Tooltip>
 
           <Typography variant="h6" component="h1" noWrap>
             {title}

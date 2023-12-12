@@ -60,10 +60,10 @@ class MenuSeeder extends Seeder
     public function run(): void
     {
         $admin = User::find(1);
-        $tester = User::find(2);
+        $guest = User::find(2);
 
 
-        DB::transaction(function () use ($admin, $tester): void {
+        DB::transaction(function () use ($admin, $guest): void {
             foreach ($this->data as $menuGroup) {
                 MenuGroup::create(['name' => $menuGroup['name']])
                     ->childrens()
@@ -81,7 +81,7 @@ class MenuSeeder extends Seeder
                     'updated_at' => now(),
                 ]);
 
-                $tester->menus()->attach($menu->id, [
+                $guest->menus()->attach($menu->id, [
                     'create' => false,
                     'read' => true,
                     'update' => false,
