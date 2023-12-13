@@ -52,10 +52,22 @@ class DivisionRequest extends FormRequest
     public function paginate(MenuUser $access): LengthAwarePaginator
     {
         $query = Division::select($this->columns);
-
-        // Periksa apakah user memiliki akses untuk destroy
+        
+        // Periksa apakah user memliki akses destroy atau tidak.
         if ($access->destroy) {
-            $query->withTrashed();
+
+            // Jika ada request show dengan nilai 'all'
+            // tampilkan semua data.
+            if ($this->show == 'all') {
+                $query->withTrashed();
+            }
+
+            // Jika ada request show dengan nilai 'deleted'
+            // tampilkan hanya data yang sudah dihapus atau
+            // memiliki nilai pada kolom deleted_at.
+            if ($this->show == 'deleted') {
+                $query->withTrashed()->whereNotNull('deleted_at');
+            }
         }
 
         // periksa jika ada request untuk merubah jumlah baris perhalaman.
@@ -69,12 +81,12 @@ class DivisionRequest extends FormRequest
         }
 
         // Periksa jika ada request untuk merubah jenis sorti pada kolom.
-        if (isset($this->order) && $this->order == 'desc') {
+        if ($this->order == 'desc') {
             $this->sort = 'desc';
         }
 
         // Periksa jika ada request pemcarian.
-        if (isset($this->search) && !empty($this->search)) {
+        if (!empty($this->search)) {
             $query->where('name', 'like', "%{$this->search}%");
         }
 

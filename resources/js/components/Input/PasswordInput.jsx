@@ -1,5 +1,5 @@
 import React from "react";
-import PropType from "prop-types";
+import PropTypes from "prop-types";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { TextField, IconButton, Tooltip, InputAdornment } from "@mui/material";
@@ -7,7 +7,7 @@ import { TextField, IconButton, Tooltip, InputAdornment } from "@mui/material";
 /**
  * Komponen password input
  */
-const PasswordInput = React.memo(({ disabled, ...rest }) => {
+const PasswordInput = React.memo(({ disabled, inputProps, ...rest }) => {
   const [show, setShow] = React.useState(false);
 
   /**
@@ -25,13 +25,11 @@ const PasswordInput = React.memo(({ disabled, ...rest }) => {
       disabled={disabled}
       InputProps={{
         sx: {
-          backgroundColor: "background.paper",
+          backgroundColor: "background.default",
         },
         endAdornment: (
           <InputAdornment position="end">
-            <Tooltip
-              title={show ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
-            >
+            <Tooltip title={show ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}>
               <IconButton
                 onClick={handleClick}
                 disabled={disabled}
@@ -47,6 +45,7 @@ const PasswordInput = React.memo(({ disabled, ...rest }) => {
             </Tooltip>
           </InputAdornment>
         ),
+        ...inputProps
       }}
     />
   );
@@ -56,7 +55,8 @@ const PasswordInput = React.memo(({ disabled, ...rest }) => {
  * Prop types
  */
 PasswordInput.propTypes = {
-  disabled: PropType.bool,
+  disabled: PropTypes.bool,
+  inputProps: PropTypes.object,
 };
 
 /**
@@ -64,6 +64,7 @@ PasswordInput.propTypes = {
  */
 PasswordInput.defaultProps = {
   disabled: false,
+  inputProps: {},
 };
 
 export default PasswordInput;

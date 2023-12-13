@@ -67,7 +67,6 @@ function Sidebar() {
             width: sidebar.width,
             boxSizing: "border-box",
             backgroundColor: "background.sidebar",
-            border: 0,
             borderRadius: 0,
             zIndex: 0,
           },

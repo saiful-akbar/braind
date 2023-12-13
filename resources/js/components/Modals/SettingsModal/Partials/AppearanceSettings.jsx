@@ -3,7 +3,6 @@ import { setAppearance } from "@/redux/reducers/settingsReducer";
 import {
   FormControl,
   Grid,
-  MenuItem,
   Select,
   Typography,
   useMediaQuery,
@@ -56,11 +55,16 @@ const AppearanceSettings = () => {
 
       <Grid item xs={4}>
         <FormControl fullWidth>
-          <SelectInput size="small" value={value} onChange={handleChange}>
-            <MenuItem value="auto">Auto</MenuItem>
-            <MenuItem value="light">Light</MenuItem>
-            <MenuItem value="dark">Dark</MenuItem>
-          </SelectInput>
+          <SelectInput
+            size="small"
+            value={value}
+            onChange={handleChange}
+            items={[
+              { label: "Auto", value: "auto" },
+              { label: "Light", value: "light" },
+              { label: "Dark", value: "dark" },
+            ]}
+          />
         </FormControl>
       </Grid>
     </Grid>

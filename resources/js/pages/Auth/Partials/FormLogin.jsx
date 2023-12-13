@@ -69,6 +69,11 @@ const FormLogin = () => {
             error={Boolean(errors.email)}
             helperText={errors.email}
             disabled={processing}
+            inputProps={{
+              sx: {
+                backgroundColor: "background.paper",
+              }
+            }}
           />
         </Grid>
 
@@ -80,6 +85,11 @@ const FormLogin = () => {
             onChange={handleInputChange}
             value={data.password}
             disabled={processing}
+            inputProps={{
+              sx: {
+                backgroundColor: "background.paper",
+              }
+            }}
           />
         </Grid>
       </Grid>

@@ -5,8 +5,10 @@ import DataTable from "@/components/DataTable";
 import SearchInput from "@/components/Input/SearchInput";
 import RefreshButton from "@/components/Buttons/RefreshButton";
 import { Link, router } from "@inertiajs/react";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, IconButton, Grid, Tooltip } from "@mui/material";
 import { useState } from "react";
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import AddIcon from '@mui/icons-material/Add';
 
 /**
  * Halaman Division (Kanwil)
@@ -181,95 +183,98 @@ const Kanwil = (props) => {
   }, []);
 
   return (
-    <Box sx={{ my: 5 }}>
-      <Grid container spacing={3}>
-        <Grid
-          item
-          md={4}
-          xs={12}
-          sx={{
-            ".action-button": {
-              mr: 1,
-              ":last-child": {
-                mr: 0,
-              },
-            },
-          }}
-        >
-          {access.create && (
-            <Button
-              className="action-button"
-              variant="contained"
-              color="primary"
-              component={Link}
-              href={route("division.create")}
-            >
-              Tambah
-            </Button>
-          )}
-
-          <Button className="action-button" variant="outlined" color="primary">
-            Export
+    <>
+      <Header
+        title="Master kanwil"
+        action={access.create && (
+          <Button
+            type="button"
+            variant="contained"
+            startIcon={<AddIcon />}
+            disableElevation
+            component={Link}
+            href={route("division.create")}
+          >
+            Tambah
           </Button>
+        )}
+      />
 
-          <RefreshButton
-            className="action-button"
-            onClick={handleRefreshClick}
-          />
-        </Grid>
-
-        <Grid item md={8} xs={12}>
-          <form onSubmit={handleSearchSubmit} autoComplete="off">
-            <SearchInput
-              fullWidth
-              placeholder="Cari berdasarkan nama kanwil..."
-              size="small"
-              value={searchValue}
-              onClear={handleSearchClear}
-              onChange={handleSearchChange}
-              onBlur={handleSearchBlur}
-            />
-          </form>
-        </Grid>
-
-        <Grid item xs={12}>
-          <DataTable
-            name="Kanwil"
-            columns={columns}
-            data={data}
-            from={pagination.from}
-            to={pagination.to}
-            order={order}
-            orderBy={orderBy}
-            update={access.update}
-            remove={access.remove}
-            destroy={access.destroy}
-            onOrder={(field) => handleOrder(field)}
-            onUpdate={handleActionClick}
-            onRemove={handleActionClick}
-            onDestroy={handleActionClick}
-            paginationProps={{
-              count: pagination.total,
-              page: pagination.page - 1,
-              rowsPerPage: pagination.per_page,
-              onPageChange: (event, page) => handleChangePage(event, page),
-              onRowsPerPageChange: (event) => handleChangeRowPerPage(event),
+      <Box sx={{ my: 5 }}>
+        <Grid container spacing={3}>
+          <Grid
+            item
+            md={4}
+            xs={12}
+            sx={{
+              ".action-button": {
+                mr: 1,
+                ":last-child": {
+                  mr: 0,
+                },
+              },
             }}
-          />
+          >
+            <Tooltip title="Expor excel" disableInteractive>
+              <IconButton className="action-button">
+                <FileDownloadIcon />
+              </IconButton>
+            </Tooltip>
+
+            <RefreshButton
+              className="action-button"
+              onClick={handleRefreshClick}
+            />
+          </Grid>
+
+          <Grid item md={8} xs={12}>
+            <form onSubmit={handleSearchSubmit} autoComplete="off">
+              <SearchInput
+                fullWidth
+                placeholder="Cari berdasarkan nama kanwil..."
+                size="small"
+                value={searchValue}
+                onClear={handleSearchClear}
+                onChange={handleSearchChange}
+                onBlur={handleSearchBlur}
+              />
+            </form>
+          </Grid>
+
+          <Grid item xs={12}>
+            <DataTable
+              name="Kanwil"
+              columns={columns}
+              data={data}
+              from={pagination.from}
+              to={pagination.to}
+              order={order}
+              orderBy={orderBy}
+              update={access.update}
+              remove={access.remove}
+              destroy={access.destroy}
+              onOrder={(field) => handleOrder(field)}
+              onUpdate={handleActionClick}
+              onRemove={handleActionClick}
+              onDestroy={handleActionClick}
+              paginationProps={{
+                count: pagination.total,
+                page: pagination.page - 1,
+                rowsPerPage: pagination.per_page,
+                onPageChange: (event, page) => handleChangePage(event, page),
+                onRowsPerPageChange: (event) => handleChangeRowPerPage(event),
+              }}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 };
 
 /**
  * Layout
  */
-Kanwil.layout = (page) => (
-  <AuthLayout title="Kanwil">
-    <Header title="Kanwil" />
-    {page}
-  </AuthLayout>
-);
+Kanwil.layout = (page) => <AuthLayout title="Kanwil" children={page} />;
 
 export default Kanwil;

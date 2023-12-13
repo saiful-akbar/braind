@@ -1,12 +1,25 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
-import { FormControl, FormHelperText, InputLabel, Select } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 /**
  * Komponen select input
  */
 const SelectInput = memo((props) => {
-  const { label, error, fullWidth, children, helperText, ...rest } = props;
+  const {
+    label,
+    error,
+    fullWidth,
+    helperText,
+    items,
+    ...rest
+  } = props;
 
   return (
     <FormControl fullWidth={fullWidth} error={error}>
@@ -30,12 +43,24 @@ const SelectInput = memo((props) => {
         }}
         {...rest}
       >
-        {children}
+        {items.map(({ label, value }) => (
+          <MenuItem key={value} value={value}>
+            {label}
+          </MenuItem>
+        ))}
       </Select>
 
       {helperText !== "" && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
+});
+
+/**
+ * Item prop types
+ */
+const itemsTypes = PropTypes.shape({
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 });
 
 /**
@@ -45,8 +70,8 @@ SelectInput.propTypes = {
   label: PropTypes.string,
   error: PropTypes.bool,
   fullWidth: PropTypes.bool,
-  children: PropTypes.node.isRequired,
   helperText: PropTypes.string,
+  items: PropTypes.arrayOf(itemsTypes).isRequired,
 };
 
 /**

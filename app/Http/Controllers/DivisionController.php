@@ -40,7 +40,7 @@ class DivisionController extends Controller
 
         return to_route('division.create')->with([
             'flash.status' => 'success',
-            'flash.message' => '1 data kanwil berhasil ditambahkan'
+            'flash.message' => 'Kanwil baru berhasil ditambahkan'
         ]);
     }
 }

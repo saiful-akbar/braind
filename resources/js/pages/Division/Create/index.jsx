@@ -7,6 +7,7 @@ import { useForm } from "@inertiajs/react";
 import { LoadingButton } from "@mui/lab";
 import { Box, CardActions, CardContent, Grid } from "@mui/material";
 import { useCallback } from "react";
+import SaveIcon from '@mui/icons-material/Save';
 
 /**
  * Halaman create division
@@ -41,7 +42,7 @@ export default function CreateDivision() {
   return (
     <Box sx={{ my: 5 }}>
       <Grid container justifyContent="center">
-        <Grid item md={6} xs={12}>
+        <Grid item md={8} xs={12}>
           <form autoComplete="off" onSubmit={handleFormSubmit}>
             <CardPaper
               title="Form tambah data kanwil baru"
@@ -72,6 +73,8 @@ export default function CreateDivision() {
                   type="submit"
                   variant="contained"
                   loading={processing}
+                  startIcon={<SaveIcon />}
+                  disableElevation
                 >
                   Simpan
                 </LoadingButton>
