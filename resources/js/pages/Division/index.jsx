@@ -1,14 +1,8 @@
-import React, { useCallback } from "react";
-import AuthLayout from "@/layouts/AuthLayout";
-import Header from "@/components/Header";
 import DataTable from "@/components/DataTable";
-import SearchInput from "@/components/Input/SearchInput";
-import RefreshButton from "@/components/Buttons/RefreshButton";
-import { Link, router } from "@inertiajs/react";
-import { Box, Button, IconButton, Grid, Tooltip } from "@mui/material";
-import { useState } from "react";
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import AddIcon from '@mui/icons-material/Add';
+import AuthLayout from "@/layouts/AuthLayout";
+import { router } from "@inertiajs/react";
+import { useCallback } from "react";
+import Template from "./Template";
 
 /**
  * Halaman Division (Kanwil)
@@ -16,10 +10,8 @@ import AddIcon from '@mui/icons-material/Add';
 const Kanwil = (props) => {
   const { data, pagination, app, access } = props;
   const { params } = app.url;
-  const searchParam = params.search ?? "";
   const order = params.order ?? "asc";
   const orderBy = params.order_by ?? "name";
-  const [searchValue, setSearchValue] = useState(searchParam);
 
   /**
    * Daftar kolom yang akan ditampilkan pada tabel
@@ -34,16 +26,8 @@ const Kanwil = (props) => {
       show: true,
     },
     {
-      field: "created_at",
-      label: "Dibuat",
-      align: "left",
-      sort: true,
-      timeFormat: true,
-      show: true,
-    },
-    {
       field: "updated_at",
-      label: "Diperbarui",
+      label: "Dibuat atau Diperbarui",
       align: "left",
       sort: true,
       timeFormat: true,
@@ -97,71 +81,6 @@ const Kanwil = (props) => {
   );
 
   /**
-   * fungsi untuk menangani ketika form search diisi.
-   */
-  const handleSearchChange = useCallback(
-    (event) => {
-      setSearchValue(event.target.value);
-    },
-    [setSearchValue]
-  );
-
-  /**
-   * fungsi untuk menangani ketika form search di-submit.
-   */
-  const handleSearchSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-
-      fetchData({
-        ...params,
-        page: 1,
-        search: searchValue,
-      });
-    },
-    [params, searchValue, fetchData]
-  );
-
-  /**
-   * fungsi untuk menangani ketika form search di-blur.
-   */
-  const handleSearchBlur = useCallback(
-    (event) => {
-      if (searchParam !== searchValue) {
-        fetchData({
-          ...params,
-          page: 1,
-          search: searchValue,
-        });
-      }
-    },
-    [params, searchValue, fetchData, searchParam]
-  );
-
-  /**
-   * fungsi untuk menangani ketika form search dibersihlan.
-   */
-  const handleSearchClear = useCallback(
-    (event) => {
-      event.stopPropagation();
-
-      fetchData({
-        ...params,
-        page: 1,
-        search: "",
-      });
-    },
-    [params, setSearchValue, fetchData, searchParam]
-  );
-
-  /**
-   * fungsi untuk menangani ketika tombol refresh diklik.
-   */
-  const handleRefreshClick = useCallback(() => {
-    fetchData(params);
-  }, [params, fetchData]);
-
-  /**
    * fungsi untuk menangani kerika kolom di order (sort)
    */
   const handleOrder = useCallback(
@@ -176,105 +95,54 @@ const Kanwil = (props) => {
   );
 
   /**
-   * [description]
+   * fungsi untuk menangani ketika button edit diklik.
    */
+  const handleUpdate = useCallback((row) => {
+    router.get(
+      route("division.edit", {
+        division: row.id,
+      })
+    );
+  }, []);
+
   const handleActionClick = useCallback((data) => {
     console.log("aksi", data);
   }, []);
 
   return (
-    <>
-      <Header
-        title="Master kanwil"
-        action={access.create && (
-          <Button
-            type="button"
-            variant="contained"
-            startIcon={<AddIcon />}
-            disableElevation
-            component={Link}
-            href={route("division.create")}
-          >
-            Tambah
-          </Button>
-        )}
-      />
-
-      <Box sx={{ my: 5 }}>
-        <Grid container spacing={3}>
-          <Grid
-            item
-            md={4}
-            xs={12}
-            sx={{
-              ".action-button": {
-                mr: 1,
-                ":last-child": {
-                  mr: 0,
-                },
-              },
-            }}
-          >
-            <Tooltip title="Expor excel" disableInteractive>
-              <IconButton className="action-button">
-                <FileDownloadIcon />
-              </IconButton>
-            </Tooltip>
-
-            <RefreshButton
-              className="action-button"
-              onClick={handleRefreshClick}
-            />
-          </Grid>
-
-          <Grid item md={8} xs={12}>
-            <form onSubmit={handleSearchSubmit} autoComplete="off">
-              <SearchInput
-                fullWidth
-                placeholder="Cari berdasarkan nama kanwil..."
-                size="small"
-                value={searchValue}
-                onClear={handleSearchClear}
-                onChange={handleSearchChange}
-                onBlur={handleSearchBlur}
-              />
-            </form>
-          </Grid>
-
-          <Grid item xs={12}>
-            <DataTable
-              name="Kanwil"
-              columns={columns}
-              data={data}
-              from={pagination.from}
-              to={pagination.to}
-              order={order}
-              orderBy={orderBy}
-              update={access.update}
-              remove={access.remove}
-              destroy={access.destroy}
-              onOrder={(field) => handleOrder(field)}
-              onUpdate={handleActionClick}
-              onRemove={handleActionClick}
-              onDestroy={handleActionClick}
-              paginationProps={{
-                count: pagination.total,
-                page: pagination.page - 1,
-                rowsPerPage: pagination.per_page,
-                onPageChange: (event, page) => handleChangePage(event, page),
-                onRowsPerPageChange: (event) => handleChangeRowPerPage(event),
-              }}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-    </>
+    <DataTable
+      name="Kanwil"
+      columns={columns}
+      data={data}
+      from={pagination.from}
+      to={pagination.to}
+      order={order}
+      orderBy={orderBy}
+      update={access.update}
+      remove={access.remove}
+      destroy={access.destroy}
+      onOrder={(field) => handleOrder(field)}
+      onUpdate={handleUpdate}
+      onRemove={handleActionClick}
+      onDestroy={handleActionClick}
+      paginationProps={{
+        count: pagination.total,
+        page: pagination.page - 1,
+        rowsPerPage: pagination.per_page,
+        onPageChange: (event, page) => handleChangePage(event, page),
+        onRowsPerPageChange: (event) => handleChangeRowPerPage(event),
+      }}
+    />
   );
 };
 
 /**
  * Layout
  */
-Kanwil.layout = (page) => <AuthLayout title="Kanwil" children={page} />;
+Kanwil.layout = (page) => (
+  <AuthLayout title="Kanwil">
+    <Template children={page} />
+  </AuthLayout>
+);
 
 export default Kanwil;

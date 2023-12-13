@@ -6,7 +6,10 @@ import { Box, Container } from "@mui/material";
 import Sidebar from "@/components/Sidebar";
 import SettingsModal from "@/components/Modals/SettingsModal";
 import Notification from "@/components/Notification";
-import { openNotification, closeNotification } from "@/redux/reducers/notificationReducer";
+import {
+  openNotification,
+  closeNotification,
+} from "@/redux/reducers/notificationReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { usePage } from "@inertiajs/react";
 
@@ -17,7 +20,7 @@ import { usePage } from "@inertiajs/react";
  * @returns {React.ReactElement}
  */
 const AuthLayout = (props) => {
-  const { title, children } = props;// redux
+  const { title, children } = props; // redux
   const sidebar = useSelector((state) => state.sidebar);
   const dispatch = useDispatch();
   const { flash } = usePage().props;
@@ -27,11 +30,12 @@ const AuthLayout = (props) => {
    */
   React.useEffect(() => {
     const { status, message } = flash;
-    
+
     if (status && message) {
       dispatch(
         openNotification({
-          status, message,
+          status,
+          message,
         })
       );
     }
@@ -47,19 +51,16 @@ const AuthLayout = (props) => {
         <Sidebar />
 
         <Box
-          component="main"
           sx={{
             px: 1,
-            py: 4,
+            py: 3,
             ml: {
               lg: `${sidebar.width}px`,
               xs: 0,
             },
           }}
         >
-          <Container maxWidth="xl">
-            {children}
-          </Container>
+          <Container maxWidth="xl">{children}</Container>
         </Box>
 
         <SettingsModal />

@@ -10,12 +10,12 @@ import { useCallback } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 
 /**
- * Halaman create division
+ * Halaman edit division (master kanwil)
  */
-export default function CreateDivision(props) {
+const EditDivision = (props) => {
   const { app } = props;
-  const { data, setData, post, processing, reset, errors } = useForm({
-    nama: "",
+  const { data, setData, patch, processing, errors } = useForm({
+    nama: props.data.name,
     _token: app.csrf,
   });
 
@@ -35,9 +35,13 @@ export default function CreateDivision(props) {
    */
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    post(route("division.store"), {
+
+    const url = route("division.update", {
+      division: props.data.id,
+    });
+
+    patch(url, {
       preserveScroll: true,
-      onSuccess: () => reset(),
     });
   };
 
@@ -47,7 +51,7 @@ export default function CreateDivision(props) {
         <Grid item md={8} xs={12}>
           <form autoComplete="off" onSubmit={handleFormSubmit}>
             <CardPaper
-              title="Form tambah data kanwil baru"
+              title="Form edit data kanwil"
               subheader="Form dengan tanda * harus diisi."
             >
               <CardContent>
@@ -87,15 +91,20 @@ export default function CreateDivision(props) {
       </Grid>
     </Box>
   );
-}
+};
 
-CreateDivision.layout = (page) => (
-  <AuthLayout title="Tambah Kanwil">
+/**
+ * Layout
+ */
+EditDivision.layout = (page) => (
+  <AuthLayout title="Edit Kanwil">
     <Header
-      title="Tambah kanwil"
+      title="Edit Kanwil"
       action={<BackButton href={route("division")} />}
     />
 
     {page}
   </AuthLayout>
 );
+
+export default EditDivision;

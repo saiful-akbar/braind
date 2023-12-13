@@ -12,14 +12,8 @@ import {
  * Komponen select input
  */
 const SelectInput = memo((props) => {
-  const {
-    label,
-    error,
-    fullWidth,
-    helperText,
-    items,
-    ...rest
-  } = props;
+  const { label, error, fullWidth, helperText, items, inputProps, ...rest } =
+    props;
 
   return (
     <FormControl fullWidth={fullWidth} error={error}>
@@ -31,6 +25,7 @@ const SelectInput = memo((props) => {
           sx: {
             backgroundColor: "background.default",
           },
+          ...inputProps,
         }}
         MenuProps={{
           slotProps: {
@@ -72,6 +67,7 @@ SelectInput.propTypes = {
   fullWidth: PropTypes.bool,
   helperText: PropTypes.string,
   items: PropTypes.arrayOf(itemsTypes).isRequired,
+  inputProps: PropTypes.object,
 };
 
 /**
@@ -82,6 +78,7 @@ SelectInput.defaultProps = {
   error: false,
   fullWidth: false,
   helperText: "",
+  inputProps: {},
 };
 
 export default SelectInput;

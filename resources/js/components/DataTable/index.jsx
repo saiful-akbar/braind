@@ -113,7 +113,7 @@ const DataTable = memo((props) => {
                   )}
 
                   {remove && row?.deleted_at === null && (
-                    <Tooltip title="Pindahkan ke sampah" disableInteractive>
+                    <Tooltip title="Hapus" disableInteractive>
                       <IconButton onClick={() => onRemove(row)}>
                         <DeleteIcon fontSize="small" />
                       </IconButton>

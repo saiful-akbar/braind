@@ -52,20 +52,20 @@ class DivisionRequest extends FormRequest
     public function paginate(MenuUser $access): LengthAwarePaginator
     {
         $query = Division::select($this->columns);
-        
+
         // Periksa apakah user memliki akses destroy atau tidak.
         if ($access->destroy) {
 
             // Jika ada request show dengan nilai 'all'
             // tampilkan semua data.
-            if ($this->show == 'all') {
+            if ($this->display == 'all') {
                 $query->withTrashed();
             }
 
             // Jika ada request show dengan nilai 'deleted'
             // tampilkan hanya data yang sudah dihapus atau
             // memiliki nilai pada kolom deleted_at.
-            if ($this->show == 'deleted') {
+            if ($this->display == 'removed') {
                 $query->withTrashed()->whereNotNull('deleted_at');
             }
         }

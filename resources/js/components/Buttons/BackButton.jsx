@@ -15,7 +15,7 @@ const BackButton = memo(({ ...rest }) => {
         }}
       >
         <Tooltip title="Kembali">
-          <IconButton type="button" size="large" component={Link} {...rest}>
+          <IconButton type="button" component={Link} {...rest}>
             <ArrowBackIosNewIcon />
           </IconButton>
         </Tooltip>

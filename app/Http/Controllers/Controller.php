@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use Inertia\Response;
 use App\Models\MenuUser;
-use Illuminate\Support\Collection;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -19,7 +17,7 @@ class Controller extends BaseController
     /**
      * Render komponen
      */
-    protected function render(string $component, ?array $data = null, ?Collection $access = null): Response
+    protected function render(string $component, null|array|object $data = null, ?MenuUser $access = null): Response
     {
         return inertia($component, compact('data', 'access'));
     }

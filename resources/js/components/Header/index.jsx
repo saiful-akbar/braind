@@ -1,6 +1,12 @@
 import { openMobileSidebar } from "@/redux/reducers/sidebarReducer";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Container, Grid, IconButton, Typography, Tooltip } from "@mui/material";
+import {
+  Container,
+  Grid,
+  IconButton,
+  Typography,
+  Tooltip,
+} from "@mui/material";
 import PropTypes from "prop-types";
 import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +37,7 @@ const Header = memo((props) => {
         <Grid
           item
           md={8}
-          xs={7}
+          xs={6}
           zeroMinWidth
           sx={{
             display: "flex",
