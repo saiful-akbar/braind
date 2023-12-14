@@ -50,7 +50,7 @@ class DivisionController extends Controller
     /**
      * Menampilkan halaman edit division (master kanwil)
      */
-    public function edit(Division $division): mixed
+    public function edit(Division $division): Response
     {
         $access = $this->getAccessByRoute('division');
 
@@ -66,7 +66,7 @@ class DivisionController extends Controller
      */
     public function update(UpdateDivisionRequest $request, Division $division): RedirectResponse
     {
-        $request->save();
+        $request->save($division);
 
         return to_route('division.edit', ['division' => $division->id])->with([
             'flash.status' => 'success',
@@ -90,9 +90,11 @@ class DivisionController extends Controller
     /**
      * Memulihkan data yang telah dihapus
      */
-    public function restore(Request $request, int $division): RedirectResponse
+    public function restore(Request $request, int|string $id): RedirectResponse
     {
-        Division::where('id', $division)->restore();
+        Division::where('id', $id)
+            ->withTrashed()
+            ->restore();
 
         return to_route("division", $request->all())->with([
             'flash.status' => 'success',
@@ -103,9 +105,11 @@ class DivisionController extends Controller
     /**
      * Menghapus division (kanwil) selamanya
      */
-    public function destroy(Request $request, int $division): RedirectResponse
+    public function destroy(Request $request, int|string $id): RedirectResponse
     {
-        Division::where('id', $division)->forceDelete();
+        Division::where('id', $id)
+            ->withTrashed()
+            ->forceDelete();
 
         return to_route("division", $request->all())->with([
             'flash.status' => 'success',

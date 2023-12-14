@@ -14,10 +14,6 @@ const items = [
     label: "Dihapus",
     value: "removed",
   },
-  {
-    label: "Semua",
-    value: "all",
-  },
 ];
 
 const DisplayFilterDivision = () => {

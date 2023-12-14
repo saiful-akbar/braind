@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Divisions;
 
+use App\Models\Division;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,7 +28,7 @@ class UpdateDivisionRequest extends FormRequest
                 "required",
                 "string",
                 "max:50",
-                "unique:divisions,name,{$this->division->id},id"
+                "unique:divisions,name,{$this->id},id"
             ],
         ];
     }
@@ -35,10 +36,10 @@ class UpdateDivisionRequest extends FormRequest
     /**
      * Simpan hasil perubahan
      */
-    public function save(): void
+    public function save(Division $division): void
     {
-        $this->division->name = $this->nama;
-        $this->division->slug = Str::slug($this->nama);
-        $this->division->save();
+        $division->name = $this->nama;
+        $division->slug = Str::slug($this->nama);
+        $division->save();
     }
 }

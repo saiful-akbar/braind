@@ -14,6 +14,7 @@ const Kanwil = (props) => {
   const { params } = app.url;
   const order = params.order ?? "asc";
   const orderBy = params.order_by ?? "name";
+  const display = params.display ?? "active";
 
   // Daftar kolom yang akan ditampilkan pada tabel
   const columns = [
@@ -55,10 +56,13 @@ const Kanwil = (props) => {
   /**
    * Fungsi untuk membuka modal delete
    */
-  const handleOpenModalDelete = useCallback((type, id) => {
-    setDeleteType(type);
-    setDeleteId(id);
-  }, [setDeleteType, setDeleteId]);
+  const handleOpenModalDelete = useCallback(
+    (type, id) => {
+      setDeleteType(type);
+      setDeleteId(id);
+    },
+    [setDeleteType, setDeleteId]
+  );
 
   /**
    * Fungsi untuk menutup modal delete
@@ -74,9 +78,9 @@ const Kanwil = (props) => {
   const handleDelete = useCallback(() => {
     setDeleting(true);
 
-    const url = route( `division.${deleteType}`, {
+    const url = route(`division.${deleteType}`, {
       division: deleteId,
-      _query: params
+      _query: params,
     });
 
     router.delete(url, {
@@ -88,15 +92,17 @@ const Kanwil = (props) => {
   /**
    * Fungsi untuk membuka modal restore
    */
-  const handleOpenModalRestore = useCallback((id) => {
-    setRestoreId(id);
-  }, [setRestoreId]);
+  const handleOpenModalRestore = useCallback(
+    (id) => {
+      setRestoreId(id);
+    },
+    [setRestoreId]
+  );
 
   /**
    * Fungsi untuk menutup modal restore
    */
   const handleCloseModalRestore = useCallback(() => {
-    console.log('tutup modal restore')
     setRestoring(false);
     setRestoreId(null);
   }, [setRestoreId, setRestoring]);
@@ -109,10 +115,10 @@ const Kanwil = (props) => {
 
     const url = route("division.restore", {
       division: restoreId,
-      _query: params
+      _query: params,
     });
 
-    router.delete(url, {
+    router.patch(url, null, {
       preserveScroll: true,
       onFinish: () => handleCloseModalRestore(),
     });
@@ -190,9 +196,9 @@ const Kanwil = (props) => {
         to={pagination.to}
         order={order}
         orderBy={orderBy}
-        update={access.update}
+        update={Boolean(access.update && display === "active")}
         remove={access.remove}
-        destroy={access.destroy}
+        destroy={Boolean(access.destroy && display === "removed")}
         onOrder={(field) => handleOrder(field)}
         onUpdate={handleUpdate}
         onRemove={(row) => handleOpenModalDelete("remove", row.id)}
