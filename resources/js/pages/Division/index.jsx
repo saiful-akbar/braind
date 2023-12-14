@@ -1,8 +1,10 @@
+import { useCallback, useState } from "react";
 import DataTable from "@/components/DataTable";
 import AuthLayout from "@/layouts/AuthLayout";
 import { router } from "@inertiajs/react";
-import { useCallback } from "react";
 import Template from "./Template";
+import DeleteConfirmationModal from "@/components/Modals/DeleteConfirmationModal";
+import RestoreConfirmationModal from "@/components/Modals/RestoreConfirmationModal";
 
 /**
  * Halaman Division (Kanwil)
@@ -13,9 +15,7 @@ const Kanwil = (props) => {
   const order = params.order ?? "asc";
   const orderBy = params.order_by ?? "name";
 
-  /**
-   * Daftar kolom yang akan ditampilkan pada tabel
-   */
+  // Daftar kolom yang akan ditampilkan pada tabel
   const columns = [
     {
       field: "name",
@@ -42,6 +42,81 @@ const Kanwil = (props) => {
       show: access.destroy,
     },
   ];
+
+  // delete state
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteType, setDeleteType] = useState("remove");
+
+  // restore state
+  const [restoreId, setRestoreId] = useState(null);
+  const [restoring, setRestoring] = useState(false);
+
+  /**
+   * Fungsi untuk membuka modal delete
+   */
+  const handleOpenModalDelete = useCallback((type, id) => {
+    setDeleteType(type);
+    setDeleteId(id);
+  }, [setDeleteType, setDeleteId]);
+
+  /**
+   * Fungsi untuk menutup modal delete
+   */
+  const handleCloseModalDelete = useCallback(() => {
+    setDeleting(false);
+    setDeleteId(null);
+  }, [setDeleteId, setDeleting]);
+
+  /**
+   * fungsi untuk mengirim request hapus (fetch)
+   */
+  const handleDelete = useCallback(() => {
+    setDeleting(true);
+
+    const url = route( `division.${deleteType}`, {
+      division: deleteId,
+      _query: params
+    });
+
+    router.delete(url, {
+      preserveScroll: true,
+      onFinish: () => handleCloseModalDelete(),
+    });
+  }, [deleteId, deleteType, setDeleting, handleCloseModalDelete, params]);
+
+  /**
+   * Fungsi untuk membuka modal restore
+   */
+  const handleOpenModalRestore = useCallback((id) => {
+    setRestoreId(id);
+  }, [setRestoreId]);
+
+  /**
+   * Fungsi untuk menutup modal restore
+   */
+  const handleCloseModalRestore = useCallback(() => {
+    console.log('tutup modal restore')
+    setRestoring(false);
+    setRestoreId(null);
+  }, [setRestoreId, setRestoring]);
+
+  /**
+   * fungsi untuk mengirim request reqtore (festh)
+   */
+  const handleRestore = useCallback(() => {
+    setRestoring(true);
+
+    const url = route("division.restore", {
+      division: restoreId,
+      _query: params
+    });
+
+    router.delete(url, {
+      preserveScroll: true,
+      onFinish: () => handleCloseModalRestore(),
+    });
+  }, [restoreId, setRestoring, params, handleCloseModalRestore]);
 
   /**
    * Fungsi untuk request (fetch) data division.
@@ -105,34 +180,49 @@ const Kanwil = (props) => {
     );
   }, []);
 
-  const handleActionClick = useCallback((data) => {
-    console.log("aksi", data);
-  }, []);
-
   return (
-    <DataTable
-      name="Kanwil"
-      columns={columns}
-      data={data}
-      from={pagination.from}
-      to={pagination.to}
-      order={order}
-      orderBy={orderBy}
-      update={access.update}
-      remove={access.remove}
-      destroy={access.destroy}
-      onOrder={(field) => handleOrder(field)}
-      onUpdate={handleUpdate}
-      onRemove={handleActionClick}
-      onDestroy={handleActionClick}
-      paginationProps={{
-        count: pagination.total,
-        page: pagination.page - 1,
-        rowsPerPage: pagination.per_page,
-        onPageChange: (event, page) => handleChangePage(event, page),
-        onRowsPerPageChange: (event) => handleChangeRowPerPage(event),
-      }}
-    />
+    <>
+      <DataTable
+        name="Kanwil"
+        columns={columns}
+        data={data}
+        from={pagination.from}
+        to={pagination.to}
+        order={order}
+        orderBy={orderBy}
+        update={access.update}
+        remove={access.remove}
+        destroy={access.destroy}
+        onOrder={(field) => handleOrder(field)}
+        onUpdate={handleUpdate}
+        onRemove={(row) => handleOpenModalDelete("remove", row.id)}
+        onDestroy={(row) => handleOpenModalDelete("destroy", row.id)}
+        onRestore={(row) => handleOpenModalRestore(row.id)}
+        paginationProps={{
+          count: pagination.total,
+          page: pagination.page - 1,
+          rowsPerPage: pagination.per_page,
+          onPageChange: (event, page) => handleChangePage(event, page),
+          onRowsPerPageChange: (event) => handleChangeRowPerPage(event),
+        }}
+      />
+
+      <DeleteConfirmationModal
+        open={Boolean(deleteId)}
+        title={deleteType === "remove" ? "Hapus Kanwil" : "Hapus Selamanya"}
+        loading={deleting}
+        onClose={handleCloseModalDelete}
+        onDelete={handleDelete}
+      />
+
+      <RestoreConfirmationModal
+        open={Boolean(restoreId)}
+        title="Pulihkan Kanwil"
+        loading={restoring}
+        onClose={handleCloseModalRestore}
+        onRestore={handleRestore}
+      />
+    </>
   );
 };
 

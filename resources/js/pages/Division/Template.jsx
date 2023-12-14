@@ -42,6 +42,7 @@ const Template = ({ children }) => {
               type="button"
               variant="contained"
               startIcon={<Add />}
+              disableElevation
               component={Link}
               href={route("division.create")}
             >

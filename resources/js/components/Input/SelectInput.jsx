@@ -12,8 +12,15 @@ import {
  * Komponen select input
  */
 const SelectInput = memo((props) => {
-  const { label, error, fullWidth, helperText, items, inputProps, ...rest } =
-    props;
+  const {
+    label,
+    error,
+    fullWidth,
+    helperText,
+    items,
+    inputProps,
+    ...rest
+  } = props;
 
   return (
     <FormControl fullWidth={fullWidth} error={error}>

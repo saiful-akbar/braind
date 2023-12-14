@@ -66,7 +66,7 @@ class DivisionRequest extends FormRequest
             // tampilkan hanya data yang sudah dihapus atau
             // memiliki nilai pada kolom deleted_at.
             if ($this->display == 'removed') {
-                $query->withTrashed()->whereNotNull('deleted_at');
+                $query->onlyTrashed();
             }
         }
 

@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function (): void {
             Route::get('/{division}/edit', 'edit')->name('.edit')->middleware('access:division,update');
             Route::patch('/{division}', 'update')->name('.update')->middleware('access:division,update');
             Route::delete('/{division}', 'remove')->name('.remove')->middleware('access:division,remove');
+            Route::delete('/{division}/restore', 'restore')->name('.restore')->middleware('access:division,destroy');
             Route::delete('/{division}/destroy', 'destroy')->name('.destroy')->middleware('access:division,destroy');
         });
 

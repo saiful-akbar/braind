@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Response;
-use App\Models\Division;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Divisions\DivisionRequest;
 use App\Http\Requests\Divisions\StoreDivisionRequest;
 use App\Http\Requests\Divisions\UpdateDivisionRequest;
+use App\Models\Division;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Inertia\Response;
 
 class DivisionController extends Controller
 {
@@ -70,6 +71,45 @@ class DivisionController extends Controller
         return to_route('division.edit', ['division' => $division->id])->with([
             'flash.status' => 'success',
             'flash.message' => 'Data kanwil berhasil diperbarui.'
+        ]);
+    }
+
+    /**
+     * Menghapus sementara data division (kanwil)
+     */
+    public function remove(Request $request, Division $division): RedirectResponse
+    {
+        $division->delete();
+
+        return to_route("division", $request->all())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Data kanwil berhasil dihapus.'
+        ]);
+    }
+
+    /**
+     * Memulihkan data yang telah dihapus
+     */
+    public function restore(Request $request, int $division): RedirectResponse
+    {
+        Division::where('id', $division)->restore();
+
+        return to_route("division", $request->all())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Data kanwil berhasil dipulihkan.'
+        ]);
+    }
+
+    /**
+     * Menghapus division (kanwil) selamanya
+     */
+    public function destroy(Request $request, int $division): RedirectResponse
+    {
+        Division::where('id', $division)->forceDelete();
+
+        return to_route("division", $request->all())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Data kanwil berhasil dihapus selamanya.'
         ]);
     }
 }
