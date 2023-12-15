@@ -23,7 +23,6 @@ import { numberFormat, utcToLocale } from "@/utils";
  */
 const DataTable = memo((props) => {
   const {
-    name,
     columns,
     from,
     to,
@@ -47,7 +46,7 @@ const DataTable = memo((props) => {
         <Table size="small">
           <TableHead>
             <TableRow>
-              {from > 0 && to > 0 && <TableCell>No</TableCell>}
+              <TableCell>No</TableCell>
 
               {columns.map((column) => {
                 if (!column.show) return;
@@ -83,9 +82,7 @@ const DataTable = memo((props) => {
           <TableBody>
             {data.map((row, rowKey) => (
               <TableRow key={rowKey} hover>
-                {from > 0 && to > 0 && (
-                  <TableCell>{numberFormat(from + rowKey)}</TableCell>
-                )}
+                <TableCell>{numberFormat(from + rowKey)}</TableCell>
 
                 {columns.map((column, columnKey) => {
                   if (!column.show) return;
@@ -179,7 +176,6 @@ const paginationTypes = PropTypes.shape({
  * Prop types
  */
 DataTable.propTypes = {
-  name: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   columns: PropTypes.arrayOf(columnsType).isRequired,
   from: PropTypes.number,

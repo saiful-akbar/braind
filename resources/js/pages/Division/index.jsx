@@ -201,7 +201,6 @@ const Kanwil = (props) => {
   return (
     <>
       <DataTable
-        name="Kanwil"
         columns={columns}
         data={data}
         from={pagination.from}

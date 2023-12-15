@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('commodities', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('label');
-            $table->string('slug');
+            $table->string('name', 100)->unique();
             $table->timestamps();
             $table->softDeletes();
         });

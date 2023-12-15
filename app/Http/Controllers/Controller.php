@@ -9,6 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
 
 class Controller extends BaseController
 {
@@ -61,5 +62,16 @@ class Controller extends BaseController
     protected function getAccessByRoute(string $route): ?MenuUser
     {
         return access()->firstWhere('route', $route)?->pivot;
+    }
+
+    /**
+     * Json response
+     */
+    protected function jsonResponse(
+        array|object $data = [],
+        string $message = 'success',
+        int $code = 200
+    ): JsonResponse {
+        return response()->json(compact('data', 'message', 'code'), $code);
     }
 }

@@ -11,8 +11,5 @@ class Commodity extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
 
-    protected $fillable = [
-        'label',
-        'slug',
-    ];
+    protected $fillable = ['name'];
 }

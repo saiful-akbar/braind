@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommodityController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisionController;
 use Illuminate\Support\Facades\Route;
@@ -73,7 +74,20 @@ Route::middleware('auth')->group(function (): void {
             Route::delete('/{division}/destroy', 'destroy')->name('.destroy')->middleware('access:division,destroy');
         });
 
-    Route::get('/commodity', fn () => inertia('Dashboard/index'))->name('commodity');
+    // Commodity
+    Route::controller(CommodityController::class)
+        ->name('commodity')
+        ->prefix('commodity')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:commodity,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:commodity,create');
+            Route::patch('/{commodity}', 'update')->name('.update')->middleware('access:commodity,update');
+            Route::delete('/{commodity}', 'remove')->name('.remove')->middleware('access:commodity,remove');
+            Route::patch('/{commodity}/restore', 'restore')->name('.restore')->middleware('access:commodity,destroy');
+            Route::delete('/{commodity}/destroy', 'destroy')->name('.destroy')->middleware('access:commodity,destroy');
+        });
+
+
     Route::get('/sbp', fn () => inertia('Dashboard/index'))->name('sbp');
     Route::get('/user', fn () => inertia('User/index'))->name('user');
 });
