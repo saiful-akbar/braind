@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class MenuUser extends Pivot
 {
+    use HasUuids;
+
     protected $table = 'menu_user';
 
     protected $fillable = [

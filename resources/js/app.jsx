@@ -5,7 +5,6 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@fontsource/roboto/900.css";
 import "material-icons/iconfont/filled.css";
-import "material-icons/iconfont/outlined.css";
 import "./styles/globals.scss";
 
 import "./bootstrap";

@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('division_galleries', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('division_id')->constrained();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('division_id')->constrained();
             $table->string('url');
             $table->string('uri');
             $table->string('mime_type', 50);

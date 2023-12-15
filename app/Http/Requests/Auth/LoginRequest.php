@@ -69,7 +69,7 @@ class LoginRequest extends FormRequest
     /**
      * Validasi password
      */
-    private function validatePassword(int $userId): UserPassword|ValidationException|null
+    private function validatePassword(string $userId): UserPassword|ValidationException|null
     {
         $userPassword = UserPassword::where('user_id', $userId)
             ->where('active', true)

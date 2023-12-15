@@ -12,7 +12,6 @@ class DivisionSeeder extends Seeder
     private array $data = [
         [
             'name' => 'Division 1',
-            'seq' => 1,
         ],
     ];
 
@@ -25,7 +24,6 @@ class DivisionSeeder extends Seeder
             Division::create([
                 'name' => $division['name'],
                 'slug' => Str::slug($division['name']),
-                'seq' => $division['seq'],
             ]);
         }
     }

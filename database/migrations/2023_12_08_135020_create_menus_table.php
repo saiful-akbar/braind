@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('menus', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('menu_group_id')->constrained();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('menu_group_id')->constrained();
             $table->string('name', 50)->unique();
             $table->string('icon', 30)->nullable();
             $table->string('url', 50)->unique();

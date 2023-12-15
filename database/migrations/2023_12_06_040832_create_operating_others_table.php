@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('operating_others', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('division_id')->nullable()->constrained();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained();
+            $table->foreignUuid('division_id')->nullable()->constrained();
             $table->string('type_of_operation', 30);
             $table->string('type', 30);
             $table->string('placement_location', 30);

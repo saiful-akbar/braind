@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('controls', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('division_id')->nullable()->constrained();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained();
+            $table->foreignUuid('division_id')->nullable()->constrained();
             $table->string('name');
             $table->string('sbp', 30);
             $table->string('follow_up');

@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_emails', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->uuid('id')->primary();
+
+            $table->foreignUuid('user_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
             $table->string('email')->unique();
             $table->string('domain', 50)->nullable();
             $table->string('raw_input')->nullable();

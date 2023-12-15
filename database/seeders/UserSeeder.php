@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
     {
         foreach ($this->data() as $user) {
             $created = User::create([
-                'division_id' => $user['division_id'],
+                'division_id' => null,
                 'name' => $user['name'],
                 'role' => $user['role'],
             ]);

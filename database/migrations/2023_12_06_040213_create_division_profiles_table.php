@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('division_profiles', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('division_id')->constrained();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('division_id')->constrained();
             $table->text('description');
             $table->text('activity');
             $table->text('surveillance_area');

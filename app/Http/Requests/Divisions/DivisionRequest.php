@@ -16,7 +16,6 @@ class DivisionRequest extends FormRequest
         'id',
         'name',
         'slug',
-        'seq',
         'created_at',
         'updated_at',
         'deleted_at',
