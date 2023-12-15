@@ -13,8 +13,20 @@ return new class extends Migration
     {
         Schema::create('operating_others', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained();
-            $table->foreignUuid('division_id')->nullable()->constrained();
+
+            $table->foreignUuid('user_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
+
+            $table->foreignUuid('division_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
             $table->string('type_of_operation', 30);
             $table->string('type', 30);
             $table->string('placement_location', 30);

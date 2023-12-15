@@ -13,8 +13,20 @@ return new class extends Migration
     {
         Schema::create('export_companies', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained();
-            $table->foreignUuid('division_id')->nullable()->constrained();
+
+            $table->foreignUuid('user_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
+
+            $table->foreignUuid('division_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
             $table->string('name', 50);
             $table->string('tax_number', 20);
             $table->double('peb');

@@ -13,8 +13,20 @@ return new class extends Migration
     {
         Schema::create('operating_patrol_boats', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained();
-            $table->foreignUuid('division_id')->nullable()->constrained();
+
+            $table->foreignUuid('user_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
+
+            $table->foreignUuid('division_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
             $table->string('hull_number', 30);
             $table->string('condition');
             $table->string('spb_number', 30);

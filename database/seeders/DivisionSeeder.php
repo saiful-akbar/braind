@@ -11,7 +11,10 @@ class DivisionSeeder extends Seeder
 {
     private array $data = [
         [
-            'name' => 'Division 1',
+            'name' => 'Kanwil Admin',
+        ],
+        [
+            'name' => 'Kanwil Guest',
         ],
     ];
 

@@ -13,8 +13,20 @@ return new class extends Migration
     {
         Schema::create('sbps', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained();
-            $table->foreignUuid('division_id')->constrained();
+
+            $table->foreignUuid('user_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
+
+            $table->foreignUuid('division_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
             $table->integer('amount');
             $table->integer('follow_up');
             $table->date('input_date');

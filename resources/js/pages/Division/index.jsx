@@ -48,6 +48,9 @@ const Kanwil = (props) => {
   const [deleteId, setDeleteId] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [deleteType, setDeleteType] = useState("remove");
+  const [deleteMessage, setDeleteMessage] = useState(
+    "anda yakin ingin menghapus item ini?"
+  );
 
   // restore state
   const [restoreId, setRestoreId] = useState(null);
@@ -60,8 +63,16 @@ const Kanwil = (props) => {
     (type, id) => {
       setDeleteType(type);
       setDeleteId(id);
+
+      if (type === "remove") {
+        setDeleteMessage("Anda yakin ingin mengapus item ini?");
+      } else {
+        setDeleteMessage(
+          "Anda yakin ingin menghapus item ini selamanya? data yang terhubung dengan item ini juga akan terpengaruh. Tidakan ini tidak dapat dipulihkan."
+        );
+      }
     },
-    [setDeleteType, setDeleteId]
+    [setDeleteType, setDeleteId, setDeleteMessage]
   );
 
   /**
@@ -86,6 +97,7 @@ const Kanwil = (props) => {
     router.delete(url, {
       preserveScroll: true,
       onFinish: () => handleCloseModalDelete(),
+      onError: (err) => console.log(err),
     });
   }, [deleteId, deleteType, setDeleting, handleCloseModalDelete, params]);
 
@@ -219,6 +231,7 @@ const Kanwil = (props) => {
         loading={deleting}
         onClose={handleCloseModalDelete}
         onDelete={handleDelete}
+        message={deleteMessage}
       />
 
       <RestoreConfirmationModal

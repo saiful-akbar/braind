@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Division;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -12,7 +13,7 @@ class UserSeeder extends Seeder
     {
         return [
             [
-                'division_id' => 1,
+                'division' => 'Kanwil Admin',
                 'name' => 'Admin',
                 'role' => 'admin',
                 'email' => [
@@ -26,7 +27,7 @@ class UserSeeder extends Seeder
                 ],
             ],
             [
-                'division_id' => 1,
+                'division' => 'Kanwil Guest',
                 'name' => 'Guest',
                 'role' => 'kanwil',
                 'email' => [
@@ -48,8 +49,10 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->data() as $user) {
+            $division = Division::where('name', $user['division'])->first();
+
             $created = User::create([
-                'division_id' => null,
+                'division_id' => $division->id,
                 'name' => $user['name'],
                 'role' => $user['role'],
             ]);

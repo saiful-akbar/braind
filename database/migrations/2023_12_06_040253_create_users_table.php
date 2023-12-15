@@ -18,7 +18,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete()
-                ->restrictonUpdate();
+                ->cascadeOnUpdate();
 
             $table->string('name', 50);
             $table->enum('sex', ['l', 'p'])->nullable();

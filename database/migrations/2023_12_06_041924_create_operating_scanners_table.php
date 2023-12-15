@@ -13,8 +13,20 @@ return new class extends Migration
     {
         Schema::create('operating_scanners', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained();
-            $table->foreignUuid('division_id')->nullable()->constrained();
+
+            $table->foreignUuid('user_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
+
+            $table->foreignUuid('division_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
+
             $table->string('scanner', 30);
             $table->string('name', 50);
             $table->string('tool_size', 10);

@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('division_galleries', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('division_id')->constrained();
+
+            $table->foreignUuid('division_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
             $table->string('url');
             $table->string('uri');
             $table->string('mime_type', 50);
