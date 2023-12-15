@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DivisionExport;
 use App\Http\Requests\Divisions\DivisionRequest;
 use App\Http\Requests\Divisions\StoreDivisionRequest;
 use App\Http\Requests\Divisions\UpdateDivisionRequest;
@@ -9,6 +10,8 @@ use App\Models\Division;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DivisionController extends Controller
 {
@@ -115,5 +118,19 @@ class DivisionController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Data kanwil berhasil dihapus selamanya.'
         ]);
+    }
+
+    /**
+     * Ekspor data division (kanwil) kedalam bentuk excel.
+     */
+    public function export(Request $request): BinaryFileResponse
+    {
+        $access = $this->getAccessByRoute('division');
+        $now = round(microtime(true) * 1000);
+
+        $name = str_replace(' ', '_', strtolower(config('app.name')));
+        $name .= "_kanwil_ekspor.xlsx";
+
+        return Excel::download(new DivisionExport($request, $access), $name);
     }
 }

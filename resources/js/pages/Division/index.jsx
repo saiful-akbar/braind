@@ -28,11 +28,11 @@ const Kanwil = (props) => {
     },
     {
       field: "updated_at",
-      label: "Dibuat atau Diperbarui",
+      label: "Dibuat/Diperbarui",
       align: "left",
       sort: true,
       timeFormat: true,
-      show: true,
+      show: display === "active",
     },
     {
       field: "deleted_at",
@@ -40,7 +40,7 @@ const Kanwil = (props) => {
       align: "left",
       sort: true,
       timeFormat: true,
-      show: access.destroy,
+      show: access.destroy && display === "removed",
     },
   ];
 

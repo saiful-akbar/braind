@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function (): void {
         ->name('division')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:division,read');
+            Route::get('/export', 'export')->name('.export')->middleware('access:division,read');
             Route::get('/create', 'create')->name('.create')->middleware('access:division,create');
             Route::post('/', 'store')->name('.store')->middleware('access:division,create');
             Route::get('/{division}/edit', 'edit')->name('.edit')->middleware('access:division,update');

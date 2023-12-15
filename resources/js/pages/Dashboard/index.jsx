@@ -9,8 +9,6 @@ import { Box } from "@mui/material";
  * Halaman dashboard.
  */
 const Dashboard = (props) => {
-  console.log(props);
-  
   return (
     <>
       <Header title="Dashboard" />
