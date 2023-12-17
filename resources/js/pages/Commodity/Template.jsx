@@ -99,9 +99,11 @@ const CommodityTemplate = ({ children }) => {
             <RefreshButton title="Segarkan" onClick={handleRefresh} />
           </Grid>
 
-          <Grid item md={5} xs={12}>
-            <FilterDisplayTableCommodity />
-          </Grid>
+          {access.destroy && (
+            <Grid item md={5} xs={12}>
+              <FilterDisplayTableCommodity />
+            </Grid>
+          )}
 
           <Grid item md={5} xs={12}>
             <SearchTableCommodity />
