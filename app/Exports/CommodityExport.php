@@ -2,20 +2,20 @@
 
 namespace App\Exports;
 
-use App\Models\Division;
 use App\Models\MenuUser;
-use Illuminate\Http\Request;
+use App\Models\Commodity;
 use Illuminate\View\View;
-use Maatwebsite\Excel\Concerns\Exportable;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class DivisionExport implements FromView, WithStyles, ShouldAutoSize
+class CommodityExport implements FromView, ShouldAutoSize, WithStyles
 {
     use Exportable;
 
@@ -37,7 +37,7 @@ class DivisionExport implements FromView, WithStyles, ShouldAutoSize
      */
     public function __construct(Request $request, MenuUser $access)
     {
-        $query = Division::select($this->columns);
+        $query = Commodity::select($this->columns);
 
         // periksa apakah ada request untuk menampilkan data yang sudah dihapus,
         // dan periksa juga apakah user memiliki akses "destroy" atau tidak
@@ -45,7 +45,7 @@ class DivisionExport implements FromView, WithStyles, ShouldAutoSize
             $query->onlyTrashed();
         }
 
-        // periksa apakah ada request untuk sortir by kolom.
+        // periksa apakah ada request untuk sortir berdasarkan kolom.
         if (in_array($request->order_by, $this->columns)) {
             $this->orderBy = $request->order_by;
         }
@@ -107,8 +107,8 @@ class DivisionExport implements FromView, WithStyles, ShouldAutoSize
      */
     function view(): View
     {
-        return view('exports.division-export', [
-            'divisions' => $this->query->get(),
+        return view('exports.commodity-export', [
+            'commodities' => $this->query->get(),
         ]);
     }
 }

@@ -8,7 +8,7 @@ const commoditySlice = createSlice({
    */
   initialState: {
     open: false,
-    type: "add",
+    type: "create",
     data: {
       id: "",
       name: "",
@@ -21,6 +21,7 @@ const commoditySlice = createSlice({
      */
     addCommodity: (state) => {
       state.open = true;
+      state.type = "create";
       state.data = {
         id: "",
         name: "",
@@ -33,6 +34,7 @@ const commoditySlice = createSlice({
     editCommodity: (state, action) => {
       const { id, name } = action.payload;
       state.open = true;
+      state.type = "update";
       state.data = {
         id,
         name,

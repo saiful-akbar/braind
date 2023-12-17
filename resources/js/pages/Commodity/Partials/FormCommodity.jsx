@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import React from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
@@ -36,7 +37,7 @@ const FormCommodity = React.memo(() => {
    * Update title commodity berdasarkan type-nya
    */
   React.useEffect(() => {
-    setTitle(commodity.type === "add" ? "Tambah Komoditi" : "Edit Komoditi");
+    setTitle(commodity.type === "create" ? "Tambah Komoditi" : "Edit Komoditi");
   }, [commodity.type]);
 
   /**
@@ -45,10 +46,11 @@ const FormCommodity = React.memo(() => {
   React.useEffect(() => {
     const { data } = commodity;
 
-    setData({
+    setData((prevState) => ({
+      ...prevState,
       id: data.id,
       komoditi: data.name,
-    });
+    }));
   }, [commodity.data, setData]);
 
   /**
@@ -68,6 +70,7 @@ const FormCommodity = React.memo(() => {
    */
   const reset = () => {
     setData((prevState) => ({
+      ...prevState,
       id: "",
       komoditi: "",
     }));
@@ -89,39 +92,83 @@ const FormCommodity = React.memo(() => {
   );
 
   /**
+   * fungsi untuk menyimpan data commodity baru
+   */
+  const storeData = async () => {
+    setLoading(true);
+
+    try {
+      await axios({
+        method: "post",
+        url: route("commodity.store"),
+        data: data,
+      });
+
+      setLoading(false);
+      setError(null);
+      reset();
+      router.reload();
+
+      dispatch(
+        openNotification({
+          status: "success",
+          message: "Kode komoditi berhasil ditambahkan.",
+        })
+      );
+    } catch (error) {
+      const { message } = error.response.data;
+
+      setLoading(false);
+      setError(message);
+    }
+  };
+
+  /**
+   * Fungsi untuk fetch update data commodity
+   */
+  const updateData = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      await axios({
+        method: "patch",
+        data,
+        url: route("commodity.update", {
+          commodity: data.id,
+        }),
+      });
+
+      router.reload();
+      setLoading(false);
+      dispatch(
+        openNotification({
+          status: "success",
+          message: "Kode komoditi berhasil diperbarui.",
+        })
+      );
+    } catch (error) {
+      const { message } = error.response.data;
+
+      setLoading(false);
+      setError(message);
+    }
+  };
+
+  /**
    * Fungsi untuk menangani ketika form di-submit
    */
-  const handleSubmit = React.useCallback(
-    async (e) => {
+  const handleSubmit = useCallback(
+    (e) => {
       e.preventDefault();
-      setLoading(true);
 
-      try {
-        await axios({
-          method: "post",
-          url: route("commodity.store"),
-          data: data,
-        });
-
-        setLoading(false);
-        setError(null);
-        reset();
-        router.reload();
-
-        dispatch(
-          openNotification({
-            status: "success",
-            message: "Kode komoditi berhasil ditambahkan.",
-          })
-        );
-      } catch (error) {
-        const { message } = error.response.data;
-
-        setLoading(false);
-        setError(message);
+      if (commodity.type === "create") {
+        storeData();
+      } else {
+        updateData();
       }
     },
-    [data, setLoading, setError, reset]
+    [storeData, commodity, updateData]
   );
 
   return (
@@ -131,6 +178,7 @@ const FormCommodity = React.memo(() => {
       maxWidth="sm"
       onClose={handleClose}
       component="form"
+      autoComplete="off"
       onSubmit={handleSubmit}
     >
       <DialogTitle>{title}</DialogTitle>
@@ -138,13 +186,15 @@ const FormCommodity = React.memo(() => {
       <DialogContent dividers>
         <TextInput
           fullWidth
+          required
+          autoFocus
           size="small"
           label="Kode Komoditi"
           name="komoditi"
           value={data.komoditi}
           onChange={handleChange}
           disabled={loading}
-          error={error}
+          error={Boolean(error !== null)}
           helperText={error}
         />
       </DialogContent>
@@ -170,7 +220,7 @@ const FormCommodity = React.memo(() => {
           loading={loading}
           startIcon={<Save />}
         >
-          Simpan
+          {commodity.type === "create" ? "Tambahkan" : "Perbarui"}
         </LoadingButton>
       </DialogActions>
     </Dialog>

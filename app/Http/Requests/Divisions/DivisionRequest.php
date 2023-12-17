@@ -15,7 +15,6 @@ class DivisionRequest extends FormRequest
     private array $columns = [
         'id',
         'name',
-        'slug',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -34,7 +33,7 @@ class DivisionRequest extends FormRequest
     /**
      * Default kolom yang diorder
      */
-    private string $sortBy = 'name';
+    private string $sortBy = 'id';
     private string $sort = 'asc';
 
     /**
@@ -76,7 +75,8 @@ class DivisionRequest extends FormRequest
 
         // Periksa jika ada request pemcarian.
         if (!empty($this->search)) {
-            $query->where('name', 'like', "%{$this->search}%");
+            $query->where('id', 'like', "%{$this->search}%")
+                ->orWhere('name', 'like', "%{$this->search}%");
         }
 
         return $query->orderBy($this->sortBy, $this->sort)->paginate($this->perPage);

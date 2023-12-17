@@ -26,7 +26,6 @@ class DivisionSeeder extends Seeder
         foreach ($this->data as $division) {
             Division::create([
                 'name' => $division['name'],
-                'slug' => Str::slug($division['name']),
             ]);
         }
     }

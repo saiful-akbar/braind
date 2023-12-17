@@ -14,10 +14,7 @@ class Division extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
 
-    protected $fillable = [
-        'name',
-        'slug',
-    ];
+    protected $fillable = ['name'];
 
     /**
      * Ambil DivisionProfile yang dimiliki Division.

@@ -35,7 +35,6 @@ class StoreDivisionRequest extends FormRequest
     {
         Division::create([
             'name' => $this->nama,
-            'slug' => Str::slug(title: $this->nama, language: 'id')
         ]);
     }
 }

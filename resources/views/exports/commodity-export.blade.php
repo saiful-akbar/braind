@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
-    <title>Division Export</title>
+    <title>Commodity - {{ config('app.name') }}</title>
 </head>
 
 <body>
@@ -11,16 +11,16 @@
             <tr>
                 <th>No</th>
                 <th>ID</th>
-                <th>Nama Kanwil</th>
+                <th>Name</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach ($divisions as $division)
+            @foreach ($commodities as $commodity)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $division->id }}</td>
-                    <td>{{ $division->name }}</td>
+                    <td>{{ $commodity->id }}</td>
+                    <td>{{ $commodity->name }}</td>
                 </tr>
             @endforeach
         </tbody>

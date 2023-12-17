@@ -50,25 +50,27 @@ const Template = ({ children }) => {
       const response = await axios({
         method: "get",
         url: route("division.export", { _query: params }),
-        responseType: "blob"
+        responseType: "blob",
       });
 
-      saveAs(response.data, `braind_master_kanwil.xlsx`);
+      saveAs(response.data, `Braind_Ekspor_Kanwil.xlsx`);
       setLoading(false);
 
       dispatch(
         openNotification({
           status: "success",
-          message: "Ekspor berhasil."
+          message: "Ekspor kanwil berhasil.",
         })
       );
-    } catch(error) {
+    } catch (error) {
       setLoading(false);
+
+      console.log(error);
 
       dispatch(
         openNotification({
           status: "error",
-          message: "Terjadi kesalahan, Ekspor gagal."
+          message: "Terjadi kesalahan, Ekspor kanwil gagal.",
         })
       );
     }
@@ -116,7 +118,9 @@ const Template = ({ children }) => {
             <SearchFormDivision />
           </Grid>
 
-          <Grid item xs={12}>{children}</Grid>
+          <Grid item xs={12}>
+            {children}
+          </Grid>
         </Grid>
       </Box>
 

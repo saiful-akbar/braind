@@ -2,6 +2,7 @@ import React from "react";
 import GuestLayout from "@/layouts/GuestLayout";
 import { Box, Grid } from "@mui/material";
 import FormLogin from "./Partials/FormLogin";
+import bgLogin from "@/assets/images/login.webp";
 
 /**
  * Halaman login
@@ -14,7 +15,7 @@ const Login = () => {
       sx={{
         minHeight: "100vh",
         width: "100%",
-        backgroundImage: "url(https://picsum.photos/1080/?blur=3)",
+        backgroundImage: `url(${bgLogin})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",

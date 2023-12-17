@@ -1,18 +1,18 @@
 import React, { memo } from "react";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import PropTypes from "prop-types";
 import { IconButton, Tooltip } from "@mui/material";
+import { Download } from "@mui/icons-material";
 
 /**
- * Komponen tombol refresh
+ * Komponen button download
  */
-const RefreshButton = memo((props) => {
+const DownloadButton = memo((props) => {
   const { title, iconSize, iconProps, ...rest } = props;
 
   return (
     <Tooltip title={title} disableInteractive>
       <IconButton {...rest}>
-        <RefreshIcon fontSize={iconSize} {...iconProps} />
+        <Download fontSize={iconSize} {...iconProps} />
       </IconButton>
     </Tooltip>
   );
@@ -21,7 +21,7 @@ const RefreshButton = memo((props) => {
 /**
  * Prop types
  */
-RefreshButton.propTypes = {
+DownloadButton.propTypes = {
   title: PropTypes.string,
   iconSize: PropTypes.oneOf(["small", "medium", "large"]),
   iconProps: PropTypes.object,
@@ -30,10 +30,10 @@ RefreshButton.propTypes = {
 /**
  * default props
  */
-RefreshButton.defaultProps = {
-  title: "Segarkan",
+DownloadButton.defaultProps = {
+  title: "Unduh",
   iconSize: "medium",
   iconProps: {},
 };
 
-export default RefreshButton;
+export default DownloadButton;

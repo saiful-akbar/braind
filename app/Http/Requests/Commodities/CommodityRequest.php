@@ -23,7 +23,7 @@ class CommodityRequest extends FormRequest
      * Default sortir kolom
      */
     private string $sort = 'asc';
-    private string $sortBy = 'name';
+    private string $sortBy = 'id';
 
     /**
      * Jumlah baris perhalaman
@@ -72,7 +72,8 @@ class CommodityRequest extends FormRequest
 
         // periksa apakah ada request "search" untuk pencarian pada tabel.
         if ($this->search != '') {
-            $commodities->where('name', 'like', "%{$this->search}%");
+            $commodities->where('id', 'like', "%{$this->search}%")
+                ->orWhere('name', 'like', "%{$this->search}%");
         }
 
         // periksa apakah ada request "per_page" untuk merubah jumlah...

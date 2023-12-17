@@ -14,8 +14,14 @@ return new class extends Migration
         Schema::create('commodities', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name', 100)->unique();
+            $table->index('name');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->fullText([
+                'id',
+                'name',
+            ], 'commodities_fulltext');
         });
     }
 

@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function (): void {
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:commodity,read');
             Route::post('/', 'store')->name('.store')->middleware('access:commodity,create');
+            Route::get('/export', 'export')->name('.export')->middleware('access:commodity,read');
             Route::patch('/{commodity}', 'update')->name('.update')->middleware('access:commodity,update');
             Route::delete('/{commodity}', 'remove')->name('.remove')->middleware('access:commodity,remove');
             Route::patch('/{commodity}/restore', 'restore')->name('.restore')->middleware('access:commodity,destroy');

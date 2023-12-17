@@ -126,10 +126,7 @@ class DivisionController extends Controller
     public function export(Request $request): BinaryFileResponse
     {
         $access = $this->getAccessByRoute('division');
-        $now = round(microtime(true) * 1000);
-
-        $name = str_replace(' ', '_', strtolower(config('app.name')));
-        $name .= "_kanwil_ekspor.xlsx";
+        $name = 'braind_export_kanwil.xlsx';
 
         return Excel::download(new DivisionExport($request, $access), $name);
     }

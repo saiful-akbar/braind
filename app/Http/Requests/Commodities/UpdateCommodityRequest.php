@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Divisions;
+namespace App\Http\Requests\Commodities;
 
-use App\Models\Division;
-use Illuminate\Support\Str;
+use App\Models\Commodity;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDivisionRequest extends FormRequest
+class UpdateCommodityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,21 +24,21 @@ class UpdateDivisionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => [
-                "required",
-                "string",
-                "max:50",
-                "unique:divisions,name,{$this->id},id"
+            'komoditi' => [
+                'required', 'string', 'max:100',
+                "unique:commodities,name,{$this->commodity->id},id"
             ],
         ];
     }
 
     /**
-     * Simpan hasil perubahan
+     * Simpan hasil perubahan ke database
      */
-    public function save(Division $division): void
+    public function save(Commodity $commodity): Commodity
     {
-        $division->name = $this->nama;
-        $division->save();
+        $commodity->name = $this->komoditi;
+        $commodity->save();
+
+        return $commodity;
     }
 }

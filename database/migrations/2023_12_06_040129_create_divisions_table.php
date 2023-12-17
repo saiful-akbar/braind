@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('divisions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name', 50)->unique();
-            $table->string('slug', 50)->unique();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->fullText(['name'], 'division_fulltext');
-            $table->index('slug');
+            $table->fullText(['id', 'name'], 'division_fulltext');
         });
     }
 
