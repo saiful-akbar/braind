@@ -49,8 +49,12 @@ const Template = ({ children }) => {
     try {
       const response = await axios({
         method: "get",
-        url: route("division.export", { _query: params }),
         responseType: "blob",
+        url: route("division.export"),
+        params: {
+          ...params,
+          _token: app.csrf,
+        },
       });
 
       saveAs(response.data, `Braind_Ekspor_Kanwil.xlsx`);
@@ -74,7 +78,7 @@ const Template = ({ children }) => {
         })
       );
     }
-  }, [setLoading, params, dispatch]);
+  }, [setLoading, params, dispatch, app]);
 
   return (
     <>

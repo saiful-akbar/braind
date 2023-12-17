@@ -19,7 +19,8 @@ import { openNotification } from "@/redux/reducers/notificationReducer";
  * Komponen template untuk halaman commodity.
  */
 const CommodityTemplate = ({ children }) => {
-  const { access } = usePage().props;
+  const { access, app } = usePage().props;
+  const { params } = app.url;
   const dispatch = useDispatch();
 
   // state
@@ -48,8 +49,12 @@ const CommodityTemplate = ({ children }) => {
     try {
       const response = await axios({
         method: "get",
-        url: route("commodity.export"),
         responseType: "blob",
+        url: route("commodity.export"),
+        params: {
+          ...params,
+          _token: app.csrf,
+        },
       });
 
       saveAs(response.data, `Braind_Ekspor_Komoditi.xlsx`);
@@ -71,7 +76,7 @@ const CommodityTemplate = ({ children }) => {
         })
       );
     }
-  }, [setLoading, dispatch]);
+  }, [setLoading, dispatch, params, app]);
 
   return (
     <>
