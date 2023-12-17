@@ -74,18 +74,12 @@ const SearchFormDivision = () => {
    * fungsi untuk menangani ketika tombol
    * clear pada form diklik.
    */
-  const handleClear = useCallback(
-    (e) => {
-      if (searchParams !== "") {
-        fetchData({
-          ...params,
-          page: 1,
-          search: "",
-        });
-      }
-    },
-    [fetchData, searchParams, params]
-  );
+  const handleClear = useCallback(() => {
+    if (searchParams !== "") {
+      setValue("");
+      fetchData({ ...params, page: 1, search: "" });
+    }
+  }, [fetchData, searchParams, params, setValue]);
 
   return (
     <form onSubmit={handleSubmit} autoComplete="off">

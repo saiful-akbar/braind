@@ -1,6 +1,7 @@
 import SearchInput from "@/components/Input/SearchInput";
 import { router, usePage } from "@inertiajs/react";
 import React, { memo } from "react";
+import { useEffect } from "react";
 import { useCallback } from "react";
 import { useState } from "react";
 
@@ -15,6 +16,13 @@ const SearchTableCommodity = memo(() => {
   // state
   const [value, setValue] = useState(searchParams);
   const [loading, setLoading] = useState(false);
+
+  /**
+   * update value jika ada perubahan pada searchParams
+   */
+  useEffect(() => {
+    setValue(searchParams);
+  }, [searchParams, setValue]);
 
   /**
    * fungsi untuk mengirim request ke server (fetch data)
@@ -41,25 +49,25 @@ const SearchTableCommodity = memo(() => {
   /**
    * fungsi untuk menangani ketika form di-blur
    */
-  const handleBlur = useCallback(
-    (e) => {
-      if (value !== searchParams) {
-        fetchData({
-          ...params,
-          page: 1,
-          search: value,
-        });
-      }
-    },
-    [searchParams, value, fetchData, params]
-  );
+  const handleBlur = useCallback(() => {
+    if (value !== searchParams) {
+      fetchData({
+        ...params,
+        page: 1,
+        search: value,
+      });
+    }
+  }, [searchParams, value, fetchData, params]);
 
   /**
    * fungsi untuk menghapus search
    */
   const handleClear = useCallback(() => {
-    fetchData({ ...params, page: 1, search: "" });
-  }, [fetchData, params]);
+    if (searchParams !== "") {
+      setValue("");
+      fetchData({ ...params, page: 1, search: "" });
+    }
+  }, [fetchData, params, searchParams, setValue]);
 
   /**
    * fungsi untuk menangani ketika form di-submit
