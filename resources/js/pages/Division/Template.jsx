@@ -69,8 +69,6 @@ const Template = ({ children }) => {
     } catch (error) {
       setLoading(false);
 
-      console.log(error);
-
       dispatch(
         openNotification({
           status: "error",
