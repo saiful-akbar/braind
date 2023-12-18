@@ -1,82 +1,87 @@
-Braind
+# Dokumentasi Aplikasi
 
-# 1. Persyaratan
+## 1. Instalasi
 
-- php >= 8.1
-- composer >= 2.6
-- node js >= 20.10
-- npm >= 10.2
-- database MySQL atau MariaDB
+  - **Persyaratan Sistem**
+    - php >= 8.1
+    - composer >= 2.6
+    - node js >= 18.18
+    - npm >= 10.2
+    - database MySQL atau MariaDB
 
-# 2. Instalasi
+  - **Proses Instalasi**
+    - Clone repository
+      ```bash
+      git clone https://github.com/saiful-akbar/braind.git
+      ```
+    - Beralih ke branch develop (untuk instalasi pengembangan)
+      ```bash
+      cd braind && git checkout develop
+      ```
+    - Jalankan file dev.sh
+      ```sh
+      sh dev.sh
+      ```
+    - Buat database dan Atur konfigurasi pada file `.env`, lalu jalankan migrasi
+      ```bash
+      php artisan migrate:fresh --seed
+      ```
+    - Jalankan local server
+      ```bash
+      npm run dev
+      ```
 
-## 2.1. Pengembangan
+## 2. Pengenalan Aplikasi
 
-- Clone repository
+- **Deskripsi Aplikasi**
+  - Jelaskan fungsi dan tujuan utama aplikasi.
 
-  ```bash
-  git clone https://github.com/saiful-akbar/braind.git
-  cd braind
-  git checkout develop
-  ```
+- **Fitur Utama**
+  - Data master
+    - Fitur ini merupakan fitur untuk mengelola data-data dasar.
 
-- Jalankan file dev.sh
+## 3. Panduan Pengguna
 
-  ```sh
-  sh dev.sh
-  ```
+- **Masuk (Login)**
+  - Login dengan menggunakan email dan kata sandi yang sudah terdaftar.
 
-- Atur konfigurasi database pada file `.env`
+- **Navigasi**
+  - Terdapat menu utama pada bilah kiri aplikasi untuk bernavigasi.
 
-- Buat database dan jalankan migrasi
+    - **Master**
+      - Kanwil
+      - Kode Komoditi
+      - SBP
+      - User
 
-  ```bash
-  php artisan migrate:fresh --seed
-  ```
+    - **Kanwil**
+      - Profil
+      - Peta Kerawanan
 
-- Jalankan local server
+    - **Penerimaan**
+      - Data Penerimaan
 
-  ```bash
-  npm run dev
-  ```
+    - **Perusahaan**
+      - Cukai MMEA
+      - Cukai HT + HPTL
+      - Ekspor
+      - Impor
 
-# Menu
+    - **Pengawasan**
+      - Cuka MMEA
+      - Cukai HT
+      - Cukai EA
+      - Ekspor
+      - Impor
+      - Penindakan
 
-- Master
+    - **Sarana Operasi**
+      - Alat Telekomunikasi
+      - Alat Pemindai dan Pendeteksi
+      - Kapal Patroli
+      - Sarana Operasi Lainnya
+      - Senjata Api
 
-  - Kanwil
-  - SBP
-  - User
-  - Kode Komoditi
-
-- Kanwil
-
-  - Profile
-  - Peta Kerawanan
-
-- Penerimaan
-
-  - Data Penerimaan
-
-- Perusahaan
-
-  - Perusahaan Impor
-  - Perusahaan Ekspor
-  - Cukai MMEA
-  - Cukai HT + HPTL
-
-- Pengawasan
-
-  - Pengawasan Impor
-  - Pengawasan Ekspor
-  - Pengawasan Cuka MMEA
-  - Pengawasan Cukai HT
-  - Pengawasan Cukai EA
-  - Pengawasan Penindakan
-
-- Sarana Operasi
-  - Kapal Patroli
-  - Alat Telekomunikasi
-  - Senjata Api
-  - Alat Pemindai dan Pendeteksi
-  - Sarana Operasi Lainnya
+- **Pengaturan Akun**
+  - Klik foto profil pada bagian bilah kiri aplikasi
+  - Pilih akun untuk melihat atau memperbarui data akun pengguna yang sedang login.
