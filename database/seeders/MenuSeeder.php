@@ -59,8 +59,8 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::where('name', 'Admin')->first();
-        $guest = User::where('name', 'guest')->first();
+        $admin = User::where('username', 'Admin')->first();
+        $guest = User::where('username', 'guest')->first();
 
 
         DB::transaction(function () use ($admin, $guest): void {

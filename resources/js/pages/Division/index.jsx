@@ -13,19 +13,11 @@ const Kanwil = (props) => {
   const { data, pagination, app, access } = props;
   const { params } = app.url;
   const order = params.order ?? "asc";
-  const orderBy = params.order_by ?? "id";
+  const orderBy = params.order_by ?? "name";
   const display = params.display ?? "active";
 
   // Daftar kolom yang akan ditampilkan pada tabel
   const columns = [
-    {
-      field: "id",
-      label: "ID",
-      align: "left",
-      sort: true,
-      timeFormat: false,
-      show: true,
-    },
     {
       field: "name",
       label: "Nama Kanwil",

@@ -9,24 +9,11 @@ use Illuminate\Support\Str;
 
 class DivisionSeeder extends Seeder
 {
-    private array $data = [
-        [
-            'name' => 'Kanwil Admin',
-        ],
-        [
-            'name' => 'Kanwil Guest',
-        ],
-    ];
-
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        foreach ($this->data as $division) {
-            Division::create([
-                'name' => $division['name'],
-            ]);
-        }
+        Division::create(['name' => 'Pusat']);
     }
 }

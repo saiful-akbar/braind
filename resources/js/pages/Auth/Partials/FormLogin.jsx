@@ -10,7 +10,7 @@ import { LoadingButton } from "@mui/lab";
  */
 const FormLogin = () => {
   const { data, setData, post, processing, errors } = useForm({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -30,9 +30,9 @@ const FormLogin = () => {
    */
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { email, password } = data;
+    const { username, password } = data;
 
-    if (email !== "" && password !== "") {
+    if (username !== "" && password !== "") {
       post(route("login.store"), {
         preserveScroll: true,
       });
@@ -61,18 +61,18 @@ const FormLogin = () => {
         <Grid item xs={12}>
           <TextInput
             fullWidth
-            label="Email"
-            name="email"
-            type="email"
+            label="Username"
+            name="username"
+            type="username"
             onChange={handleInputChange}
-            value={data.email}
-            error={Boolean(errors.email)}
-            helperText={errors.email}
+            value={data.username}
+            error={Boolean(errors.username)}
+            helperText={errors.username}
             disabled={processing}
             inputProps={{
               sx: {
                 backgroundColor: "background.paper",
-              }
+              },
             }}
           />
         </Grid>
@@ -80,7 +80,7 @@ const FormLogin = () => {
         <Grid item xs={12}>
           <PasswordInput
             fullWidth
-            label="Kata sandi"
+            label="Password"
             name="password"
             onChange={handleInputChange}
             value={data.password}
@@ -88,7 +88,7 @@ const FormLogin = () => {
             inputProps={{
               sx: {
                 backgroundColor: "background.paper",
-              }
+              },
             }}
           />
         </Grid>

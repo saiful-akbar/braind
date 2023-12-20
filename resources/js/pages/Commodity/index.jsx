@@ -17,7 +17,7 @@ const Commodity = (props) => {
   const { data, pagination, app, access } = props;
   const { params } = app.url;
   const order = params.order ?? "asc";
-  const orderBy = params.order_by ?? "id";
+  const orderBy = params.order_by ?? "name";
   const display = params.display ?? "active";
   const dispatch = useDispatch();
 
@@ -31,14 +31,6 @@ const Commodity = (props) => {
   const [restoring, setRestoring] = useState(false);
 
   const columns = [
-    {
-      field: "id",
-      label: "ID",
-      align: "left",
-      timeFormat: false,
-      show: true,
-      sort: true,
-    },
     {
       field: "name",
       label: "Kode Komoditi",

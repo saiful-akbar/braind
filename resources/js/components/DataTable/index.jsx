@@ -46,7 +46,7 @@ const DataTable = memo((props) => {
         <Table size="small">
           <TableHead>
             <TableRow>
-              {/* <TableCell>No</TableCell> */}
+              <TableCell>No</TableCell>
 
               {columns.map((column) => {
                 if (!column.show) return;
@@ -82,7 +82,7 @@ const DataTable = memo((props) => {
           <TableBody>
             {data.map((row, rowKey) => (
               <TableRow key={rowKey} hover>
-                {/* <TableCell>{numberFormat(from + rowKey)}</TableCell> */}
+                <TableCell>{numberFormat(from + rowKey)}</TableCell>
 
                 {columns.map((column, columnKey) => {
                   if (!column.show) return;

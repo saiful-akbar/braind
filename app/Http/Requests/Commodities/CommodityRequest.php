@@ -15,15 +15,18 @@ class CommodityRequest extends FormRequest
      * @var array
      */
     private $columns = [
-        'id', 'name', 'created_at',
-        'updated_at', 'deleted_at'
+        'id',
+        'name',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
      * Default sortir kolom
      */
     private string $sort = 'asc';
-    private string $sortBy = 'id';
+    private string $sortBy = 'name';
 
     /**
      * Jumlah baris perhalaman

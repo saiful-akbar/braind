@@ -33,7 +33,7 @@ class DivisionRequest extends FormRequest
     /**
      * Default kolom yang diorder
      */
-    private string $sortBy = 'id';
+    private string $sortBy = 'name';
     private string $sort = 'asc';
 
     /**

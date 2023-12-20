@@ -3,12 +3,8 @@
 namespace App\Http\Requests\Auth;
 
 use App\Models\MenuGroup;
-use App\Models\User;
-use App\Models\UserEmail;
-use App\Models\UserPassword;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
@@ -29,7 +25,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'username' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
@@ -41,55 +37,11 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
-        $email = $this->validateEmail();
-
-        if (is_null($email)) {
-            throw $this->exceptionMessage();
+        if (!Auth::attempt($this->only('username', 'password'))) {
+            throw ValidationException::withMessages([
+                'username' => 'Username atau password anda salah.',
+            ]);
         }
-
-        $password = $this->validatePassword($email->user_id);
-
-        if (is_null($password)) {
-            throw $this->exceptionMessage();
-        }
-
-        Auth::login(User::find($password->user_id));
-    }
-
-    /**
-     * Validasi email
-     */
-    private function validateEmail(): ?UserEmail
-    {
-        return UserEmail::where('email', $this->email)
-            ->where('active', true)
-            ->first();
-    }
-
-    /**
-     * Validasi password
-     */
-    private function validatePassword(string $userId): UserPassword|ValidationException|null
-    {
-        $userPassword = UserPassword::where('user_id', $userId)
-            ->where('active', true)
-            ->first();
-
-        if (!Hash::check($this->password, $userPassword->password)) {
-            throw $this->exceptionMessage();
-        }
-
-        return $userPassword;
-    }
-
-    /**
-     * Pesan error
-     */
-    private function exceptionMessage(): ValidationException
-    {
-        return ValidationException::withMessages([
-            'email' => trans('auth.failed'),
-        ]);
     }
 
     /**
@@ -97,26 +49,26 @@ class LoginRequest extends FormRequest
      */
     public function generateSessionMenu(): void
     {
-        $menu = MenuGroup::with([
-            'childrens' => function ($query): void {
-                $query->join('menu_user', 'menus.id', '=', 'menu_user.menu_id')
-                    ->where('menu_user.user_id', user()?->id)
-                    ->orderBy('menus.name', 'asc')
-                    ->select([
-                        'menus.*',
-                        'menu_user.create',
-                        'menu_user.read',
-                        'menu_user.update',
-                        'menu_user.remove',
-                        'menu_user.destroy',
-                    ]);
-            }
-        ])
-            ->whereRelation('childrens.usersWithReadAccess', 'user_id', '=', user()->id)
-            ->orderBy('menu_groups.name', 'asc')
-            ->get();
-
-        session(['menu' => $menu]);
+        session([
+            'menu' => MenuGroup::with([
+                'childrens' => function ($query): void {
+                    $query->join('menu_user', 'menus.id', '=', 'menu_user.menu_id')
+                        ->where('menu_user.user_id', user()?->id)
+                        ->orderBy('menus.name', 'asc')
+                        ->select([
+                            'menus.*',
+                            'menu_user.create',
+                            'menu_user.read',
+                            'menu_user.update',
+                            'menu_user.remove',
+                            'menu_user.destroy',
+                        ]);
+                }
+            ])
+                ->whereRelation('childrens.usersWithReadAccess', 'user_id', '=', user()->id)
+                ->orderBy('menu_groups.name', 'asc')
+                ->get(),
+        ]);
     }
 
     /**

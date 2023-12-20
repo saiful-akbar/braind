@@ -20,14 +20,30 @@ return new class extends Migration
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->string('name', 50);
-            $table->enum('sex', ['l', 'p'])->nullable();
+            // Account
+            $table->string('username')->unique();
+            $table->string('password');
+            $table->rememberToken();
+
+            // profile 
+            $table->string('full_name', 50)->nullable();
+            $table->string('photo', 50)->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->string('place_of_birth', 50)->nullable();
-            $table->date('birth_date')->nullable();
-            $table->string('phone', 15)->nullable();
-            $table->string('role', 6)->default('kanwil');
-            $table->string('instagram', 30)->nullable();
-            $table->string('avatar')->nullable();
+
+            // address
+            $table->string('country', 50)->nullable();
+            $table->string('city', 50)->nullable();
+            $table->string('postal_code', 10)->nullable();
+            $table->text('address')->nullable();
+
+            // contact
+            $table->string('phone', 15)->unique()->nullable();
+            $table->string('email', 100)->unique()->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+
+            // times
             $table->timestamps();
             $table->softDeletes();
         });

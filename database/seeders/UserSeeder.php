@@ -13,32 +13,18 @@ class UserSeeder extends Seeder
     {
         return [
             [
-                'division' => 'Kanwil Admin',
-                'name' => 'Admin',
-                'role' => 'admin',
-                'email' => [
-                    'email' => 'admin@gmail.com',
-                    'primary' => 1,
-                    'active' => 1,
-                ],
-                'password' => [
-                    'password' => bcrypt('123456'),
-                    'active' => 1,
-                ],
+                'division' => 'Pusat',
+                'username' => 'admin',
+                'password' => bcrypt('admin123'),
+                'full_name' => 'Admin',
+                'email' => 'admin@gmail.com',
             ],
             [
-                'division' => 'Kanwil Guest',
-                'name' => 'Guest',
-                'role' => 'kanwil',
-                'email' => [
-                    'email' => 'guest@gmail.com',
-                    'primary' => 1,
-                    'active' => 1,
-                ],
-                'password' => [
-                    'password' => bcrypt('123456'),
-                    'active' => 1,
-                ],
+                'division' => 'Pusat',
+                'username' => 'guest',
+                'password' => bcrypt('guest123'),
+                'full_name' => 'Guest',
+                'email' => 'guest@gmail.com',
             ],
         ];
     }
@@ -51,14 +37,13 @@ class UserSeeder extends Seeder
         foreach ($this->data() as $user) {
             $division = Division::where('name', $user['division'])->first();
 
-            $created = User::create([
+            User::create([
                 'division_id' => $division->id,
-                'name' => $user['name'],
-                'role' => $user['role'],
+                'username' => $user['username'],
+                'password' => $user['password'],
+                'full_name' => $user['full_name'],
+                'email' => $user['email'],
             ]);
-
-            $created->emails()->create($user['email']);
-            $created->password()->create($user['password']);
         }
     }
 }
