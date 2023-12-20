@@ -103,7 +103,7 @@ const DataTable = memo((props) => {
                 <TableCell align="center">
                   {update && (
                     <Tooltip title="Edit" disableInteractive>
-                      <IconButton onClick={() => onUpdate(row)}>
+                      <IconButton color="primary" onClick={() => onUpdate(row)}>
                         <EditIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -111,7 +111,7 @@ const DataTable = memo((props) => {
 
                   {remove && row?.deleted_at === null && (
                     <Tooltip title="Hapus" disableInteractive>
-                      <IconButton onClick={() => onRemove(row)}>
+                      <IconButton color="error" onClick={() => onRemove(row)}>
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -119,7 +119,7 @@ const DataTable = memo((props) => {
 
                   {destroy && row?.deleted_at !== null && (
                     <Tooltip title="Pulihkan" disableInteractive>
-                      <IconButton onClick={() => onRestore(row)}>
+                      <IconButton color="primary" onClick={() => onRestore(row)}>
                         <RestoreIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -143,13 +143,13 @@ const DataTable = memo((props) => {
         showFirstButton
         showLastButton
         component="div"
-        rowsPerPageOptions={[10, 25, 50, 100, 200]}
+        page={pagination.page}
         count={pagination.count}
         rowsPerPage={pagination.rowsPerPage}
-        page={pagination.page}
+        rowsPerPageOptions={[10, 25, 50, 100, 200]}
+        labelRowsPerPage="Baris per halaman :"
         onPageChange={(event, page) => pagination.onPageChange(event, page)}
         onRowsPerPageChange={(event) => pagination.onRowsPerPageChange(event)}
-        labelRowsPerPage="Baris per halaman :"
       />
     </>
   );

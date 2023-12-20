@@ -32,13 +32,12 @@ class Controller extends BaseController
         MenuUser|Menu|null $access = null
     ): Response {
         return inertia($component, [
-            'access' => fn () => $access,
-            'data' => fn () => $paginator->items(),
-            'pagination' => fn () => [
-                'page' => $this->getCurrentPage($paginator->currentPage(), $paginator->lastPage()),
+            'access' => $access,
+            'data' => $paginator->items(),
+            'pagination' => [
+                'page' => $this->getCurrentPage($paginator),
                 'per_page' => $paginator->perPage(),
                 'total' => $paginator->total(),
-                'first_page' => 1,
                 'last_page' => $paginator->lastPage(),
                 'count' => $paginator->count(),
                 'from' => $paginator->firstItem(),
@@ -50,10 +49,13 @@ class Controller extends BaseController
     /**
      * Mengambil nomor halaman saat ini untuk pagination.
      */
-    private function getCurrentPage(int $currentPage, int $lastPage): int
+    private function getCurrentPage(LengthAwarePaginator $paginator,): int
     {
-        if ($currentPage > $lastPage) return $lastPage;
-        return $currentPage;
+        if ($paginator->currentPage() > $paginator->lastPage()) {
+            return $paginator->lastPage();
+        }
+
+        return $paginator->currentPage();
     }
 
     /**

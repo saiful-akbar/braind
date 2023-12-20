@@ -26,7 +26,7 @@ return new class extends Migration
             $table->rememberToken();
 
             // profile 
-            $table->string('full_name', 50)->nullable();
+            $table->string('full_name', 100);
             $table->string('photo', 50)->nullable();
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->date('date_of_birth')->nullable();
