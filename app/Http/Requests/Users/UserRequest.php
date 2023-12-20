@@ -11,10 +11,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class UserRequest extends FormRequest implements Pagination
 {
     private array $columns = [
-        'division_id',
-        'division_name',
+        'id',
         'photo',
         'full_name',
+        'email',
+        'division_id',
+        'division_name',
     ];
 
     private string $order = 'asc';
@@ -40,8 +42,8 @@ class UserRequest extends FormRequest implements Pagination
             ->leftJoin('divisions', 'users.division_id', '=', 'divisions.id');
 
         // Tampilkan hanya data yang sudah dihapus jika ada request
-        // display dengan nilai "removed" dan user memiliki akses destroy.
-        if ($this->get('display') == 'removed' && $access->destroy) {
+        // status dengan nilai "removed" dan user memiliki akses destroy.
+        if ($this->get('status') == 'removed' && $access->destroy) {
             $user->onlyTrashed();
         }
 
@@ -50,6 +52,7 @@ class UserRequest extends FormRequest implements Pagination
             $search = $this->get('search');
 
             $user->where('users.full_name', 'like', "%$search%")
+                ->orWhere('users.email', 'like', "%$search%")
                 ->orWhere('divisions.name', 'like', "%$search%");
         }
 

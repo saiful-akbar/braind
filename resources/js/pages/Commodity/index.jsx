@@ -18,7 +18,7 @@ const Commodity = (props) => {
   const { params } = app.url;
   const order = params.order ?? "asc";
   const orderBy = params.order_by ?? "name";
-  const display = params.display ?? "active";
+  const status = params.status ?? "active";
   const dispatch = useDispatch();
 
   // state
@@ -44,7 +44,7 @@ const Commodity = (props) => {
       label: "Dibuat/Diperbarui",
       align: "left",
       timeFormat: true,
-      show: display === "active",
+      show: status === "active",
       sort: true,
     },
     {
@@ -52,7 +52,7 @@ const Commodity = (props) => {
       label: "Dihapus",
       align: "left",
       timeFormat: true,
-      show: display === "removed",
+      show: status === "removed",
       sort: true,
     },
   ];
@@ -229,9 +229,9 @@ const Commodity = (props) => {
         to={pagination.to}
         order={order}
         orderBy={orderBy}
-        update={Boolean(access.update && display === "active")}
+        update={Boolean(access.update && status === "active")}
         remove={access.remove}
-        destroy={Boolean(access.destroy && display === "removed")}
+        destroy={Boolean(access.destroy && status === "removed")}
         onOrder={handleOrderTable}
         onUpdate={handleEditRow}
         onRemove={(row) => openDeleteConfirmationModal("remove", row.id)}
@@ -274,7 +274,7 @@ const Commodity = (props) => {
  * Layout
  */
 Commodity.layout = (page) => (
-  <AuthLayout title="Master Kode Komoditi">
+  <AuthLayout title="Kode Komoditi">
     <CommodityTemplate>{page}</CommodityTemplate>
   </AuthLayout>
 );

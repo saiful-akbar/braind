@@ -41,7 +41,7 @@ class CommodityExport implements FromView, ShouldAutoSize, WithStyles
 
         // periksa apakah ada request untuk menampilkan data yang sudah dihapus,
         // dan periksa juga apakah user memiliki akses "destroy" atau tidak
-        if ($access->destroy && $request->display == 'removed') {
+        if ($access->destroy && $request->status == 'removed') {
             $query->onlyTrashed();
         }
 

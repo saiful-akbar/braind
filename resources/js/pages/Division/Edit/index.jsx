@@ -62,7 +62,7 @@ const EditDivision = (props) => {
                   name="nama"
                   value={data.nama}
                   onChange={handleInputChange}
-                  error={errors.nama}
+                  error={Boolean(errors.nama)}
                   helperText={errors.nama}
                   disabled={processing}
                 />

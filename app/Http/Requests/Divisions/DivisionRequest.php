@@ -52,9 +52,9 @@ class DivisionRequest extends FormRequest
         $query = Division::select($this->columns);
 
         // Periksa apakah user memliki akses destroy atau tidak,
-        // dan jika ada request display dengan nilai 'removed'
+        // dan jika ada request status dengan nilai 'removed'
         // tampilkan hanya data yang sudah dihapus.
-        if ($access->destroy && $this->display == 'removed') {
+        if ($access->destroy && $this->status == 'removed') {
             $query->onlyTrashed();
         }
 

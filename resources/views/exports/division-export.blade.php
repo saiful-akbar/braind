@@ -2,7 +2,7 @@
 <html lang="id">
 
 <head>
-    <title>Division Export</title>
+    <title>Division - {{ config('app.name') }}</title>
 </head>
 
 <body>

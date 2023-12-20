@@ -1,8 +1,8 @@
 import SelectInput from "@/components/Input/SelectInput";
 import { router, usePage } from "@inertiajs/react";
-import React from "react";
-import { useCallback } from "react";
+import React, { memo } from "react";
 import { useEffect } from "react";
+import { useCallback } from "react";
 import { useState } from "react";
 
 const items = [
@@ -16,23 +16,26 @@ const items = [
   },
 ];
 
-const DisplayFilterDivision = () => {
+/**
+ * Komponen untuk memfilter data pada tabel commodity
+ */
+const FilterStatusCommodity = memo(() => {
   const { app } = usePage().props;
   const { params } = app.url;
-  const displayParams = params.display ?? "active";
+  const statusParams = params.status ?? "active";
 
   // state
-  const [value, setValue] = useState(displayParams);
+  const [value, setValue] = useState(statusParams);
 
   /**
-   * Update value jiks displayParams berubah
+   * Update value jika ada perubahan pada statusParams
    */
   useEffect(() => {
-    setValue(displayParams);
-  }, [displayParams, setValue]);
+    setValue(statusParams);
+  }, [setValue, statusParams]);
 
   /**
-   * fungsi untuk menangani ketika select dirubah
+   * fungsi untuk mengatasi kerika form di-ubah
    */
   const handleChange = useCallback(
     (e) => {
@@ -41,25 +44,24 @@ const DisplayFilterDivision = () => {
       const parameters = {
         ...params,
         page: 1,
-        display: e.target.value,
+        status: e.target.value,
       };
 
-      router.get(
-        route("division", parameters, {
-          preserveScroll: true,
-        })
-      );
+      router.get(route("commodity"), parameters, {
+        preserveScroll: true,
+      });
     },
-    [params, value, setValue]
+    [params, setValue]
   );
 
   return (
     <SelectInput
       fullWidth
+      label="Status"
+      name="status"
       size="small"
-      label="Filter"
-      value={value}
       items={items}
+      value={value}
       onChange={handleChange}
       inputProps={{
         sx: {
@@ -68,6 +70,6 @@ const DisplayFilterDivision = () => {
       }}
     />
   );
-};
+});
 
-export default DisplayFilterDivision;
+export default FilterStatusCommodity;

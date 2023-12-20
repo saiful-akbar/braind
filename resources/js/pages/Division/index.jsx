@@ -14,7 +14,7 @@ const Kanwil = (props) => {
   const { params } = app.url;
   const order = params.order ?? "asc";
   const orderBy = params.order_by ?? "name";
-  const display = params.display ?? "active";
+  const status = params.status ?? "active";
 
   // Daftar kolom yang akan ditampilkan pada tabel
   const columns = [
@@ -32,7 +32,7 @@ const Kanwil = (props) => {
       align: "left",
       sort: true,
       timeFormat: true,
-      show: display === "active",
+      show: status === "active",
     },
     {
       field: "deleted_at",
@@ -40,7 +40,7 @@ const Kanwil = (props) => {
       align: "left",
       sort: true,
       timeFormat: true,
-      show: access.destroy && display === "removed",
+      show: access.destroy && status === "removed",
     },
   ];
 
@@ -207,9 +207,9 @@ const Kanwil = (props) => {
         to={pagination.to}
         order={order}
         orderBy={orderBy}
-        update={Boolean(access.update && display === "active")}
+        update={Boolean(access.update && status === "active")}
         remove={access.remove}
-        destroy={Boolean(access.destroy && display === "removed")}
+        destroy={Boolean(access.destroy && status === "removed")}
         onOrder={(field) => handleOrder(field)}
         onUpdate={handleUpdate}
         onRemove={(row) => handleOpenModalDelete("remove", row.id)}

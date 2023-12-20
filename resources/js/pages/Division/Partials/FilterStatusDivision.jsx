@@ -1,7 +1,8 @@
 import SelectInput from "@/components/Input/SelectInput";
 import { router, usePage } from "@inertiajs/react";
-import React, { memo } from "react";
+import React from "react";
 import { useCallback } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 
 const items = [
@@ -15,19 +16,23 @@ const items = [
   },
 ];
 
-/**
- * Komponen untuk memfilter data pada tabel commodity
- */
-const FilterDisplayTableCommodity = memo(() => {
+const FilterStatusDivision = () => {
   const { app } = usePage().props;
   const { params } = app.url;
-  const displayParams = params.display ?? "active";
+  const statusParams = params.status ?? "active";
 
   // state
-  const [value, setValue] = useState(displayParams);
+  const [value, setValue] = useState(statusParams);
 
   /**
-   * fungsi untuk mengatasi kerika form di-ubah
+   * Update value jiks statusParams berubah
+   */
+  useEffect(() => {
+    setValue(statusParams);
+  }, [statusParams, setValue]);
+
+  /**
+   * fungsi untuk menangani ketika select dirubah
    */
   const handleChange = useCallback(
     (e) => {
@@ -36,24 +41,25 @@ const FilterDisplayTableCommodity = memo(() => {
       const parameters = {
         ...params,
         page: 1,
-        display: e.target.value,
+        status: e.target.value,
       };
 
-      router.get(route("commodity"), parameters, {
-        preserveScroll: true,
-      });
+      router.get(
+        route("division", parameters, {
+          preserveScroll: true,
+        })
+      );
     },
-    [params, setValue]
+    [params, value, setValue]
   );
 
   return (
     <SelectInput
       fullWidth
-      label="Filter"
-      name="display"
       size="small"
-      items={items}
+      label="Status"
       value={value}
+      items={items}
       onChange={handleChange}
       inputProps={{
         sx: {
@@ -62,6 +68,6 @@ const FilterDisplayTableCommodity = memo(() => {
       }}
     />
   );
-});
+};
 
-export default FilterDisplayTableCommodity;
+export default FilterStatusDivision;

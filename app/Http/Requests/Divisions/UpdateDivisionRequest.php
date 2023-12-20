@@ -28,7 +28,7 @@ class UpdateDivisionRequest extends FormRequest
                 "required",
                 "string",
                 "max:50",
-                "unique:divisions,name,{$this->id},id"
+                "unique:divisions,name,{$this->division->id},id"
             ],
         ];
     }

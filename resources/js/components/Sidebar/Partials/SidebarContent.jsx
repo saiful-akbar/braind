@@ -79,10 +79,13 @@ export default function SidebarContent() {
               subheader={
                 <ListSubheader
                   sx={{
-                    backgroundColor: "background.sidebar",
                     color: "text.primary",
                     fontWeight: 600,
                     ml: 2,
+                    backgroundColor: {
+                      lg: "background.sidebar",
+                      xs: "background.default",
+                    },
                   }}
                 >
                   {menu.name}

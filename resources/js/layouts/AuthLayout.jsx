@@ -53,7 +53,8 @@ const AuthLayout = (props) => {
         <Box
           sx={{
             px: 1,
-            py: 3,
+            pt: 3,
+            pb: 5,
             ml: {
               lg: `${sidebar.width}px`,
               xs: 0,

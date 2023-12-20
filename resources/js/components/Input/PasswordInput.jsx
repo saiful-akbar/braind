@@ -7,49 +7,57 @@ import { TextField, IconButton, Tooltip, InputAdornment } from "@mui/material";
 /**
  * Komponen password input
  */
-const PasswordInput = React.memo(({ disabled, inputProps, ...rest }) => {
-  const [show, setShow] = React.useState(false);
+const PasswordInput = React.memo(
+  ({ disabled, inputProps, iconSize, ...rest }) => {
+    const [show, setShow] = React.useState(false);
 
-  /**
-   * Fungsi untuk mengatasi ketika
-   * button toggle password diklik
-   */
-  const handleClick = (event) => {
-    setShow((prevState) => !prevState);
-  };
+    /**
+     * Fungsi untuk mengatasi ketika
+     * button toggle password diklik
+     */
+    const handleClick = (event) => {
+      setShow((prevState) => !prevState);
+    };
 
-  return (
-    <TextField
-      {...rest}
-      type={show ? "text" : "password"}
-      disabled={disabled}
-      InputProps={{
-        sx: {
-          backgroundColor: "background.default",
-        },
-        endAdornment: (
-          <InputAdornment position="end">
-            <Tooltip title={show ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}>
-              <IconButton
-                onClick={handleClick}
-                disabled={disabled}
-                sx={{
-                  color: "text.secondary",
-                  "&:hover": {
-                    color: "text.primary",
-                  },
-                }}
+    return (
+      <TextField
+        {...rest}
+        type={show ? "text" : "password"}
+        disabled={disabled}
+        InputProps={{
+          sx: {
+            backgroundColor: "background.default",
+          },
+          endAdornment: (
+            <InputAdornment position="end">
+              <Tooltip
+                title={show ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
               >
-                {show ? <VisibilityIcon /> : <VisibilityOffIcon />}
-              </IconButton>
-            </Tooltip>
-          </InputAdornment>
-        ),
-        ...inputProps
-      }}
-    />
-  );
-});
+                <IconButton
+                  onClick={handleClick}
+                  disabled={disabled}
+                  sx={{
+                    color: "text.secondary",
+                    "&:hover": {
+                      color: "text.primary",
+                    },
+                  }}
+                >
+                  {show ? (
+                    <VisibilityIcon fontSize={iconSize} />
+                  ) : (
+                    <VisibilityOffIcon fontSize={iconSize} />
+                  )}
+                </IconButton>
+              </Tooltip>
+            </InputAdornment>
+          ),
+          ...inputProps,
+        }}
+      />
+    );
+  }
+);
 
 /**
  * Prop types
@@ -57,6 +65,7 @@ const PasswordInput = React.memo(({ disabled, inputProps, ...rest }) => {
 PasswordInput.propTypes = {
   disabled: PropTypes.bool,
   inputProps: PropTypes.object,
+  iconSize: PropTypes.string,
 };
 
 /**
@@ -65,6 +74,7 @@ PasswordInput.propTypes = {
 PasswordInput.defaultProps = {
   disabled: false,
   inputProps: {},
+  iconSize: "medium",
 };
 
 export default PasswordInput;

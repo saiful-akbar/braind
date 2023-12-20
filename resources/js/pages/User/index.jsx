@@ -16,13 +16,13 @@ import {
   Box,
 } from "@mui/material";
 import { usePage, router } from "@inertiajs/react";
-import { utcToLocale } from "@/utils";
+import { numberFormat, utcToLocale } from "@/utils";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RestoreIcon from "@mui/icons-material/Restore";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import KeyIcon from '@mui/icons-material/Key';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import KeyIcon from "@mui/icons-material/Key";
 
 /**
  * Halaman user
@@ -40,7 +40,14 @@ const User = (props) => {
   const columns = [
     {
       field: "full_name",
-      label: "Nama",
+      label: "Nama Lengkap",
+      sort: true,
+      timeFormat: false,
+      show: true,
+    },
+    {
+      field: "email",
+      label: "Email",
       sort: true,
       timeFormat: false,
       show: true,
@@ -75,7 +82,7 @@ const User = (props) => {
     router.get(route("user"), parameters, {
       preserveScroll: true,
     });
-  }
+  };
 
   /**
    * fungsi untuk menangani ketika kolom disortir
@@ -88,29 +95,35 @@ const User = (props) => {
       order_by: field,
       order: orderBy === field && order === "asc" ? "desc" : "asc",
     });
-  }
+  };
 
   /**
    * Fungsi untuk menangani ketika halaman table dirubah
    */
-  const handlePageChange = useCallback((newPage) => {
-    fetchData({
-      ...params,
-      page: newPage + 1,
-    });
-  }, [fetchData, params]);
+  const handlePageChange = useCallback(
+    (newPage) => {
+      fetchData({
+        ...params,
+        page: newPage + 1,
+      });
+    },
+    [fetchData, params]
+  );
 
   /**
    * Fungsi untuk menangani ketika baris per halaman
    * pada tabel dirubah.
    */
-  const handleRowsPerPageChange = useCallback((e) => {
-    fetchData({
-      ...params,
-      page: 1,
-      per_page: e.target.value,
-    });
-  }, [fetchData, params]);
+  const handleRowsPerPageChange = useCallback(
+    (e) => {
+      fetchData({
+        ...params,
+        page: 1,
+        per_page: e.target.value,
+      });
+    },
+    [fetchData, params]
+  );
 
   return (
     <React.Fragment>
@@ -118,6 +131,8 @@ const User = (props) => {
         <Table size="small">
           <TableHead>
             <TableRow>
+              <TableCell align="left">No</TableCell>
+
               {columns.map((column) => {
                 if (!column.show) return;
 
@@ -133,14 +148,14 @@ const User = (props) => {
                         {column.label}
                       </TableSortLabel>
                     </TableCell>
-                  )
+                  );
                 }
 
                 return (
                   <TableCell key={column.field} align={column.align}>
                     {column.label}
                   </TableCell>
-                )
+                );
               })}
 
               <TableCell />
@@ -148,40 +163,52 @@ const User = (props) => {
           </TableHead>
 
           <TableBody>
-            {data.map((user) => (
+            {data.map((user, index) => (
               <TableRow key={user.id} hover>
+                <TableCell>{numberFormat(pagination.from + index)}</TableCell>
+
                 {columns.map((column) => {
                   if (!column.show) return;
 
                   if (column.field === "full_name") {
                     return (
-                      <TableCell key={column.field}>
+                      <TableCell key={column.field} title={user.full_name}>
                         <Box
                           sx={{
                             display: "flex",
                             alignItems: "center",
                           }}
                         >
-                          <Avatar src={user.photo} />
+                          <Avatar
+                            src={user.photo}
+                            sx={{
+                              width: 50,
+                              height: 50,
+                            }}
+                          />
+
                           <Box sx={{ ml: 1 }}>{user.full_name}</Box>
                         </Box>
                       </TableCell>
-                    )
+                    );
                   }
 
                   if (column.timeFormat) {
                     return (
-                      <TableCell key={column.field}>
+                      <TableCell
+                        key={column.field}
+                        title={utcToLocale(user[column.field])}
+                      >
                         {utcToLocale(user[column.field])}
                       </TableCell>
-                    ) 
+                    );
                   }
 
                   return (
-                    <TableCell key={column.field}>
+                    <TableCell key={column.field} title={user[column.field]}>
                       {user[column.field]}
                     </TableCell>
-                  )
+                  );
                 })}
 
                 <TableCell align="center">
@@ -259,10 +286,8 @@ const User = (props) => {
  * User layout
  */
 User.layout = (page) => (
-  <AuthLayout title="Master User">
-    <UserTemplate title="Master User">
-      {page}
-    </UserTemplate>
+  <AuthLayout title="User">
+    <UserTemplate>{page}</UserTemplate>
   </AuthLayout>
 );
 

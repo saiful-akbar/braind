@@ -10,7 +10,7 @@ import { Add } from "@mui/icons-material";
 import { Box, Button, Grid } from "@mui/material";
 import { saveAs } from "file-saver";
 import { useDispatch } from "react-redux";
-import FilterDisplayTableCommodity from "./Partials/FilterDisplayTableCommodity";
+import FilterStatusCommodity from "./Partials/FilterStatusCommodity";
 import FormCommodity from "./Partials/FormCommodity";
 import SearchTableCommodity from "./Partials/SearchTableCommodity";
 import { openNotification } from "@/redux/reducers/notificationReducer";
@@ -57,9 +57,8 @@ const CommodityTemplate = ({ children }) => {
         },
       });
 
-      saveAs(response.data, `Braind_Ekspor_Komoditi.xlsx`);
       setLoading(false);
-
+      saveAs(response.data, `braind_ekspor_komoditi.xlsx`);
       dispatch(
         openNotification({
           status: "success",
@@ -68,7 +67,6 @@ const CommodityTemplate = ({ children }) => {
       );
     } catch (error) {
       setLoading(false);
-
       dispatch(
         openNotification({
           status: "error",
@@ -81,7 +79,7 @@ const CommodityTemplate = ({ children }) => {
   return (
     <>
       <Header
-        title="Master Kode Komoditi"
+        title="Kode Komoditi"
         action={
           access.create && (
             <Button
@@ -100,13 +98,22 @@ const CommodityTemplate = ({ children }) => {
       <Box component="main" sx={{ mt: 5 }}>
         <Grid container spacing={3} justifyContent="space-between">
           <Grid item md={2} xs={12}>
-            <DownloadButton title="Ekspor Excel" onClick={handleExport} />
-            <RefreshButton title="Segarkan" onClick={handleRefresh} />
+            <DownloadButton
+              color="primary"
+              title="Ekspor Excel"
+              onClick={handleExport}
+            />
+
+            <RefreshButton
+              color="primary"
+              title="Segarkan"
+              onClick={handleRefresh}
+            />
           </Grid>
 
           {access.destroy && (
             <Grid item md={5} xs={12}>
-              <FilterDisplayTableCommodity />
+              <FilterStatusCommodity />
             </Grid>
           )}
 

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Header from "@/components/Header";
 import RefreshButton from "@/components/Buttons/RefreshButton";
 import SearchFormDivision from "./Partials/SearchFormDivision";
-import DisplayFilterDivision from "./Partials/DisplayFilterDivision";
+import FilterStatusDivision from "./Partials/FilterStatusDivision";
 import Loader from "@/components/Loader";
 import { Link, router, usePage } from "@inertiajs/react";
 import { Add, FileDownload } from "@mui/icons-material";
@@ -12,6 +12,7 @@ import { useCallback } from "react";
 import { saveAs } from "file-saver";
 import { useDispatch } from "react-redux";
 import { openNotification } from "@/redux/reducers/notificationReducer";
+import DownloadButton from "@/components/Buttons/DownloadButton";
 
 /**
  * Template untuk halaman division
@@ -81,7 +82,7 @@ const Template = ({ children }) => {
   return (
     <>
       <Header
-        title="Master Kanwil"
+        title="Kanwil"
         action={
           access.create && (
             <Button
@@ -100,18 +101,18 @@ const Template = ({ children }) => {
       <Box component="main" sx={{ mt: 5 }}>
         <Grid container spacing={3} justifyContent="space-between">
           <Grid item md={2} xs={12}>
-            <Tooltip title="Ekspor excel" disableInteractive>
-              <IconButton type="button" onClick={handleExport}>
-                <FileDownload />
-              </IconButton>
-            </Tooltip>
+            <DownloadButton
+              color="primary"
+              title="Ekspor excel"
+              onClick={handleExport}
+            />
 
-            <RefreshButton onClick={handleRefreshClick} />
+            <RefreshButton color="primary" onClick={handleRefreshClick} />
           </Grid>
 
           {access.destroy && (
             <Grid item xs={12} md={5}>
-              <DisplayFilterDivision />
+              <FilterStatusDivision />
             </Grid>
           )}
 

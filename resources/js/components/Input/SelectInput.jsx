@@ -19,11 +19,18 @@ const SelectInput = memo((props) => {
     helperText,
     items,
     inputProps,
+    size,
+    required,
     ...rest
   } = props;
 
   return (
-    <FormControl fullWidth={fullWidth} error={error}>
+    <FormControl
+      fullWidth={fullWidth}
+      error={error}
+      size={size}
+      required={required}
+    >
       {label !== "" && <InputLabel>{label}</InputLabel>}
 
       <Select
@@ -75,6 +82,8 @@ SelectInput.propTypes = {
   helperText: PropTypes.string,
   items: PropTypes.arrayOf(itemsTypes).isRequired,
   inputProps: PropTypes.object,
+  size: PropTypes.string,
+  required: PropTypes.bool,
 };
 
 /**
@@ -86,6 +95,8 @@ SelectInput.defaultProps = {
   fullWidth: false,
   helperText: "",
   inputProps: {},
+  size: "medium",
+  required: false,
 };
 
 export default SelectInput;

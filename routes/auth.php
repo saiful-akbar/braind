@@ -69,6 +69,7 @@ Route::controller(UserController::class)
     ->prefix('user')
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:user,read');
+        Route::get('/export', 'export')->name('.export')->middleware('access:user,read');
         Route::get('/create', 'create')->name('.create')->middleware('access:user,create');
         Route::post('/', 'store')->name('.store')->middleware('access:user,create');
         Route::get('/{user}/edit', 'edit')->name('.edit')->middleware('access:user,update');

@@ -54,9 +54,9 @@ class CommodityRequest extends FormRequest
         $commodities = Commodity::select($this->columns);
 
         // periksa apakah user memiliki akses destroy atau tidak.
-        // periksa juga apakah ada request "display" dengan nilai "removed"...
+        // periksa juga apakah ada request "status" dengan nilai "removed"...
         // ...jika ada tampilkan hanya data yang sudah dihapus (soft deletes).
-        if ($access->destroy && $this->display == 'removed') {
+        if ($access->destroy && $this->status == 'removed') {
             $commodities->onlyTrashed();
         }
 

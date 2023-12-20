@@ -58,7 +58,7 @@ export default function CreateDivision(props) {
                   name="nama"
                   value={data.nama}
                   onChange={handleInputChange}
-                  error={errors.nama}
+                  error={Boolean(errors.nama)}
                   helperText={errors.nama}
                   disabled={processing}
                 />
@@ -76,7 +76,6 @@ export default function CreateDivision(props) {
                   variant="contained"
                   loading={processing}
                   startIcon={<SaveIcon />}
-                  disableElevation
                 >
                   Simpan
                 </LoadingButton>

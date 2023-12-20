@@ -216,11 +216,10 @@ const FormCommodity = React.memo(() => {
           type="submit"
           variant="contained"
           color="primary"
-          disableElevation
           loading={loading}
           startIcon={<Save />}
         >
-          {commodity.type === "create" ? "Tambahkan" : "Perbarui"}
+          Simpan
         </LoadingButton>
       </DialogActions>
     </Dialog>
