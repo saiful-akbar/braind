@@ -1,13 +1,22 @@
 import BackButton from "@/components/Buttons/BackButton";
 import CardPaper from "@/components/CardPaper";
 import Header from "@/components/Header";
+import AvatarInput from "@/components/Input/AvatarInput";
 import PasswordInput from "@/components/Input/PasswordInput";
 import SelectInput from "@/components/Input/SelectInput";
 import TextInput from "@/components/Input/TextInput";
 import AuthLayout from "@/layouts/AuthLayout";
 import { useForm } from "@inertiajs/react";
-import { Box, CardContent, Grid, Stack, TextField } from "@mui/material";
+import {
+  Box,
+  CardContent,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
+import { useState } from "react";
 import { useCallback } from "react";
 
 /**
@@ -19,22 +28,33 @@ const CreateUser = (props) => {
     kanwil: "",
     username: "",
     kata_sandi: "",
+    foto: null,
   });
+
+  // state
+  const [photoPreview, setPhotoPreview] = useState(null);
 
   /**
    * fungsi untuk mengatasi ketika form diisi
    */
   const handleChange = useCallback(
     (e) => {
-      const { name, value } = e.target;
-      setData(name, value);
+      const { type, name, value } = e.target;
+
+      if (type === "file" && e.target.files.length > 0) {
+        const file = e.target.files[0];
+        setPhotoPreview(URL.createObjectURL(file));
+        setData(name, file);
+      } else {
+        setData(name, value);
+      }
     },
-    [setData]
+    [setData, setPhotoPreview]
   );
 
   return (
     <Box component="main" sx={{ mt: 5 }}>
-      <form autoComplete="off">
+      <form autoComplete="off" encType="multipart/form-data">
         <Grid container spacing={7} justifyContent="center">
           <Grid item xs={12} md={8}>
             <CardPaper
@@ -93,14 +113,37 @@ const CreateUser = (props) => {
               subheader="form dengan tanda * harus diisi."
             >
               <CardContent>
-                <Stack spacing={3}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    type="file"
-                    accept="image/*"
-                  />
-                  <div>2</div>
+                <Stack spacing={3} direction="column" alignItems="center">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <AvatarInput
+                      name="foto"
+                      id="foto"
+                      height={200}
+                      width={200}
+                      preview={photoPreview}
+                      onChange={handleChange}
+                    />
+
+                    {Boolean(errors.foto) && (
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          mt: 1,
+                          color: "error.main",
+                        }}
+                      >
+                        {errors.foto}
+                      </Typography>
+                    )}
+                  </Box>
+
+                  <span>2</span>
                   <div>3</div>
                 </Stack>
               </CardContent>
