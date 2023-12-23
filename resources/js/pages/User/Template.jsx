@@ -99,9 +99,11 @@ const UserTemplate = ({ children }) => {
             <RefreshButton color="primary" onClick={handleRefresh} />
           </Grid>
 
-          <Grid item md={5} xs={12}>
-            <FilterStatusUser />
-          </Grid>
+          {access.destroy && (
+            <Grid item md={5} xs={12}>
+              <FilterStatusUser />
+            </Grid>
+          )}
 
           <Grid item md={5} xs={12}>
             <SearchUser />

@@ -38,7 +38,15 @@ class UserRequest extends FormRequest implements Pagination
      */
     public function paginate(MenuUser $access): LengthAwarePaginator
     {
-        $user = User::select('users.*', 'divisions.name AS division_name')
+        $user = User::select(
+            'users.id',
+            'users.full_name',
+            'users.email',
+            'users.created_at',
+            'users.updated_at',
+            'users.deleted_at',
+            'divisions.name AS division_name'
+        )
             ->leftJoin('divisions', 'users.division_id', '=', 'divisions.id');
 
         // Tampilkan hanya data yang sudah dihapus jika ada request

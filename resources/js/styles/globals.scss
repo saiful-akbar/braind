@@ -34,8 +34,8 @@ html[data-appearance="dark"] {
   }
 }
 
-table tr th,
-table tr td {
+table.nowrap thead tr th,
+table.nowrap tbody tr td {
   max-width: 250px;
   overflow: hidden;
   text-overflow: ellipsis;

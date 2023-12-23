@@ -43,7 +43,7 @@ const DataTable = memo((props) => {
   return (
     <>
       <TableContainer>
-        <Table size="small">
+        <Table size="small" className="nowrap">
           <TableHead>
             <TableRow>
               <TableCell>No</TableCell>
@@ -119,7 +119,10 @@ const DataTable = memo((props) => {
 
                   {destroy && row?.deleted_at !== null && (
                     <Tooltip title="Pulihkan" disableInteractive>
-                      <IconButton color="primary" onClick={() => onRestore(row)}>
+                      <IconButton
+                        color="primary"
+                        onClick={() => onRestore(row)}
+                      >
                         <RestoreIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>

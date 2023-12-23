@@ -54,6 +54,7 @@ class LoginRequest extends FormRequest
                 'childrens' => function ($query): void {
                     $query->join('menu_user', 'menus.id', '=', 'menu_user.menu_id')
                         ->where('menu_user.user_id', user()?->id)
+                        ->where('menu_user.read', true)
                         ->orderBy('menus.name', 'asc')
                         ->select([
                             'menus.*',

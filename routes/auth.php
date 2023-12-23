@@ -49,8 +49,8 @@ Route::controller(DivisionController::class)
  * Master commodity
  */
 Route::controller(CommodityController::class)
-    ->name('commodity')
     ->prefix('commodity')
+    ->name('commodity')
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:commodity,read');
         Route::post('/', 'store')->name('.store')->middleware('access:commodity,create');
@@ -65,13 +65,25 @@ Route::controller(CommodityController::class)
  * Master user
  */
 Route::controller(UserController::class)
-    ->name('user')
     ->prefix('user')
+    ->name('user')
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:user,read');
         Route::get('/export', 'export')->name('.export')->middleware('access:user,read');
         Route::get('/create', 'create')->name('.create')->middleware('access:user,create');
         Route::post('/', 'store')->name('.store')->middleware('access:user,create');
+
+        // user access
+        Route::prefix('access')
+            ->name('.access')
+            ->group(function (): void {
+                Route::get('/{user}', 'access')->middleware('access:user,create');
+                Route::post('/{user}', 'storeAccess')->name('.store')->middleware('access:user,create');
+                Route::get('/{user}/edit', 'editAccess')->name('.edit')->middleware('access:user,update');
+                Route::put('/{user}', 'updateAccess')->name('.update')->middleware('access:user,update');
+            });
+
+        Route::get('/{user}', 'show')->name('.show')->middleware('access:user,read');
         Route::get('/{user}/edit', 'edit')->name('.edit')->middleware('access:user,update');
         Route::patch('/{user}', 'update')->name('.update')->middleware('access:user,update');
         Route::delete('/{user}', 'remove')->name('.remove')->middleware('access:user,remove');

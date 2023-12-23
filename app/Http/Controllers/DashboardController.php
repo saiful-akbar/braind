@@ -13,8 +13,9 @@ class DashboardController extends Controller
     /**
      * Menampilkan halaman dashboard
      */
-    public function index(): mixed
+    public function index()
     {
+
         return $this->render('Dashboard/index');
     }
 }

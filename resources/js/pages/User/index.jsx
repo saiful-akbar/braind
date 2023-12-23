@@ -15,7 +15,7 @@ import {
   Avatar,
   Box,
 } from "@mui/material";
-import { usePage, router } from "@inertiajs/react";
+import { usePage, router, Link } from "@inertiajs/react";
 import { numberFormat, utcToLocale } from "@/utils";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -128,7 +128,7 @@ const User = (props) => {
   return (
     <React.Fragment>
       <TableContainer>
-        <Table size="small">
+        <Table size="small" className="nowrap">
           <TableHead>
             <TableRow>
               <TableCell align="left">No</TableCell>
@@ -223,7 +223,11 @@ const User = (props) => {
                   {display === "active" && access.update && (
                     <>
                       <Tooltip title="Akses" disableInteractive>
-                        <IconButton color="primary">
+                        <IconButton
+                          color="primary"
+                          component={Link}
+                          href={route("user.access", { user: user.id })}
+                        >
                           <KeyIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>
