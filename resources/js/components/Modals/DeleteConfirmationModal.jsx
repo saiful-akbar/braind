@@ -1,26 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  IconButton,
-  Typography,
-  Alert,
-  Tooltip,
-  AlertTitle,
-} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { LoadingButton } from "@mui/lab";
+import {
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import PropTypes from "prop-types";
+import React from "react";
 
 /**
  * Komponen modal untuk konfirmasi hepus
  */
 const DeleteConfirmationModal = React.memo((props) => {
-  const { open, title, loading, onDelete, onClose, message } = props;
+  const { open, title, loading, onDelete, onClose } = props;
 
   /**
    * fungsi untuk menutup modal
@@ -50,13 +46,6 @@ const DeleteConfirmationModal = React.memo((props) => {
         </Tooltip>
       </DialogTitle>
 
-      <DialogContent>
-        <Alert severity="error">
-          <AlertTitle>Peringatan</AlertTitle>
-          {message}
-        </Alert>
-      </DialogContent>
-
       <DialogActions sx={{ px: 3, pb: 3 }}>
         <LoadingButton
           fullWidth
@@ -84,7 +73,6 @@ DeleteConfirmationModal.propTypes = {
   loading: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  message: PropTypes.string,
 };
 
 /**

@@ -23,6 +23,10 @@ import {
 } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import UserTemplate from "./Template";
+import DeleteConfirmationModal from "@/components/Modals/DeleteConfirmationModal";
+import { useDispatch } from "react-redux";
+import { openNotification } from "@/redux/reducers/notificationReducer";
+import RestoreConfirmationModal from "@/components/Modals/RestoreConfirmationModal";
 
 /**
  * Halaman user
@@ -30,11 +34,20 @@ import UserTemplate from "./Template";
 const User = (props) => {
   const { data, pagination, app, access } = props;
   const { params } = app.url;
+  const dispatch = useDispatch();
 
   // state
   const [status] = useState(params.status ?? "aktif");
   const [orderBy] = useState(params.order_by ?? "nama_lengkap");
   const [order] = useState(params.order === "desc" ? "desc" : "asc");
+
+  const [deleteId, setDeleteId] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteType, setDeleteType] = useState("remove");
+  const [deleteTitle, setDeleteTitle] = useState("Hapus user");
+
+  const [restoreId, setRestoreId] = useState(null);
+  const [restoring, setRestoring] = useState(false);
 
   // daftar kolom
   const columns = [
@@ -139,6 +152,109 @@ const User = (props) => {
     [fetchData, params]
   );
 
+  /**
+   * fungsi untuk membuka modal konfirmasi delete.
+   */
+  const openDeleteConfirmation = useCallback(
+    (type, id) => {
+      setDeleteId(id);
+      setDeleteType(type);
+      setDeleteTitle(type === "remove" ? "Hapus user" : "Hapus user selamanya");
+    },
+    [setDeleteId, setDeleteType, setDeleteTitle]
+  );
+
+  /**
+   * fungsi untuk menutup modal konfirmasi delete
+   */
+  const closeDeleteConfirmation = useCallback(() => {
+    setDeleteId(null);
+    setDeleting(false);
+  }, [setDeleteId, setDeleting]);
+
+  /**
+   * fungsi untuk menjalankan proses delete user
+   */
+  const handleDelete = useCallback(async () => {
+    setDeleting(true);
+
+    const url = route(`user.${deleteType}`, {
+      user: deleteId,
+      _query: {
+        ...params,
+        _token: app.csrf,
+      },
+    });
+
+    router.delete(url, {
+      preserveScroll: true,
+      onSuccess: () => {
+        setDeleteId(null);
+      },
+      onFinish: () => {
+        setDeleting(false);
+      },
+      onError: (error) => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "Gagal menghapus data user.",
+          })
+        );
+      },
+    });
+  }, [app, params, deleteType, deleteId, setDeleteId, setDeleting, dispatch]);
+
+  /**
+   * fungsi untuk membuka modal konfirmasi restore
+   */
+  const openRestoreConfirmation = useCallback(
+    (id) => {
+      setRestoreId(id);
+    },
+    [setRestoreId]
+  );
+
+  /**
+   * fungsi untuk menutup modal konfirmasi restore
+   */
+  const closeRestoreConfirmation = useCallback(() => {
+    setRestoreId(null);
+  }, [setRestoreId]);
+
+  /**
+   * fungsin untuk memulihkan data user
+   */
+  const handleRestore = useCallback(async () => {
+    setRestoring(true);
+
+    const url = route("user.restore", {
+      user: restoreId,
+      _query: {
+        ...params,
+        _token: app.csrf,
+      },
+    });
+
+    router.patch(url, null, {
+      preserveScroll: true,
+      onFinish: () => {
+        setRestoring(false);
+      },
+      onSuccess: () => {
+        setRestoreId(null);
+      },
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "success",
+            message: "Gagal memulihkan data user.",
+          })
+        );
+      },
+    });
+  }, [setRestoreId, setRestoring, dispatch, restoreId, app, params, dispatch]);
+
   return (
     <React.Fragment>
       <TableContainer>
@@ -229,7 +345,11 @@ const User = (props) => {
                 <TableCell align="center">
                   {status === "aktif" && (
                     <Tooltip title="Detail" disableInteractive>
-                      <IconButton color="primary">
+                      <IconButton
+                        color="primary"
+                        component={Link}
+                        href={route("user.show", { user: user.id })}
+                      >
                         <VisibilityIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -261,7 +381,12 @@ const User = (props) => {
 
                   {status === "aktif" && access.remove && (
                     <Tooltip title="Hapus" disableInteractive>
-                      <IconButton color="error">
+                      <IconButton
+                        color="error"
+                        onClick={() =>
+                          openDeleteConfirmation("remove", user.id)
+                        }
+                      >
                         <DeleteIcon fontSize="small" color="error" />
                       </IconButton>
                     </Tooltip>
@@ -270,13 +395,21 @@ const User = (props) => {
                   {status === "dihapus" && access.destroy && (
                     <>
                       <Tooltip title="Pulihkan" disableInteractive>
-                        <IconButton color="primary">
+                        <IconButton
+                          color="primary"
+                          onClick={() => openRestoreConfirmation(user.id)}
+                        >
                           <RestoreIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>
 
                       <Tooltip title="Hapus Selamanya" disableInteractive>
-                        <IconButton color="error">
+                        <IconButton
+                          color="error"
+                          onClick={() =>
+                            openDeleteConfirmation("destroy", user.id)
+                          }
+                        >
                           <DeleteForeverIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>
@@ -300,6 +433,22 @@ const User = (props) => {
         rowsPerPageOptions={[10, 25, 50, 100, 200]}
         labelRowsPerPage="Baris per halaman :"
         onRowsPerPageChange={handleRowsPerPageChange}
+      />
+
+      <DeleteConfirmationModal
+        open={deleteId !== null}
+        title={deleteTitle}
+        loading={deleting}
+        onDelete={handleDelete}
+        onClose={closeDeleteConfirmation}
+      />
+
+      <RestoreConfirmationModal
+        title="Pulihkan user"
+        open={restoreId !== null}
+        loading={restoring}
+        onClose={closeRestoreConfirmation}
+        onRestore={handleRestore}
       />
     </React.Fragment>
   );

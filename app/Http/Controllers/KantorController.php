@@ -93,11 +93,13 @@ class KantorController extends Controller
     /**
      * Memulihkan data yang telah dihapus
      */
-    public function restore(Request $request, int|string $id): RedirectResponse
+    public function restore(Request $request, string $id): RedirectResponse
     {
-        Kantor::where('id', $id)
-            ->withTrashed()
-            ->restore();
+        $kantor = kantor::onlyTrashed()->findOrFail($id);
+
+        if (!is_null($kantor)) {
+            $kantor->restore();
+        }
 
         return to_route("kantor", $request->all())->with([
             'flash.status' => 'success',
@@ -108,11 +110,13 @@ class KantorController extends Controller
     /**
      * Menghapus kantor (kanwil) selamanya
      */
-    public function destroy(Request $request, int|string $id): RedirectResponse
+    public function destroy(Request $request, string $id): RedirectResponse
     {
-        Kantor::where('id', $id)
-            ->withTrashed()
-            ->forceDelete();
+        $kantor = kantor::onlyTrashed()->findOrFail($id);
+
+        if (!is_null($kantor)) {
+            $kantor->forceDelete();
+        }
 
         return to_route("kantor", $request->all())->with([
             'flash.status' => 'success',

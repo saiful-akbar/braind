@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\StoreAccessUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class UserController extends Controller
@@ -126,6 +127,65 @@ class UserController extends Controller
         return to_route('user.edit', ['user' => $user->id])->with([
             'flash.status' => 'success',
             'flash.message' => 'Data user berhasil diperbarui.'
+        ]);
+    }
+
+    /**
+     * Menampilkan halaman detail user
+     */
+    public function show(User $user): Response
+    {
+        return $this->render(
+            component: 'User/Show/index',
+            data: $user->load('kantor'),
+            access: $this->getAccessByRoute('user')
+        );
+    }
+
+    /**
+     * Hapus user (soft delete)
+     */
+    public function remove(Request $request, User $user): RedirectResponse
+    {
+        $user->delete();
+
+        return to_route('user', $request->all())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Data user berhasil dihapus.',
+        ]);
+    }
+
+    /**
+     * Pulihkan user dari soft delete (restore)
+     */
+    public function restore(Request $request, string $id): RedirectResponse
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+
+        if (!is_null($user)) {
+            $user->restore();
+        }
+
+        return to_route('user', $request->all())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Data user berhasil dipulihkan.',
+        ]);
+    }
+
+    /**
+     * menghpaus permanen user dari database.
+     */
+    public function destroy(Request $request, string $id): RedirectResponse
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+
+        if (!is_null($user)) {
+            $user->forceDelete();
+        }
+
+        return to_route('user', $request->all())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Data user berhasil dihapus selamanya.',
         ]);
     }
 }

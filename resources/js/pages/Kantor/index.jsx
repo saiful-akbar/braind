@@ -9,7 +9,7 @@ import RestoreConfirmationModal from "@/components/Modals/RestoreConfirmationMod
 /**
  * Halaman kantor (Kanwil)
  */
-const Kanwil = (props) => {
+const Kantor = (props) => {
   const { data, pagination, app, access } = props;
   const { params } = app.url;
   const order = params.order ?? "asc";
@@ -56,9 +56,6 @@ const Kanwil = (props) => {
   const [deleteId, setDeleteId] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [deleteType, setDeleteType] = useState("remove");
-  const [deleteMessage, setDeleteMessage] = useState(
-    "anda yakin ingin menghapus kantor ini?"
-  );
 
   // restore state
   const [restoreId, setRestoreId] = useState(null);
@@ -67,26 +64,18 @@ const Kanwil = (props) => {
   /**
    * Fungsi untuk membuka modal delete
    */
-  const handleOpenModalDelete = useCallback(
+  const openDeleteConfirmation = useCallback(
     (type, id) => {
       setDeleteType(type);
       setDeleteId(id);
-
-      if (type === "remove") {
-        setDeleteMessage("Anda yakin ingin mengapus kantor ini?");
-      } else {
-        setDeleteMessage(
-          "Anda yakin ingin menghapus kantor ini selamanya? Tidakan ini tidak dapat dipulihkan."
-        );
-      }
     },
-    [setDeleteType, setDeleteId, setDeleteMessage]
+    [setDeleteType, setDeleteId]
   );
 
   /**
    * Fungsi untuk menutup modal delete
    */
-  const handleCloseModalDelete = useCallback(() => {
+  const closeDeleteConfirmation = useCallback(() => {
     setDeleting(false);
     setDeleteId(null);
   }, [setDeleteId, setDeleting]);
@@ -104,15 +93,15 @@ const Kanwil = (props) => {
 
     router.delete(url, {
       preserveScroll: true,
-      onFinish: () => handleCloseModalDelete(),
+      onFinish: () => closeDeleteConfirmation(),
       onError: (err) => console.log(err),
     });
-  }, [deleteId, deleteType, setDeleting, handleCloseModalDelete, params]);
+  }, [deleteId, deleteType, setDeleting, closeDeleteConfirmation, params]);
 
   /**
    * Fungsi untuk membuka modal restore
    */
-  const handleOpenModalRestore = useCallback(
+  const openRestoreConfirmation = useCallback(
     (id) => {
       setRestoreId(id);
     },
@@ -122,7 +111,7 @@ const Kanwil = (props) => {
   /**
    * Fungsi untuk menutup modal restore
    */
-  const handleCloseModalRestore = useCallback(() => {
+  const closeRestoreConfirmation = useCallback(() => {
     setRestoring(false);
     setRestoreId(null);
   }, [setRestoreId, setRestoring]);
@@ -140,9 +129,9 @@ const Kanwil = (props) => {
 
     router.patch(url, null, {
       preserveScroll: true,
-      onFinish: () => handleCloseModalRestore(),
+      onFinish: () => closeRestoreConfirmation(),
     });
-  }, [restoreId, setRestoring, params, handleCloseModalRestore]);
+  }, [restoreId, setRestoring, params, closeRestoreConfirmation]);
 
   /**
    * Fungsi untuk request (fetch) data kantor.
@@ -214,9 +203,9 @@ const Kanwil = (props) => {
         destroy={Boolean(access.destroy && status === "dihapus")}
         onOrder={(field) => handleOrder(field)}
         onUpdate={handleUpdate}
-        onRemove={(row) => handleOpenModalDelete("remove", row.id)}
-        onDestroy={(row) => handleOpenModalDelete("destroy", row.id)}
-        onRestore={(row) => handleOpenModalRestore(row.id)}
+        onRemove={(row) => openDeleteConfirmation("remove", row.id)}
+        onDestroy={(row) => openDeleteConfirmation("destroy", row.id)}
+        onRestore={(row) => openRestoreConfirmation(row.id)}
         paginationProps={{
           count: pagination.total,
           page: pagination.page - 1,
@@ -228,18 +217,19 @@ const Kanwil = (props) => {
 
       <DeleteConfirmationModal
         open={Boolean(deleteId)}
-        title={deleteType === "remove" ? "Hapus Kantor" : "Hapus Selamanya"}
+        title={
+          deleteType === "remove" ? "Hapus kantor" : "Hapus kantor selamanya"
+        }
         loading={deleting}
-        onClose={handleCloseModalDelete}
+        onClose={closeDeleteConfirmation}
         onDelete={handleDelete}
-        message={deleteMessage}
       />
 
       <RestoreConfirmationModal
         open={Boolean(restoreId)}
         title="Pulihkan Kantor"
         loading={restoring}
-        onClose={handleCloseModalRestore}
+        onClose={closeRestoreConfirmation}
         onRestore={handleRestore}
       />
     </>
@@ -249,10 +239,10 @@ const Kanwil = (props) => {
 /**
  * Layout
  */
-Kanwil.layout = (page) => (
+Kantor.layout = (page) => (
   <AuthLayout title="Kantor">
     <Template children={page} />
   </AuthLayout>
 );
 
-export default Kanwil;
+export default Kantor;

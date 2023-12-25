@@ -66,11 +66,8 @@ class Controller extends BaseController
     /**
      * Json response
      */
-    protected function jsonResponse(
-        array|object $data = [],
-        string $message = 'success',
-        int $code = 200
-    ): JsonResponse {
+    protected function jsonResponse(mixed $data = null, string $message = 'success', int $code = 200): JsonResponse
+    {
         return response()->json(compact('data', 'message', 'code'), $code);
     }
 }

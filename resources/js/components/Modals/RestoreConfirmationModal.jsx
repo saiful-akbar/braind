@@ -50,12 +50,6 @@ const RestoreConfirmationModal = React.memo((props) => {
         </Tooltip>
       </DialogTitle>
 
-      <DialogContent>
-        <DialogContentText>
-          Apakah Anda yakin ingin memulihkan item ini?
-        </DialogContentText>
-      </DialogContent>
-
       <DialogActions sx={{ p: 3 }}>
         <LoadingButton
           fullWidth

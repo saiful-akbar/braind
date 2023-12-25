@@ -25,7 +25,6 @@ const Komoditi = (props) => {
   const [deleteId, setDeleteId] = useState(null);
   const [deleteType, setDeleteType] = useState("remove");
   const [deleting, setDeleting] = useState(false);
-  const [deleteMessage, setDeleteMessage] = useState("");
 
   const [restoreId, setRestoreId] = useState(null);
   const [restoring, setRestoring] = useState(false);
@@ -134,26 +133,18 @@ const Komoditi = (props) => {
   /**
    * fungsi untuk membuka modal konfirmasi delete
    */
-  const openDeleteConfirmationModal = useCallback(
+  const openDeleteConfirmation = useCallback(
     (type, id) => {
       setDeleteType(type);
       setDeleteId(id);
-
-      if (type === "remove") {
-        setDeleteMessage("Anda yakin ingin menghapus komoditi ini?");
-      } else {
-        setDeleteMessage(
-          "Data terkait dengan komoditi ini juga akan terpengaruh. Tidakan ini tidak dapat dipulihkan kembali."
-        );
-      }
     },
-    [setDeleteId, setDeleteType, setDeleteMessage]
+    [setDeleteId, setDeleteType]
   );
 
   /**
    * fungsi untuk menutup modal konfirmasi delete
    */
-  const closeDeleteConfirmationModal = useCallback(() => {
+  const closeDeleteConfirmation = useCallback(() => {
     setDeleteId(null);
   }, [setDeleteId]);
 
@@ -175,22 +166,15 @@ const Komoditi = (props) => {
       preserveScroll: true,
       onFinish: () => {
         setDeleting(false);
-        closeDeleteConfirmationModal();
+        closeDeleteConfirmation();
       },
     });
-  }, [
-    params,
-    deleteType,
-    deleteId,
-    setDeleting,
-    closeDeleteConfirmationModal,
-    app,
-  ]);
+  }, [params, deleteType, deleteId, setDeleting, closeDeleteConfirmation, app]);
 
   /**
    * fungsi untuk membuka modal konfirmasi restore
    */
-  const openRestoreConfirmationModal = useCallback(
+  const openRestoreConfirmation = useCallback(
     (id) => {
       setRestoreId(id);
     },
@@ -200,7 +184,7 @@ const Komoditi = (props) => {
   /**
    * fungsi untuk menutup modal konfirmasi restore.
    */
-  const closeRestoreConfirmationModal = useCallback(() => {
+  const closeRestoreConfirmation = useCallback(() => {
     setRestoreId(null);
   }, [setRestoreId]);
 
@@ -223,10 +207,10 @@ const Komoditi = (props) => {
       preserveScroll: true,
       onFinish: () => {
         setRestoring(false);
-        closeRestoreConfirmationModal();
+        closeRestoreConfirmation();
       },
     });
-  }, [restoreId, params, setRestoring, app, closeRestoreConfirmationModal]);
+  }, [restoreId, params, setRestoring, app, closeRestoreConfirmation]);
 
   return (
     <>
@@ -242,9 +226,9 @@ const Komoditi = (props) => {
         destroy={Boolean(access.destroy && status === "dihapus")}
         onOrder={handleOrderTable}
         onUpdate={handleEditRow}
-        onRemove={(row) => openDeleteConfirmationModal("remove", row.id)}
-        onDestroy={(row) => openDeleteConfirmationModal("destroy", row.id)}
-        onRestore={(row) => openRestoreConfirmationModal(row.id)}
+        onRemove={(row) => openDeleteConfirmation("remove", row.id)}
+        onDestroy={(row) => openDeleteConfirmation("destroy", row.id)}
+        onRestore={(row) => openRestoreConfirmation(row.id)}
         paginationProps={{
           count: pagination.total,
           page: pagination.page - 1,
@@ -258,20 +242,19 @@ const Komoditi = (props) => {
         open={Boolean(deleteId)}
         title={
           deleteType === "remove"
-            ? "Hapus Komoditi"
-            : "Hapus Komoditi Selamanya"
+            ? "Hapus komoditi"
+            : "Hapus komoditi selamanya"
         }
         loading={deleting}
-        onClose={closeDeleteConfirmationModal}
+        onClose={closeDeleteConfirmation}
         onDelete={handleDelete}
-        message={deleteMessage}
       />
 
       <RestoreConfirmationModal
         open={Boolean(restoreId)}
         title="Pulihkan Komoditi"
         loading={restoring}
-        onClose={closeRestoreConfirmationModal}
+        onClose={closeRestoreConfirmation}
         onRestore={handleRestore}
       />
     </>
