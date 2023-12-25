@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Division;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,12 +12,16 @@ class Sbp extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
 
+    protected $table = 'sbp';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'user_id',
-        'division_id',
-        'amount',
-        'follow_up',
-        'input_date',
+        'kantor_id',
+        'jumlah',
+        'tindak_lanjut',
+        'tanggal_input',
     ];
 
     /**
@@ -31,10 +33,10 @@ class Sbp extends Model
     }
 
     /**
-     * Ambil Division yang memiliki Sbp.
+     * Ambil Kantor yang memiliki Sbp.
      */
-    public function division(): BelongsTo
+    public function kantor(): BelongsTo
     {
-        return $this->belongsTo(Division::class, 'division_id', 'id');
+        return $this->belongsTo(Kantor::class, 'kantor_id', 'id');
     }
 }

@@ -1,46 +1,60 @@
-import React, { memo, useState, useEffect, useCallback } from "react";
 import AuthLayout from "@/layouts/AuthLayout";
-import UserTemplate from "./Template";
-import {
-  IconButton,
-  TableContainer,
-  Table,
-  TableHead,
-  TableSortLabel,
-  TableBody,
-  TableRow,
-  TableCell,
-  TablePagination,
-  Tooltip,
-  Avatar,
-  Box,
-} from "@mui/material";
-import { usePage, router, Link } from "@inertiajs/react";
 import { numberFormat, utcToLocale } from "@/utils";
-import EditIcon from "@mui/icons-material/Edit";
+import { Link, router } from "@inertiajs/react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
+import KeyIcon from "@mui/icons-material/Key";
 import RestoreIcon from "@mui/icons-material/Restore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import KeyIcon from "@mui/icons-material/Key";
+import {
+  Avatar,
+  Box,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+  Tooltip,
+} from "@mui/material";
+import React, { useCallback, useState } from "react";
+import UserTemplate from "./Template";
 
 /**
  * Halaman user
  */
 const User = (props) => {
-  const { data, pagination, app, access } = usePage().props;
+  const { data, pagination, app, access } = props;
   const { params } = app.url;
 
   // state
-  const [display] = useState(params.display ?? "active");
-  const [orderBy] = useState(params.order_by ?? "full_name");
-  const [order] = useState(params.order ?? "asc");
+  const [status] = useState(params.status ?? "aktif");
+  const [orderBy] = useState(params.order_by ?? "nama_lengkap");
+  const [order] = useState(params.order === "desc" ? "desc" : "asc");
 
   // daftar kolom
   const columns = [
     {
-      field: "full_name",
-      label: "Nama Lengkap",
+      field: "id",
+      label: "ID",
+      sort: true,
+      timeFormat: false,
+      show: true,
+    },
+    {
+      field: "nama_lengkap",
+      label: "Nama",
+      sort: true,
+      timeFormat: false,
+      show: true,
+    },
+    {
+      field: "role",
+      label: "Role",
       sort: true,
       timeFormat: false,
       show: true,
@@ -53,8 +67,8 @@ const User = (props) => {
       show: true,
     },
     {
-      field: "division_name",
-      label: "Kanwil",
+      field: "kantor_nama",
+      label: "kantor",
       sort: true,
       timeFormat: false,
       show: true,
@@ -64,14 +78,14 @@ const User = (props) => {
       label: "Diabuat/Diperbarui",
       sort: true,
       timeFormat: true,
-      show: display === "active",
+      show: status === "aktif",
     },
     {
       field: "deleted_at",
       label: "Dihapus",
       sort: true,
       timeFormat: true,
-      show: display === "removed",
+      show: status === "dihapus",
     },
   ];
 
@@ -170,9 +184,9 @@ const User = (props) => {
                 {columns.map((column) => {
                   if (!column.show) return;
 
-                  if (column.field === "full_name") {
+                  if (column.field === "nama_lengkap") {
                     return (
-                      <TableCell key={column.field} title={user.full_name}>
+                      <TableCell key={column.field} title={user.nama_lengkap}>
                         <Box
                           sx={{
                             display: "flex",
@@ -180,14 +194,15 @@ const User = (props) => {
                           }}
                         >
                           <Avatar
-                            src={user.photo}
+                            src={user.foto}
+                            alt={`Foto ${user.nama_lengkap}`}
                             sx={{
                               width: 50,
                               height: 50,
                             }}
                           />
 
-                          <Box sx={{ ml: 1 }}>{user.full_name}</Box>
+                          <Box sx={{ ml: 1 }}>{user.nama_lengkap}</Box>
                         </Box>
                       </TableCell>
                     );
@@ -212,7 +227,7 @@ const User = (props) => {
                 })}
 
                 <TableCell align="center">
-                  {display === "active" && (
+                  {status === "aktif" && (
                     <Tooltip title="Detail" disableInteractive>
                       <IconButton color="primary">
                         <VisibilityIcon fontSize="small" />
@@ -220,7 +235,7 @@ const User = (props) => {
                     </Tooltip>
                   )}
 
-                  {display === "active" && access.update && (
+                  {status === "aktif" && access.update && (
                     <>
                       <Tooltip title="Akses" disableInteractive>
                         <IconButton
@@ -233,14 +248,18 @@ const User = (props) => {
                       </Tooltip>
 
                       <Tooltip title="Edit" disableInteractive>
-                        <IconButton color="primary">
+                        <IconButton
+                          color="primary"
+                          component={Link}
+                          href={route("user.edit", { user: user.id })}
+                        >
                           <EditIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>
                     </>
                   )}
 
-                  {display === "active" && access.remove && (
+                  {status === "aktif" && access.remove && (
                     <Tooltip title="Hapus" disableInteractive>
                       <IconButton color="error">
                         <DeleteIcon fontSize="small" color="error" />
@@ -248,7 +267,7 @@ const User = (props) => {
                     </Tooltip>
                   )}
 
-                  {display === "removed" && access.destroy && (
+                  {status === "dihapus" && access.destroy && (
                     <>
                       <Tooltip title="Pulihkan" disableInteractive>
                         <IconButton color="primary">

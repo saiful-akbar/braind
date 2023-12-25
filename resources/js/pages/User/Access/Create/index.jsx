@@ -21,12 +21,12 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 const CreateAccess = (props) => {
-  const { menus, user } = props.data;
+  const { menu: menus, user } = props.data;
   const dispatch = useDispatch();
   const { data, setData, processing, post } = useForm(
     menus
-      .map(({ childrens }) =>
-        childrens
+      .map(({ sub_menu: subMenu }) =>
+        subMenu
           .map((menu) => ({
             id: menu.id,
             create: false,
@@ -50,7 +50,11 @@ const CreateAccess = (props) => {
 
       const newData = data.map((value) => {
         if (value.id !== menuId) return value;
-        return { ...value, [accessType]: checked };
+
+        return {
+          ...value,
+          [accessType]: checked,
+        };
       });
 
       setData(newData);
@@ -140,17 +144,17 @@ const CreateAccess = (props) => {
               </Alert>
             </Grid>
 
-            {menus.map((menuGroup) => (
-              <Grid key={menuGroup.id} item xs={12} md={8}>
-                <CardPaper title={menuGroup.name}>
+            {menus.map((menu) => (
+              <Grid key={menu.id} item xs={12} md={8}>
+                <CardPaper title={menu.nama}>
                   <CardContent>
                     <Grid container spacing={3}>
-                      {menuGroup.childrens.map((menu, index) => {
-                        const access = data.find((d) => d.id === menu.id);
+                      {menu.sub_menu.map((subMenu, index) => {
+                        const access = data.find((d) => d.id === subMenu.id);
 
                         return (
                           <Grid
-                            key={menu.id}
+                            key={subMenu.id}
                             container
                             spacing={1}
                             item
@@ -158,7 +162,7 @@ const CreateAccess = (props) => {
                           >
                             <Grid item xs={12}>
                               <Typography variant="subtitle2">
-                                {menu.name}
+                                {subMenu.nama}
                               </Typography>
                             </Grid>
 
@@ -171,7 +175,7 @@ const CreateAccess = (props) => {
                                 disabled={processing}
                                 inputProps={{
                                   "data-access-type": "create",
-                                  "data-menu-id": menu.id,
+                                  "data-menu-id": subMenu.id,
                                 }}
                               />
                             </Grid>
@@ -185,7 +189,7 @@ const CreateAccess = (props) => {
                                 disabled={processing}
                                 inputProps={{
                                   "data-access-type": "read",
-                                  "data-menu-id": menu.id,
+                                  "data-menu-id": subMenu.id,
                                 }}
                               />
                             </Grid>
@@ -199,7 +203,7 @@ const CreateAccess = (props) => {
                                 disabled={processing}
                                 inputProps={{
                                   "data-access-type": "update",
-                                  "data-menu-id": menu.id,
+                                  "data-menu-id": subMenu.id,
                                 }}
                               />
                             </Grid>
@@ -213,7 +217,7 @@ const CreateAccess = (props) => {
                                 disabled={processing}
                                 inputProps={{
                                   "data-access-type": "remove",
-                                  "data-menu-id": menu.id,
+                                  "data-menu-id": subMenu.id,
                                 }}
                               />
                             </Grid>
@@ -227,12 +231,12 @@ const CreateAccess = (props) => {
                                 disabled={processing}
                                 inputProps={{
                                   "data-access-type": "destroy",
-                                  "data-menu-id": menu.id,
+                                  "data-menu-id": subMenu.id,
                                 }}
                               />
                             </Grid>
 
-                            {index + 1 < menuGroup.childrens.length && (
+                            {index + 1 < menu.sub_menu.length && (
                               <Grid item xs={12}>
                                 <Divider sx={{ mt: 3 }} />
                               </Grid>

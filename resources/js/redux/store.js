@@ -2,14 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import sidebarReducer from "./reducers/sidebarReducer";
 import settingsReducer from "./reducers/settingsReducer";
 import notificationReducer from "./reducers/notificationReducer";
-import commodityReducer from "./reducers/commodityReducer";
+import komoditiReducer from "./reducers/komoditiReducer";
 
 const store = configureStore({
   reducer: {
     sidebar: sidebarReducer,
     settings: settingsReducer,
     notification: notificationReducer,
-    commodity: commodityReducer,
+    komoditi: komoditiReducer,
   },
 });
 

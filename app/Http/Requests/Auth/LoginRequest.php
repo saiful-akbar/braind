@@ -51,13 +51,13 @@ class LoginRequest extends FormRequest
     {
         session([
             'menu' => MenuGroup::with([
-                'childrens' => function ($query): void {
-                    $query->join('menu_user', 'menus.id', '=', 'menu_user.menu_id')
-                        ->where('menu_user.user_id', user()?->id)
-                        ->where('menu_user.read', true)
-                        ->orderBy('menus.name', 'asc')
+                'subMenu' => function ($query): void {
+                    $query->join('menu_user', 'menu.id', '=', 'menu_user.menu_id')
+                        ->where('menu_user.user_id', '=', user()->id)
+                        ->where('menu_user.read', '=', 1)
+                        ->orderBy('menu.nama', 'asc')
                         ->select([
-                            'menus.*',
+                            'menu.*',
                             'menu_user.create',
                             'menu_user.read',
                             'menu_user.update',
@@ -66,8 +66,8 @@ class LoginRequest extends FormRequest
                         ]);
                 }
             ])
-                ->whereRelation('childrens.usersWithReadAccess', 'user_id', '=', user()->id)
-                ->orderBy('menu_groups.name', 'asc')
+                ->whereRelation('subMenu.userWithReadAccess', 'user_id', '=', user()->id)
+                ->orderBy('menu_group.nama', 'asc')
                 ->get(),
         ]);
     }
@@ -77,6 +77,6 @@ class LoginRequest extends FormRequest
      */
     public function generateSessionAccess(): void
     {
-        session(['access' => auth()->user()->menus]);
+        session(['access' => user()->menu]);
     }
 }

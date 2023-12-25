@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromView;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -21,23 +22,24 @@ class UserExport implements FromView, WithStyles, ShouldAutoSize
     use Exportable;
 
     private array $columns = [
+        'kantor_id',
+        'kantor_nama',
         'id',
-        'full_name',
         'username',
-        'gender',
-        'date_of_birth',
-        'place_of_birth',
-        'phone',
+        'role',
+        'nama_lengkap',
+        'jenis_kelamin',
+        'tanggal_lahir',
+        'tempat_lahir',
+        'negara',
+        'kota',
+        'kode_pos',
+        'alamat',
+        'telepon',
         'email',
-        'country',
-        'city',
-        'postal_code',
-        'address',
-        'division_id',
-        'division_name',
     ];
 
-    private string $orderBy = 'full_name';
+    private string $orderBy = 'nama_lengkap';
     private string $order = 'asc';
 
     private $query;
@@ -47,13 +49,23 @@ class UserExport implements FromView, WithStyles, ShouldAutoSize
      */
     public function __construct(Request $request, MenuUser $access)
     {
-        $query = User::select('users.*', 'divisions.name as division_name')
-            ->leftJoin('divisions', 'users.division_id', '=', 'divisions.id');
+        $query = User::select('users.*', 'kantor.nama as kantor_nama')
+            ->leftJoin('kantor', 'users.kantor_id', '=', 'kantor.id');
 
         // periksa apakah ada request untuk menampilkan data yang sudah dihapus,
         // dan periksa juga apakah user memiliki akses "destroy" atau tidak
         if ($access->destroy && $request->status == 'removed') {
             $query->onlyTrashed();
+        }
+
+        // periksa apakah ada request pencarian
+        if ($request->search) {
+            $query->where(function (Builder $query) use ($request): void {
+                $query->where('users.nama_lengkap', 'like', "%{$request->search}%")
+                    ->where('users.email', 'like', "%{$request->search}%")
+                    ->where('users.role', 'like', "%{$request->search}%")
+                    ->where('kantor.nama', 'like', "%{$request->search}%");
+            });
         }
 
         // periksa apakah ada request untuk sortir by kolom.
@@ -64,13 +76,6 @@ class UserExport implements FromView, WithStyles, ShouldAutoSize
         // periksa apakah ada request untuk sortir kolom
         if ($request->order == 'desc') {
             $this->order = 'desc';
-        }
-
-        // periksa apakah ada request pencarian
-        if ($request->search) {
-            $query->where('users.full_name', 'like', "%{$request->search}%")
-                ->where('users.email', 'like', "%{$request->search}%")
-                ->where('divisions.email', 'like', "%{$request->search}%");
         }
 
         $this->query = $query->orderBy($this->orderBy, $this->order);

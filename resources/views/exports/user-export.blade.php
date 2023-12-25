@@ -10,20 +10,21 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>ID</th>
-                <th>Nama Lengkap</th>
+                <th>ID Kantor</th>
+                <th>Nama Kantor</th>
+                <th>User ID</th>
                 <th>Username</th>
+                <th>Role</th>
+                <th>Nama Lengkap</th>
                 <th>Jenis Kelamin</th>
                 <th>Tanggal Lahir</th>
                 <th>Tempat Lahir</th>
-                <th>No. Telepon</th>
+                <th>Telepon</th>
                 <th>Email</th>
                 <th>Negara</th>
                 <th>Kota</th>
                 <th>Kode Pos</th>
-                <th>Alamat Lengkap</th>
-                <th>ID Kanwil</th>
-                <th>Nama Kanwil</th>
+                <th>Alamat</th>
             </tr>
         </thead>
 
@@ -31,20 +32,21 @@
             @foreach ($users as $user)
                 <tr>
                     <th>{{ $loop->iteration }}</th>
+                    <th>{{ $user->kantor_id }}</th>
+                    <th>{{ $user->kantor_nama }}</th>
                     <th>{{ $user->id }}</th>
-                    <th>{{ $user->full_name }}</th>
                     <th>{{ $user->username }}</th>
-                    <th>{{ $user->gender == 'male' ? 'Laki-Laki' : 'Perempuan' }}</th>
-                    <th>{{ $user->date_of_birth }}</th>
-                    <th>{{ $user->place_of_birth }}</th>
-                    <th>{{ $user->phone }}</th>
+                    <th>{{ $user->role }}</th>
+                    <th>{{ $user->nama_lengkap }}</th>
+                    <th>{{ $user->jenis_kelamin == 'l' ? 'Laki-Laki' : 'Perempuan' }}</th>
+                    <th>{{ $user->tanggal_lahir }}</th>
+                    <th>{{ $user->tempat_lahir }}</th>
+                    <th>{{ $user->negara }}</th>
+                    <th>{{ $user->kota }}</th>
+                    <th>{{ $user->kode_pos }}</th>
+                    <th>{{ $user->alamat }}</th>
+                    <th>{{ $user->telepon }}</th>
                     <th>{{ $user->email }}</th>
-                    <th>{{ $user->country }}</th>
-                    <th>{{ $user->city }}</th>
-                    <th>{{ $user->postal_code }}</th>
-                    <th>{{ $user->address }}</th>
-                    <th>{{ $user->division_id }}</th>
-                    <th>{{ $user->division_name }}</th>
                 </tr>
             @endforeach
         </tbody>

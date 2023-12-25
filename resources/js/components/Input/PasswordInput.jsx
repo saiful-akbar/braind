@@ -44,9 +44,9 @@ const PasswordInput = React.memo(
                   }}
                 >
                   {show ? (
-                    <VisibilityIcon fontSize={iconSize} />
-                  ) : (
                     <VisibilityOffIcon fontSize={iconSize} />
+                  ) : (
+                    <VisibilityIcon fontSize={iconSize} />
                   )}
                 </IconButton>
               </Tooltip>

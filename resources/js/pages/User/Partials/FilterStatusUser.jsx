@@ -8,11 +8,11 @@ import { useEffect } from "react";
 const items = [
   {
     label: "Aktif",
-    value: "active",
+    value: "aktif",
   },
   {
     label: "Dihapus",
-    value: "removed",
+    value: "dihapus",
   },
 ];
 
@@ -24,13 +24,13 @@ const FilterStatusUser = memo(() => {
   const { params } = app.url;
 
   // state
-  const [value, setValue] = useState(params.status ?? "active");
+  const [value, setValue] = useState(params.status ?? "aktif");
 
   /**
    * update status jika pada params tatus berubah
    */
   useEffect(() => {
-    setValue(params.status ?? "active");
+    setValue(params.status ?? "aktif");
   }, [params?.status, setValue]);
 
   /**

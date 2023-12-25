@@ -18,7 +18,7 @@ class Controller extends BaseController
     /**
      * Render komponen
      */
-    protected function render(string $component, null|array|object $data = null, ?MenuUser $access = null): Response
+    protected function render(string $component, mixed $data = null, ?MenuUser $access = null): Response
     {
         return inertia($component, compact('data', 'access'));
     }
@@ -26,11 +26,8 @@ class Controller extends BaseController
     /**
      * Render komponen dengan pagination
      */
-    protected function renderPaginate(
-        string $component,
-        LengthAwarePaginator $paginator,
-        MenuUser|Menu|null $access = null
-    ): Response {
+    protected function renderPaginate(string $component, LengthAwarePaginator $paginator, ?MenuUser $access = null): Response
+    {
         return inertia($component, [
             'access' => $access,
             'data' => $paginator->items(),

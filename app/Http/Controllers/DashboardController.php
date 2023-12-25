@@ -15,7 +15,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-
-        return $this->render('Dashboard/index');
+        $access = $this->getAccessByRoute('kantor');
+        return $this->render(component: 'Dashboard/index', access: $access);
     }
 }

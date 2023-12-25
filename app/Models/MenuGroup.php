@@ -12,15 +12,16 @@ class MenuGroup extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = [
-        'name',
-        'icon',
-    ];
+    protected $table = 'menu_group';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    protected $fillable = ['nama'];
 
     /**
      * Ambil Menu yang dimiliki MenuHeader
      */
-    public function childrens(): HasMany
+    public function subMenu(): HasMany
     {
         return $this->hasMany(Menu::class, 'menu_group_id', 'id');
     }

@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Response;
-use App\Models\Division;
+use App\Models\Kantor;
+use App\Models\MenuGroup;
 use App\Exports\UserExport;
-use App\Http\Requests\Users\StoreAccessUserRequest;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Requests\Users\UserRequest;
-use App\Http\Requests\Users\StoreUserRequest;
-use App\Models\MenuGroup;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Users\UserRequest;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Requests\Users\StoreUserRequest;
+use App\Http\Requests\Users\StoreAccessUserRequest;
+use App\Http\Requests\Users\UpdateUserRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class UserController extends Controller
@@ -38,7 +40,7 @@ class UserController extends Controller
     public function export(Request $request): BinaryFileResponse
     {
         $access = $this->getAccessByRoute('user');
-        $name = 'braind_export_user.xlsx';
+        $name = 'braind_master_user.xlsx';
 
         return  Excel::download(new UserExport($request, $access), $name);
     }
@@ -48,10 +50,10 @@ class UserController extends Controller
      */
     public function create(): Response
     {
-        $divisions = Division::select('id as value', 'name as label')->get();
+        $kantor = Kantor::select('id as value', 'nama as label')->get();
 
         return $this->render(component: 'User/Create/index', data: [
-            'divisions' => $divisions
+            'kantor' => $kantor
         ]);
     }
 
@@ -73,16 +75,16 @@ class UserController extends Controller
      */
     public function access(User $user): Response|RedirectResponse
     {
-        if ($user->menus()->count() > 1) {
+        if ($user->menu()->count() > 1) {
             return to_route('user');
         }
 
-        $menus = MenuGroup::with([
-            'childrens' => fn ($query) => $query->orderBy('menus.name', 'asc')
-        ])->orderBy('name', 'asc')->get();
+        $menu = MenuGroup::with([
+            'subMenu' => fn ($query) => $query->orderBy('menu.nama', 'asc')
+        ])->orderBy('nama', 'asc')->get();
 
         return $this->render('User/Access/Create/index', [
-            'menus' => $menus,
+            'menu' => $menu,
             'user' => $user,
         ]);
     }
@@ -97,6 +99,33 @@ class UserController extends Controller
         return to_route('user')->with([
             'flash.status' => 'success',
             'flash.message' => 'Hak akses user berhasil dibuat.'
+        ]);
+    }
+
+    /**
+     * Menampilkan halaman edit user.
+     */
+    public function edit(User $user): Response
+    {
+        $kantor = Kantor::select('id AS value', 'nama AS label')->get();
+
+        return $this->render(
+            component: 'User/Edit/index',
+            access: $this->getAccessByRoute('user'),
+            data: compact('user', 'kantor'),
+        );
+    }
+
+    /**
+     * Simpan perubahan data user pada database.
+     */
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    {
+        $request->update();
+
+        return to_route('user.edit', ['user' => $user->id])->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Data user berhasil diperbarui.'
         ]);
     }
 }

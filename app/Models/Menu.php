@@ -16,9 +16,13 @@ class Menu extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'menu';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'menu_group_id',
-        'name',
+        'nama',
         'icon',
         'url',
         'route',
@@ -35,7 +39,7 @@ class Menu extends Model
     /**
      * Ambil User yang memiliki Menu
      */
-    public function users(): BelongsToMany
+    public function user(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'menu_user', 'menu_id', 'user_id')
             ->using(MenuUser::class)
@@ -45,7 +49,7 @@ class Menu extends Model
     /**
      * Ambil User yang memiliki Menu dengan akses read
      */
-    public function usersWithReadAccess(): BelongsToMany
+    public function userWithReadAccess(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'menu_user', 'menu_id', 'user_id')
             ->using(MenuUser::class)

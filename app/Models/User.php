@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Kantor;
 use App\Models\MenuUser;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -19,19 +20,20 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuids;
 
     protected $fillable = [
-        'division_id',
+        'kantor_id',
         'username',
         'password',
-        'full_name',
-        'photo',
-        'gender',
-        'date_of_birth',
-        'place_of_birth',
-        'country',
-        'city',
-        'postal_code',
-        'address',
-        'phone',
+        'role',
+        'nama_lengkap',
+        'foto',
+        'jenis_kelamin',
+        'tanggal_lahir',
+        'tempat_lahir',
+        'negara',
+        'kota',
+        'kode_pos',
+        'alamat',
+        'telepon',
         'email',
     ];
 
@@ -45,17 +47,17 @@ class User extends Authenticatable
     ];
 
     /**
-     * Ambil Division yang memiliki User.
+     * Ambil Kantor yang memiliki User.
      */
-    public function division(): BelongsTo
+    public function kantor(): BelongsTo
     {
-        return $this->belongsTo(Division::class, 'division_id', 'id');
+        return $this->belongsTo(Kantor::class, 'kantor_id', 'id');
     }
 
     /**
      * Ambil Menu yang dimiliki User
      */
-    public function menus(): BelongsToMany
+    public function menu(): BelongsToMany
     {
         return $this->belongsToMany(Menu::class, 'menu_user', 'user_id', 'menu_id')
             ->using(MenuUser::class)
@@ -65,7 +67,7 @@ class User extends Authenticatable
     /**
      * Ambil Menu yang dimiliki User dengan read access
      */
-    public function menusWithReadAccess(): BelongsToMany
+    public function menuWithReadAccess(): BelongsToMany
     {
         return $this->belongsToMany(Menu::class, 'menu_user', 'user_id', 'menu_id')
             ->using(MenuUser::class)
@@ -76,7 +78,7 @@ class User extends Authenticatable
     /**
      * Merubah value pada attriute avatar.
      */
-    public function photo(): Attribute
+    public function foto(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => is_null($value) ? null : asset("/storage/$value"),

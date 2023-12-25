@@ -14,32 +14,33 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->foreignUuid('division_id')
+            $table->foreignUuid('kantor_id')
                 ->nullable()
-                ->constrained()
+                ->constrained('kantor')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 
             // Account
             $table->string('username')->unique();
             $table->string('password');
+            $table->enum('role', ['admin', 'kanwil'])->default('kanwil');
             $table->rememberToken();
 
             // profile 
-            $table->string('full_name', 100);
-            $table->string('photo', 50)->nullable();
-            $table->enum('gender', ['male', 'female'])->nullable();
-            $table->date('date_of_birth')->nullable();
-            $table->string('place_of_birth', 50)->nullable();
+            $table->string('nama_lengkap', 100);
+            $table->string('foto', 50)->nullable();
+            $table->enum('jenis_kelamin', ['l', 'p'])->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('tempat_lahir', 50)->nullable();
 
             // address
-            $table->string('country', 50)->nullable();
-            $table->string('city', 50)->nullable();
-            $table->string('postal_code', 10)->nullable();
-            $table->text('address')->nullable();
+            $table->string('negara', 50)->nullable();
+            $table->string('kota', 50)->nullable();
+            $table->string('kode_pos', 10)->nullable();
+            $table->text('alamat')->nullable();
 
             // contact
-            $table->string('phone', 15)->unique()->nullable();
+            $table->string('telepon', 15)->unique()->nullable();
             $table->string('email', 100)->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
 

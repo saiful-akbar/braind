@@ -1,9 +1,7 @@
 <?php
 
-use App\Models\MenuGroup;
 use App\Models\User;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 
 if (!function_exists('user')) {
 

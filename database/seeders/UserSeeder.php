@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Division;
+use App\Models\Kantor;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -13,18 +12,20 @@ class UserSeeder extends Seeder
     {
         return [
             [
-                'division' => 'Pusat',
-                'username' => 'admin',
-                'password' => bcrypt('admin123'),
-                'full_name' => 'Admin',
-                'email' => 'admin@gmail.com',
+                'kantor'       => 'Pusat',
+                'username'     => 'admin',
+                'password'     => bcrypt('admin123'),
+                'role'         => 'admin',
+                'nama_lengkap' => 'Admin',
+                'email'        => 'admin@gmail.com',
             ],
             [
-                'division' => 'Pusat',
-                'username' => 'guest',
-                'password' => bcrypt('guest123'),
-                'full_name' => 'Guest',
-                'email' => 'guest@gmail.com',
+                'kantor'       => 'Pusat',
+                'username'     => 'guest',
+                'password'     => bcrypt('guest123'),
+                'role'         => 'kanwil',
+                'nama_lengkap' => 'Guest',
+                'email'        => 'guest@gmail.com',
             ],
         ];
     }
@@ -35,14 +36,15 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->data() as $user) {
-            $division = Division::where('name', $user['division'])->first();
+            $kantor = Kantor::where('nama', $user['kantor'])->first();
 
             User::create([
-                'division_id' => $division->id,
-                'username' => $user['username'],
-                'password' => $user['password'],
-                'full_name' => $user['full_name'],
-                'email' => $user['email'],
+                'kantor_id'    => $kantor->id,
+                'username'     => $user['username'],
+                'password'     => $user['password'],
+                'role'         => $user['role'],
+                'nama_lengkap' => $user['nama_lengkap'],
+                'email'        => $user['email'],
             ]);
         }
     }

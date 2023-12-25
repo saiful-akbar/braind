@@ -41,7 +41,7 @@ const UserTemplate = ({ children }) => {
       });
 
       setLoading(false);
-      saveAs(response.data, "braind_ekspor_user.xlsx");
+      saveAs(response.data, "braind_master_user.xlsx");
       dispatch(
         openNotification({
           status: "success",
@@ -81,7 +81,7 @@ const UserTemplate = ({ children }) => {
               component={Link}
               href={route("user.create")}
             >
-              Tambah
+              Tambah user
             </Button>
           )
         }

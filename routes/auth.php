@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CommodityController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\KantorController;
+use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,35 +30,35 @@ Route::controller(DashboardController::class)
 /**
  * Master division (kanwil)
  */
-Route::controller(DivisionController::class)
-    ->prefix('/division')
-    ->name('division')
+Route::controller(KantorController::class)
+    ->prefix('/kantor')
+    ->name('kantor')
     ->group(function (): void {
-        Route::get('/', 'index')->middleware('access:division,read');
-        Route::get('/export', 'export')->name('.export')->middleware('access:division,read');
-        Route::get('/create', 'create')->name('.create')->middleware('access:division,create');
-        Route::post('/', 'store')->name('.store')->middleware('access:division,create');
-        Route::get('/{division}/edit', 'edit')->name('.edit')->middleware('access:division,update');
-        Route::patch('/{division}', 'update')->name('.update')->middleware('access:division,update');
-        Route::delete('/{division}', 'remove')->name('.remove')->middleware('access:division,remove');
-        Route::patch('/{division}/restore', 'restore')->name('.restore')->middleware('access:division,destroy');
-        Route::delete('/{division}/destroy', 'destroy')->name('.destroy')->middleware('access:division,destroy');
+        Route::get('/', 'index')->middleware('access:kantor,read');
+        Route::get('/export', 'export')->name('.export')->middleware('access:kantor,read');
+        Route::get('/create', 'create')->name('.create')->middleware('access:kantor,create');
+        Route::post('/', 'store')->name('.store')->middleware('access:kantor,create');
+        Route::get('/{kantor}/edit', 'edit')->name('.edit')->middleware('access:kantor,update');
+        Route::patch('/{kantor}', 'update')->name('.update')->middleware('access:kantor,update');
+        Route::delete('/{kantor}', 'remove')->name('.remove')->middleware('access:kantor,remove');
+        Route::patch('/{kantor}/restore', 'restore')->name('.restore')->middleware('access:kantor,destroy');
+        Route::delete('/{kantor}/destroy', 'destroy')->name('.destroy')->middleware('access:kantor,destroy');
     });
 
 /**
- * Master commodity
+ * Master komoditi
  */
-Route::controller(CommodityController::class)
-    ->prefix('commodity')
-    ->name('commodity')
+Route::controller(KomoditiController::class)
+    ->prefix('komoditi')
+    ->name('komoditi')
     ->group(function (): void {
-        Route::get('/', 'index')->middleware('access:commodity,read');
-        Route::post('/', 'store')->name('.store')->middleware('access:commodity,create');
-        Route::get('/export', 'export')->name('.export')->middleware('access:commodity,read');
-        Route::patch('/{commodity}', 'update')->name('.update')->middleware('access:commodity,update');
-        Route::delete('/{commodity}', 'remove')->name('.remove')->middleware('access:commodity,remove');
-        Route::patch('/{commodity}/restore', 'restore')->name('.restore')->middleware('access:commodity,destroy');
-        Route::delete('/{commodity}/destroy', 'destroy')->name('.destroy')->middleware('access:commodity,destroy');
+        Route::get('/', 'index')->middleware('access:komoditi,read');
+        Route::post('/', 'store')->name('.store')->middleware('access:komoditi,create');
+        Route::get('/export', 'export')->name('.export')->middleware('access:komoditi,read');
+        Route::patch('/{komoditi}', 'update')->name('.update')->middleware('access:komoditi,update');
+        Route::delete('/{komoditi}', 'remove')->name('.remove')->middleware('access:komoditi,remove');
+        Route::patch('/{komoditi}/restore', 'restore')->name('.restore')->middleware('access:komoditi,destroy');
+        Route::delete('/{komoditi}/destroy', 'destroy')->name('.destroy')->middleware('access:komoditi,destroy');
     });
 
 /**

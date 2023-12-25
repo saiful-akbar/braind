@@ -1,17 +1,6 @@
 import { openMobileSidebar } from "@/redux/reducers/sidebarReducer";
-import { Link, usePage } from "@inertiajs/react";
-import {
-  Box,
-  Divider,
-  Icon,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-  Tooltip,
-} from "@mui/material";
+import { usePage } from "@inertiajs/react";
+import { Box, Divider, List, ListSubheader } from "@mui/material";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import SidebarAccount from "./SidebarAccount";
@@ -88,17 +77,17 @@ export default function SidebarContent() {
                     },
                   }}
                 >
-                  {menu.name}
+                  {menu.nama}
                 </ListSubheader>
               }
             >
-              {menu.childrens.map((item) => (
+              {menu.sub_menu.map((subMenu) => (
                 <SidebarLink
-                  key={item.route}
-                  name={item.name}
-                  icon={item.icon}
-                  url={item.url}
-                  route={item.route}
+                  key={subMenu.route}
+                  name={subMenu.nama}
+                  icon={subMenu.icon}
+                  url={subMenu.url}
+                  route={subMenu.route}
                 />
               ))}
             </List>

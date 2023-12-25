@@ -5,7 +5,6 @@ namespace App\Http\Requests\Users;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Storage;
 
 class StoreUserRequest extends FormRequest
 {
@@ -25,20 +24,21 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kanwil' => 'required|exists:divisions,id',
-            'username' => 'required|string|max:200|unique:users,username',
-            'kata_sandi' => 'required|string|max:200|min:4',
-            'foto' => 'nullable|image|max:1000',
-            'nama_lengkap' => 'required|string|max:100',
-            'jenis_kelamin' => 'nullable|in:male,female',
+            'kantor_id'     => 'required|exists:kantor,id',
+            'username'      => 'required|string|max:200|unique:users,username',
+            'password'      => 'required|string|max:200|min:4',
+            'role'          => 'required|in:admin,kanwil',
+            'nama_lengkap'  => 'required|string|max:100',
+            'foto'          => 'nullable|image|max:1000',
+            'jenis_kelamin' => 'nullable|in:L,P',
             'tanggal_lahir' => 'nullable|date',
-            'tempat_lahir' => 'nullable|string|max:50',
-            'negara' => 'nullable|string|max:50',
-            'kota' => 'nullable|string|max:50',
-            'kode_pos' => 'nullable|string|max:10',
-            'alamat' => 'nullable|string|max:200',
-            'telepon' => 'nullable|unique:users,phone|regex:/^[0-9]{10,13}+$/',
-            'email' => 'nullable|email:filter|unique:users,email'
+            'tempat_lahir'  => 'nullable|string|max:50',
+            'negara'        => 'nullable|string|max:50',
+            'kota'          => 'nullable|string|max:50',
+            'kode_pos'      => 'nullable|string|max:10',
+            'alamat'        => 'nullable|string|max:200',
+            'telepon'       => 'nullable|unique:users,phone|regex:/^[0-9]{10,13}+$/',
+            'email'         => 'nullable|email:filter|unique:users,email'
         ];
     }
 
@@ -47,29 +47,16 @@ class StoreUserRequest extends FormRequest
      */
     public function save(): User
     {
-        $data = [
-            'division_id' => $this->kanwil,
-            'username' => $this->username,
-            'password' => bcrypt($this->kata_sandi),
-            'full_name' => $this->nama_lengkap,
-            'gender' => $this->jenis_kelamin,
-            'date_of_birth' => $this->tanggal_lahir,
-            'place_of_birth' => $this->tempat_lahir,
-            'country' => $this->negara,
-            'city' => $this->kota,
-            'postal_code' => $this->kode_pos,
-            'address' => $this->alamat,
-            'phone' => $this->telepon,
-            'email' => $this->email,
-        ];
+        $data = $this->all();
+        $data['password'] = bcrypt($this->password);
 
         // Jika user upload foto simpan pada storage
         if ($this->hasFile('foto')) {
-            $fileName = Str::random(16);
+            $fileName  = Str::random(16);
             $fileName .= ".";
             $fileName .= $this->foto->extension();
 
-            $data['photo'] = $this->file('foto')->storeAs('user-photos', $fileName, 'public');
+            $data['foto'] = $this->file('foto')->storeAs('user-foto', $fileName, 'public');
         }
 
         return User::create($data);

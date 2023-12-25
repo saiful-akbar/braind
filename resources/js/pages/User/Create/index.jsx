@@ -14,19 +14,28 @@ import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Box, CardContent, Grid, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import React from "react";
-import { useState } from "react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 
 const gender = [
   {
     label: "Laki-Laki",
-    value: "male",
+    value: "l",
   },
   {
     label: "Perempuan",
-    value: "female",
+    value: "p",
+  },
+];
+
+const roles = [
+  {
+    label: "Admin",
+    value: "admin",
+  },
+  {
+    label: "Kanwil",
+    value: "kanwil",
   },
 ];
 
@@ -34,13 +43,14 @@ const gender = [
  * Halaman tambah user baru
  */
 const CreateUser = (props) => {
-  const { divisions } = props.data;
+  const { kantor } = props.data;
   const { app } = props;
   const dispatch = useDispatch();
   const { data, setData, processing, errors, reset, post } = useForm({
-    kanwil: "",
+    kantor_id: "",
     username: "",
-    kata_sandi: "",
+    password: "",
+    role: "",
     foto: null,
     nama_lengkap: "",
     jenis_kelamin: "",
@@ -115,7 +125,7 @@ const CreateUser = (props) => {
         onSubmit={handleSubmit}
         encType="multipart/form-data"
       >
-        <Grid container spacing={7} justifyContent="center">
+        <Grid container spacing={5} justifyContent="center">
           <Grid item xs={12} md={8}>
             <CardPaper
               title="Akun"
@@ -127,14 +137,28 @@ const CreateUser = (props) => {
                     fullWidth
                     required
                     size="small"
-                    label="Kanwil"
-                    name="kanwil"
-                    items={divisions}
-                    value={data.kanwil}
+                    label="ID kantor"
+                    name="kantor_id"
+                    items={kantor}
+                    value={data.kantor_id}
                     onChange={handleChange}
                     disabled={processing}
-                    error={Boolean(errors.kanwil)}
-                    helperText={errors.kanwil}
+                    error={Boolean(errors.kantor_id)}
+                    helperText={errors.kantor_id}
+                  />
+
+                  <SelectInput
+                    fullWidth
+                    required
+                    size="small"
+                    label="Role"
+                    name="role"
+                    items={roles}
+                    value={data.role}
+                    onChange={handleChange}
+                    disabled={processing}
+                    error={Boolean(errors.role)}
+                    helperText={errors.role}
                   />
 
                   <TextInput
@@ -157,12 +181,12 @@ const CreateUser = (props) => {
                     type="password"
                     size="small"
                     iconSize="small"
-                    name="kata_sandi"
+                    name="password"
                     label="Kata sandi"
-                    value={data.kata_sandi}
+                    value={data.password}
                     onChange={handleChange}
-                    error={Boolean(errors.kata_sandi)}
-                    helperText={errors.kata_sandi}
+                    error={Boolean(errors.password)}
+                    helperText={errors.password}
                     disabled={processing}
                   />
                 </Stack>
@@ -171,7 +195,10 @@ const CreateUser = (props) => {
           </Grid>
 
           <Grid item xs={12} md={8}>
-            <CardPaper title="Profil" subheader="Data diri pengguna.">
+            <CardPaper
+              title="Profil"
+              subheader="Data diri atau identitas user."
+            >
               <CardContent>
                 <Stack spacing={3} direction="column" alignItems="center">
                   <Box
@@ -371,7 +398,7 @@ const CreateUser = (props) => {
               loading={processing}
               startIcon={<Save />}
             >
-              Simpan
+              Tambahkan
             </LoadingButton>
           </Grid>
         </Grid>

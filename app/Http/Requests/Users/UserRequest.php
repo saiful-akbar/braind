@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\Users;
 
-use App\Http\Requests\Pagination;
-use App\Models\MenuUser;
 use App\Models\User;
+use App\Models\MenuUser;
+use App\Http\Requests\Pagination;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -12,15 +13,16 @@ class UserRequest extends FormRequest implements Pagination
 {
     private array $columns = [
         'id',
-        'photo',
-        'full_name',
+        'nama_lengkap',
+        'foto',
+        'role',
         'email',
-        'division_id',
-        'division_name',
+        'kantor_id',
+        'kantor_nama',
     ];
 
     private string $order = 'asc';
-    private string $orderBy = 'full_name';
+    private string $orderBy = 'nama_lengkap';
 
     private int $perPage = 10;
     private array $rowsPerPage = [10, 25, 50, 100, 200];
@@ -38,20 +40,23 @@ class UserRequest extends FormRequest implements Pagination
      */
     public function paginate(MenuUser $access): LengthAwarePaginator
     {
-        $user = User::select(
-            'users.id',
-            'users.full_name',
-            'users.email',
-            'users.created_at',
-            'users.updated_at',
-            'users.deleted_at',
-            'divisions.name AS division_name'
-        )
-            ->leftJoin('divisions', 'users.division_id', '=', 'divisions.id');
+        $user = User::leftJoin('kantor', 'users.kantor_id', '=', 'kantor.id')
+            ->select(
+                'users.id',
+                'users.nama_lengkap',
+                'users.foto',
+                'users.role',
+                'users.email',
+                'users.created_at',
+                'users.updated_at',
+                'users.deleted_at',
+                'kantor.id AS kantor_id',
+                'kantor.nama AS kantor_nama',
+            );
 
         // Tampilkan hanya data yang sudah dihapus jika ada request
         // status dengan nilai "removed" dan user memiliki akses destroy.
-        if ($this->get('status') == 'removed' && $access->destroy) {
+        if ($this->get('status') == 'dihapus' && $access->destroy) {
             $user->onlyTrashed();
         }
 
@@ -59,9 +64,12 @@ class UserRequest extends FormRequest implements Pagination
         if ($this->get('search') != '') {
             $search = $this->get('search');
 
-            $user->where('users.full_name', 'like', "%$search%")
-                ->orWhere('users.email', 'like', "%$search%")
-                ->orWhere('divisions.name', 'like', "%$search%");
+            $user->where(function (Builder $query) use ($search): void {
+                $query->where('users.nama_lengkap', 'like', "%$search%")
+                    ->orWhere('users.email', 'like', "%$search%")
+                    ->orWhere('users.role', 'like', "%$search%")
+                    ->orWhere('kantor.nama', 'like', "%$search%");
+            });
         }
 
         // urutkan data berdasarkan request "order_by" dan "order"

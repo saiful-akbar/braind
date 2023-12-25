@@ -23,8 +23,8 @@ class StoreAccessUserRequest extends FormRequest
     {
         DB::transaction(function () use ($user): void {
             foreach ($this->all() as $menu) {
-                $user->menus()->attach($menu['id'], [
-                    'creat' => $menu['create'],
+                $user->menu()->attach($menu['id'], [
+                    'create' => $menu['create'],
                     'read' => $menu['read'],
                     'update' => $menu['update'],
                     'remove' => $menu['remove'],

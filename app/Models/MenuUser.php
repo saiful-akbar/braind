@@ -10,6 +10,8 @@ class MenuUser extends Pivot
     use HasUuids;
 
     protected $table = 'menu_user';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         'menu_id',

@@ -15,12 +15,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
 
             $table->foreignUuid('menu_id')
-                ->constrained()
+                ->constrained('menu')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
             $table->foreignUuid('user_id')
-                ->constrained()
+                ->constrained('users')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 

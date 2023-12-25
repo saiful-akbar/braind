@@ -13,25 +13,25 @@ class MenuSeeder extends Seeder
 {
     private array $data = [
         [
-            'name' => 'Master',
-            'menus' => [
+            'nama' => 'Master',
+            'sub_menu' => [
                 [
-                    'name' => 'Kanwil',
-                    'url' => '/division',
-                    'route' => 'division',
+                    'nama' => 'Kantor',
+                    'url' => '/kantor',
+                    'route' => 'kantor',
                 ],
                 [
-                    'name' => 'SBP',
+                    'nama' => 'SBP (Surat Bukti Penindakan)',
                     'url' => '/sbp',
                     'route' => 'sbp',
                 ],
                 [
-                    'name' => 'Kode Komoditi',
-                    'url' => '/commodity',
-                    'route' => 'commodity',
+                    'nama' => 'Kode Komoditi',
+                    'url' => '/komoditi',
+                    'route' => 'komoditi',
                 ],
                 [
-                    'name' => 'User',
+                    'nama' => 'User',
                     'url' => '/user',
                     'route' => 'user',
                 ],
@@ -65,13 +65,13 @@ class MenuSeeder extends Seeder
 
         DB::transaction(function () use ($admin, $guest): void {
             foreach ($this->data as $menuGroup) {
-                MenuGroup::create(['name' => $menuGroup['name']])
-                    ->childrens()
-                    ->createMany($menuGroup['menus']);
+                MenuGroup::create(['nama' => $menuGroup['nama']])
+                    ->subMenu()
+                    ->createMany($menuGroup['sub_menu']);
             }
 
             foreach (Menu::all() as $menu) {
-                $admin->menus()->attach($menu->id, [
+                $admin->menu()->attach($menu->id, [
                     'create' => true,
                     'read' => true,
                     'update' => true,
@@ -81,7 +81,7 @@ class MenuSeeder extends Seeder
                     'updated_at' => now(),
                 ]);
 
-                $guest->menus()->attach($menu->id, [
+                $guest->menu()->attach($menu->id, [
                     'create' => false,
                     'read' => true,
                     'update' => false,
