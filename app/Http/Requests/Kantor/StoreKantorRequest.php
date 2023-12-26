@@ -30,7 +30,7 @@ class StoreKantorRequest extends FormRequest
     /**
      * Simpan data division (kanwil) baru.
      */
-    public function save(): void
+    public function insert(): void
     {
         Kantor::create(['nama' => $this->nama]);
     }

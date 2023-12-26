@@ -35,9 +35,9 @@ class StoreKomoditiRequest extends FormRequest
     /**
      * Simpan commodity baru pada database
      */
-    public function save(): Komoditi
+    public function insert(): void
     {
-        return Komoditi::create([
+        Komoditi::create([
             'kode' => $this->kode
         ]);
     }

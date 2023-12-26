@@ -42,7 +42,7 @@ class KantorController extends Controller
      */
     public function store(StoreKantorRequest $request): RedirectResponse
     {
-        $request->save();
+        $request->insert();
 
         return to_route('kantor.create')->with([
             'flash.status' => 'success',
@@ -69,7 +69,7 @@ class KantorController extends Controller
      */
     public function update(UpdateKantorRequest $request, Kantor $kantor): RedirectResponse
     {
-        $request->save($kantor);
+        $request->update();
 
         return to_route('kantor.edit', ['kantor' => $kantor->id])->with([
             'flash.status' => 'success',

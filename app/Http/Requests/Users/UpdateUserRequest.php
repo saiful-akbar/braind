@@ -3,11 +3,10 @@
 namespace App\Http\Requests\Users;
 
 use Illuminate\Support\Str;
-use App\Http\Requests\UpdateRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest implements UpdateRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

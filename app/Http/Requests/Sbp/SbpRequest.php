@@ -5,6 +5,7 @@ namespace App\Http\Requests\Sbp;
 use App\Models\Sbp;
 use App\Models\MenuUser;
 use App\Http\Requests\Pagination;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -42,6 +43,7 @@ class SbpRequest extends FormRequest implements Pagination
      */
     public function paginate(MenuUser $access): LengthAwarePaginator
     {
+        // ambil data SBP dan join dengan tabel users dan kantor.
         $sbp = Sbp::leftJoin('users', 'sbp.user_id', '=', 'users.id')
             ->leftJoin('kantor', 'sbp.kantor_id', '=', 'kantor.id')
             ->select([
@@ -59,9 +61,41 @@ class SbpRequest extends FormRequest implements Pagination
             ]);
 
         // periksa role user.
-        // jika role user sebagai admin tampilkan semua data
-        // jika role user sebagai kanwil tampilkan hanya data yan
+        // jika user sebagai admin tampilkan semua data.
+        // jika bukan admin tampilkan hanya sbp yang sesuai dengan kantonya.
+        if (user()->admin) {
+            $sbp->where('kantor.id', user()->kantor_id);
+        }
 
-        return $sbp->paginate();
+        // jika ada request status dengan nilai "dihapus" dan user
+        // memiliki akses destroy, ambil hanya data yang telah dihapus saja.
+        if ($this->query('status', 'active') == 'dihapus' && $access->destroy) {
+            $sbp->onlyTrashed();
+        }
+
+        // jika ada request search tambahkan query pencarian
+        if (!empty($this->query('search'))) {
+            $sbp->where(function (Builder $query): void {
+                $query->where('user.nama_lengkap', 'like', '%' . $this->query('search') . '%')
+                    ->orWhere('kantor.nama', 'like', '%' . $this->query('search') . '%');
+            });
+        }
+
+        // Periksa jika ada request "per_page"
+        if (in_array($this->query('per_page'), $this->rowsPerPage)) {
+            $this->perPage = $this->query('per_page');
+        }
+
+        // Periksa jika ada request "order_by"
+        if (in_array($this->query('order_by'), $this->columns)) {
+            $this->orderBy = $this->query('order_by');
+        }
+
+        // Periksa jika ada request "order"
+        if ($this->query('order') === 'desc') {
+            $this->order = 'desc';
+        }
+
+        return $sbp->orderBy($this->orderBy, $this->order)->paginate($this->perPage);
     }
 }

@@ -35,9 +35,9 @@ class UpdateKantorRequest extends FormRequest
     /**
      * Simpan hasil perubahan
      */
-    public function save(Kantor $kantor): void
+    public function update(): void
     {
-        $kantor->nama = $this->nama;
-        $kantor->save();
+        $this->kantor->nama = $this->nama;
+        $this->kantor->save();
     }
 }

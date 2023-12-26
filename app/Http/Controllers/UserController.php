@@ -60,9 +60,9 @@ class UserController extends Controller
     /**
      * Simpan user baru ke database
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request): RedirectResponse
     {
-        $user = $request->save();
+        $user = $request->insert();
 
         return to_route('user.access', ['user' => $user->id])->with([
             'flash.status' => 'success',
@@ -94,7 +94,7 @@ class UserController extends Controller
      */
     public function storeAccess(StoreAccessUserRequest $request, User $user): RedirectResponse
     {
-        $request->save(user: $user);
+        $request->insert();
 
         return to_route('user')->with([
             'flash.status' => 'success',
@@ -227,7 +227,7 @@ class UserController extends Controller
      */
     public function updateAccess(UpdateAccessUserRequest $request, User $user): RedirectResponse
     {
-        $request->update($user);
+        $request->update();
 
         return to_route('user.access.edit', ['user' => $user->id])->with([
             'flash.status' => 'success',

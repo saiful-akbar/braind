@@ -10,6 +10,7 @@ use App\Http\Requests\Komoditi\UpdateKomoditiRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response as HttpResponse;
 use Inertia\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -34,19 +35,19 @@ class KomoditiController extends Controller
     /**
      * Menyimpan data baru pada tabel Komoditi.
      */
-    public function store(StoreKomoditiRequest $request): JsonResponse
+    public function store(StoreKomoditiRequest $request): HttpResponse
     {
-        $data = $request->save();
-        return $this->jsonResponse($data);
+        $request->insert();
+        return response()->noContent();
     }
 
     /**
      * Simpan perubahan komoditi pada database.
      */
-    public function update(UpdateKomoditiRequest $request, Komoditi $komoditi): mixed
+    public function update(UpdateKomoditiRequest $request, Komoditi $komoditi): HttpResponse
     {
-        $request->save($komoditi);
-        return $this->jsonResponse($komoditi);
+        $request->update();
+        return response()->noContent();
     }
 
     /**

@@ -49,13 +49,13 @@ class UserRequest extends FormRequest implements Pagination
 
         // Tampilkan hanya data yang sudah dihapus jika ada request
         // status dengan nilai "removed" dan user memiliki akses destroy.
-        if ($this->get('status') == 'dihapus' && $access->destroy) {
+        if ($this->query('status', 'active') == 'dihapus' && $access->destroy) {
             $user->onlyTrashed();
         }
 
         // cari data berdasarkan request search
-        if ($this->get('search') != '') {
-            $search = $this->get('search');
+        if ($this->query('search') != '') {
+            $search = $this->query('search');
 
             $user->where(function (Builder $query) use ($search): void {
                 $query->where('users.nama_lengkap', 'like', "%$search%")
@@ -65,17 +65,17 @@ class UserRequest extends FormRequest implements Pagination
         }
 
         // urutkan data berdasarkan request "order_by" dan "order"
-        if (in_array($this->get('order_by'), $this->columns)) {
-            $this->orderBy = $this->get('order_by');
+        if (in_array($this->query('order_by'), $this->columns)) {
+            $this->orderBy = $this->query('order_by');
         }
 
-        if ($this->get('order') == 'desc') {
+        if ($this->query('order') == 'desc') {
             $this->order = 'desc';
         }
 
         // ambil banyaknya baris data berdasarkan nilai pada request "per_page"
-        if (in_array($this->get('per_page'), $this->rowsPerPage)) {
-            $this->perPage = $this->get('per_page');
+        if (in_array($this->query('per_page'), $this->rowsPerPage)) {
+            $this->perPage = $this->query('per_page');
         }
 
         return $user->orderBy($this->orderBy, $this->order)->paginate($this->perPage);

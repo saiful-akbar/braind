@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests\Komoditi;
 
-use App\Models\Komoditi;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateKomoditiRequest extends FormRequest
@@ -34,11 +32,9 @@ class UpdateKomoditiRequest extends FormRequest
     /**
      * Simpan hasil perubahan ke database
      */
-    public function save(Komoditi $komoditi): Komoditi
+    public function update(): void
     {
-        $komoditi->kode = $this->kode;
-        $komoditi->save();
-
-        return $komoditi;
+        $this->komoditi->kode = $this->kode;
+        $this->komoditi->save();
     }
 }

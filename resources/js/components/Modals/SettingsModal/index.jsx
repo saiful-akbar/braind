@@ -1,6 +1,6 @@
 import { openSettings } from "@/redux/reducers/settingsReducer";
 import CloseIcon from "@mui/icons-material/Close";
-import { Divider } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -24,44 +24,29 @@ export default function SettingsModal() {
   };
 
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      fullWidth
-      maxWidth="sm"
-      scroll="paper"
-      PaperProps={{
-        sx: {
-          borderRadius: 2,
-        },
-      }}
-    >
+    <Dialog onClose={handleClose} open={open} fullWidth maxWidth="sm">
       <DialogTitle
         sx={{
-          m: 0,
-          p: 2,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          pl: 3,
         }}
       >
         <Typography variant="h6" component="div">
           Settings
         </Typography>
 
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{ color: "text.secondary" }}
-        >
-          <CloseIcon />
-        </IconButton>
+        <Tooltip title="Tutup" disableInteractive>
+          <IconButton onClick={handleClose} sx={{ color: "text.secondary" }}>
+            <CloseIcon />
+          </IconButton>
+        </Tooltip>
       </DialogTitle>
 
-      <DialogContent>
-        <AppearanceSettings />
-        <Divider sx={{ my: 2 }} />
+      <DialogContent sx={{ borderTop: 1, borderColor: "divider" }}>
+        <Box sx={{ mt: 3, mb: 1 }}>
+          <AppearanceSettings />
+        </Box>
       </DialogContent>
     </Dialog>
   );

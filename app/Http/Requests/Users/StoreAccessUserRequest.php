@@ -19,11 +19,11 @@ class StoreAccessUserRequest extends FormRequest
     /**
      * Simpan menu akses user pada database
      */
-    public function save(User $user)
+    public function insert(): void
     {
-        DB::transaction(function () use ($user): void {
+        DB::transaction(function (): void {
             foreach ($this->all() as $menu) {
-                $user->menu()->attach($menu['id'], [
+                $this->user->menu()->attach($menu['id'], [
                     'create' => $menu['create'],
                     'read' => $menu['read'],
                     'update' => $menu['update'],

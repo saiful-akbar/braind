@@ -4,6 +4,7 @@ import { openNotification } from "@/redux/reducers/notificationReducer";
 import { router, usePage } from "@inertiajs/react";
 import { LoadingButton } from "@mui/lab";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -181,20 +182,27 @@ const FormKomoditi = React.memo(() => {
     >
       <DialogTitle>{title}</DialogTitle>
 
-      <DialogContent dividers>
-        <TextInput
-          fullWidth
-          required
-          autoFocus
-          size="small"
-          label="Kode Komoditi"
-          name="kode"
-          value={data.kode}
-          onChange={handleChange}
-          disabled={loading}
-          error={Boolean(error !== null)}
-          helperText={error}
-        />
+      <DialogContent
+        sx={{
+          borderTop: 1,
+          borderColor: "divider",
+        }}
+      >
+        <Box sx={{ mt: 3 }}>
+          <TextInput
+            fullWidth
+            required
+            autoFocus
+            size="small"
+            label="Kode Komoditi"
+            name="kode"
+            value={data.kode}
+            onChange={handleChange}
+            disabled={loading}
+            error={Boolean(error !== null)}
+            helperText={error}
+          />
+        </Box>
       </DialogContent>
 
       <DialogActions sx={{ py: 2, px: 3 }}>

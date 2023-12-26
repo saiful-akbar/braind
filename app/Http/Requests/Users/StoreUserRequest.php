@@ -45,7 +45,7 @@ class StoreUserRequest extends FormRequest
     /**
      * simpan data user baru pada database.
      */
-    public function save(): User
+    public function insert(): User
     {
         $data = $this->all();
         $data['password'] = bcrypt($this->password);
