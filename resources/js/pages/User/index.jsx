@@ -361,7 +361,7 @@ const User = (props) => {
                         <IconButton
                           color="primary"
                           component={Link}
-                          href={route("user.access", { user: user.id })}
+                          href={route("user.access.edit", { user: user.id })}
                         >
                           <KeyIcon fontSize="small" />
                         </IconButton>

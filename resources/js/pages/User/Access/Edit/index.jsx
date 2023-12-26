@@ -17,6 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { Fragment } from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
@@ -50,22 +51,22 @@ const descriptions = [
 ];
 
 /**
- * Halaman create akses user.
+ * Halaman edit akses user.
  */
-const CreateAccessUser = (props) => {
+const EditAccessUser = (props) => {
   const { menu: menus, user } = props.data;
   const dispatch = useDispatch();
-  const { data, setData, processing, post } = useForm(
+  const { data, setData, processing, put } = useForm(
     menus
       .map(({ sub_menu: subMenu }) =>
         subMenu
           .map((menu) => ({
             id: menu.id,
-            create: false,
-            read: false,
-            update: false,
-            remove: false,
-            destroy: false,
+            create: Boolean(menu.create),
+            read: Boolean(menu.read),
+            update: Boolean(menu.update),
+            remove: Boolean(menu.remove),
+            destroy: Boolean(menu.destroy),
           }))
           .flat()
       )
@@ -100,13 +101,21 @@ const CreateAccessUser = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    post(route("user.access.store", { user: user.id }), {
+    put(route("user.access.update", { user: user.id }), {
       preserveScroll: true,
+      onSuccess: () => {
+        dispatch(
+          openNotification({
+            status: "success",
+            message: "Akses user berhasil diperbarui.",
+          })
+        );
+      },
       onError: () => {
         dispatch(
           openNotification({
             status: "error",
-            message: "Terjadi kesalahan, gagal menambahkan hak akses user.",
+            message: "Gagal menambahkan hak akses user.",
           })
         );
       },
@@ -264,7 +273,7 @@ const CreateAccessUser = (props) => {
               loading={processing}
               startIcon={<Save />}
             >
-              Tambahkan
+              Perbarui
             </LoadingButton>
           </Grid>
         </Grid>
@@ -273,14 +282,11 @@ const CreateAccessUser = (props) => {
   );
 };
 
-/**
- * Layout
- */
-CreateAccessUser.layout = (page) => (
-  <AuthLayout title="Tambah akses">
-    <Header title="Tambah Akses" action={<BackButton href={route("user")} />} />
+EditAccessUser.layout = (page) => (
+  <AuthLayout title="Edit akses">
+    <Header title="Edit akses" action={<BackButton href={route("user")} />} />
     {page}
   </AuthLayout>
 );
 
-export default CreateAccessUser;
+export default EditAccessUser;

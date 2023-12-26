@@ -14,6 +14,7 @@ use App\Http\Requests\Users\UserRequest;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\StoreAccessUserRequest;
+use App\Http\Requests\Users\UpdateAccessUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -186,6 +187,53 @@ class UserController extends Controller
         return to_route('user', $request->all())->with([
             'flash.status' => 'success',
             'flash.message' => 'Data user berhasil dihapus selamanya.',
+        ]);
+    }
+
+    /**
+     * menampilkan halaman edit access
+     */
+    public function editAccess(User $user): mixed
+    {
+        $menu = MenuGroup::with([
+            'subMenu' => function ($query) use ($user): void {
+                $columns = [
+                    'menu.*',
+                    'menu_user.create',
+                    'menu_user.read',
+                    'menu_user.update',
+                    'menu_user.remove',
+                    'menu_user.destroy',
+                ];
+
+                $query->select($columns)
+                    ->leftJoin('menu_user', 'menu.id', '=', 'menu_user.menu_id')
+                    ->where('menu_user.user_id', '=', $user->id)
+                    ->orderBy('menu.nama', 'asc');
+            }
+        ])->orderBy('nama', 'asc')->get();
+
+        // ambil data akses user.
+        $access = $this->getAccessByRoute('user');
+
+        // render komponen
+        return $this->render(
+            component: 'User/Access/Edit/index',
+            access: $access,
+            data: compact('user', 'menu'),
+        );
+    }
+
+    /**
+     * Perbarui data menu akses user pada database
+     */
+    public function updateAccess(UpdateAccessUserRequest $request, User $user): RedirectResponse
+    {
+        $request->update($user);
+
+        return to_route('user.access.edit', ['user' => $user->id])->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Akses user berhasil diperbarui.'
         ]);
     }
 }

@@ -24,10 +24,10 @@ class MenuUser extends Pivot
     ];
 
     protected $casts = [
-        'create' => 'boolean',
-        'read' => 'boolean',
-        'update' => 'boolean',
-        'remove' => 'boolean',
+        'create'  => 'boolean',
+        'read'    => 'boolean',
+        'update'  => 'boolean',
+        'remove'  => 'boolean',
         'destroy' => 'boolean',
     ];
 }

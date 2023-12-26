@@ -89,10 +89,10 @@ const SidebarAccount = forwardRef((props, ref) => {
             mr: 1.5,
           }}
         >
-          <Avatar src={auth.user.photo} sx={{ mr: 1.5 }} />
+          <Avatar src={user.foto} sx={{ mr: 1.5 }} />
 
           <Typography variant="subtitle2" component="div" noWrap>
-            {user.full_name}
+            {user.nama_lengkap}
           </Typography>
         </Box>
 
