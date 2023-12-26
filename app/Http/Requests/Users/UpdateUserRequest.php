@@ -28,7 +28,7 @@ class UpdateUserRequest extends FormRequest implements UpdateRequest
             'kantor_id' => 'required|exists:kantor,id',
             'username' => "required|string|max:200|unique:users,username,{$this->user->id},id",
             'password' => 'nullable|string|max:200',
-            'role' => 'required|in:admin,kanwil',
+            'admin' => 'required|boolean',
             'nama_lengkap' => 'required|string|max:100',
             'foto' => 'nullable|image|max:1000',
             'jenis_kelamin' => 'nullable|in:l,p',
@@ -48,19 +48,19 @@ class UpdateUserRequest extends FormRequest implements UpdateRequest
      */
     public function update(): void
     {
-        $this->user->kantor_id     = $this->kantor_id;
-        $this->user->username      = $this->username;
-        $this->user->role          = $this->role;
-        $this->user->nama_lengkap  = $this->nama_lengkap;
+        $this->user->kantor_id = $this->kantor_id;
+        $this->user->username = $this->username;
+        $this->user->admin = $this->admin;
+        $this->user->nama_lengkap = $this->nama_lengkap;
         $this->user->jenis_kelamin = $this->jenis_kelamin;
         $this->user->tanggal_lahir = $this->tanggal_lahir;
-        $this->user->tempat_lahir  = $this->tempat_lahir;
-        $this->user->negara        = $this->negara;
-        $this->user->kota          = $this->kota;
-        $this->user->kode_pos      = $this->kode_pos;
-        $this->user->alamat        = $this->alamat;
-        $this->user->telepon       = $this->telepon;
-        $this->user->email         = $this->email;
+        $this->user->tempat_lahir = $this->tempat_lahir;
+        $this->user->negara = $this->negara;
+        $this->user->kota = $this->kota;
+        $this->user->kode_pos = $this->kode_pos;
+        $this->user->alamat = $this->alamat;
+        $this->user->telepon = $this->telepon;
+        $this->user->email = $this->email;
 
         // simpan password jika dirubah
         if (!is_null($this->password)) {

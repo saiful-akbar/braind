@@ -11,12 +11,10 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Users\UserRequest;
-use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\StoreAccessUserRequest;
 use App\Http\Requests\Users\UpdateAccessUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
-use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class UserController extends Controller

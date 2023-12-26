@@ -15,7 +15,7 @@ class UserRequest extends FormRequest implements Pagination
         'id',
         'nama_lengkap',
         'foto',
-        'role',
+        'admin',
         'email',
         'kantor_id',
         'kantor_nama',
@@ -42,14 +42,7 @@ class UserRequest extends FormRequest implements Pagination
     {
         $user = User::leftJoin('kantor', 'users.kantor_id', '=', 'kantor.id')
             ->select(
-                'users.id',
-                'users.nama_lengkap',
-                'users.foto',
-                'users.role',
-                'users.email',
-                'users.created_at',
-                'users.updated_at',
-                'users.deleted_at',
+                'users.*',
                 'kantor.id AS kantor_id',
                 'kantor.nama AS kantor_nama',
             );
@@ -67,7 +60,6 @@ class UserRequest extends FormRequest implements Pagination
             $user->where(function (Builder $query) use ($search): void {
                 $query->where('users.nama_lengkap', 'like', "%$search%")
                     ->orWhere('users.email', 'like', "%$search%")
-                    ->orWhere('users.role', 'like', "%$search%")
                     ->orWhere('kantor.nama', 'like', "%$search%");
             });
         }

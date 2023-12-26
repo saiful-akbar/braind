@@ -26,7 +26,7 @@ class UserExport implements FromView, WithStyles, ShouldAutoSize
         'kantor_nama',
         'id',
         'username',
-        'role',
+        'admin',
         'nama_lengkap',
         'jenis_kelamin',
         'tanggal_lahir',
@@ -63,7 +63,6 @@ class UserExport implements FromView, WithStyles, ShouldAutoSize
             $query->where(function (Builder $query) use ($request): void {
                 $query->where('users.nama_lengkap', 'like', "%{$request->search}%")
                     ->where('users.email', 'like', "%{$request->search}%")
-                    ->where('users.role', 'like', "%{$request->search}%")
                     ->where('kantor.nama', 'like', "%{$request->search}%");
             });
         }

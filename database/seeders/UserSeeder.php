@@ -12,20 +12,20 @@ class UserSeeder extends Seeder
     {
         return [
             [
-                'kantor'       => 'Pusat',
-                'username'     => 'admin',
-                'password'     => bcrypt('admin123'),
-                'role'         => 'admin',
+                'kantor' => 'Pusat',
+                'username' => 'admin',
+                'password' => bcrypt('admin123'),
+                'admin' => true,
                 'nama_lengkap' => 'Admin',
-                'email'        => 'admin@gmail.com',
+                'email' => 'admin@gmail.com',
             ],
             [
-                'kantor'       => 'Pusat',
-                'username'     => 'guest',
-                'password'     => bcrypt('guest123'),
-                'role'         => 'kanwil',
+                'kantor' => 'Pusat',
+                'username' => 'guest',
+                'password' => bcrypt('guest123'),
+                'admin' => false,
                 'nama_lengkap' => 'Guest',
-                'email'        => 'guest@gmail.com',
+                'email' => 'guest@gmail.com',
             ],
         ];
     }
@@ -39,12 +39,12 @@ class UserSeeder extends Seeder
             $kantor = Kantor::where('nama', $user['kantor'])->first();
 
             User::create([
-                'kantor_id'    => $kantor->id,
-                'username'     => $user['username'],
-                'password'     => $user['password'],
-                'role'         => $user['role'],
+                'kantor_id' => $kantor->id,
+                'username' => $user['username'],
+                'password' => $user['password'],
+                'admin' => $user['admin'],
                 'nama_lengkap' => $user['nama_lengkap'],
-                'email'        => $user['email'],
+                'email' => $user['email'],
             ]);
         }
     }

@@ -2,6 +2,7 @@ import BackButton from "@/components/Buttons/BackButton";
 import CardPaper from "@/components/CardPaper";
 import Header from "@/components/Header";
 import DateInput from "@/components/Input/DateInput";
+import SwitchInput from "@/components/Input/SwitchInput";
 import TextInput from "@/components/Input/TextInput";
 import AuthLayout from "@/layouts/AuthLayout";
 import { Avatar, Box, CardContent, Grid, Stack } from "@mui/material";
@@ -36,19 +37,18 @@ const ShowUser = ({ data, access }) => {
                   disabled
                   size="small"
                   type="text"
-                  label="Role"
-                  name="role"
-                  defaultValue={data.role}
-                />
-
-                <TextInput
-                  fullWidth
-                  disabled
-                  size="small"
-                  type="text"
                   label="Username"
                   name="username"
                   defaultValue={data.username}
+                />
+
+                <SwitchInput
+                  disabled
+                  label="Admin"
+                  labelPlacement="end"
+                  color="secondary"
+                  name="admin"
+                  checked={data.admin}
                 />
               </Stack>
             </CardContent>

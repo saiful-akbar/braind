@@ -27,7 +27,7 @@ class StoreUserRequest extends FormRequest
             'kantor_id' => 'required|exists:kantor,id',
             'username' => 'required|string|max:200|unique:users,username',
             'password' => 'required|string|max:200|min:4',
-            'role' => 'required|in:admin,kanwil',
+            'admin' => 'required|boolean',
             'nama_lengkap' => 'required|string|max:100',
             'foto' => 'nullable|image|max:1000',
             'jenis_kelamin' => 'nullable|in:l,p',

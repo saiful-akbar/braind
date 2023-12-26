@@ -66,8 +66,8 @@ const User = (props) => {
       show: true,
     },
     {
-      field: "role",
-      label: "Role",
+      field: "admin",
+      label: "Admin",
       sort: true,
       timeFormat: false,
       show: true,
@@ -320,6 +320,17 @@ const User = (props) => {
 
                           <Box sx={{ ml: 1 }}>{user.nama_lengkap}</Box>
                         </Box>
+                      </TableCell>
+                    );
+                  }
+
+                  if (column.field === "admin") {
+                    return (
+                      <TableCell
+                        key={column.field}
+                        title={user.admin ? "Ya" : "Tidak"}
+                      >
+                        {user.admin ? "Ya" : "Tidak"}
                       </TableCell>
                     );
                   }

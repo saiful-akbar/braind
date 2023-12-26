@@ -23,7 +23,7 @@ return new class extends Migration
             // Account
             $table->string('username')->unique();
             $table->string('password');
-            $table->enum('role', ['admin', 'kanwil'])->default('kanwil');
+            $table->boolean('admin')->default(false);
             $table->rememberToken();
 
             // profile 

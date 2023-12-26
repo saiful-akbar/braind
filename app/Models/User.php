@@ -23,7 +23,7 @@ class User extends Authenticatable
         'kantor_id',
         'username',
         'password',
-        'role',
+        'admin',
         'nama_lengkap',
         'foto',
         'jenis_kelamin',
@@ -44,6 +44,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'password' => 'hashed',
+        'admin' => 'boolean',
     ];
 
     /**

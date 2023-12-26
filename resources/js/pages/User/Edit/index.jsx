@@ -5,6 +5,7 @@ import AvatarInput from "@/components/Input/AvatarInput";
 import DateInput from "@/components/Input/DateInput";
 import PasswordInput from "@/components/Input/PasswordInput";
 import SelectInput from "@/components/Input/SelectInput";
+import SwitchInput from "@/components/Input/SwitchInput";
 import TextInput from "@/components/Input/TextInput";
 import AuthLayout from "@/layouts/AuthLayout";
 import { openNotification } from "@/redux/reducers/notificationReducer";
@@ -54,7 +55,7 @@ const EditUser = (props) => {
 
   const { data, setData, processing, errors, post } = useForm({
     kantor_id: user.kantor_id,
-    role: user.role,
+    admin: Boolean(user.admin),
     username: user.username,
     password: "",
     foto: null,
@@ -80,14 +81,21 @@ const EditUser = (props) => {
    */
   const handleChange = useCallback(
     (e) => {
-      const { type, name, value } = e.target;
+      switch (e.target.type) {
+        case "file":
+          if (e.target.files.length > 0) {
+            setPhotoPreview(URL.createObjectURL(e.target.files[0]));
+            setData(e.target.name, e.target.files[0]);
+          }
+          break;
 
-      if (type === "file" && e.target.files.length > 0) {
-        const file = e.target.files[0];
-        setPhotoPreview(URL.createObjectURL(file));
-        setData(name, file);
-      } else {
-        setData(name, value);
+        case "checkbox":
+          setData(e.target.name, e.target.checked);
+          break;
+
+        default:
+          setData(e.target.name, e.target.value);
+          break;
       }
     },
     [setData, setPhotoPreview]
@@ -155,20 +163,6 @@ const EditUser = (props) => {
                     helperText={errors.kantor_id}
                   />
 
-                  <SelectInput
-                    fullWidth
-                    required
-                    size="small"
-                    label="Role"
-                    name="role"
-                    items={roles}
-                    value={data.role}
-                    onChange={handleChange}
-                    disabled={processing}
-                    error={Boolean(errors.role)}
-                    helperText={errors.role}
-                  />
-
                   <TextInput
                     required
                     fullWidth
@@ -181,6 +175,16 @@ const EditUser = (props) => {
                     value={data.username}
                     error={Boolean(errors.username)}
                     helperText={errors.username}
+                  />
+
+                  <SwitchInput
+                    label="Admin"
+                    labelPlacement="end"
+                    color="secondary"
+                    name="admin"
+                    checked={data.admin}
+                    onChange={handleChange}
+                    disabled={processing}
                   />
                 </Stack>
               </CardContent>

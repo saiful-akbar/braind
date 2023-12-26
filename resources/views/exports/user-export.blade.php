@@ -14,7 +14,7 @@
                 <th>Nama Kantor</th>
                 <th>User ID</th>
                 <th>Username</th>
-                <th>Role</th>
+                <th>Admin</th>
                 <th>Nama Lengkap</th>
                 <th>Jenis Kelamin</th>
                 <th>Tanggal Lahir</th>
@@ -36,7 +36,7 @@
                     <th>{{ $user->kantor_nama }}</th>
                     <th>{{ $user->id }}</th>
                     <th>{{ $user->username }}</th>
-                    <th>{{ $user->role }}</th>
+                    <th>{{ $user->admin ? 'Ya' : 'Tidak' }}</th>
                     <th>{{ $user->nama_lengkap }}</th>
                     <th>{{ $user->jenis_kelamin == 'l' ? 'Laki-Laki' : 'Perempuan' }}</th>
                     <th>{{ $user->tanggal_lahir }}</th>
