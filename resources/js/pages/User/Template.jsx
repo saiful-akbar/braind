@@ -1,19 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Header from "@/components/Header";
-import { Button, Box, Grid } from "@mui/material";
-import { Add } from "@mui/icons-material";
-import { Link, router, usePage } from "@inertiajs/react";
 import DownloadButton from "@/components/Buttons/DownloadButton";
 import RefreshButton from "@/components/Buttons/RefreshButton";
+import Header from "@/components/Header";
+import Loader from "@/components/Loader";
+import { openNotification } from "@/redux/reducers/notificationReducer";
+import { Link, router, usePage } from "@inertiajs/react";
+import { Box, Button, Grid } from "@mui/material";
+import { saveAs } from "file-saver";
+import PropTypes from "prop-types";
+import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import FilterStatusUser from "./Partials/FilterStatusUser";
 import SearchUser from "./Partials/SearchUser";
-import { useDispatch } from "react-redux";
-import Loader from "@/components/Loader";
-import { useState } from "react";
-import { useCallback } from "react";
-import { openNotification } from "@/redux/reducers/notificationReducer";
-import { saveAs } from "file-saver";
 
 /**
  * Komponen template untuk halaman user
@@ -74,14 +71,14 @@ const UserTemplate = ({ children }) => {
         action={
           access.create && (
             <Button
+              disableElevation
               type="button"
               color="primary"
               variant="contained"
-              startIcon={<Add />}
               component={Link}
               href={route("user.create")}
             >
-              Tambah user
+              Tambah User
             </Button>
           )
         }

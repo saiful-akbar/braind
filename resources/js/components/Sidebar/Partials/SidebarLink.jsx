@@ -32,7 +32,7 @@ const SidebarLink = (props) => {
   const isActive = (routeName) => {
     return route().current(`${routeName}*`)
       ? "secondary.light"
-      : "text.sidebar";
+      : "text.secondary";
   };
 
   return (

@@ -30,8 +30,9 @@ const BackButton = memo(({ ...rest }) => {
         }}
       >
         <Button
+          disableElevation
           type="button"
-          startIcon={<ArrowBackIosNewIcon />}
+          variant="outlined"
           component={Link}
           {...rest}
         >

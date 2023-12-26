@@ -44,7 +44,7 @@ function Sidebar() {
             width: sidebar.width,
             border: 0,
             borderRadius: 0,
-            backgroundColor: "background.default",
+            backgroundColor: "background.paper",
           },
         }}
         sx={{
@@ -66,8 +66,9 @@ function Sidebar() {
           sx: {
             width: sidebar.width,
             boxSizing: "border-box",
-            backgroundColor: "background.sidebar",
+            backgroundColor: "background.paper",
             borderRadius: 0,
+            borderRight: 0,
             zIndex: 0,
           },
         }}

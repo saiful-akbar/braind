@@ -59,7 +59,7 @@ export default function SettingsModal() {
         </IconButton>
       </DialogTitle>
 
-      <DialogContent dividers>
+      <DialogContent>
         <AppearanceSettings />
         <Divider sx={{ my: 2 }} />
       </DialogContent>

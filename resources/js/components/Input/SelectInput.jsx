@@ -38,6 +38,7 @@ const SelectInput = memo((props) => {
         inputProps={{
           sx: {
             backgroundColor: "background.default",
+            borderRadius: "8px",
           },
           ...inputProps,
         }}
@@ -45,7 +46,9 @@ const SelectInput = memo((props) => {
           slotProps: {
             paper: {
               sx: {
-                borderRadius: 2,
+                borderRadius: "8px",
+                border: 1,
+                borderColor: "divider",
               },
             },
           },

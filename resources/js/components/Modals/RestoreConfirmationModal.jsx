@@ -1,20 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
+import CloseIcon from "@mui/icons-material/Close";
+import { LoadingButton } from "@mui/lab";
 import {
   Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
   DialogActions,
+  DialogTitle,
   IconButton,
-  Typography,
-  Grid,
   Tooltip,
-  Button,
+  Typography,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import RestoreIcon from "@mui/icons-material/Restore";
-import { LoadingButton } from "@mui/lab";
+import PropTypes from "prop-types";
+import React from "react";
 
 /**
  * Komponen modal untuk konfirmasi hepus
@@ -53,12 +48,12 @@ const RestoreConfirmationModal = React.memo((props) => {
       <DialogActions sx={{ p: 3 }}>
         <LoadingButton
           fullWidth
+          disableElevation
           type="button"
           variant="contained"
           color="primary"
           loading={loading}
           onClick={onRestore}
-          startIcon={<RestoreIcon />}
           loadingIndicator="Memulihkan..."
         >
           Pulihkan

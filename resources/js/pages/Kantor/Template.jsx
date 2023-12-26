@@ -1,18 +1,16 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Header from "@/components/Header";
-import RefreshButton from "@/components/Buttons/RefreshButton";
-import SearchKantor from "./Partials/SearchKantor";
-import FilterStatusKantor from "./Partials/FilterStatusKantor";
-import Loader from "@/components/Loader";
-import { Link, router, usePage } from "@inertiajs/react";
-import { Add, FileDownload } from "@mui/icons-material";
-import { Box, Button, Grid, IconButton, Tooltip } from "@mui/material";
-import { useCallback } from "react";
-import { saveAs } from "file-saver";
-import { useDispatch } from "react-redux";
-import { openNotification } from "@/redux/reducers/notificationReducer";
 import DownloadButton from "@/components/Buttons/DownloadButton";
+import RefreshButton from "@/components/Buttons/RefreshButton";
+import Header from "@/components/Header";
+import Loader from "@/components/Loader";
+import { openNotification } from "@/redux/reducers/notificationReducer";
+import { Link, router, usePage } from "@inertiajs/react";
+import { Box, Button, Grid } from "@mui/material";
+import { saveAs } from "file-saver";
+import PropTypes from "prop-types";
+import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import FilterStatusKantor from "./Partials/FilterStatusKantor";
+import SearchKantor from "./Partials/SearchKantor";
 
 /**
  * Template untuk halaman division
@@ -86,13 +84,13 @@ const Template = ({ children }) => {
         action={
           access.create && (
             <Button
+              disableElevation
               type="button"
               variant="contained"
-              startIcon={<Add />}
               component={Link}
               href={route("kantor.create")}
             >
-              Tambah kantor
+              Tambah Kantor
             </Button>
           )
         }

@@ -1,5 +1,4 @@
 import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { LoadingButton } from "@mui/lab";
 import {
   Dialog,
@@ -49,12 +48,12 @@ const DeleteConfirmationModal = React.memo((props) => {
       <DialogActions sx={{ px: 3, pb: 3 }}>
         <LoadingButton
           fullWidth
+          disableElevation
           type="button"
           variant="contained"
           color="error"
           loading={loading}
           onClick={onDelete}
-          startIcon={<DeleteIcon />}
           loadingIndicator="Menghapus..."
         >
           Hapus

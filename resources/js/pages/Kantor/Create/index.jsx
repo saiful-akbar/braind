@@ -72,12 +72,12 @@ export default function CreateKantor(props) {
                 }}
               >
                 <LoadingButton
+                  disableElevation
                   type="submit"
                   variant="contained"
                   loading={processing}
-                  startIcon={<SaveIcon />}
                 >
-                  Tambahkan
+                  Simpan
                 </LoadingButton>
               </CardActions>
             </CardPaper>

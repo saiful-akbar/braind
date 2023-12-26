@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 /**
  * Komponen text input
  */
-const TextInput = React.memo(({inputProps, ...rest }) => {
+const TextInput = React.memo(({ inputProps, ...rest }) => {
   return (
     <TextField
       {...rest}
@@ -23,7 +23,7 @@ const TextInput = React.memo(({inputProps, ...rest }) => {
  * Prop types
  */
 TextInput.propsTypes = {
-  inputProps: PropTypes.object
+  inputProps: PropTypes.object,
 };
 
 /**

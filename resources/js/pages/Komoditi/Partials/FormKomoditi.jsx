@@ -2,7 +2,6 @@ import TextInput from "@/components/Input/TextInput";
 import { closeFormKomoditi } from "@/redux/reducers/komoditiReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { router, usePage } from "@inertiajs/react";
-import { Close, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Button,
@@ -11,8 +10,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import React from "react";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
@@ -204,7 +202,6 @@ const FormKomoditi = React.memo(() => {
           type="button"
           variant="outlined"
           color="primary"
-          startIcon={<Close />}
           disabled={loading}
           onClick={handleClose}
           disableElevation
@@ -213,13 +210,13 @@ const FormKomoditi = React.memo(() => {
         </Button>
 
         <LoadingButton
+          disableElevation
           type="submit"
           variant="contained"
           color="primary"
           loading={loading}
-          startIcon={<Save />}
         >
-          {komoditi.type === "create" ? "Tambahkan" : "Perbarui"}
+          Simpan
         </LoadingButton>
       </DialogActions>
     </Dialog>

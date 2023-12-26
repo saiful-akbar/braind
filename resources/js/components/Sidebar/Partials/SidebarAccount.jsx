@@ -64,8 +64,8 @@ const SidebarAccount = forwardRef((props, ref) => {
         width: "100%",
         px: 3,
         py: 2,
-        borderTop: 1,
-        borderColor: "divider",
+        // borderTop: 1,
+        // borderColor: "divider",
       }}
     >
       <ButtonBase
@@ -89,7 +89,14 @@ const SidebarAccount = forwardRef((props, ref) => {
             mr: 1.5,
           }}
         >
-          <Avatar src={user.foto} sx={{ mr: 1.5 }} />
+          <Avatar
+            src={user.foto}
+            sx={{
+              mr: 1.5,
+              width: 30,
+              height: 30,
+            }}
+          />
 
           <Typography variant="subtitle2" component="div" noWrap>
             {user.nama_lengkap}
@@ -117,8 +124,9 @@ const SidebarAccount = forwardRef((props, ref) => {
           paper: {
             sx: {
               backgroundImage: "none",
+              backgroundColor: "background.paper",
               width: 210,
-              borderRadius: 2,
+              borderRadius: "8px",
               border: 1,
               borderColor: "divider",
             },

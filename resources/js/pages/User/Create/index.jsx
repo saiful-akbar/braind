@@ -10,7 +10,6 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import dateFormat from "@/utils";
 import { useForm } from "@inertiajs/react";
-import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Box, CardContent, Grid, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
@@ -171,7 +170,7 @@ const CreateUser = (props) => {
                     onChange={handleChange}
                     disabled={processing}
                     value={data.username}
-                    error={errors.username}
+                    error={Boolean(errors.username)}
                     helperText={errors.username}
                   />
 
@@ -392,13 +391,13 @@ const CreateUser = (props) => {
           <Grid item xs={12} md={8}>
             <LoadingButton
               fullWidth
+              disableElevation
               variant="contained"
               type="submit"
               color="primary"
               loading={processing}
-              startIcon={<Save />}
             >
-              Tambahkan
+              Simpan
             </LoadingButton>
           </Grid>
         </Grid>

@@ -1,8 +1,6 @@
-import { openMobileSidebar } from "@/redux/reducers/sidebarReducer";
 import { usePage } from "@inertiajs/react";
 import { Box, Divider, List, ListSubheader } from "@mui/material";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 import SidebarAccount from "./SidebarAccount";
 import SidebarLink from "./SidebarLink";
 
@@ -12,7 +10,6 @@ import SidebarLink from "./SidebarLink";
 export default function SidebarContent() {
   const { menu: menus } = usePage().props.auth;
   const accountRef = useRef(null);
-  const dispatch = useDispatch();
 
   // state
   const [accountHeight, setAccountHeight] = useState(0);
@@ -21,11 +18,6 @@ export default function SidebarContent() {
   useEffect(() => {
     setAccountHeight(accountRef.current.clientHeight);
   }, [accountRef, setAccountHeight]);
-
-  // fungsi untuk menutup mobile sidebar
-  const handleCloseMobileSidebar = () => {
-    dispatch(openMobileSidebar(false));
-  };
 
   return (
     <Box
@@ -71,10 +63,7 @@ export default function SidebarContent() {
                     color: "text.primary",
                     fontWeight: 600,
                     ml: 2,
-                    backgroundColor: {
-                      lg: "background.sidebar",
-                      xs: "background.default",
-                    },
+                    backgroundColor: "background.paper",
                   }}
                 >
                   {menu.nama}

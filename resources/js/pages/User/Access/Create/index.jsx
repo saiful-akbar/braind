@@ -5,7 +5,6 @@ import SwitchInput from "@/components/Input/SwitchInput";
 import AuthLayout from "@/layouts/AuthLayout";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { useForm } from "@inertiajs/react";
-import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -16,7 +15,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React from "react";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
@@ -258,13 +256,13 @@ const CreateAccessUser = (props) => {
           <Grid item xs={12} md={8}>
             <LoadingButton
               fullWidth
+              disableElevation
               type="submit"
               color="primary"
               variant="contained"
               loading={processing}
-              startIcon={<Save />}
             >
-              Tambahkan
+              Simpan
             </LoadingButton>
           </Grid>
         </Grid>

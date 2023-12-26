@@ -1,19 +1,18 @@
-import PropTypes from "prop-types";
-import React, { useCallback, useState } from "react";
 import DownloadButton from "@/components/Buttons/DownloadButton";
 import RefreshButton from "@/components/Buttons/RefreshButton";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import { addKomoditi } from "@/redux/reducers/komoditiReducer";
+import { openNotification } from "@/redux/reducers/notificationReducer";
 import { router, usePage } from "@inertiajs/react";
-import { Add } from "@mui/icons-material";
 import { Box, Button, Grid } from "@mui/material";
 import { saveAs } from "file-saver";
+import PropTypes from "prop-types";
+import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import FilterStatusKomoditi from "./Partials/FilterStatusKomoditi";
 import FormCommodity from "./Partials/FormKomoditi";
 import SearchKomoditi from "./Partials/SearchKomoditi";
-import { openNotification } from "@/redux/reducers/notificationReducer";
 
 /**
  * Komponen template untuk halaman commodity.
@@ -84,13 +83,13 @@ const KomoditiTemplate = ({ children }) => {
         action={
           access.create && (
             <Button
+              disableElevation
               type="button"
               variant="contained"
               color="primary"
-              startIcon={<Add />}
               onClick={handleAdd}
             >
-              Tambah komoditi
+              Tambah Komoditi
             </Button>
           )
         }

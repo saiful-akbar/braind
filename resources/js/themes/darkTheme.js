@@ -7,25 +7,24 @@ export default createTheme({
   components,
   palette: {
     mode: "dark",
+    divider: "hsla(0, 0%, 100%, 0.14)",
     tooltip: {
       background: "rgba(255, 255, 255, 0.9)",
       text: "#333333",
     },
     background: {
-      default: "#1D1D1D",
-      paper: "#222222",
-      sidebar: "#111111",
+      default: "#000",
+      paper: "#0A0A0A",
     },
     primary: {
-      main: "#FFFFFF",
+      main: "#ededed",
     },
     secondary: {
       main: "#2196F3",
     },
     text: {
-      primary: "#FFFFFF",
-      secondary: "#888888",
-      sidebar: "#888888",
+      primary: "#ededed",
+      secondary: "#a1a1a1",
     },
   },
 });

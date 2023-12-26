@@ -7,26 +7,20 @@ export default createTheme({
   components,
   palette: {
     mode: "light",
-    divider: "#EEEEEE",
-    tooltip: {
-      background: "rgba(51, 51, 51, 0.9)",
-      text: "#FFFFFF",
-    },
+    divider: "rgba(0,0,0,.08)",
     background: {
-      default: "#FFFFFF",
-      paper: "#FAFAFA",
-      sidebar: "#FAFAFA",
+      default: "#fafafa",
+      paper: "#ffffff",
     },
     primary: {
-      main: "#333333",
+      main: "#171717",
     },
     secondary: {
       main: "#1E88E5",
     },
     text: {
-      primary: "#333333",
-      secondary: "#999999",
-      sidebar: "#666666",
+      primary: "#171717",
+      secondary: "#666666",
     },
   },
 });

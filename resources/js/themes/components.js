@@ -5,8 +5,14 @@ export default {
         theme.unstable_sx({
           backdropFilter: "blur(6px)",
           fontSize: 12,
-          backgroundColor: ({ palette }) => palette.tooltip.background,
-          color: ({ palette }) => palette.tooltip.text,
+          backgroundColor: ({ palette }) => {
+            if (palette.mode === "dark") return "#ededed";
+            return "#171717";
+          },
+          color: ({ palette }) => {
+            if (palette.mode === "dark") return "#171717";
+            return "#ededed";
+          },
         }),
     },
   },
@@ -24,8 +30,11 @@ export default {
     styleOverrides: {
       root: ({ theme }) =>
         theme.unstable_sx({
-          borderColor: theme.palette.divider,
           borderRadius: "8px",
+        }),
+      notchedOutline: ({ theme }) =>
+        theme.unstable_sx({
+          borderColor: theme.palette.divider,
         }),
     },
   },

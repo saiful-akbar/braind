@@ -7,7 +7,6 @@ import { useForm } from "@inertiajs/react";
 import { LoadingButton } from "@mui/lab";
 import { Box, CardActions, CardContent, Grid } from "@mui/material";
 import { useCallback } from "react";
-import SaveIcon from "@mui/icons-material/Save";
 
 /**
  * Halaman edit kantor (master kanwil)
@@ -76,13 +75,12 @@ const EditKantor = (props) => {
                 }}
               >
                 <LoadingButton
+                  disableElevation
                   type="submit"
                   variant="contained"
                   loading={processing}
-                  startIcon={<SaveIcon />}
-                  disableElevation
                 >
-                  Perbarui
+                  Simpan
                 </LoadingButton>
               </CardActions>
             </CardPaper>
