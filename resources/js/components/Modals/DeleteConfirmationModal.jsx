@@ -48,7 +48,6 @@ const DeleteConfirmationModal = React.memo((props) => {
       <DialogActions sx={{ px: 3, pb: 3 }}>
         <LoadingButton
           fullWidth
-          disableElevation
           type="button"
           variant="contained"
           color="error"

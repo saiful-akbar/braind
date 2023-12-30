@@ -7,7 +7,7 @@ import { Card, CardHeader } from "@mui/material";
  */
 const CardPaper = memo(({ title, subheader, children, ...rest }) => {
   return (
-    <Card elevation={0} variant="outlined" sx={{ p: 1 }} {...rest}>
+    <Card elevation={3} variant="elevation" sx={{ p: 1 }} {...rest}>
       {title !== "" && (
         <CardHeader
           title={title}

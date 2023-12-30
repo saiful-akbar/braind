@@ -85,7 +85,7 @@ const SearchFormDivision = () => {
     <form onSubmit={handleSubmit} autoComplete="off">
       <SearchInput
         fullWidth
-        placeholder="Cari berdasarkan nama kantor..."
+        label="Cari kantor"
         size="small"
         value={value}
         onChange={handleChange}

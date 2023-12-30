@@ -56,7 +56,6 @@ const EditKantor = (props) => {
               <CardContent>
                 <TextInput
                   fullWidth
-                  size="small"
                   label="Nama kantor"
                   name="nama"
                   value={data.nama}
@@ -75,7 +74,6 @@ const EditKantor = (props) => {
                 }}
               >
                 <LoadingButton
-                  disableElevation
                   type="submit"
                   variant="contained"
                   loading={processing}

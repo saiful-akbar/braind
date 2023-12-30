@@ -9,7 +9,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
  * Komponen input date
  */
 const DateInput = React.memo((props) => {
-  const { label, error, helperText, ...rest } = props;
+  const { label, error, helperText, size, ...rest } = props;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -21,14 +21,9 @@ const DateInput = React.memo((props) => {
             textField: {
               error,
               helperText,
-              size: "small",
+              size,
               sx: {
                 width: "100%",
-              },
-              InputProps: {
-                sx: {
-                  backgroundColor: "background.default",
-                },
               },
             },
           }}
@@ -43,10 +38,12 @@ DateInput.propTypes = {
   label: PropTypes.string.isRequired,
   error: PropTypes.bool,
   helperText: PropTypes.node,
+  size: PropTypes.oneOf(["small", "medium", "large"]),
 };
 
 DateInput.defaultProps = {
   error: false,
+  size: "medium",
 };
 
 export default DateInput;

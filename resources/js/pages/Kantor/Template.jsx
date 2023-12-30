@@ -4,13 +4,14 @@ import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { Link, router, usePage } from "@inertiajs/react";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, CardContent, Grid } from "@mui/material";
 import { saveAs } from "file-saver";
 import PropTypes from "prop-types";
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import FilterStatusKantor from "./Partials/FilterStatusKantor";
 import SearchKantor from "./Partials/SearchKantor";
+import CardPaper from "@/components/CardPaper";
 
 /**
  * Template untuk halaman division
@@ -84,44 +85,49 @@ const Template = ({ children }) => {
         action={
           access.create && (
             <Button
-              disableElevation
               type="button"
               variant="contained"
               component={Link}
               href={route("kantor.create")}
             >
-              Tambah Kantor
+              Tambah kantor
             </Button>
           )
         }
       />
 
       <Box component="main" sx={{ mt: 5 }}>
-        <Grid container spacing={3} justifyContent="space-between">
-          <Grid item md={2} xs={12}>
-            <DownloadButton
-              color="primary"
-              title="Ekspor excel"
-              onClick={handleExport}
-            />
+        <CardPaper>
+          <CardContent>
+            <Grid container spacing={3} justifyContent="space-between">
+              <Grid item md={2} xs={12}>
+                <DownloadButton
+                  color="primary"
+                  title="Ekspor excel"
+                  onClick={handleExport}
+                />
 
-            <RefreshButton color="primary" onClick={handleRefreshClick} />
-          </Grid>
+                <RefreshButton
+                  color="primary"
+                  title="Muat ulang"
+                  onClick={handleRefreshClick}
+                />
+              </Grid>
 
-          {access.destroy && (
-            <Grid item xs={12} md={5}>
-              <FilterStatusKantor />
+              {access.destroy && (
+                <Grid item xs={12} md={5}>
+                  <FilterStatusKantor />
+                </Grid>
+              )}
+
+              <Grid item xs={12} md={5}>
+                <SearchKantor />
+              </Grid>
             </Grid>
-          )}
+          </CardContent>
 
-          <Grid item xs={12} md={5}>
-            <SearchKantor />
-          </Grid>
-
-          <Grid item xs={12}>
-            {children}
-          </Grid>
-        </Grid>
+          {children}
+        </CardPaper>
       </Box>
 
       <Loader open={loading} />

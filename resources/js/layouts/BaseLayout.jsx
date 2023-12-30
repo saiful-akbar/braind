@@ -1,13 +1,11 @@
-import { useLayoutEffect } from "react";
-import PropTypes from "prop-types";
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider } from "@mui/material/styles";
 import { setAppearance } from "@/redux/reducers/settingsReducer";
 import darkTheme from "@/themes/darkTheme";
 import lightTheme from "@/themes/lightTheme";
-import { router } from "@inertiajs/react";
 import { useMediaQuery } from "@mui/material";
-import NProgress from "nprogress";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import PropTypes from "prop-types";
+import { useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
@@ -22,17 +20,11 @@ const BaseLayout = ({ children }) => {
   const dispatch = useDispatch();
   const { appearance } = useSelector((state) => state.settings);
 
-  // Nprogress
-  NProgress.configure({ showSpinner: false, includeCSS: true });
-
   /**
    * Jalankan nprogress dan
    * update tema sebelum komponen dirender.
    */
   useLayoutEffect(() => {
-    router.on("start", () => NProgress.start());
-    router.on("finish", () => NProgress.done());
-
     const html = document.querySelector("html");
 
     switch (appearanceStorage) {

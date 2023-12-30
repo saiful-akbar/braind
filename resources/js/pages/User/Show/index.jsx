@@ -25,7 +25,6 @@ const ShowUser = ({ data, access }) => {
                 <TextInput
                   fullWidth
                   disabled
-                  size="small"
                   type="text"
                   label="kantor"
                   name="kantor"
@@ -35,7 +34,6 @@ const ShowUser = ({ data, access }) => {
                 <TextInput
                   fullWidth
                   disabled
-                  size="small"
                   type="text"
                   label="Username"
                   name="username"
@@ -80,7 +78,6 @@ const ShowUser = ({ data, access }) => {
                   fullWidth
                   disabled
                   type="text"
-                  size="small"
                   label="Nama lengkap"
                   name="nama_lengkap"
                   defaultValue={data.nama_lengkap}
@@ -90,7 +87,6 @@ const ShowUser = ({ data, access }) => {
                   fullWidth
                   disabled
                   type="text"
-                  size="small"
                   label="Jenis kelamin"
                   name="jenis_kelamin"
                   defaultValue={
@@ -102,7 +98,6 @@ const ShowUser = ({ data, access }) => {
                   fullWidth
                   disabled
                   type="text"
-                  size="small"
                   label="Tempat lahir"
                   name="tempat_lahir"
                   defaultValue={data.tempat_lahir}
@@ -132,7 +127,6 @@ const ShowUser = ({ data, access }) => {
                   fullWidth
                   disabled
                   type="text"
-                  size="small"
                   label="Negara"
                   name="negara"
                   defaultValue={data.negara}
@@ -142,7 +136,6 @@ const ShowUser = ({ data, access }) => {
                   fullWidth
                   disabled
                   type="text"
-                  size="small"
                   label="Kota"
                   name="kota"
                   defaultValue={data.kota}
@@ -152,7 +145,6 @@ const ShowUser = ({ data, access }) => {
                   fullWidth
                   disabled
                   type="text"
-                  size="small"
                   label="Kode Pos"
                   name="kode_pos"
                   defaultValue={data.kode_pos}
@@ -185,7 +177,6 @@ const ShowUser = ({ data, access }) => {
                   fullWidth
                   disabled
                   type="number"
-                  size="small"
                   label="Telepon"
                   name="telepon"
                   defaultValue={data.telepon}
@@ -195,7 +186,6 @@ const ShowUser = ({ data, access }) => {
                   fullWidth
                   disabled
                   type="email"
-                  size="small"
                   label="Email"
                   name="email"
                   defaultValue={data.email}

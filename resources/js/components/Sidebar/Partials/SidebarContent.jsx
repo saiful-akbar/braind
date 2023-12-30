@@ -63,7 +63,7 @@ export default function SidebarContent() {
                     color: "text.primary",
                     fontWeight: 600,
                     ml: 2,
-                    backgroundColor: "background.paper",
+                    backgroundColor: "inherit",
                   }}
                 >
                   {menu.nama}

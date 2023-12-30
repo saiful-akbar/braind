@@ -193,7 +193,6 @@ const FormKomoditi = React.memo(() => {
             fullWidth
             required
             autoFocus
-            size="small"
             label="Kode Komoditi"
             name="kode"
             value={data.kode}
@@ -212,13 +211,11 @@ const FormKomoditi = React.memo(() => {
           color="primary"
           disabled={loading}
           onClick={handleClose}
-          disableElevation
         >
           Tutup
         </Button>
 
         <LoadingButton
-          disableElevation
           type="submit"
           variant="contained"
           color="primary"

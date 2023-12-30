@@ -53,7 +53,6 @@ export default function CreateKantor(props) {
               <CardContent>
                 <TextInput
                   fullWidth
-                  size="small"
                   label="Nama kantor"
                   name="nama"
                   value={data.nama}
@@ -72,7 +71,6 @@ export default function CreateKantor(props) {
                 }}
               >
                 <LoadingButton
-                  disableElevation
                   type="submit"
                   variant="contained"
                   loading={processing}

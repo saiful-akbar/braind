@@ -64,8 +64,6 @@ const SidebarAccount = forwardRef((props, ref) => {
         width: "100%",
         px: 3,
         py: 2,
-        // borderTop: 1,
-        // borderColor: "divider",
       }}
     >
       <ButtonBase
@@ -127,8 +125,6 @@ const SidebarAccount = forwardRef((props, ref) => {
               backgroundColor: "background.paper",
               width: 210,
               borderRadius: "8px",
-              border: 1,
-              borderColor: "divider",
             },
           },
         }}
@@ -138,14 +134,14 @@ const SidebarAccount = forwardRef((props, ref) => {
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
-            <ListItemText>Profile</ListItemText>
+            <ListItemText>Profil</ListItemText>
           </MenuItem>
 
           <MenuItem onClick={handleOpenSettings}>
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText>Settings</ListItemText>
+            <ListItemText>Pengaturan</ListItemText>
           </MenuItem>
 
           <Divider />
@@ -154,7 +150,7 @@ const SidebarAccount = forwardRef((props, ref) => {
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText>Log Out</ListItemText>
+            <ListItemText>Log out</ListItemText>
           </MenuItem>
         </MenuList>
       </Popover>

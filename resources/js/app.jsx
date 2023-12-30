@@ -32,5 +32,8 @@ createInertiaApp({
       </Provider>
     );
   },
-  progress: false,
+  progress: {
+    color: "#00A76F",
+    includeCSS: true,
+  },
 });

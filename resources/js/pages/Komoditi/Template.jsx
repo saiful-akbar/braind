@@ -5,7 +5,7 @@ import Loader from "@/components/Loader";
 import { addKomoditi } from "@/redux/reducers/komoditiReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { router, usePage } from "@inertiajs/react";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, CardContent, Grid } from "@mui/material";
 import { saveAs } from "file-saver";
 import PropTypes from "prop-types";
 import { useCallback, useState } from "react";
@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import FilterStatusKomoditi from "./Partials/FilterStatusKomoditi";
 import FormCommodity from "./Partials/FormKomoditi";
 import SearchKomoditi from "./Partials/SearchKomoditi";
+import CardPaper from "@/components/CardPaper";
 
 /**
  * Komponen template untuk halaman commodity.
@@ -83,48 +84,49 @@ const KomoditiTemplate = ({ children }) => {
         action={
           access.create && (
             <Button
-              disableElevation
               type="button"
               variant="contained"
               color="primary"
               onClick={handleAdd}
             >
-              Tambah Komoditi
+              Tambah komoditi
             </Button>
           )
         }
       />
 
       <Box component="main" sx={{ mt: 5 }}>
-        <Grid container spacing={3} justifyContent="space-between">
-          <Grid item md={2} xs={12}>
-            <DownloadButton
-              color="primary"
-              title="Ekspor Excel"
-              onClick={handleExport}
-            />
+        <CardPaper>
+          <CardContent>
+            <Grid container spacing={3} justifyContent="space-between">
+              <Grid item md={2} xs={12}>
+                <DownloadButton
+                  color="primary"
+                  title="Ekspor Excel"
+                  onClick={handleExport}
+                />
 
-            <RefreshButton
-              color="primary"
-              title="Segarkan"
-              onClick={handleRefresh}
-            />
-          </Grid>
+                <RefreshButton
+                  color="primary"
+                  title="Segarkan"
+                  onClick={handleRefresh}
+                />
+              </Grid>
 
-          {access.destroy && (
-            <Grid item md={5} xs={12}>
-              <FilterStatusKomoditi />
+              {access.destroy && (
+                <Grid item md={5} xs={12}>
+                  <FilterStatusKomoditi />
+                </Grid>
+              )}
+
+              <Grid item md={5} xs={12}>
+                <SearchKomoditi />
+              </Grid>
             </Grid>
-          )}
+          </CardContent>
 
-          <Grid item md={5} xs={12}>
-            <SearchKomoditi />
-          </Grid>
-
-          <Grid item xs={12}>
-            {children}
-          </Grid>
-        </Grid>
+          {children}
+        </CardPaper>
 
         <FormCommodity />
         <Loader open={loading} />

@@ -118,7 +118,7 @@ const CreateAccessUser = (props) => {
         <Grid container spacing={5} justifyContent="center">
           <Grid item xs={12}>
             <Alert severity="info">
-              <AlertTitle sx={{ mb: 4 }}>Keterangan Akses</AlertTitle>
+              <AlertTitle sx={{ mb: 3 }}>Keterangan Akses</AlertTitle>
 
               <Grid container spacing={1}>
                 {descriptions.map((desc, index) => {
@@ -257,7 +257,6 @@ const CreateAccessUser = (props) => {
           <Grid item xs={12} md={8}>
             <LoadingButton
               fullWidth
-              disableElevation
               type="submit"
               color="primary"
               variant="contained"

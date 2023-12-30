@@ -30,6 +30,31 @@ function Sidebar() {
         },
       }}
     >
+      {/* Sidebar untuk desktop */}
+      <Drawer
+        open
+        variant="permanent"
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            width: sidebar.width,
+            boxSizing: "border-box",
+            backgroundColor: "background.default",
+            borderRadius: 0,
+            borderRightStyle: "dashed",
+            zIndex: 0,
+          },
+        }}
+        sx={{
+          display: {
+            xs: "none",
+            lg: "block",
+          },
+        }}
+      >
+        <SidebarContent />
+      </Drawer>
+
       {/* Sidebar untuk mobile. */}
       <Drawer
         variant="temporary"
@@ -41,41 +66,16 @@ function Sidebar() {
         PaperProps={{
           sx: {
             boxSizing: "border-box",
+            backgroundColor: "background.default",
             width: sidebar.width,
             border: 0,
             borderRadius: 0,
-            backgroundColor: "background.paper",
           },
         }}
         sx={{
           display: {
             xs: "block",
             lg: "none",
-          },
-        }}
-      >
-        <SidebarContent />
-      </Drawer>
-
-      {/* Sidebar untuk desktop */}
-      <Drawer
-        open
-        variant="permanent"
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            width: sidebar.width,
-            boxSizing: "border-box",
-            backgroundColor: "background.paper",
-            borderRadius: 0,
-            borderRight: 0,
-            zIndex: 0,
-          },
-        }}
-        sx={{
-          display: {
-            xs: "none",
-            lg: "block",
           },
         }}
       >

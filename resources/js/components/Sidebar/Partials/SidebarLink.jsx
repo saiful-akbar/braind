@@ -31,7 +31,7 @@ const SidebarLink = (props) => {
   // fungsi untuk menandakan apakah link aktif atau tidak.
   const isActive = (routeName) => {
     return route().current(`${routeName}*`)
-      ? "secondary.light"
+      ? "secondary.main"
       : "text.secondary";
   };
 

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Response;
+use App\Models\Kantor;
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Sbp\SbpRequest;
 use App\Http\Requests\Sbp\StoreSbpRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response as HttpResponse;
-use Inertia\Response;
 
 class SbpController extends Controller
 {
@@ -25,11 +26,17 @@ class SbpController extends Controller
     }
 
     /**
-     * Tambah data SBP baru pada database.
+     * Menampilkan halaman tambah data SBP
      */
-    public function store(StoreSbpRequest $request): HttpResponse
+    public function create(): Response
     {
-        $request->insert();
-        return response()->noContent();
+        $kantor = Kantor::select('id as value', 'nama as label')
+            ->orderBy('nama', 'desc')
+            ->get();
+
+        return $this->render(
+            component: 'Sbp/Create/index',
+            data: compact('kantor')
+        );
     }
 }

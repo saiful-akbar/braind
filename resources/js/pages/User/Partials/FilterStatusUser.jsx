@@ -64,11 +64,6 @@ const FilterStatusUser = memo(() => {
       items={items}
       value={value}
       onChange={handleChange}
-      inputProps={{
-        sx: {
-          backgroundColor: "background.paper",
-        },
-      }}
     />
   );
 });

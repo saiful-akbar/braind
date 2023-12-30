@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { InputAdornment, TextField, IconButton } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import CancelIcon from "@mui/icons-material/Cancel";
 import { usePage } from "@inertiajs/react";
+import CancelIcon from "@mui/icons-material/Cancel";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
+import PropTypes from "prop-types";
+import React from "react";
 
 /**
  * Komponen search input
  */
-const SearchInput = React.memo(({ value, onClear, ...rest }) => {
-  const { props } = usePage();
-  const { params } = props.app.url;
+const SearchInput = React.memo((props) => {
+  const { value, onClear, inputProps, ...rest } = props;
+  const { app } = usePage().props;
+  const { params } = app.url;
   const searchParam = params.search ?? "";
 
   return (
@@ -19,14 +19,6 @@ const SearchInput = React.memo(({ value, onClear, ...rest }) => {
       type="text"
       value={value}
       InputProps={{
-        sx: {
-          backgroundColor: "background.paper",
-        },
-        startAdornment: (
-          <InputAdornment position="start">
-            <SearchIcon fontSize="small" sx={{ color: "text.secondary" }} />
-          </InputAdornment>
-        ),
         endAdornment: searchParam !== "" && (
           <InputAdornment position="end">
             <IconButton
@@ -44,6 +36,7 @@ const SearchInput = React.memo(({ value, onClear, ...rest }) => {
             </IconButton>
           </InputAdornment>
         ),
+        ...inputProps,
       }}
     />
   );
@@ -55,6 +48,7 @@ const SearchInput = React.memo(({ value, onClear, ...rest }) => {
 SearchInput.propTypes = {
   onClear: PropTypes.func.isRequired,
   value: PropTypes.string,
+  inputProps: PropTypes.object,
 };
 
 /**

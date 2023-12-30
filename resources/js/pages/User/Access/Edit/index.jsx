@@ -264,7 +264,6 @@ const EditAccessUser = (props) => {
           <Grid item xs={12} md={8}>
             <LoadingButton
               fullWidth
-              disableElevation
               type="submit"
               color="primary"
               variant="contained"

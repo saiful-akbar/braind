@@ -36,7 +36,7 @@ const Login = () => {
             xs: 2,
           },
           backgroundColor: {
-            md: "background.default",
+            md: "background.paper",
             xs:
               palette.mode === "dark"
                 ? "rgba(29, 29, 29, 0.9)"

@@ -1,10 +1,10 @@
-import { useCallback, useState } from "react";
 import DataTable from "@/components/DataTable";
-import AuthLayout from "@/layouts/AuthLayout";
-import { router } from "@inertiajs/react";
-import Template from "./Template";
 import DeleteConfirmationModal from "@/components/Modals/DeleteConfirmationModal";
 import RestoreConfirmationModal from "@/components/Modals/RestoreConfirmationModal";
+import AuthLayout from "@/layouts/AuthLayout";
+import { router } from "@inertiajs/react";
+import { Fragment, useCallback, useState } from "react";
+import Template from "./Template";
 
 /**
  * Halaman kantor (Kanwil)
@@ -190,7 +190,7 @@ const Kantor = (props) => {
   }, []);
 
   return (
-    <>
+    <Fragment>
       <DataTable
         columns={columns}
         data={data}
@@ -232,7 +232,7 @@ const Kantor = (props) => {
         onClose={closeRestoreConfirmation}
         onRestore={handleRestore}
       />
-    </>
+    </Fragment>
   );
 };
 

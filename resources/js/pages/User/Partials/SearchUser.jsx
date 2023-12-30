@@ -104,7 +104,7 @@ const SearchUser = memo(() => {
         fullWidth
         size="small"
         name="search"
-        placeholder="Cari user..."
+        label="Cari user"
         value={value}
         onClear={handleClear}
         onChange={handleChange}

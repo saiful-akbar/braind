@@ -25,9 +25,6 @@ const PasswordInput = React.memo(
         type={show ? "text" : "password"}
         disabled={disabled}
         InputProps={{
-          sx: {
-            backgroundColor: "background.default",
-          },
           endAdornment: (
             <InputAdornment position="end">
               <Tooltip

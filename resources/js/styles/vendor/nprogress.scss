@@ -3,13 +3,13 @@
   pointer-events: none;
 
   .bar {
-    background: #333333;
+    background: #00a76f;
     position: fixed;
     z-index: 1031;
     top: 0;
     left: 0;
     width: 100%;
-    height: 2px;
+    height: 3px !important;
   }
 
   /* Fancy blur effect */
@@ -20,7 +20,7 @@
     width: 100px;
     height: 100%;
     box-shadow: 0 0 10px #333333, 0 0 5px #333333;
-    opacity: 1.0;
+    opacity: 1;
 
     -webkit-transform: rotate(3deg) translate(0px, -4px);
     -ms-transform: rotate(3deg) translate(0px, -4px);
@@ -56,28 +56,9 @@
 
 .nprogress-custom-parent {
   #nprogress {
-
     .spinner,
     .bar {
       position: absolute;
-    }
-  }
-}
-
-html[data-appearance="dark"] {
-  #nprogress {
-    .bar {
-      background: #ffffff
-;
-    }
-
-    .peg {
-      box-shadow: 0 0 10px #ffffff, 0 0 5px #ffffff;
-    }
-
-    .spinner-icon {
-      border-top-color: #ffffff;
-      border-left-color: #ffffff;
     }
   }
 }

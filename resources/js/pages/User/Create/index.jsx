@@ -105,8 +105,6 @@ const CreateUser = (props) => {
         setPhotoPreview(null);
       },
       onError: (error) => {
-        console.log(error);
-
         dispatch(
           openNotification({
             status: "error",
@@ -131,11 +129,10 @@ const CreateUser = (props) => {
               subheader="Akun pengguna, akun ini digunakan untuk login aplikasi."
             >
               <CardContent>
-                <Stack spacing={2}>
+                <Stack spacing={3}>
                   <SelectInput
                     fullWidth
                     required
-                    size="small"
                     label="ID kantor"
                     name="kantor_id"
                     items={kantor}
@@ -149,7 +146,6 @@ const CreateUser = (props) => {
                   <TextInput
                     required
                     fullWidth
-                    size="small"
                     type="text"
                     label="Username"
                     name="username"
@@ -164,8 +160,6 @@ const CreateUser = (props) => {
                     required
                     fullWidth
                     type="password"
-                    size="small"
-                    iconSize="small"
                     name="password"
                     label="Kata sandi"
                     value={data.password}
@@ -229,7 +223,6 @@ const CreateUser = (props) => {
                     fullWidth
                     required
                     type="text"
-                    size="small"
                     label="Nama lengkap"
                     name="nama_lengkap"
                     value={data.nama_lengkap}
@@ -241,7 +234,6 @@ const CreateUser = (props) => {
 
                   <SelectInput
                     fullWidth
-                    size="small"
                     items={gender}
                     name="jenis_kelamin"
                     label="Jenis kelamin"
@@ -255,7 +247,6 @@ const CreateUser = (props) => {
                   <TextInput
                     fullWidth
                     type="text"
-                    size="small"
                     label="Tempat lahir"
                     name="tempat_lahir"
                     value={data.tempat_lahir}
@@ -288,7 +279,6 @@ const CreateUser = (props) => {
                   <TextInput
                     fullWidth
                     type="text"
-                    size="small"
                     label="Negara"
                     name="negara"
                     onChange={handleChange}
@@ -301,7 +291,6 @@ const CreateUser = (props) => {
                   <TextInput
                     fullWidth
                     type="text"
-                    size="small"
                     label="Kota"
                     name="kota"
                     onChange={handleChange}
@@ -314,7 +303,6 @@ const CreateUser = (props) => {
                   <TextInput
                     fullWidth
                     type="text"
-                    size="small"
                     label="Kode Pos"
                     name="kode_pos"
                     onChange={handleChange}
@@ -357,7 +345,6 @@ const CreateUser = (props) => {
                   <TextInput
                     fullWidth
                     type="number"
-                    size="small"
                     label="No. Telepon"
                     name="telepon"
                     onChange={handleChange}
@@ -370,7 +357,6 @@ const CreateUser = (props) => {
                   <TextInput
                     fullWidth
                     type="email"
-                    size="small"
                     label="Alamat Email"
                     name="email"
                     onChange={handleChange}
@@ -387,7 +373,6 @@ const CreateUser = (props) => {
           <Grid item xs={12} md={8}>
             <LoadingButton
               fullWidth
-              disableElevation
               variant="contained"
               type="submit"
               color="primary"

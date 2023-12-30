@@ -1,5 +1,5 @@
 import AuthLayout from "@/layouts/AuthLayout";
-import React from "react";
+import React, { Fragment } from "react";
 import KomoditiTemplate from "./Template";
 import DataTable from "@/components/DataTable";
 import { useCallback } from "react";
@@ -213,7 +213,7 @@ const Komoditi = (props) => {
   }, [restoreId, params, setRestoring, app, closeRestoreConfirmation]);
 
   return (
-    <>
+    <Fragment>
       <DataTable
         columns={columns}
         data={data}
@@ -257,7 +257,7 @@ const Komoditi = (props) => {
         onClose={closeRestoreConfirmation}
         onRestore={handleRestore}
       />
-    </>
+    </Fragment>
   );
 };
 

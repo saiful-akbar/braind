@@ -48,7 +48,6 @@ const RestoreConfirmationModal = React.memo((props) => {
       <DialogActions sx={{ p: 3 }}>
         <LoadingButton
           fullWidth
-          disableElevation
           type="button"
           variant="contained"
           color="primary"

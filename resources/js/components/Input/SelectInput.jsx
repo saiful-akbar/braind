@@ -37,7 +37,6 @@ const SelectInput = memo((props) => {
         label={label}
         inputProps={{
           sx: {
-            backgroundColor: "background.default",
             borderRadius: "8px",
           },
           ...inputProps,
@@ -47,8 +46,6 @@ const SelectInput = memo((props) => {
             paper: {
               sx: {
                 borderRadius: "8px",
-                border: 1,
-                borderColor: "divider",
               },
             },
           },

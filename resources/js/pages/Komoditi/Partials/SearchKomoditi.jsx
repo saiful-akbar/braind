@@ -93,7 +93,7 @@ const SearchKomoditi = memo(() => {
         fullWidth
         size="small"
         name="search"
-        placeholder="Cari berdasarkan kode komoditi..."
+        label="Cari komoditi"
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
