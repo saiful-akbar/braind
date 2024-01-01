@@ -103,4 +103,6 @@ Route::controller(SbpController::class)
         Route::get('/create', 'create')->name('.create')->middleware('access:sbp,create');
         Route::post('/store', 'store')->name('.store')->middleware('access:sbp,create');
         Route::get('/export', 'export')->name('.export')->middleware('access:sbp,read');
+        Route::get('/{sbp}/edit', 'edit')->name('.edit')->middleware('access:sbp,update');
+        Route::patch('/{sbp}', 'update')->name('.update')->middleware('access:sbp,update');
     });

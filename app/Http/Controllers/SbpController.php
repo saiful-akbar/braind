@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sbp;
 use Inertia\Response;
 use App\Models\Kantor;
 use App\Exports\SbpExport;
@@ -74,5 +75,23 @@ class SbpController extends Controller
         $name = 'braind_master_sbp.xlsx';
 
         return Excel::download(new SbpExport($request, $access), $name);
+    }
+
+    /**
+     * Menampilkan halaman edit SBP
+     */
+    public function edit(Sbp $sbp): Response
+    {
+        $kantor = Kantor::select('id as value', 'nama as label')
+            ->orderBy('nama', 'desc')
+            ->get();
+
+        return $this->render(
+            component: 'Sbp/Edit/index',
+            data: [
+                'sbp' => $sbp,
+                'kantor' => $kantor,
+            ],
+        );
     }
 }

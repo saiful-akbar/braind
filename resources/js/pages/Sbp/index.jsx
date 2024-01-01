@@ -2,6 +2,8 @@ import AuthLayout from "@/layouts/AuthLayout";
 import React from "react";
 import SbpTemplate from "./Template";
 import DataTable from "@/components/DataTable";
+import { useCallback } from "react";
+import { router } from "@inertiajs/react";
 
 /**
  * Halaman utama SBP
@@ -62,6 +64,17 @@ const Sbp = (props) => {
     },
   ];
 
+  /**
+   * fungsi untuk redirect ke halaman edit
+   */
+  const handleUpdate = useCallback((id) => {
+    router.get(
+      route("sbp.edit", {
+        sbp: id,
+      })
+    );
+  }, []);
+
   return (
     <DataTable
       columns={columns}
@@ -73,7 +86,7 @@ const Sbp = (props) => {
       remove={Boolean(access.remove && status === "aktif")}
       destroy={Boolean(access.destroy && status === "dihapus")}
       onOrder={(field) => {}}
-      onUpdate={(row) => {}}
+      onUpdate={(row) => handleUpdate(row.id)}
       onRemove={(row) => {}}
       onDestroy={(row) => {}}
       onRestore={(row) => {}}
