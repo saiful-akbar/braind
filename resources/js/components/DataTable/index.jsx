@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { Fragment, memo } from "react";
 import PropTypes from "prop-types";
 import {
   IconButton,
@@ -25,7 +25,6 @@ const DataTable = memo((props) => {
   const {
     columns,
     from,
-    to,
     order,
     orderBy,
     data,
@@ -41,9 +40,9 @@ const DataTable = memo((props) => {
   } = props;
 
   return (
-    <>
+    <Fragment>
       <TableContainer>
-        <Table size="small" className="nowrap">
+        <Table className="nowrap">
           <TableHead>
             <TableRow>
               <TableCell>No</TableCell>
@@ -87,23 +86,39 @@ const DataTable = memo((props) => {
                 {columns.map((column, columnKey) => {
                   if (!column.show) return;
 
-                  if (column.timeFormat) {
+                  if (column.format.toLowerCase() === "time") {
                     return (
-                      <TableCell key={columnKey}>
+                      <TableCell
+                        key={columnKey}
+                        title={utcToLocale(row[column.field])}
+                      >
                         {utcToLocale(row[column.field])}
                       </TableCell>
                     );
                   }
 
+                  if (column.format.toLowerCase() === "number") {
+                    return (
+                      <TableCell
+                        key={columnKey}
+                        title={`Rp. ${numberFormat(row[column.field], 2)}`}
+                      >
+                        Rp. {numberFormat(row[column.field], 2)}
+                      </TableCell>
+                    );
+                  }
+
                   return (
-                    <TableCell key={columnKey}>{row[column.field]}</TableCell>
+                    <TableCell key={columnKey} title={row[column.field]}>
+                      {row[column.field]}
+                    </TableCell>
                   );
                 })}
 
                 <TableCell align="center">
                   {update && (
                     <Tooltip title="Edit" disableInteractive>
-                      <IconButton color="primary" onClick={() => onUpdate(row)}>
+                      <IconButton onClick={() => onUpdate(row)}>
                         <EditIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -119,10 +134,7 @@ const DataTable = memo((props) => {
 
                   {destroy && row?.deleted_at !== null && (
                     <Tooltip title="Pulihkan" disableInteractive>
-                      <IconButton
-                        color="primary"
-                        onClick={() => onRestore(row)}
-                      >
+                      <IconButton onClick={() => onRestore(row)}>
                         <RestoreIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -154,7 +166,7 @@ const DataTable = memo((props) => {
         onPageChange={(event, page) => pagination.onPageChange(event, page)}
         onRowsPerPageChange={(event) => pagination.onRowsPerPageChange(event)}
       />
-    </>
+    </Fragment>
   );
 });
 
@@ -162,7 +174,7 @@ const columnsType = PropTypes.shape({
   field: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   align: PropTypes.string.isRequired,
-  timeFormat: PropTypes.bool.isRequired,
+  format: PropTypes.oneOf(["none", "time", "number"]),
   show: PropTypes.bool.isRequired,
   sort: PropTypes.bool.isRequired,
 });
@@ -182,10 +194,9 @@ DataTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   columns: PropTypes.arrayOf(columnsType).isRequired,
   from: PropTypes.number,
-  to: PropTypes.number,
-  update: PropTypes.bool,
-  order: PropTypes.oneOf(["asc", "desc"]),
   orderBy: PropTypes.string.isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]),
+  update: PropTypes.bool,
   remove: PropTypes.bool,
   destroy: PropTypes.bool,
   onUpdate: PropTypes.func,
@@ -201,7 +212,6 @@ DataTable.propTypes = {
  */
 DataTable.defaultProps = {
   from: -1,
-  to: -1,
   update: false,
   remove: false,
   destroy: false,

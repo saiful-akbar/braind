@@ -23,7 +23,7 @@ class StoreSbpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kantor_id' => 'nullable|exists:kantor,id',
+            'kantor_id' => 'exists:kantor,id',
             'jumlah' => 'required|numeric|min:0',
             'tindak_lanjut' => 'required|numeric|min:0',
             'tanggal_input' => 'nullable|date',
@@ -36,7 +36,7 @@ class StoreSbpRequest extends FormRequest
     public function insert(): void
     {
         Sbp::create([
-            'kantor_id' => user()->kantor_id,
+            'kantor_id' =>  user()->admin ? $this->kantor_id : user()->kantor_id,
             'user_id' => user()->id,
             'jumlah' => $this->jumlah,
             'tindak_lanjut' => $this->tindak_lanjut,

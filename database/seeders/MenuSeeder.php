@@ -21,7 +21,7 @@ class MenuSeeder extends Seeder
                     'route' => 'kantor',
                 ],
                 [
-                    'nama' => 'SBP (Surat Bukti Penindakan)',
+                    'nama' => 'SBP', // Surat Bukti Penindakan
                     'url' => '/sbp',
                     'route' => 'sbp',
                 ],

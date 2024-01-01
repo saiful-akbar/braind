@@ -16,7 +16,6 @@ class SbpRequest extends FormRequest implements Pagination
         'jumlah',
         'tindak_lanjut',
         'tanggal_input',
-        'created_at',
         'updated_at',
         'deleted_at',
         'user_id',
@@ -43,21 +42,27 @@ class SbpRequest extends FormRequest implements Pagination
      */
     public function paginate(MenuUser $access): LengthAwarePaginator
     {
+        $columns = [
+            'sbp.id',
+            'sbp.jumlah',
+            'sbp.tindak_lanjut',
+            'sbp.tanggal_input',
+            'sbp.created_at',
+            'sbp.updated_at',
+            'sbp.deleted_at',
+            'users.id as user_id',
+            'users.nama_lengkap as user_nama_lengkap',
+            'kantor.id as kantor_id',
+            'kantor.nama as kantor_nama',
+        ];
+
         // ambil data SBP dan join dengan tabel users dan kantor.
-        $sbp = Sbp::leftJoin('users', 'sbp.user_id', '=', 'users.id')
+        $sbp = Sbp::select($columns)
+            ->leftJoin('users', 'sbp.user_id', '=', 'users.id')
             ->leftJoin('kantor', 'sbp.kantor_id', '=', 'kantor.id')
-            ->select([
-                'id',
-                'jumlah',
-                'tindak_lanjut',
-                'tanggal_input',
-                'created_at',
-                'updated_at',
-                'deleted_at',
-                'user.id as user_id',
-                'user.nama_lengkap as user_nama_lengkap',
-                'kantor.id as kantor_id',
-                'kantor.nama as kantor_nama',
+            ->whereBetween('sbp.tanggal_input', [
+                $this->query('start_period', date('Y-m-01')),
+                $this->query('end_period', date('Y-m-d')),
             ]);
 
         // periksa role user.
@@ -69,14 +74,14 @@ class SbpRequest extends FormRequest implements Pagination
 
         // jika ada request status dengan nilai "dihapus" dan user
         // memiliki akses destroy, ambil hanya data yang telah dihapus saja.
-        if ($this->query('status', 'active') == 'dihapus' && $access->destroy) {
+        if ($this->query('status', 'aktif') == 'dihapus' && $access->destroy) {
             $sbp->onlyTrashed();
         }
 
         // jika ada request search tambahkan query pencarian
         if (!empty($this->query('search'))) {
             $sbp->where(function (Builder $query): void {
-                $query->where('user.nama_lengkap', 'like', '%' . $this->query('search') . '%')
+                $query->where('users.nama_lengkap', 'like', '%' . $this->query('search') . '%')
                     ->orWhere('kantor.nama', 'like', '%' . $this->query('search') . '%');
             });
         }

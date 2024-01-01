@@ -33,7 +33,7 @@ export default function SettingsModal() {
         }}
       >
         <Typography variant="h6" component="div">
-          Settings
+          Pengaturan
         </Typography>
 
         <Tooltip title="Tutup" disableInteractive>

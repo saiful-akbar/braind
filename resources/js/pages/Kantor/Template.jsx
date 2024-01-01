@@ -101,17 +101,8 @@ const Template = ({ children }) => {
           <CardContent>
             <Grid container spacing={3} justifyContent="space-between">
               <Grid item md={2} xs={12}>
-                <DownloadButton
-                  color="primary"
-                  title="Ekspor excel"
-                  onClick={handleExport}
-                />
-
-                <RefreshButton
-                  color="primary"
-                  title="Muat ulang"
-                  onClick={handleRefreshClick}
-                />
+                <DownloadButton title="Ekspor excel" onClick={handleExport} />
+                <RefreshButton onClick={handleRefreshClick} />
               </Grid>
 
               {access.destroy && (

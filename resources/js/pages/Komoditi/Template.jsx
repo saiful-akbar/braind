@@ -66,7 +66,6 @@ const KomoditiTemplate = ({ children }) => {
         })
       );
     } catch (error) {
-      console.log(error);
       setLoading(false);
       dispatch(
         openNotification({
@@ -100,17 +99,8 @@ const KomoditiTemplate = ({ children }) => {
           <CardContent>
             <Grid container spacing={3} justifyContent="space-between">
               <Grid item md={2} xs={12}>
-                <DownloadButton
-                  color="primary"
-                  title="Ekspor Excel"
-                  onClick={handleExport}
-                />
-
-                <RefreshButton
-                  color="primary"
-                  title="Segarkan"
-                  onClick={handleRefresh}
-                />
+                <DownloadButton title="Ekspor Excel" onClick={handleExport} />
+                <RefreshButton title="Muat ulang" onClick={handleRefresh} />
               </Grid>
 
               {access.destroy && (

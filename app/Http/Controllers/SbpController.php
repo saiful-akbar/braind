@@ -4,18 +4,28 @@ namespace App\Http\Controllers;
 
 use Inertia\Response;
 use App\Models\Kantor;
-use Illuminate\Http\JsonResponse;
+use App\Exports\SbpExport;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Sbp\SbpRequest;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Sbp\StoreSbpRequest;
-use Illuminate\Http\Response as HttpResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SbpController extends Controller
 {
     /**
      * Menampilkan halaman master SBP
      */
-    public function index(SbpRequest $request): Response
+    public function index(SbpRequest $request): Response|RedirectResponse
     {
+        if (is_null($request->query('start_period')) || is_null($request->query('end_period'))) {
+            return to_route('sbp', [
+                'start_period' => $request->query('start_period', date('Y-m-01')),
+                'end_period' => $request->query('end_period', date('Y-m-d')),
+            ]);
+        }
+
         $access = $this->getAccessByRoute('sbp');
 
         return $this->renderPaginate(
@@ -30,13 +40,39 @@ class SbpController extends Controller
      */
     public function create(): Response
     {
+        $access = $this->getAccessByRoute('sbp');
         $kantor = Kantor::select('id as value', 'nama as label')
             ->orderBy('nama', 'desc')
             ->get();
 
         return $this->render(
             component: 'Sbp/Create/index',
-            data: compact('kantor')
+            data: compact('kantor'),
+            access: $access,
         );
+    }
+
+    /**
+     * Tambahkan sbp baru pada database
+     */
+    public function store(StoreSbpRequest $request): RedirectResponse
+    {
+        $request->insert();
+
+        return to_route('sbp.create')->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Data SBP berhasil ditambahkan.'
+        ]);
+    }
+
+    /**
+     * Export excel
+     */
+    public function export(Request $request): BinaryFileResponse
+    {
+        $access = $this->getAccessByRoute('sbp');
+        $name = 'braind_master_sbp.xlsx';
+
+        return Excel::download(new SbpExport($request, $access), $name);
     }
 }

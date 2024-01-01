@@ -1,12 +1,90 @@
 import AuthLayout from "@/layouts/AuthLayout";
 import React from "react";
 import SbpTemplate from "./Template";
+import DataTable from "@/components/DataTable";
 
+/**
+ * Halaman utama SBP
+ */
 const Sbp = (props) => {
+  const { data, pagination, access, app } = props;
+  const { params } = app.url;
+  const status = params.status ?? "aktif";
+
+  const columns = [
+    {
+      field: "kantor_nama",
+      label: "Kantor",
+      align: "left",
+      format: "none",
+      sort: true,
+      show: true,
+    },
+    {
+      field: "user_nama_lengkap",
+      label: "User",
+      align: "left",
+      format: "none",
+      sort: true,
+      show: true,
+    },
+    {
+      field: "jumlah",
+      label: "Jumlah",
+      align: "left",
+      format: "number",
+      sort: true,
+      show: true,
+    },
+    {
+      field: "tindak_lanjut",
+      label: "Tidak lanjut",
+      align: "left",
+      format: "number",
+      sort: true,
+      show: true,
+    },
+    {
+      field: "tanggal_input",
+      label: "Tanggal input",
+      align: "left",
+      format: "none",
+      sort: true,
+      show: true,
+    },
+    {
+      field: "deleted_at",
+      label: "Dihapus",
+      align: "left",
+      sort: true,
+      format: "time",
+      show: status === "dihapus",
+    },
+  ];
+
   return (
-    <div>
-      <h1>Master SBP</h1>
-    </div>
+    <DataTable
+      columns={columns}
+      data={data}
+      from={pagination.from}
+      order={params.order ?? "asc"}
+      orderBy={params.order_by ?? "kantor_nama"}
+      update={Boolean(access.update && status === "aktif")}
+      remove={Boolean(access.remove && status === "aktif")}
+      destroy={Boolean(access.destroy && status === "dihapus")}
+      onOrder={(field) => {}}
+      onUpdate={(row) => {}}
+      onRemove={(row) => {}}
+      onDestroy={(row) => {}}
+      onRestore={(row) => {}}
+      paginationProps={{
+        count: pagination.total,
+        page: pagination.page - 1,
+        rowsPerPage: pagination.per_page,
+        onPageChange: (event, page) => {},
+        onRowsPerPageChange: (event) => {},
+      }}
+    />
   );
 };
 

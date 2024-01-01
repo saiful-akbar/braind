@@ -29,7 +29,6 @@
     "dayjs": "^1.11.10",
     "file-saver": "^2.0.5",
     "material-icons": "^1.13.12",
-    "nprogress": "^0.2.0",
     "prop-types": "^15.8.1",
     "react-redux": "^9.0.0",
     "sass": "^1.69.5"

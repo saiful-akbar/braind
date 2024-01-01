@@ -5,14 +5,8 @@ export default {
         theme.unstable_sx({
           backdropFilter: "blur(6px)",
           fontSize: 12,
-          backgroundColor: ({ palette }) => {
-            if (palette.mode === "dark") return "#ededed";
-            return "#171717";
-          },
-          color: ({ palette }) => {
-            if (palette.mode === "dark") return "#171717";
-            return "#ededed";
-          },
+          color: "#FFF",
+          backgroundColor: ({ palette }) => palette.background.tooltip,
         }),
     },
   },

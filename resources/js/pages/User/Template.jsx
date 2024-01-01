@@ -89,13 +89,8 @@ const UserTemplate = ({ children }) => {
           <CardContent>
             <Grid container spacing={3} justifyContent="space-between">
               <Grid item md={2} xs={12}>
-                <DownloadButton
-                  color="primary"
-                  title="Ekspor Excel"
-                  onClick={handleExport}
-                />
-
-                <RefreshButton color="primary" onClick={handleRefresh} />
+                <DownloadButton title="Ekspor Excel" onClick={handleExport} />
+                <RefreshButton onClick={handleRefresh} />
               </Grid>
 
               {access.destroy && (

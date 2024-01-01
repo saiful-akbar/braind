@@ -19,35 +19,27 @@ const Kantor = (props) => {
   // Daftar kolom yang akan ditampilkan pada tabel
   const columns = [
     {
-      field: "id",
-      label: "ID",
-      align: "left",
-      sort: true,
-      timeFormat: false,
-      show: true,
-    },
-    {
       field: "nama",
       label: "Nama Kantor",
       align: "left",
+      format: "none",
       sort: true,
-      timeFormat: false,
       show: true,
     },
     {
       field: "updated_at",
-      label: "Dibuat/Diperbarui",
+      label: "Dibuat atau diperbarui",
       align: "left",
+      format: "time",
       sort: true,
-      timeFormat: true,
       show: status === "aktif",
     },
     {
       field: "deleted_at",
       label: "Dihapus",
       align: "left",
+      format: "time",
       sort: true,
-      timeFormat: true,
       show: access.destroy && status === "dihapus",
     },
   ];
@@ -195,11 +187,10 @@ const Kantor = (props) => {
         columns={columns}
         data={data}
         from={pagination.from}
-        to={pagination.to}
         order={order}
         orderBy={orderBy}
         update={Boolean(access.update && status === "aktif")}
-        remove={access.remove}
+        remove={Boolean(access.remove && status === "aktif")}
         destroy={Boolean(access.destroy && status === "dihapus")}
         onOrder={(field) => handleOrder(field)}
         onUpdate={handleUpdate}

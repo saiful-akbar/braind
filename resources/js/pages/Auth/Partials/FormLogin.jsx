@@ -70,11 +70,6 @@ const FormLogin = () => {
             error={Boolean(errors.username)}
             helperText={errors.username}
             disabled={processing}
-            inputProps={{
-              sx: {
-                backgroundColor: "background.paper",
-              },
-            }}
           />
         </Grid>
 
@@ -86,11 +81,6 @@ const FormLogin = () => {
             onChange={handleInputChange}
             value={data.password}
             disabled={processing}
-            inputProps={{
-              sx: {
-                backgroundColor: "background.paper",
-              },
-            }}
           />
         </Grid>
       </Grid>

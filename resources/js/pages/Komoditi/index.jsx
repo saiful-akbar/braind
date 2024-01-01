@@ -31,26 +31,18 @@ const Komoditi = (props) => {
 
   const columns = [
     {
-      field: "id",
-      label: "ID",
-      align: "left",
-      timeFormat: false,
-      show: true,
-      sort: true,
-    },
-    {
       field: "kode",
       label: "Kode Komoditi",
       align: "left",
-      timeFormat: false,
+      format: "none",
       show: true,
       sort: true,
     },
     {
       field: "updated_at",
-      label: "Dibuat/Diperbarui",
+      label: "Dibuat atau diperbarui",
       align: "left",
-      timeFormat: true,
+      format: "time",
       show: status === "aktif",
       sort: true,
     },
@@ -58,7 +50,7 @@ const Komoditi = (props) => {
       field: "deleted_at",
       label: "Dihapus",
       align: "left",
-      timeFormat: true,
+      format: "time",
       show: status === "dihapus",
       sort: true,
     },
@@ -218,11 +210,10 @@ const Komoditi = (props) => {
         columns={columns}
         data={data}
         from={pagination.from}
-        to={pagination.to}
         order={order}
         orderBy={orderBy}
         update={Boolean(access.update && status === "aktif")}
-        remove={access.remove}
+        remove={Boolean(access.remove && status === "aktif")}
         destroy={Boolean(access.destroy && status === "dihapus")}
         onOrder={handleOrderTable}
         onUpdate={handleEditRow}

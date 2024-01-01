@@ -101,4 +101,6 @@ Route::controller(SbpController::class)
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:sbp,read');
         Route::get('/create', 'create')->name('.create')->middleware('access:sbp,create');
+        Route::post('/store', 'store')->name('.store')->middleware('access:sbp,create');
+        Route::get('/export', 'export')->name('.export')->middleware('access:sbp,read');
     });

@@ -12,6 +12,7 @@ export default createTheme({
     background: {
       default: "#F4F6F8",
       paper: "#FFFFFF",
+      tooltip: "rgba(69, 79, 91, 0.8)",
     },
     text: {
       primary: "#212b36",

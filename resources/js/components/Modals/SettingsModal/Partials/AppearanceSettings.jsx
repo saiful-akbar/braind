@@ -50,7 +50,7 @@ const AppearanceSettings = () => {
   return (
     <Grid container justifyContent="space-between">
       <Grid item xs={4}>
-        <Typography variant="subtitle2">Appearance</Typography>
+        <Typography variant="subtitle2">Tema</Typography>
       </Grid>
 
       <Grid item xs={4}>
@@ -61,8 +61,8 @@ const AppearanceSettings = () => {
             onChange={handleChange}
             items={[
               { label: "Auto", value: "auto" },
-              { label: "Light", value: "light" },
-              { label: "Dark", value: "dark" },
+              { label: "Terang", value: "light" },
+              { label: "Gelap", value: "dark" },
             ]}
           />
         </FormControl>

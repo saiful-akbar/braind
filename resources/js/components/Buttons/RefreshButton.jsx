@@ -31,7 +31,7 @@ RefreshButton.propTypes = {
  * default props
  */
 RefreshButton.defaultProps = {
-  title: "Segarkan",
+  title: "Muat ulang",
   iconSize: "medium",
   iconProps: {},
 };

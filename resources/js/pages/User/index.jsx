@@ -52,13 +52,6 @@ const User = (props) => {
   // daftar kolom
   const columns = [
     {
-      field: "id",
-      label: "ID",
-      sort: true,
-      timeFormat: false,
-      show: true,
-    },
-    {
       field: "nama_lengkap",
       label: "Nama",
       sort: true,
@@ -88,7 +81,7 @@ const User = (props) => {
     },
     {
       field: "updated_at",
-      label: "Diabuat/Diperbarui",
+      label: "Diabuat atau diperbarui",
       sort: true,
       timeFormat: true,
       show: status === "aktif",
