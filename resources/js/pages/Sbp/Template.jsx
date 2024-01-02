@@ -56,6 +56,7 @@ const SbpTemplate = ({ children }) => {
         })
       );
     } catch (error) {
+      console.dir(error);
       setLoading(false);
       dispatch(
         openNotification({

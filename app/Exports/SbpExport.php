@@ -83,7 +83,7 @@ class SbpExport implements FromView, WithStyles, ShouldAutoSize
         // jika ada request search tambahkan query pencarian
         if (!empty($this->request->query('search'))) {
             $this->query->where(function (Builder $query): void {
-                $query->where('user.nama_lengkap', 'like', '%' . $this->request->query('search') . '%')
+                $query->where('users.nama_lengkap', 'like', '%' . $this->request->query('search') . '%')
                     ->orWhere('kantor.nama', 'like', '%' . $this->request->query('search') . '%');
             });
         }

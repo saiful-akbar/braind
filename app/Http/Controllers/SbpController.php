@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Sbp\SbpRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Sbp\StoreSbpRequest;
+use App\Http\Requests\Sbp\UpdateSbpRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SbpController extends Controller
@@ -93,5 +94,18 @@ class SbpController extends Controller
                 'kantor' => $kantor,
             ],
         );
+    }
+
+    /**
+     * Perbarui data SBP pada database.
+     */
+    public function update(UpdateSbpRequest $request, Sbp $sbp): RedirectResponse
+    {
+        $request->update();
+
+        return to_route('sbp.edit', ['sbp' => $sbp->id])->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Data SBP berhasil diperbarui.',
+        ]);
     }
 }

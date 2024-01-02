@@ -12,6 +12,8 @@ const Sbp = (props) => {
   const { data, pagination, access, app } = props;
   const { params } = app.url;
   const status = params.status ?? "aktif";
+  const order = params.order ?? "asc";
+  const orderBy = params.order_by ?? "kantor_nama";
 
   const columns = [
     {
@@ -75,17 +77,67 @@ const Sbp = (props) => {
     );
   }, []);
 
+  /**
+   * fungsi untuk request data SBP
+   */
+  const fetchData = useCallback((parameters) => {
+    router.get(route("sbp"), parameters, {
+      preserveScroll: true,
+    });
+  }, []);
+
+  /**
+   * fungsi untuk menangani sort pada tabel
+   */
+  const handleOrder = useCallback(
+    (column) => {
+      fetchData({
+        ...params,
+        order_by: column,
+        order: orderBy === column && order === "asc" ? "desc" : "asc",
+      });
+    },
+    [fetchData, params, order, orderBy]
+  );
+
+  /**
+   * fungsi untuk mengatasi ketika halaman pada table dirubah
+   */
+  const handlePageChange = useCallback(
+    (newPage) => {
+      fetchData({
+        ...params,
+        page: newPage + 1,
+      });
+    },
+    [fetchData, params]
+  );
+
+  /**
+   * fungsi untuk menangani ketika baris per halaman pada tabel dirubah
+   */
+  const handleRowsPerPageChange = useCallback(
+    (e) => {
+      fetchData({
+        ...params,
+        page: 1,
+        per_page: e.target.value,
+      });
+    },
+    [fetchData, params]
+  );
+
   return (
     <DataTable
       columns={columns}
       data={data}
       from={pagination.from}
-      order={params.order ?? "asc"}
-      orderBy={params.order_by ?? "kantor_nama"}
+      order={order}
+      orderBy={orderBy}
       update={Boolean(access.update && status === "aktif")}
       remove={Boolean(access.remove && status === "aktif")}
       destroy={Boolean(access.destroy && status === "dihapus")}
-      onOrder={(field) => {}}
+      onOrder={handleOrder}
       onUpdate={(row) => handleUpdate(row.id)}
       onRemove={(row) => {}}
       onDestroy={(row) => {}}
@@ -94,8 +146,8 @@ const Sbp = (props) => {
         count: pagination.total,
         page: pagination.page - 1,
         rowsPerPage: pagination.per_page,
-        onPageChange: (event, page) => {},
-        onRowsPerPageChange: (event) => {},
+        onPageChange: (event, page) => handlePageChange(page),
+        onRowsPerPageChange: (event) => handleRowsPerPageChange(event),
       }}
     />
   );

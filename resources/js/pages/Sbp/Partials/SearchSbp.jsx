@@ -79,6 +79,7 @@ const SearchSbp = () => {
       e.stopPropagation();
 
       if (searchParams !== "") {
+        setValue("");
         fetchData("");
       }
     },
