@@ -12,6 +12,7 @@ use App\Http\Requests\Sbp\SbpRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Sbp\StoreSbpRequest;
 use App\Http\Requests\Sbp\UpdateSbpRequest;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SbpController extends Controller
@@ -107,5 +108,36 @@ class SbpController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Data SBP berhasil diperbarui.',
         ]);
+    }
+
+    /**
+     * Remove data SBP (soft delete)
+     */
+    public function remove(Sbp $sbp): JsonResponse
+    {
+        $sbp->delete();
+        return $this->jsonResponse();
+    }
+
+    /**
+     * Restore data SBP
+     */
+    public function restore(string $id): JsonResponse
+    {
+        $sbp = Sbp::onlyTrashed()->findOrFail($id);
+        $sbp->restore();
+
+        return $this->jsonResponse();
+    }
+
+    /**
+     * Destroy data SBP (permanent delete)
+     */
+    public function destroy(string $id): JsonResponse
+    {
+        $sbp = Sbp::onlyTrashed()->findOrFail($id);
+        $sbp->forceDelete();
+
+        return $this->jsonResponse();
     }
 }

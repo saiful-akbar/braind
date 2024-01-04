@@ -67,10 +67,10 @@ const DeleteConfirmationModal = React.memo((props) => {
  */
 DeleteConfirmationModal.propTypes = {
   open: PropTypes.bool.isRequired,
-  title: PropTypes.string,
-  loading: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  title: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 /**
@@ -79,7 +79,6 @@ DeleteConfirmationModal.propTypes = {
 DeleteConfirmationModal.defaultProps = {
   title: "Hapus",
   loading: false,
-  message: "Apakah Anda yakin ingin menghapus item ini?",
 };
 
 export default DeleteConfirmationModal;

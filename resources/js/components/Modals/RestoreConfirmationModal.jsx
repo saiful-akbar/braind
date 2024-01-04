@@ -67,10 +67,10 @@ const RestoreConfirmationModal = React.memo((props) => {
  */
 RestoreConfirmationModal.propTypes = {
   open: PropTypes.bool.isRequired,
-  title: PropTypes.string,
-  loading: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onRestore: PropTypes.func.isRequired,
+  title: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 /**
