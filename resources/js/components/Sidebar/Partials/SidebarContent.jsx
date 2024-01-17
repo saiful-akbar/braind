@@ -62,6 +62,7 @@ export default function SidebarContent() {
                   sx={{
                     color: "text.primary",
                     fontWeight: 600,
+                    fontSize: 13,
                     ml: 2,
                     backgroundColor: "inherit",
                   }}

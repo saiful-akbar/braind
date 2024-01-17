@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Kantor\KantorRequest;
 use App\Http\Requests\Kantor\StoreKantorRequest;
 use App\Http\Requests\Kantor\UpdateKantorRequest;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class KantorController extends Controller
@@ -133,5 +134,15 @@ class KantorController extends Controller
         $name = 'braind_master_kantor.xlsx';
 
         return Excel::download(new KantorExport($request, $access), $name);
+    }
+
+    /**
+     * Mengambil data kantor dengan json response
+     */
+    public function get(): JsonResponse
+    {
+        $kantor = Kantor::orderBy('nama', 'asc')->get();
+
+        return $this->jsonResponse(data: $kantor);
     }
 }

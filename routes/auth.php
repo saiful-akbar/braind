@@ -1,20 +1,21 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SbpController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\KantorController;
 use App\Http\Controllers\KomoditiController;
-use App\Http\Controllers\SbpController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PerusahaanHtHptlController;
 
 
 /**
  * Logout
  */
 Route::controller(AuthController::class)
-    ->prefix('/logout')
     ->name('logout')
+    ->prefix('/logout')
     ->group(function (): void {
         Route::delete('/', 'logout');
     });
@@ -32,8 +33,8 @@ Route::controller(DashboardController::class)
  * Master division (kanwil)
  */
 Route::controller(KantorController::class)
-    ->prefix('/kantor')
     ->name('kantor')
+    ->prefix('/kantor')
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:kantor,read');
         Route::get('/export', 'export')->name('.export')->middleware('access:kantor,read');
@@ -44,14 +45,15 @@ Route::controller(KantorController::class)
         Route::delete('/{kantor}', 'remove')->name('.remove')->middleware('access:kantor,remove');
         Route::patch('/{kantor}/restore', 'restore')->name('.restore')->middleware('access:kantor,destroy');
         Route::delete('/{kantor}/destroy', 'destroy')->name('.destroy')->middleware('access:kantor,destroy');
+        Route::get('/get', 'get')->name('.get');
     });
 
 /**
  * Master komoditi
  */
 Route::controller(KomoditiController::class)
-    ->prefix('komoditi')
     ->name('komoditi')
+    ->prefix('/komoditi')
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:komoditi,read');
         Route::post('/', 'store')->name('.store')->middleware('access:komoditi,create');
@@ -66,8 +68,8 @@ Route::controller(KomoditiController::class)
  * Master user
  */
 Route::controller(UserController::class)
-    ->prefix('user')
     ->name('user')
+    ->prefix('/user')
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:user,read');
         Route::get('/export', 'export')->name('.export')->middleware('access:user,read');
@@ -75,8 +77,8 @@ Route::controller(UserController::class)
         Route::post('/', 'store')->name('.store')->middleware('access:user,create');
 
         // user access
-        Route::prefix('access')
-            ->name('.access')
+        Route::name('.access')
+            ->prefix('/access')
             ->group(function (): void {
                 Route::get('/{user}', 'access')->middleware('access:user,create');
                 Route::post('/{user}', 'storeAccess')->name('.store')->middleware('access:user,create');
@@ -96,8 +98,8 @@ Route::controller(UserController::class)
  * Master SBP
  */
 Route::controller(SbpController::class)
-    ->prefix('sbp')
     ->name('sbp')
+    ->prefix('/sbp')
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:sbp,read');
         Route::get('/create', 'create')->name('.create')->middleware('access:sbp,create');
@@ -109,3 +111,27 @@ Route::controller(SbpController::class)
         Route::patch('/{sbp}/restore', 'restore')->name('.restore')->middleware('access:sbp,destroy');
         Route::delete('/{sbp}/destroy', 'destroy')->name('.destroy')->middleware('access:sbp,destroy');
     });
+
+/**
+ * Data Perusahaan
+ */
+Route::prefix('/perusahaan')->name('perusahaan')->group(function (): void {
+
+    /**
+     * perusahaan HT + HPTL
+     */
+    Route::controller(PerusahaanHtHptlController::class)
+        ->name('.hthptl')
+        ->prefix('/ht-hptl')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:perusahaan.hthptl,read');
+            Route::get('/create', 'create')->name('.create')->middleware('access:perusahaan.hthptl,create');
+            Route::post('/', 'store')->name('.store')->middleware('access:perusahaan.hthptl,create');
+            Route::get('/{hthptl}/edit', 'edit')->name('.edit')->middleware('access:perusahaan.hthptl,update');
+            Route::patch('/{hthptl}', 'update')->name('.update')->middleware('access:perusahaan.hthptl,update');
+        });
+
+    Route::get('/mmea', [DashboardController::class, 'index'])->name('.mmea');
+    Route::get('/ekspor', [DashboardController::class, 'index'])->name('.ekspor');
+    Route::get('/impor', [DashboardController::class, 'index'])->name('.impor');
+});

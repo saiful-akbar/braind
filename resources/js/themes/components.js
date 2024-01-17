@@ -4,8 +4,8 @@ export default {
       tooltip: ({ theme }) =>
         theme.unstable_sx({
           backdropFilter: "blur(6px)",
-          fontSize: 12,
           color: "#FFF",
+          fontSize: 12,
           backgroundColor: ({ palette }) => palette.background.tooltip,
         }),
     },

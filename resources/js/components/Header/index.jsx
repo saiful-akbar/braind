@@ -36,7 +36,9 @@ const Header = memo((props) => {
       >
         <Grid
           item
-          xs={6}
+          xs={4}
+          md={6}
+          lg={8}
           zeroMinWidth
           sx={{
             display: "flex",
@@ -59,7 +61,7 @@ const Header = memo((props) => {
             </IconButton>
           </Tooltip>
 
-          <Typography variant="h6" component="h1" noWrap>
+          <Typography variant="h6" component="h1" noWrap title={title}>
             {title}
           </Typography>
         </Grid>

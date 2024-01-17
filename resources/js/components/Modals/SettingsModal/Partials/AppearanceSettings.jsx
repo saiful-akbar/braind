@@ -1,14 +1,8 @@
 import SelectInput from "@/components/Input/SelectInput";
 import { setAppearance } from "@/redux/reducers/settingsReducer";
-import {
-  FormControl,
-  Grid,
-  Select,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { FormControl, Grid, Typography, useMediaQuery } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 /**
  * Komponen partials appearance settings

@@ -52,7 +52,7 @@ const FilterDateSbp = () => {
   };
 
   return (
-    <CardPaper title="Filter Periode">
+    <CardPaper title="Periode Input">
       <CardContent>
         <Grid container spacing={3}>
           <Grid item md={5} xs={12}>

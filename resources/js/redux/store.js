@@ -3,6 +3,7 @@ import sidebarReducer from "./reducers/sidebarReducer";
 import settingsReducer from "./reducers/settingsReducer";
 import notificationReducer from "./reducers/notificationReducer";
 import komoditiReducer from "./reducers/komoditiReducer";
+import perusahaanHtHptlReducer from "./reducers/perusahaanHtHptlReducer";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     settings: settingsReducer,
     notification: notificationReducer,
     komoditi: komoditiReducer,
+    perusahaanHtHptl: perusahaanHtHptlReducer,
   },
 });
 

@@ -37,21 +37,31 @@ class MenuSeeder extends Seeder
                 ],
             ],
         ],
-        // [
-        //     'name' => 'Kanwil',
-        //     'menus' => [
-        //         [
-        //             'name' => 'Profil',
-        //             'url' => '/division/profile',
-        //             'route' => 'division.profile',
-        //         ],
-        //         [
-        //             'name' => 'Peta Kerawanan',
-        //             'url' => '/division/map',
-        //             'route' => 'division.map',
-        //         ],
-        //     ],
-        // ],
+        [
+            'nama' => 'Data Perusahaan',
+            'sub_menu' => [
+                [
+                    'nama' => 'Impor',
+                    'url' => '/perusahaan/impor',
+                    'route' => 'perusahaan.impor',
+                ],
+                [
+                    'nama' => 'Ekspor',
+                    'url' => '/perusahaan/ekspor',
+                    'route' => 'perusahaan.ekspor',
+                ],
+                [
+                    'nama' => 'Cukai MMEA',
+                    'url' => '/perusahaan/mmea',
+                    'route' => 'perusahaan.mmea',
+                ],
+                [
+                    'nama' => 'Cukai HT + HPTL',
+                    'url' => '/perusahaan/ht-hptl',
+                    'route' => 'perusahaan.hthptl',
+                ],
+            ],
+        ],
     ];
 
     /**

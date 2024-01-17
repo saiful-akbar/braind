@@ -29,18 +29,14 @@ const SidebarLink = (props) => {
   };
 
   // fungsi untuk menandakan apakah link aktif atau tidak.
-  const isActive = (routeName) => {
-    return route().current(`${routeName}*`)
-      ? "secondary.main"
-      : "text.secondary";
-  };
+  const isActive = (routeName) => route().current(`${routeName}*`);
 
   return (
     <ListItem disablePadding sx={{ px: 2 }} {...rest}>
       <Tooltip title={name} placement="right" disableInteractive>
         <ListItemButton
           dense
-          selected={route().current(`${routeName}*`)}
+          selected={isActive(routeName)}
           component={Link}
           href={url}
           preserveScroll
@@ -53,7 +49,12 @@ const SidebarLink = (props) => {
           <ListItemIcon
             sx={{
               minWidth: 30,
-              color: isActive(routeName),
+              color: (theme) => {
+                if (!isActive(routeName)) return "text.secondary";
+                return theme.palette.mode === "light"
+                  ? "secondary.main"
+                  : "secondary.light";
+              },
             }}
           >
             {icon === null ? (
@@ -71,8 +72,13 @@ const SidebarLink = (props) => {
               component: "div",
               sx: {
                 display: "block",
-                fontWeight: 500,
-                color: isActive(routeName),
+                fontWeight: isActive(routeName) ? 700 : 500,
+                color: (theme) => {
+                  if (!isActive(routeName)) return "text.secondary";
+                  return theme.palette.mode === "light"
+                    ? "secondary.main"
+                    : "secondary.light";
+                },
               },
             }}
           />

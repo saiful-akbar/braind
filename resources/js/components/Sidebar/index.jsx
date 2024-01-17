@@ -40,9 +40,9 @@ function Sidebar() {
             width: sidebar.width,
             boxSizing: "border-box",
             backgroundColor: "background.default",
+            zIndex: 0,
             borderRadius: 0,
             borderRightStyle: "dashed",
-            zIndex: 0,
           },
         }}
         sx={{
