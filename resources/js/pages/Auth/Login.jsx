@@ -26,7 +26,7 @@ const Login = () => {
         lg={5}
         md={6}
         xs={12}
-        sx={({ palette }) => ({
+        sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -41,12 +41,13 @@ const Login = () => {
           },
           backgroundImage: {
             md: "none",
-            xs:
-              palette.mode === "dark"
+            xs: (theme) => {
+              return theme.palette.mode === "dark"
                 ? "linear-gradient(to right bottom, rgba(22, 28, 36, 0.8), rgba(22, 28, 36, 1))"
-                : "linear-gradient(to right bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1))",
+                : "linear-gradient(to right bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1))";
+            },
           },
-        })}
+        }}
       >
         <FormLogin />
       </Grid>
@@ -66,7 +67,7 @@ const Login = () => {
             backgroundImage: (theme) => {
               return theme.palette.mode === "dark"
                 ? "linear-gradient(to left, rgba(22, 28, 36, 0.6), rgba(22, 28, 36, 1))"
-                : "linear-gradient(to left, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 1))";
+                : "linear-gradient(to left, rgba(244, 246, 248, 0.6), rgba(244, 246, 248, 1))";
             },
           },
         }}

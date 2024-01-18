@@ -27,7 +27,7 @@ return new class extends Migration
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->string('nama_perusahaan', 50);
+            $table->string('nama_perusahaan', 100)->unique();
             $table->string('nppbkc', 100);
             $table->integer('jumlah_ck')->unsigned();
             $table->string('jenis_bkc', 100);

@@ -18,6 +18,7 @@ import CloseIcon from "@mui/icons-material/Close";
  * @returns {React.ReactElement}
  */
 const BaseModal = (props) => {
+  const { open, maxWidth, loading, title, onClose, children, ...rest } = props;
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -25,18 +26,19 @@ const BaseModal = (props) => {
    * fungsi untuk menutup modal
    */
   const handleClose = () => {
-    if (!props.loading) {
-      props.onClose();
+    if (!loading) {
+      onClose();
     }
   };
 
   return (
     <Dialog
       fullWidth
-      maxWidth={props.maxWidth}
-      open={props.open}
+      maxWidth={maxWidth}
+      open={open}
       onClose={handleClose}
       fullScreen={fullScreen}
+      {...rest}
     >
       <DialogTitle
         sx={{
@@ -46,7 +48,7 @@ const BaseModal = (props) => {
         }}
       >
         <Typography variant="h5" component="div">
-          {props.title}
+          {title}
         </Typography>
 
         <Tooltip title="Tutup" disableInteractive>
@@ -56,7 +58,7 @@ const BaseModal = (props) => {
         </Tooltip>
       </DialogTitle>
 
-      {props.children}
+      {children}
     </Dialog>
   );
 };
