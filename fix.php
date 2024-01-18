@@ -91,7 +91,7 @@ class Response implements Responsable
         $props = ($only && $request->header('X-Inertia-Partial-Component') === $this->component)
             ? Arr::only($this->props, $only)
             : array_filter($this->props, static function ($prop) {
-                return !($prop instanceof LazyProp);
+                return ! ($prop instanceof LazyProp);
             });
 
         $props = $this->resolvePropertyInstances($props, $request);
