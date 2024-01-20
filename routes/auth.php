@@ -126,7 +126,10 @@ Route::prefix('/perusahaan')->name('perusahaan')->group(function (): void {
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan.hthptl,read');
             Route::get('/create', 'create')->name('.create')->middleware('access:perusahaan.hthptl,create');
+            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan.hthptl,read');
+            Route::get('/export/template', 'exportTemplate')->name('.export.template')->middleware('access:perusahaan.hthptl,read');
             Route::post('/', 'store')->name('.store')->middleware('access:perusahaan.hthptl,create');
+            Route::post('/import', 'import')->name('.import')->middleware('access:perusahaan.hthptl,create');
             Route::get('/{hthptl}/edit', 'edit')->name('.edit')->middleware('access:perusahaan.hthptl,update');
             Route::patch('/{hthptl}', 'update')->name('.update')->middleware('access:perusahaan.hthptl,update');
         });

@@ -6,12 +6,34 @@ import { openNotification } from "@/redux/reducers/notificationReducer";
 import { closeModalPerusahaanHtHptl } from "@/redux/reducers/perusahaanHtHptlReducer";
 import Kantor from "@/services/kantorService";
 import dateFormat from "@/utils";
-import { useForm, usePage } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import { LoadingButton } from "@mui/lab";
 import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+/**
+ * List daftar perusahaan
+ */
+const perusahaan = [
+  {
+    label: "Cukai HT + HPTL",
+    value: "Cukai HT + HPTL",
+  },
+  {
+    label: "Cukai MMEA",
+    value: "Cukai MMEA",
+  },
+  {
+    label: "Ekspor",
+    value: "Ekspor",
+  },
+  {
+    label: "Impor",
+    value: "Impor",
+  },
+];
 
 /**
  * Komponen modal create & update partials untuk
@@ -22,8 +44,9 @@ import { useDispatch, useSelector } from "react-redux";
 const ModalActionHtHptl = () => {
   const dispatch = useDispatch();
   const { open, type, data } = useSelector((state) => state.perusahaanHtHptl);
-  const { auth } = usePage().props;
+  const { auth, app } = usePage().props;
   const { user } = auth;
+  const { params } = app.url;
 
   // state
   const [kantor, setKantor] = useState([]);
@@ -63,6 +86,7 @@ const ModalActionHtHptl = () => {
     processing,
     errors,
     reset,
+    clearErrors,
     post,
     patch,
   } = useForm(data);
@@ -71,6 +95,7 @@ const ModalActionHtHptl = () => {
    * Update data pada form
    */
   useEffect(() => {
+    clearErrors();
     setData(data);
   }, [open]);
 
@@ -93,6 +118,32 @@ const ModalActionHtHptl = () => {
     [setData]
   );
 
+  const handleCreate = () => {
+    post(route("perusahaan.hthptl.store", { _query: params }), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => {
+        reset();
+        dispatch(
+          openNotification({
+            status: "success",
+            message: "Perusahaan cukai HT + HPTL berhasil ditambahkan.",
+          })
+        );
+
+        router.reload();
+      },
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "Terjadi kesalahan, periksa kembali inputan anda!",
+          })
+        );
+      },
+    });
+  };
+
   /**
    * fungsi untuk submit form
    */
@@ -100,27 +151,7 @@ const ModalActionHtHptl = () => {
     e.preventDefault();
 
     if (type === "create") {
-      post(route("perusahaan.hthptl.store"), {
-        preserveScroll: true,
-        preserveState: true,
-        onSuccess: () => {
-          reset();
-          dispatch(
-            openNotification({
-              status: "success",
-              message: "Perusahaan cukai HT + HPTL berhasil ditambahkan.",
-            })
-          );
-        },
-        onError: () => {
-          dispatch(
-            openNotification({
-              status: "error",
-              message: "Terjadi kesalahan, periksa kembali inputan anda!",
-            })
-          );
-        },
-      });
+      handleCreate();
     }
   };
 
@@ -150,7 +181,7 @@ const ModalActionHtHptl = () => {
             <Grid item md={6} xs={12}>
               <SelectInput
                 fullWidth
-                label="ID Kantor"
+                label="Kantor"
                 name="kantor_id"
                 items={kantor}
                 value={formData.kantor_id}
@@ -163,12 +194,12 @@ const ModalActionHtHptl = () => {
           )}
 
           <Grid item md={6} xs={12}>
-            <TextInput
+            <SelectInput
               fullWidth
               required
-              type="text"
-              label="Nama perusahaan"
+              label="Perusahaan"
               name="nama_perusahaan"
+              items={perusahaan}
               value={formData.nama_perusahaan}
               error={Boolean(errors.nama_perusahaan)}
               helperText={errors.nama_perusahaan}
@@ -198,7 +229,7 @@ const ModalActionHtHptl = () => {
               required
               type="number"
               min={0}
-              label="Jumlah CK"
+              label="Jumlah CK-1"
               name="jumlah_ck"
               value={formData.jumlah_ck}
               error={Boolean(errors.jumlah_ck)}
@@ -266,7 +297,7 @@ const ModalActionHtHptl = () => {
               helperText={
                 Boolean(errors.tanggal_input)
                   ? errors.tanggal_input
-                  : "Opsional"
+                  : "Biarkan tanggal input tetap kosong untuk mengambil tanggal saat ini."
               }
             />
           </Grid>

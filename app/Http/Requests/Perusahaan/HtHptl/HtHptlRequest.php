@@ -11,19 +11,20 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class HtHptlRequest extends FormRequest
 {
     private array $columns = [
+        'kantor_id',
+        'kantor_nama',
         'nama_perusahaan',
         'nppbkc',
         'jumlah_ck',
         'jenis_bkc',
+        'jumlah',
         'jumlah_cukai',
         'tanggal_input',
         'deleted_at',
-        'kantor_id',
-        'kantor_nama',
     ];
 
     private string $order = 'asc';
-    private string $orderBy = 'nama_perusahaan';
+    private string $orderBy = 'kantor_nama';
     private int $perPage = 10;
     private array $rowsPerPage = [10, 25, 50, 100, 200];
 

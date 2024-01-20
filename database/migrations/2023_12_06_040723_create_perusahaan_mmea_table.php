@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('nppbkc', 100);
             $table->integer('jumlah_dokumen')->unsigned();
             $table->integer('jumlah_liter')->unsigned();
-            $table->double('jumlah_cukai')->unsigned();
+            $table->decimal('jumlah_cukai')->unsigned();
             $table->date('tanggal_input');
             $table->timestamps();
             $table->softDeletes();

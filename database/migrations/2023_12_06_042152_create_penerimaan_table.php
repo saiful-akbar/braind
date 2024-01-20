@@ -27,12 +27,12 @@ return new class extends Migration
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->double('target_bea_masuk');
-            $table->double('realisasi_bea_masuk');
-            $table->double('target_bea_keluar');
-            $table->double('realisasi_bea_keluar');
-            $table->double('target_cukai');
-            $table->double('realisasi_cukai');
+            $table->decimal('target_bea_masuk');
+            $table->decimal('realisasi_bea_masuk');
+            $table->decimal('target_bea_keluar');
+            $table->decimal('realisasi_bea_keluar');
+            $table->decimal('target_cukai');
+            $table->decimal('realisasi_cukai');
             $table->date('tanggal_input');
             $table->timestamps();
             $table->softDeletes();

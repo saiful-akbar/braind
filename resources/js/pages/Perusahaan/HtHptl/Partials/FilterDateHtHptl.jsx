@@ -1,10 +1,12 @@
 import CardPaper from "@/components/CardPaper";
 import DateInput from "@/components/Input/DateInput";
+import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
 import { LoadingButton } from "@mui/lab";
 import { CardContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
 import React from "react";
+import { useCallback } from "react";
 
 /**
  * Komponen parsial perusahaan cukai HT + HPTL untuk filter tanggal input.
@@ -14,12 +16,31 @@ import React from "react";
 const FilterDateHtHptl = () => {
   const { app } = usePage().props;
   const { params } = app.url;
-  const { data } = useForm({
+  const { data, setData, get, processing } = useForm({
     ...params,
-    start_period: params?.start_period,
-    end_period: params?.end_period,
-    _token: app.csrf,
+    page: 1,
+    start_period: params.start_period ?? null,
+    end_period: params.end_period ?? null,
   });
+
+  /**
+   * fungsi untuk menangani ketika periode diisi
+   */
+  const handleChange = useCallback(
+    (name, value) => {
+      setData(name, dateFormat(value));
+    },
+    [setData]
+  );
+
+  /**
+   * fungsi untuk menangani ketika periode di submit
+   */
+  const handleSubmit = (e) => {
+    get(route("perusahaan.hthptl"), {
+      preserveScroll: true,
+    });
+  };
 
   return (
     <CardPaper title="Periode Input">
@@ -30,6 +51,8 @@ const FilterDateHtHptl = () => {
               size="small"
               label="Periode awal"
               value={dayjs(data.start_period)}
+              disabled={processing}
+              onChange={(value) => handleChange("start_period", value)}
             />
           </Grid>
 
@@ -38,11 +61,19 @@ const FilterDateHtHptl = () => {
               size="small"
               label="Periode akhir"
               value={dayjs(data.end_period)}
+              disabled={processing}
+              onChange={(value) => handleChange("end_period", value)}
             />
           </Grid>
 
           <Grid item xs={12} md={2}>
-            <LoadingButton fullWidth variant="contained" color="secondary">
+            <LoadingButton
+              fullWidth
+              variant="contained"
+              color="secondary"
+              loading={processing}
+              onClick={handleSubmit}
+            >
               Filter
             </LoadingButton>
           </Grid>

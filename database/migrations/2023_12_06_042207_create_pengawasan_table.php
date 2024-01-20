@@ -29,9 +29,9 @@ return new class extends Migration
             $table->string('kantor', 50);
             $table->string('sbp', 30);
             $table->string('tindak_lanjut', 100);
-            $table->double('nilai_barang');
-            $table->double('total');
-            $table->double('nilai_kerugian')->default(0);
+            $table->decimal('nilai_barang');
+            $table->decimal('total');
+            $table->decimal('nilai_kerugian')->default(0);
             $table->string('tipe', 10);
             $table->date('tanggal_input');
             $table->timestamps();

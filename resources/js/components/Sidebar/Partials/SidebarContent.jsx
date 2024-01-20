@@ -11,14 +11,6 @@ export default function SidebarContent() {
   const { menu: menus } = usePage().props.auth;
   const accountRef = useRef(null);
 
-  // state
-  const [accountHeight, setAccountHeight] = useState(0);
-
-  // update state setAccountHeight
-  useEffect(() => {
-    setAccountHeight(accountRef.current.clientHeight);
-  }, [accountRef, setAccountHeight]);
-
   return (
     <Box
       sx={{
@@ -33,7 +25,6 @@ export default function SidebarContent() {
       <Box
         component="nav"
         sx={{
-          height: `calc(100vh - ${accountHeight}px)`,
           width: "100%",
           overflowY: "auto",
           overflowX: "hidden",
@@ -41,6 +32,10 @@ export default function SidebarContent() {
           mt: 2,
         }}
       >
+        <SidebarAccount ref={accountRef} />
+
+        <Divider variant="middle" sx={{ my: 2 }} />
+
         {/* Dashboard */}
         <List>
           <SidebarLink
@@ -88,8 +83,6 @@ export default function SidebarContent() {
           </Fragment>
         ))}
       </Box>
-
-      <SidebarAccount ref={accountRef} />
     </Box>
   );
 }

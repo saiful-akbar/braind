@@ -64,9 +64,6 @@ const SidebarAccount = forwardRef((props, ref) => {
         width: "100%",
         px: 2,
         py: 2,
-        borderTop: 1,
-        borderColor: "divider",
-        borderTopStyle: "dashed",
       }}
     >
       <ButtonBase
@@ -85,7 +82,9 @@ const SidebarAccount = forwardRef((props, ref) => {
         <Box
           sx={{
             display: "flex",
+            flexDirection: "row",
             alignItems: "center",
+            width: "100%",
             overflowX: "hidden",
             mr: 1.5,
           }}
@@ -93,13 +92,13 @@ const SidebarAccount = forwardRef((props, ref) => {
           <Avatar
             src={user.foto}
             sx={{
+              width: 40,
+              height: 40,
               mr: 1.5,
-              width: 30,
-              height: 30,
             }}
           />
 
-          <Typography variant="subtitle2" component="div" noWrap>
+          <Typography variant="h6" component="div" noWrap>
             {user.nama_lengkap}
           </Typography>
         </Box>
@@ -114,11 +113,11 @@ const SidebarAccount = forwardRef((props, ref) => {
         anchorEl={anchorEl}
         onClose={handleClosePopover}
         anchorOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "left",
         }}
         transformOrigin={{
-          vertical: "bottom",
+          vertical: "top",
           horizontal: "left",
         }}
         slotProps={{
@@ -126,7 +125,7 @@ const SidebarAccount = forwardRef((props, ref) => {
             sx: {
               backgroundImage: "none",
               backgroundColor: "background.paper",
-              width: 210,
+              width: 215,
               borderRadius: "8px",
             },
           },

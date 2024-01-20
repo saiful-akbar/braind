@@ -174,7 +174,7 @@ const columnsType = PropTypes.shape({
   field: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   align: PropTypes.string.isRequired,
-  format: PropTypes.oneOf(["none", "time", "number"]),
+  format: PropTypes.oneOf(["none", "time", "number"]).isRequired,
   show: PropTypes.bool.isRequired,
   sort: PropTypes.bool.isRequired,
 });

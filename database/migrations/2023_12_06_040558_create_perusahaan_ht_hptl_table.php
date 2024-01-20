@@ -31,8 +31,8 @@ return new class extends Migration
             $table->string('nppbkc', 100);
             $table->integer('jumlah_ck')->unsigned();
             $table->string('jenis_bkc', 100);
-            $table->double('jumlah')->unsigned();
-            $table->double('jumlah_cukai')->unsigned();
+            $table->decimal('jumlah')->unsigned();
+            $table->decimal('jumlah_cukai')->unsigned();
             $table->date('tanggal_input');
             $table->timestamps();
             $table->softDeletes();

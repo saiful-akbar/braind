@@ -26,7 +26,7 @@ const Login = () => {
         lg={5}
         md={6}
         xs={12}
-        sx={{
+        sx={(theme) => ({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -37,17 +37,15 @@ const Login = () => {
           },
           backgroundColor: {
             md: "background.default",
-            xs: "none",
           },
           backgroundImage: {
             md: "none",
-            xs: (theme) => {
-              return theme.palette.mode === "dark"
+            xs:
+              theme.palette.mode === "dark"
                 ? "linear-gradient(to right bottom, rgba(22, 28, 36, 0.8), rgba(22, 28, 36, 1))"
-                : "linear-gradient(to right bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1))";
-            },
+                : "linear-gradient(to right bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1))",
           },
-        }}
+        })}
       >
         <FormLogin />
       </Grid>
