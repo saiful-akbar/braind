@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('kode_barang', 20);
             $table->string('nup', 20);
             $table->string('jenis_perangkat', 30);
-            $table->decimal('harga_perolehan');
+            $table->decimal('harga_perolehan', 15, 2)->unsigned();
             $table->year('tahun_perolehan');
             $table->string('merek', 50);
             $table->string('tipe', 50);

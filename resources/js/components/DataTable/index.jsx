@@ -103,9 +103,21 @@ const DataTable = memo((props) => {
                       <TableCell
                         key={columnKey}
                         align={column.align}
-                        title={numberFormat(row[column.field], 2)}
+                        title={numberFormat(row[column.field])}
                       >
-                        {numberFormat(row[column.field], 2)}
+                        {numberFormat(row[column.field])}
+                      </TableCell>
+                    );
+                  }
+
+                  if (column.format.toLowerCase() === "decimal") {
+                    return (
+                      <TableCell
+                        key={columnKey}
+                        align={column.align}
+                        title={numberFormat(parseFloat(row[column.field]), 2)}
+                      >
+                        {numberFormat(parseFloat(row[column.field]), 2)}
                       </TableCell>
                     );
                   }
@@ -180,7 +192,7 @@ const columnsType = PropTypes.shape({
   field: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   align: PropTypes.string.isRequired,
-  format: PropTypes.oneOf(["none", "time", "number"]).isRequired,
+  format: PropTypes.oneOf(["none", "time", "number", "decimal"]).isRequired,
   show: PropTypes.bool.isRequired,
   sort: PropTypes.bool.isRequired,
 });

@@ -149,13 +149,13 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
               <CardContent>
                 <Grid container spacing={3}>
                   <Grid item md={2} xs={12}>
-                    <RefreshButton onClick={handleReload} title="Muat ulang" />
-
                     <ExportImportButton
                       onExport={handleExport}
                       onImport={toggleModalImport}
                       onDownloadTemplate={handleDownloadTemplate}
                     />
+
+                    <RefreshButton onClick={handleReload} />
                   </Grid>
 
                   <Grid item md={5} xs={12}>

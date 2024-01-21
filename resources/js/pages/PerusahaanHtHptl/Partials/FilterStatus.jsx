@@ -27,7 +27,6 @@ const FilterStatus = () => {
 
   // state
   const [value, setValue] = React.useState(params.status ?? "aktif");
-  const [loading, setLoading] = React.useState(false);
 
   /**
    * Update value
@@ -42,7 +41,6 @@ const FilterStatus = () => {
   const handleChange = useCallback(
     (e) => {
       setValue(e.target.value);
-      setLoading(true);
 
       router.visit(route("perusahaan.hthptl"), {
         method: "get",
@@ -53,7 +51,6 @@ const FilterStatus = () => {
         },
         preserveScroll: true,
         preserveState: true,
-        onFinish: () => setLoading(false),
       });
     },
     [params, setValue]
@@ -62,12 +59,12 @@ const FilterStatus = () => {
   return (
     <SelectInput
       fullWidth
+      label="Status"
       size="small"
       name="status"
       items={items}
       value={value}
       onChange={handleChange}
-      disabled={loading}
     />
   );
 };

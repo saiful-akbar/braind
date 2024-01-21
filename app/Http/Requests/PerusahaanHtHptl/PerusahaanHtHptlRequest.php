@@ -76,7 +76,10 @@ class PerusahaanHtHptlRequest extends FormRequest
         if (!empty($this->query('search'))) {
             $query->where(function (Builder $query): void {
                 $search = $this->query('search');
+
                 $query->where('perusahaan_ht_hptl.nama_perusahaan', 'like', "%{$search}%")
+                    ->orWhere('perusahaan_ht_hptl.nppbkc', 'like', "%{$search}%")
+                    ->orWhere('perusahaan_ht_hptl.jenis_bkc', 'like', "%{$search}%")
                     ->orWhere('kantor.nama', 'like', "%{$search}%");
             });
         }
@@ -96,6 +99,7 @@ class PerusahaanHtHptlRequest extends FormRequest
             $this->order = 'desc';
         }
 
+        // buat query order dan pagination
         return $query->orderBy($this->orderBy, $this->order)->paginate($this->perPage);
     }
 }

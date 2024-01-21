@@ -87,7 +87,7 @@ const Search = () => {
       <SearchInput
         fullWidth
         size="small"
-        label="Cari perusahaan"
+        label="Cari Perusahaan"
         name="search"
         value={value}
         onChange={handleChange}

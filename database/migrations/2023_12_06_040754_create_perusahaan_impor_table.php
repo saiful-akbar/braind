@@ -30,12 +30,12 @@ return new class extends Migration
             $table->string('nama_perusahaan', 50);
             $table->string('npwp', 20);
             $table->integer('pib')->unsigned()->comment('Pemberitahuan Impor Barang');
-            $table->decimal('pembayaran_bea_masuk')->unsigned();
-            $table->decimal('netto')->unsigned();
-            $table->decimal('bruto')->unsigned();
-            $table->decimal('total_pembayaran')->unsigned();
-            $table->decimal('bea_masuk')->unsigned()->nullable();
-            $table->decimal('tanggal_input');
+            $table->decimal('pembayaran_bea_masuk', 15, 2)->unsigned();
+            $table->decimal('netto', 15, 2)->unsigned();
+            $table->decimal('bruto', 15, 2)->unsigned();
+            $table->decimal('total_pembayaran', 15, 2)->unsigned();
+            $table->decimal('bea_masuk', 15, 2)->unsigned()->nullable();
+            $table->decimal('tanggal_input', 15, 2);
             $table->timestamps();
             $table->softDeletes();
         });

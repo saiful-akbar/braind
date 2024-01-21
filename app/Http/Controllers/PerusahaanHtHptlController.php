@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Exports\Templates\PerusahaanHtHptlTemplateExport;
 use App\Http\Requests\PerusahaanHtHptl\PerusahaanHtHptlRequest;
 use App\Http\Requests\PerusahaanHtHptl\StorePerusahaanHtHptlRequest;
+use App\Http\Requests\PerusahaanHtHptl\UpdatePerusahaanHtHptlRequest;
 use App\Models\PerusahaanHtHptl;
 
 class PerusahaanHtHptlController extends Controller
@@ -46,7 +47,11 @@ class PerusahaanHtHptlController extends Controller
     public function store(StorePerusahaanHtHptlRequest $request): RedirectResponse
     {
         $request->insert();
-        return redirect()->route('perusahaan.hthptl', $request->query());
+
+        return to_route('perusahaan.hthptl', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil ditambahkan.'
+        ]);
     }
 
     /**
@@ -86,6 +91,19 @@ class PerusahaanHtHptlController extends Controller
         return to_route('perusahaan.hthptl', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
+        ]);
+    }
+
+    /**
+     * Update data
+     */
+    public function update(UpdatePerusahaanHtHptlRequest $request, string $id): RedirectResponse
+    {
+        $request->update();
+
+        return to_route('perusahaan.hthptl', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil diperbarui.'
         ]);
     }
 

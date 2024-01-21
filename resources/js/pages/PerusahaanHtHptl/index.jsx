@@ -7,6 +7,7 @@ import DeleteConfirmation from "@/components/DeleteConfirmation";
 import { useDispatch } from "react-redux";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import RestoreConfirmation from "@/components/RestoreConfirmation";
+import { updatePerusahaanHtHptl } from "@/redux/reducers/perusahaanHtHptlReducer";
 
 /**
  * Halaman perusahaan cukai HT + HTPL
@@ -20,6 +21,8 @@ const PerusahaanHtHptl = (props) => {
   const orderBy = params.order_by ?? "kantor_nama";
   const status = params.status ?? "aktif";
   const dispatch = useDispatch();
+
+  console.dir(data);
 
   // state
   const [deleteId, setDeleteId] = useState(null);
@@ -69,7 +72,7 @@ const PerusahaanHtHptl = (props) => {
       field: "jumlah_ck",
       label: "Jumlah CK-1",
       align: "right",
-      format: "none",
+      format: "number",
       show: true,
       sort: true,
     },
@@ -85,7 +88,7 @@ const PerusahaanHtHptl = (props) => {
       field: "jumlah",
       label: "Jumlah",
       align: "right",
-      format: "number",
+      format: "decimal",
       show: true,
       sort: true,
     },
@@ -93,7 +96,7 @@ const PerusahaanHtHptl = (props) => {
       field: "jumlah_cukai",
       label: "Jumlah Cukai",
       align: "right",
-      format: "number",
+      format: "decimal",
       show: true,
       sort: true,
     },
@@ -253,6 +256,29 @@ const PerusahaanHtHptl = (props) => {
     });
   }, [restoreId, setRestoring, params]);
 
+  /**
+   * fungsi untuk membuka dialog action untuk edit perusahaan
+   */
+  const handleEdit = useCallback(
+    (row) => {
+      console.log(row);
+      dispatch(
+        updatePerusahaanHtHptl({
+          id: row.id,
+          kantor_id: row.kantor_id,
+          nama_perusahaan: row.nama_perusahaan,
+          nppbkc: row.nppbkc,
+          jumlah_ck: row.jumlah_ck,
+          jenis_bkc: row.jenis_bkc,
+          jumlah: row.jumlah,
+          jumlah_cukai: row.jumlah_cukai,
+          tanggal_input: row.tanggal_input,
+        })
+      );
+    },
+    [dispatch]
+  );
+
   return (
     <Fragment>
       <DataTable
@@ -265,7 +291,7 @@ const PerusahaanHtHptl = (props) => {
         remove={Boolean(access.remove && status === "aktif")}
         destroy={Boolean(access.destroy && status === "dihapus")}
         onOrder={handleOrder}
-        onUpdate={() => {}}
+        onUpdate={(row) => handleEdit(row)}
         onRemove={(row) => handleDeleteConfirmationOpen("remove", row.id)}
         onDestroy={(row) => handleDeleteConfirmationOpen("destroy", row.id)}
         onRestore={(row) => handleRestoreConfirmationOpen(row.id)}

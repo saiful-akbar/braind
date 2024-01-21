@@ -118,26 +118,45 @@ const ModalAction = () => {
     [setData]
   );
 
+  /**
+   * fungsi untuk request insert data
+   */
   const handleCreate = () => {
-    post(route("perusahaan.hthptl.store", { _query: params }), {
-      preserveScroll: true,
-      preserveState: true,
-      onSuccess: () => {
-        reset();
-        dispatch(
-          openNotification({
-            status: "success",
-            message: "Perusahaan cukai HT + HPTL berhasil ditambahkan.",
-          })
-        );
+    const url = route("perusahaan.hthptl.store", {
+      _query: params,
+    });
 
-        router.reload();
-      },
+    post(url, {
+      preserveScroll: true,
+      onSuccess: () => reset(),
       onError: () => {
         dispatch(
           openNotification({
             status: "error",
             message: "Terjadi kesalahan, periksa kembali inputan anda!",
+          })
+        );
+      },
+    });
+  };
+
+  /**
+   * fungsi untuk request update data
+   */
+  const handleUpdate = () => {
+    const url = route("perusahaan.hthptl.update", {
+      id: data.id,
+      _query: params,
+    });
+
+    patch(url, {
+      preserveScroll: true,
+      onSuccess: () => handleClose(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "Terjadi kesalahan, gagal memperbarui data perusahaan.",
           })
         );
       },
@@ -152,6 +171,8 @@ const ModalAction = () => {
 
     if (type === "create") {
       handleCreate();
+    } else {
+      handleUpdate();
     }
   };
 

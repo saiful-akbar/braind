@@ -27,12 +27,12 @@ return new class extends Migration
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->string('nama_perusahaan', 100)->unique();
+            $table->string('nama_perusahaan', 100);
             $table->string('nppbkc', 100);
             $table->integer('jumlah_ck')->unsigned();
             $table->string('jenis_bkc', 100);
-            $table->decimal('jumlah')->unsigned();
-            $table->decimal('jumlah_cukai')->unsigned();
+            $table->decimal('jumlah', 15, 2)->unsigned();
+            $table->decimal('jumlah_cukai', 15, 2)->unsigned();
             $table->date('tanggal_input');
             $table->timestamps();
             $table->softDeletes();
