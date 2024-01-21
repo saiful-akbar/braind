@@ -19,6 +19,14 @@ const Kantor = (props) => {
   // Daftar kolom yang akan ditampilkan pada tabel
   const columns = [
     {
+      field: "id",
+      label: "ID Kantor",
+      align: "left",
+      format: "none",
+      sort: true,
+      show: true,
+    },
+    {
       field: "nama",
       label: "Nama Kantor",
       align: "left",

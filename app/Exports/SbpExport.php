@@ -21,6 +21,8 @@ class SbpExport implements FromView, WithStyles, ShouldAutoSize
     use Exportable;
 
     private array $columns = [
+        'kantor_id',
+        'kantor_nama',
         'id',
         'jumlah',
         'tindak_lanjut',
@@ -28,10 +30,6 @@ class SbpExport implements FromView, WithStyles, ShouldAutoSize
         'created_at',
         'updated_at',
         'deleted_at',
-        'user_id',
-        'user_nama_lengkap',
-        'kantor_id',
-        'kantor_nama',
     ];
 
     private string $orderBy = 'updated_at';
@@ -52,15 +50,12 @@ class SbpExport implements FromView, WithStyles, ShouldAutoSize
             'sbp.created_at',
             'sbp.updated_at',
             'sbp.deleted_at',
-            'users.id as user_id',
-            'users.nama_lengkap as user_nama_lengkap',
             'kantor.id as kantor_id',
             'kantor.nama as kantor_nama',
         ];
 
         // ambil data SBP dan join dengan tabel users dan kantor.
         $this->query = Sbp::select($columns)
-            ->leftJoin('users', 'sbp.user_id', '=', 'users.id')
             ->leftJoin('kantor', 'sbp.kantor_id', '=', 'kantor.id')
             ->whereBetween('sbp.tanggal_input', [
                 $request->query('start_period', date('Y-m-01')),
@@ -83,7 +78,8 @@ class SbpExport implements FromView, WithStyles, ShouldAutoSize
         // jika ada request search tambahkan query pencarian
         if (!empty($this->request->query('search'))) {
             $this->query->where(function (Builder $query): void {
-                $query->where('users.nama_lengkap', 'like', '%' . $this->request->query('search') . '%')
+                $query->where('sbp.id', 'like', '%' . $this->request->query('search') . '%')
+                    ->orWhere('kantor.id', 'like', '%' . $this->request->query('search') . '%')
                     ->orWhere('kantor.nama', 'like', '%' . $this->request->query('search') . '%');
             });
         }

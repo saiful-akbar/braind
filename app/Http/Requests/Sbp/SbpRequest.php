@@ -12,16 +12,14 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class SbpRequest extends FormRequest implements Pagination
 {
     private array $columns = [
+        'kantor_id',
+        'kantor_nama',
         'id',
         'jumlah',
         'tindak_lanjut',
         'tanggal_input',
         'updated_at',
         'deleted_at',
-        'user_id',
-        'user_nama_lengkap',
-        'kantor_id',
-        'kantor_nama',
     ];
 
     private string $orderBy = 'updated_at';
@@ -50,15 +48,12 @@ class SbpRequest extends FormRequest implements Pagination
             'sbp.created_at',
             'sbp.updated_at',
             'sbp.deleted_at',
-            'users.id as user_id',
-            'users.nama_lengkap as user_nama_lengkap',
             'kantor.id as kantor_id',
             'kantor.nama as kantor_nama',
         ];
 
         // ambil data SBP dan join dengan tabel users dan kantor.
         $sbp = Sbp::select($columns)
-            ->leftJoin('users', 'sbp.user_id', '=', 'users.id')
             ->leftJoin('kantor', 'sbp.kantor_id', '=', 'kantor.id')
             ->whereBetween('sbp.tanggal_input', [
                 $this->query('start_period', date('Y-m-01')),
@@ -81,7 +76,8 @@ class SbpRequest extends FormRequest implements Pagination
         // jika ada request search tambahkan query pencarian
         if (!empty($this->query('search'))) {
             $sbp->where(function (Builder $query): void {
-                $query->where('users.nama_lengkap', 'like', '%' . $this->query('search') . '%')
+                $query->where('sbp.id', 'like', '%' . $this->query('search') . '%')
+                    ->orWhere('kantor.id', 'like', '%' . $this->query('search') . '%')
                     ->orWhere('kantor.nama', 'like', '%' . $this->query('search') . '%');
             });
         }

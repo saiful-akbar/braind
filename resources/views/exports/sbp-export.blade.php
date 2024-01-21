@@ -14,9 +14,9 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Kantor</th>
-                <th>User</th>
-                <th>ID</th>
+                <th>ID Kantor</th>
+                <th>Nama Kantor</th>
+                <th>ID SBP</th>
                 <th>Jumlah</th>
                 <th>Tidak Lanjut</th>
                 <th>Tanggal Input</th>
@@ -27,8 +27,8 @@
             @foreach ($sbp as $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->kantor_id }}</td>
                     <td>{{ $item->kantor_nama }}</td>
-                    <td>{{ $item->user_nama_lengkap }}</td>
                     <td>{{ $item->id }}</td>
                     <td>{{ number_format($item->jumlah) }}</td>
                     <td>{{ number_format($item->tindak_lanjut) }}</td>

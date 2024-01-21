@@ -209,6 +209,7 @@ const FormKomoditi = React.memo(() => {
           type="button"
           variant="outlined"
           color="primary"
+          size="large"
           disabled={loading}
           onClick={handleClose}
         >
@@ -219,6 +220,7 @@ const FormKomoditi = React.memo(() => {
           type="submit"
           variant="contained"
           color="primary"
+          size="large"
           loading={loading}
         >
           Simpan
