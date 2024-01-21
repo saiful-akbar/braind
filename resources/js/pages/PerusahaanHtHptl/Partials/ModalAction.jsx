@@ -41,7 +41,7 @@ const perusahaan = [
  *
  * @returns {React.ReactElement}
  */
-const ModalActionHtHptl = () => {
+const ModalAction = () => {
   const dispatch = useDispatch();
   const { open, type, data } = useSelector((state) => state.perusahaanHtHptl);
   const { auth, app } = usePage().props;
@@ -330,4 +330,4 @@ const ModalActionHtHptl = () => {
   );
 };
 
-export default ModalActionHtHptl;
+export default ModalAction;

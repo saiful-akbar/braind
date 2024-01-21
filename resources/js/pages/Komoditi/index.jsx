@@ -1,14 +1,13 @@
 import AuthLayout from "@/layouts/AuthLayout";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import KomoditiTemplate from "./Template";
 import DataTable from "@/components/DataTable";
 import { useCallback } from "react";
 import { router } from "@inertiajs/react";
 import { useDispatch } from "react-redux";
 import { editKomoditi } from "@/redux/reducers/komoditiReducer";
-import DeleteConfirmationModal from "@/components/Modals/DeleteConfirmationModal";
-import { useState } from "react";
-import RestoreConfirmationModal from "@/components/Modals/RestoreConfirmationModal";
+import DeleteConfirmation from "@/components/DeleteConfirmation";
+import RestoreConfirmation from "@/components/RestoreConfirmation";
 
 /**
  * Halaman commodity
@@ -229,7 +228,7 @@ const Komoditi = (props) => {
         }}
       />
 
-      <DeleteConfirmationModal
+      <DeleteConfirmation
         open={Boolean(deleteId)}
         title={
           deleteType === "remove"
@@ -241,9 +240,9 @@ const Komoditi = (props) => {
         onDelete={handleDelete}
       />
 
-      <RestoreConfirmationModal
+      <RestoreConfirmation
         open={Boolean(restoreId)}
-        title="Pulihkan Komoditi"
+        title="Pulihkan komoditi"
         loading={restoring}
         onClose={closeRestoreConfirmation}
         onRestore={handleRestore}

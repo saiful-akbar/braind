@@ -52,7 +52,16 @@ const BaseModal = (props) => {
         </Typography>
 
         <Tooltip title="Tutup" disableInteractive>
-          <IconButton onClick={handleClose} sx={{ color: "text.secondary" }}>
+          <IconButton
+            onClick={handleClose}
+            disabled={loading}
+            sx={{
+              color: "text.secondary",
+              "&:hover": {
+                color: "text.primary",
+              },
+            }}
+          >
             <CloseIcon />
           </IconButton>
         </Tooltip>

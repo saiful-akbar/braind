@@ -3,7 +3,7 @@ import {
   AssignmentReturned,
   Download,
   MoreVert,
-  UploadFile,
+  Upload,
 } from "@mui/icons-material";
 import {
   Divider,
@@ -100,7 +100,7 @@ const ExportImportButton = (props) => {
         {access.create && (
           <MenuItem onClick={handleImport}>
             <ListItemIcon>
-              <UploadFile fontSize="small" />
+              <Upload fontSize="small" />
             </ListItemIcon>
             <ListItemText>Impor excel</ListItemText>
           </MenuItem>
@@ -110,7 +110,7 @@ const ExportImportButton = (props) => {
           <ListItemIcon>
             <AssignmentReturned fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Download template</ListItemText>
+          <ListItemText>Unduh template</ListItemText>
         </MenuItem>
       </Menu>
     </Fragment>

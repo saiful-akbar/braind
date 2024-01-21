@@ -1,6 +1,6 @@
 import DataTable from "@/components/DataTable";
-import DeleteConfirmationModal from "@/components/Modals/DeleteConfirmationModal";
-import RestoreConfirmationModal from "@/components/Modals/RestoreConfirmationModal";
+import DeleteConfirmation from "@/components/DeleteConfirmation";
+import RestoreConfirmation from "@/components/RestoreConfirmation";
 import AuthLayout from "@/layouts/AuthLayout";
 import { router } from "@inertiajs/react";
 import { Fragment, useCallback, useState } from "react";
@@ -206,19 +206,19 @@ const Kantor = (props) => {
         }}
       />
 
-      <DeleteConfirmationModal
+      <DeleteConfirmation
         open={Boolean(deleteId)}
-        title={
-          deleteType === "remove" ? "Hapus kantor" : "Hapus kantor selamanya"
-        }
         loading={deleting}
         onClose={closeDeleteConfirmation}
         onDelete={handleDelete}
+        title={
+          deleteType === "remove" ? "Hapus kantor" : "Hapus kantor selamanya"
+        }
       />
 
-      <RestoreConfirmationModal
+      <RestoreConfirmation
         open={Boolean(restoreId)}
-        title="Pulihkan Kantor"
+        title="Pulihkan kantor"
         loading={restoring}
         onClose={closeRestoreConfirmation}
         onRestore={handleRestore}

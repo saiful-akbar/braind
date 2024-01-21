@@ -59,7 +59,7 @@ export default function SidebarContent() {
                     fontWeight: 600,
                     fontSize: 13,
                     ml: 2,
-                    backgroundColor: "inherit",
+                    backgroundColor: "background.default",
                   }}
                 >
                   {menu.nama}

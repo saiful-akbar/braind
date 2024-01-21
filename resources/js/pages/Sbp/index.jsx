@@ -4,10 +4,10 @@ import SbpTemplate from "./Template";
 import DataTable from "@/components/DataTable";
 import { useCallback } from "react";
 import { router } from "@inertiajs/react";
-import DeleteConfirmationModal from "@/components/Modals/DeleteConfirmationModal";
 import { useDispatch } from "react-redux";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import RestoreConfirmationModal from "@/components/Modals/RestoreConfirmationModal";
+import DeleteConfirmation from "@/components/DeleteConfirmation";
+import RestoreConfirmation from "@/components/RestoreConfirmation";
 
 /**
  * Halaman utama SBP
@@ -286,7 +286,7 @@ const Sbp = (props) => {
         }}
       />
 
-      <DeleteConfirmationModal
+      <DeleteConfirmation
         title={deleteType === "remove" ? "Hapus SBP" : "Hapus SBP selamanya"}
         open={Boolean(deleteId !== null)}
         onDelete={handleDelete}
@@ -294,8 +294,8 @@ const Sbp = (props) => {
         loading={deleting}
       />
 
-      <RestoreConfirmationModal
-        title="Pulihkan data SBP"
+      <RestoreConfirmation
+        title="Pulihkan SBP"
         open={Boolean(restoreId !== null)}
         onRestore={handleRestore}
         onClose={handleCloseRestoreConfirmation}

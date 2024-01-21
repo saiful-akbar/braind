@@ -23,10 +23,10 @@ import {
 } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import UserTemplate from "./Template";
-import DeleteConfirmationModal from "@/components/Modals/DeleteConfirmationModal";
 import { useDispatch } from "react-redux";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import RestoreConfirmationModal from "@/components/Modals/RestoreConfirmationModal";
+import DeleteConfirmation from "@/components/DeleteConfirmation";
+import RestoreConfirmation from "@/components/RestoreConfirmation";
 
 /**
  * Halaman user
@@ -40,12 +40,9 @@ const User = (props) => {
   const [status] = useState(params.status ?? "aktif");
   const [orderBy] = useState(params.order_by ?? "nama_lengkap");
   const [order] = useState(params.order === "desc" ? "desc" : "asc");
-
   const [deleteId, setDeleteId] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [deleteType, setDeleteType] = useState("remove");
-  const [deleteTitle, setDeleteTitle] = useState("Hapus user");
-
   const [restoreId, setRestoreId] = useState(null);
   const [restoring, setRestoring] = useState(false);
 
@@ -152,9 +149,8 @@ const User = (props) => {
     (type, id) => {
       setDeleteId(id);
       setDeleteType(type);
-      setDeleteTitle(type === "remove" ? "Hapus user" : "Hapus user selamanya");
     },
-    [setDeleteId, setDeleteType, setDeleteTitle]
+    [setDeleteId, setDeleteType]
   );
 
   /**
@@ -439,15 +435,15 @@ const User = (props) => {
         onRowsPerPageChange={handleRowsPerPageChange}
       />
 
-      <DeleteConfirmationModal
+      <DeleteConfirmation
         open={deleteId !== null}
-        title={deleteTitle}
+        title={deleteType === "remove" ? "Hapus user" : "Hapus user Selamanya"}
         loading={deleting}
         onDelete={handleDelete}
         onClose={closeDeleteConfirmation}
       />
 
-      <RestoreConfirmationModal
+      <RestoreConfirmation
         title="Pulihkan user"
         open={restoreId !== null}
         loading={restoring}

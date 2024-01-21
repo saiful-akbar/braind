@@ -13,7 +13,7 @@ import { useCallback } from "react";
  *
  * @returns {React.ReactElement}
  */
-const FilterDateHtHptl = () => {
+const FilterPeriod = () => {
   const { app } = usePage().props;
   const { params } = app.url;
   const { data, setData, get, processing } = useForm({
@@ -83,4 +83,4 @@ const FilterDateHtHptl = () => {
   );
 };
 
-export default FilterDateHtHptl;
+export default FilterPeriod;

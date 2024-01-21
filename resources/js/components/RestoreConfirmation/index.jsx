@@ -14,8 +14,8 @@ import React from "react";
 /**
  * Komponen modal untuk konfirmasi hepus
  */
-const DeleteConfirmationModal = React.memo((props) => {
-  const { open, title, loading, onDelete, onClose } = props;
+const RestoreConfirmation = React.memo((props) => {
+  const { open, title, loading, onRestore, onClose, ...rest } = props;
 
   /**
    * fungsi untuk menutup modal
@@ -45,17 +45,17 @@ const DeleteConfirmationModal = React.memo((props) => {
         </Tooltip>
       </DialogTitle>
 
-      <DialogActions sx={{ px: 3, pb: 3 }}>
+      <DialogActions sx={{ p: 3 }}>
         <LoadingButton
           fullWidth
           type="button"
           variant="contained"
-          color="error"
+          color="primary"
           loading={loading}
-          onClick={onDelete}
-          loadingIndicator="Menghapus..."
+          onClick={onRestore}
+          loadingIndicator="Memulihkan..."
         >
-          Hapus
+          Pulihkan
         </LoadingButton>
       </DialogActions>
     </Dialog>
@@ -65,10 +65,10 @@ const DeleteConfirmationModal = React.memo((props) => {
 /**
  * Prop types
  */
-DeleteConfirmationModal.propTypes = {
+RestoreConfirmation.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onRestore: PropTypes.func.isRequired,
   title: PropTypes.string,
   loading: PropTypes.bool,
 };
@@ -76,9 +76,9 @@ DeleteConfirmationModal.propTypes = {
 /**
  * Default props.
  */
-DeleteConfirmationModal.defaultProps = {
-  title: "Hapus",
+RestoreConfirmation.defaultProps = {
+  title: "Pulihkan",
   loading: false,
 };
 
-export default DeleteConfirmationModal;
+export default RestoreConfirmation;

@@ -10,7 +10,7 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Kantor</th>
+                <th>Nama Kantor</th>
                 <th>Nama Perusahaan</th>
                 <th>NPPBKC</th>
                 <th>Jumlah CK-1</th>

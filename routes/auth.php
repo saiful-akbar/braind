@@ -130,8 +130,9 @@ Route::prefix('/perusahaan')->name('perusahaan')->group(function (): void {
             Route::get('/export/template', 'exportTemplate')->name('.export.template')->middleware('access:perusahaan.hthptl,read');
             Route::post('/', 'store')->name('.store')->middleware('access:perusahaan.hthptl,create');
             Route::post('/import', 'import')->name('.import')->middleware('access:perusahaan.hthptl,create');
-            Route::get('/{hthptl}/edit', 'edit')->name('.edit')->middleware('access:perusahaan.hthptl,update');
-            Route::patch('/{hthptl}', 'update')->name('.update')->middleware('access:perusahaan.hthptl,update');
+            Route::delete('/{id}', 'remove')->name('.remove')->middleware('access:perusahaan.hthptl,remove');
+            Route::delete('/{id}/destroy', 'destroy')->name('.destroy')->middleware('access:perusahaan.hthptl,destroy');
+            Route::patch('/{id}/restore', 'restore')->name('.restore')->middleware('access:perusahaan.hthptl,destroy');
         });
 
     Route::get('/mmea', [DashboardController::class, 'index'])->name('.mmea');

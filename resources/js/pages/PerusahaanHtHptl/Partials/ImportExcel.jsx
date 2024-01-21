@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import BaseModal from "@/components/Modals/BaseModal";
 import { useForm, usePage } from "@inertiajs/react";
 import {
   Alert,
   AlertTitle,
+  Box,
   Button,
   DialogActions,
   DialogContent,
@@ -19,14 +20,14 @@ import { openNotification } from "@/redux/reducers/notificationReducer";
  *
  * @returns {React.ReactElement}
  */
-const ImportHtHptl = ({ open, onClose, ...rest }) => {
+const ImportExcel = ({ open, onClose, ...rest }) => {
   const dispatch = useDispatch();
   const { app } = usePage().props;
   const { params } = app.url;
+  const form = useForm({ file: "" });
 
-  const form = useForm({
-    file: "",
-  });
+  // state
+  const [errors, setErrors] = useState([]);
 
   /**
    * bersihkan form saat modal dibuka
@@ -34,6 +35,7 @@ const ImportHtHptl = ({ open, onClose, ...rest }) => {
   useEffect(() => {
     form.reset();
     form.clearErrors();
+    setErrors([]);
   }, [open]);
 
   /**
@@ -59,6 +61,8 @@ const ImportHtHptl = ({ open, onClose, ...rest }) => {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
+    form.clearErrors();
+    setErrors([]);
 
     const url = route("perusahaan.hthptl.import", {
       _query: {
@@ -69,14 +73,10 @@ const ImportHtHptl = ({ open, onClose, ...rest }) => {
     form.post(url, {
       preserveScroll: true,
       onSuccess: () => {
-        dispatch(
-          openNotification({
-            status: "success",
-            message: "Import berhasil.",
-          })
-        );
+        handleClose();
       },
-      onError: () => {
+      onError: (error) => {
+        setErrors(Object.values(error));
         dispatch(
           openNotification({
             status: "error",
@@ -99,11 +99,23 @@ const ImportHtHptl = ({ open, onClose, ...rest }) => {
       onSubmit={handleSubmit}
     >
       <DialogContent dividers sx={{ py: 3 }}>
-        <Alert severity="info">
-          <AlertTitle>Info</AlertTitle>
-          Jangan menutup atau memuat ulang halaman ini saat proses impor sedang
-          berlangsung.
-        </Alert>
+        {errors.length > 0 ? (
+          <Alert severity="error">
+            <AlertTitle>Error</AlertTitle>
+
+            <Box component="ul" sx={{ paddingInlineStart: 2 }}>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </Box>
+          </Alert>
+        ) : (
+          <Alert severity="info">
+            <AlertTitle>Info</AlertTitle>
+            Jangan menutup atau memuat ulang halaman ini saat proses impor
+            sedang berlangsung.
+          </Alert>
+        )}
 
         <TextField
           fullWidth
@@ -158,9 +170,9 @@ const ImportHtHptl = ({ open, onClose, ...rest }) => {
 /**
  * Prop types
  */
-ImportHtHptl.propTypes = {
+ImportExcel.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-export default ImportHtHptl;
+export default ImportExcel;

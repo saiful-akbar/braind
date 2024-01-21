@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Perusahaan\HtHptl;
+namespace App\Http\Requests\PerusahaanHtHptl;
 
 use App\Models\MenuUser;
 use App\Models\PerusahaanHtHptl;
@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class HtHptlRequest extends FormRequest
+class PerusahaanHtHptlRequest extends FormRequest
 {
     private array $columns = [
         'kantor_id',

@@ -90,6 +90,7 @@ const DataTable = memo((props) => {
                     return (
                       <TableCell
                         key={columnKey}
+                        align={column.align}
                         title={utcToLocale(row[column.field])}
                       >
                         {utcToLocale(row[column.field])}
@@ -101,15 +102,20 @@ const DataTable = memo((props) => {
                     return (
                       <TableCell
                         key={columnKey}
-                        title={`Rp. ${numberFormat(row[column.field], 2)}`}
+                        align={column.align}
+                        title={numberFormat(row[column.field], 2)}
                       >
-                        Rp. {numberFormat(row[column.field], 2)}
+                        {numberFormat(row[column.field], 2)}
                       </TableCell>
                     );
                   }
 
                   return (
-                    <TableCell key={columnKey} title={row[column.field]}>
+                    <TableCell
+                      key={columnKey}
+                      align={column.align}
+                      title={row[column.field]}
+                    >
                       {row[column.field]}
                     </TableCell>
                   );

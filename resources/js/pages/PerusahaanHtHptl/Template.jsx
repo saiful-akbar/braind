@@ -1,21 +1,21 @@
-import React, { Fragment, useState } from "react";
-import PropTypes from "prop-types";
-import Header from "@/components/Header";
-import { Box, Button, CardContent, Grid } from "@mui/material";
-import FilterDateHtHptl from "./Partials/FilterDateHtHptl";
-import ModalActionHtHptl from "./Partials/ModalActionHtHptl";
-import { useDispatch, useSelector } from "react-redux";
-import { createPerusahaanHtHptl } from "@/redux/reducers/perusahaanHtHptlReducer";
-import CardPaper from "@/components/CardPaper";
-import RefreshButton from "@/components/Buttons/RefreshButton";
-import DownloadButton from "@/components/Buttons/DownloadButton";
-import { router, usePage } from "@inertiajs/react";
-import Loader from "@/components/Loader";
-import { saveAs } from "file-saver";
-import { openNotification } from "@/redux/reducers/notificationReducer";
-import { useCallback } from "react";
 import ExportImportButton from "@/components/Buttons/ExportImportButton";
-import ImportHtHptl from "./Partials/ImportHtHptl";
+import RefreshButton from "@/components/Buttons/RefreshButton";
+import CardPaper from "@/components/CardPaper";
+import Header from "@/components/Header";
+import Loader from "@/components/Loader";
+import { openNotification } from "@/redux/reducers/notificationReducer";
+import { createPerusahaanHtHptl } from "@/redux/reducers/perusahaanHtHptlReducer";
+import { router, usePage } from "@inertiajs/react";
+import { Box, Button, CardContent, Grid } from "@mui/material";
+import { saveAs } from "file-saver";
+import PropTypes from "prop-types";
+import React, { Fragment, useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import FilterPeriod from "./Partials/FilterPeriod";
+import FilterStatus from "./Partials/FilterStatus";
+import ImportExcel from "./Partials/ImportExcel";
+import ModalAction from "./Partials/ModalAction";
+import Search from "./Partials/Search";
 
 /**
  * Template intuk halaman perusahaan cukai HT + HPTL
@@ -61,7 +61,7 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
       });
 
       setLoading(false);
-      saveAs(response.data, `braind_perusahaan_cukai_ht_htpl.xlsx`);
+      saveAs(response.data, `EKSPOR_PERUSAHAAN_CUKAI_HT_HPTL.xlsx`);
       dispatch(
         openNotification({
           status: "success",
@@ -94,25 +94,22 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
         responseType: "blob",
       });
 
-      // simpan hasil download dan tampilkan notifikasi download berhasil.
       if (response.status === 200) {
-        saveAs(response.data, "template_impor_perusahaan_cukai_ht_hptl.xlsx");
         setLoading(false);
+        saveAs(response.data, "template_impor_perusahaan_cukai_ht_hptl.xlsx");
         dispatch(
           openNotification({
             status: "success",
-            message: "Download template berhasil.",
+            message: "Template berhasil diunduh.",
           })
         );
       }
     } catch (error) {
-      const { status } = error.response;
-
       setLoading(false);
       dispatch(
         openNotification({
           status: "error",
-          message: `${status} - Terjadi kesalahan, download template gagal.`,
+          message: "Terjadi kesalahan, template gagal diunduh.",
         })
       );
     }
@@ -144,7 +141,7 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
       <Box component="main" sx={{ mt: 5 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <FilterDateHtHptl />
+            <FilterPeriod />
           </Grid>
 
           <Grid item xs={12}>
@@ -161,9 +158,13 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
                     />
                   </Grid>
 
-                  <Grid item md={5} xs={12}></Grid>
+                  <Grid item md={5} xs={12}>
+                    <FilterStatus />
+                  </Grid>
 
-                  <Grid item md={5} xs={12}></Grid>
+                  <Grid item md={5} xs={12}>
+                    <Search />
+                  </Grid>
 
                   <Grid item xs={12}>
                     {children}
@@ -176,10 +177,10 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
       </Box>
 
       {/* Komponen modal create & update */}
-      <ModalActionHtHptl />
+      <ModalAction />
 
       {/* Komponen modal import excel */}
-      <ImportHtHptl open={openImport} onClose={toggleModalImport} />
+      <ImportExcel open={openImport} onClose={toggleModalImport} />
 
       {/* komponen loading */}
       <Loader open={loading} />

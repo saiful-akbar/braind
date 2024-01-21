@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Perusahaan\HtHptl;
+namespace App\Http\Requests\PerusahaanHtHptl;
 
 use App\Models\PerusahaanHtHptl;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreHtHptlRequest extends FormRequest
+class StorePerusahaanHtHptlRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

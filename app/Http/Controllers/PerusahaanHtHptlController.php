@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\PerusahaanHtHptlExport;
-use App\Exports\Templates\PerusahaanHtHptlTemplateExport;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response as HttpResponse;
-use App\Http\Requests\Perusahaan\HtHptl\HtHptlRequest;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use App\Http\Requests\Perusahaan\HtHptl\StoreHtHptlRequest;
+use App\Exports\PerusahaanHtHptlExport;
 use App\Imports\PerusahaanHtHptlImport;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use App\Exports\Templates\PerusahaanHtHptlTemplateExport;
+use App\Http\Requests\PerusahaanHtHptl\PerusahaanHtHptlRequest;
+use App\Http\Requests\PerusahaanHtHptl\StorePerusahaanHtHptlRequest;
+use App\Models\PerusahaanHtHptl;
 
 class PerusahaanHtHptlController extends Controller
 {
     /**
      * Menampilkan halaman perusahaan cukai HT + HPTL
-     *
-     * @param HtHptlRequest $request
-     * @return Response|RedirectResponse
      */
-    public function index(HtHptlRequest $request): Response|RedirectResponse
+    public function index(PerusahaanHtHptlRequest $request): Response|RedirectResponse
     {
         // jika tidak ada query string start_period dan end_period
         // redirect dengan menmabhkan query string tersebut.
@@ -37,7 +34,7 @@ class PerusahaanHtHptlController extends Controller
         $data = $request->paginate(access: $access);
 
         return $this->renderPaginate(
-            component: 'Perusahaan/HtHptl/index',
+            component: 'PerusahaanHtHptl/index',
             paginator: $data,
             access: $access,
         );
@@ -46,7 +43,7 @@ class PerusahaanHtHptlController extends Controller
     /**
      * Tambah data perusahaan cukai HT + HPTL ke database.
      */
-    public function store(StoreHtHptlRequest $request): RedirectResponse
+    public function store(StorePerusahaanHtHptlRequest $request): RedirectResponse
     {
         $request->insert();
         return redirect()->route('perusahaan.hthptl', $request->query());
@@ -89,6 +86,49 @@ class PerusahaanHtHptlController extends Controller
         return to_route('perusahaan.hthptl', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
+        ]);
+    }
+
+    /**
+     * Remove data (soft delete)
+     */
+    public function remove(Request $request, string $id): RedirectResponse
+    {
+        PerusahaanHtHptl::findOrFail($id)->delete();
+
+        return to_route('perusahaan.hthptl', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil dihapus.'
+        ]);
+    }
+
+    /**
+     * Hapus data perusahaan selamanya
+     */
+    public function destroy(Request $request, string $id): RedirectResponse
+    {
+        PerusahaanHtHptl::onlyTrashed()
+            ->findOrFail($id)
+            ->forceDelete();
+
+        return to_route('perusahaan.hthptl', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil dihapus selamanya.'
+        ]);
+    }
+
+    /**
+     * Mengambalikan atau memulihkan data perusahaan yang telah dihapus
+     */
+    public function restore(Request $request, string $id): RedirectResponse
+    {
+        PerusahaanHtHptl::onlyTrashed()
+            ->findOrFail($id)
+            ->restore();
+
+        return to_route('perusahaan.hthptl', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil dipulihkan.'
         ]);
     }
 }
