@@ -23,7 +23,7 @@ class StoreKantorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => 'required|string|max:50|unique:kantor,nama'
+            'nama' => 'required|string|max:100|unique:kantor,nama'
         ];
     }
 

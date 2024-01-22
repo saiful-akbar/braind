@@ -3,10 +3,8 @@
 namespace App\Imports;
 
 use App\Models\PerusahaanHtHptl;
-use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
@@ -27,6 +25,24 @@ class PerusahaanHtHptlImport implements ToModel, WithHeadingRow, WithValidation
             'jenis_bkc'       => 'required|string|max:100',
             'jumlah'          => 'required|numeric|min:0',
             'jumlah_cukai'    => 'required|numeric|min:0',
+        ];
+    }
+
+    /**
+     * Custom validation attribute
+     *
+     * @return array
+     */
+    public function customValidationAttributes(): array
+    {
+        return [
+            'id_kantor'       => 'ID kantor',
+            'nama_perusahaan' => 'nama perusahaan',
+            'nppbkc'          => 'NPPKBC',
+            'jumlah_ck'       => 'jumlah CK',
+            'jenis_bkc'       => 'jenis BKC',
+            'jumlah'          => 'jumlah',
+            'jumlah_cukai'    => 'jumlah cukai',
         ];
     }
 

@@ -6,7 +6,7 @@ import { router } from "@inertiajs/react";
 import { Fragment, useCallback, useState } from "react";
 import Template from "./Template";
 import { useDispatch } from "react-redux";
-import { updateKantor } from "@/redux/reducers/kantorReducer"; 
+import { updateKantor } from "@/redux/reducers/kantorReducer";
 
 /**
  * Halaman kantor (Kanwil)
@@ -23,7 +23,7 @@ const Kantor = (props) => {
   const columns = [
     {
       field: "id",
-      label: "ID Kantor",
+      label: "ID",
       align: "left",
       format: "none",
       sort: true,
@@ -185,10 +185,12 @@ const Kantor = (props) => {
    * fungsi untuk menangani ketika button edit diklik.
    */
   const handleUpdate = useCallback((row) => {
-    dispatch(updateKantor({
-      id: row.id,
-      nama: row.nama,
-    }));
+    dispatch(
+      updateKantor({
+        id: row.id,
+        nama: row.nama,
+      })
+    );
   }, []);
 
   return (

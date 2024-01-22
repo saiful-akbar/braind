@@ -1,7 +1,8 @@
+import React, { useCallback, useState } from "react";
 import Modal from "@/components/Modal";
+import { closeModalImportKantor } from "@/redux/reducers/kantorReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { useForm, usePage } from "@inertiajs/react";
-import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   AlertTitle,
@@ -11,77 +12,76 @@ import {
   DialogContent,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
-import PropTypes from "prop-types";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { LoadingButton } from "@mui/lab";
 
 /**
- * Komponen partial perusahaan cukai HT + HPTL untuk import excel.
+ * Komponen modal untuk import excel data kantor.
  *
  * @returns {React.ReactElement}
  */
-const ImportExcel = ({ open, onClose, ...rest }) => {
+const ModalImportKantor = () => {
+  const { open } = useSelector((state) => state.kantor.import);
   const dispatch = useDispatch();
   const { app } = usePage().props;
   const { params } = app.url;
-  const form = useForm({ file: "" });
+
+  // form data
+  const form = useForm({
+    file: "",
+    _token: app.csrf,
+  });
 
   // state
   const [errors, setErrors] = useState([]);
 
   /**
-   * bersihkan form saat modal dibuka
+   * fungsi untuk menutup modal
    */
-  useEffect(() => {
-    form.reset();
-    form.clearErrors();
-    setErrors([]);
-  }, [open]);
-
-  /**
-   * fungsi untuk menutup modal dialog
-   */
-  const handleClose = useCallback(() => {
-    if (!form.processing) onClose();
-  }, [form.processing]);
-
-  /**
-   * fungsi untuk menangani ketika form diisi.
-   */
-  const handleChange = (e) => {
-    const { name, files } = e.target;
-
-    if (files.length > 0) {
-      form.setData(name, files[0]);
+  const handleCloseModal = useCallback(() => {
+    if (!form.processing) {
+      dispatch(closeModalImportKantor());
+      setErrors([]);
     }
-  };
+  }, [form, setErrors]);
 
   /**
-   * fungsi untuk menangani ketika form di submit
+   * fungsi untuk menangani ketika form diisi
+   */
+  const handleChange = useCallback(
+    (e) => {
+      const { files, name } = e.target;
+
+      if (files.length > 0) {
+        form.setData(name, files[0]);
+      }
+    },
+    [form]
+  );
+
+  /**
+   * fungsi untuk menangani ketika form di-submit
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    form.clearErrors();
-    setErrors([]);
 
-    const url = route("perusahaan.hthptl.import", {
-      _query: {
-        ...params,
-      },
+    const url = route("kantor.import", {
+      _query: params,
     });
 
     form.post(url, {
       preserveScroll: true,
       onSuccess: () => {
-        handleClose();
+        handleCloseModal();
       },
       onError: (error) => {
         setErrors(Object.values(error));
         dispatch(
           openNotification({
             status: "error",
-            message: "Terjadi kesahan, impor gagal.",
+            message: "Terjadi kesalahan, gagal mengimpor data kantor.",
           })
         );
       },
@@ -90,13 +90,13 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
 
   return (
     <Modal
+      title="Impor kantor"
       open={open}
-      title="Impor Excel"
+      onClose={handleCloseModal}
+      loading={form.processing}
       maxWidth="sm"
-      onClose={handleClose}
       component="form"
       autoComplete="off"
-      encType="multipart/form-data"
       onSubmit={handleSubmit}
     >
       <DialogContent dividers sx={{ py: 3 }}>
@@ -105,7 +105,6 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
             <Grid item xs={12}>
               <Alert severity="error">
                 <AlertTitle>Error</AlertTitle>
-
                 <Box component="ul" sx={{ paddingInlineStart: 2 }}>
                   {errors.map((error, index) => (
                     <li key={index}>{error}</li>
@@ -125,14 +124,14 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
               disabled={form.processing}
               error={Boolean(form.errors.file)}
               helperText={form.errors.file}
+              InputLabelProps={{
+                shrink: true,
+              }}
               inputProps={{
                 accept: [
                   "application/vnd.ms-excel",
                   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 ].join(", "),
-              }}
-              InputLabelProps={{
-                shrink: true,
               }}
             />
           </Grid>
@@ -141,11 +140,11 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
 
       <DialogActions sx={{ p: 3 }}>
         <Button
-          size="large"
           type="button"
           color="primary"
           variant="outlined"
-          onClick={handleClose}
+          size="large"
+          onClick={handleCloseModal}
           disabled={form.processing}
         >
           Tutup
@@ -165,12 +164,4 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
   );
 };
 
-/**
- * Prop types
- */
-ImportExcel.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
-
-export default ImportExcel;
+export default ModalImportKantor;

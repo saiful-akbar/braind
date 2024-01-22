@@ -95,7 +95,7 @@ const ExportImportButton = (props) => {
           <ListItemText>Ekspor excel</ListItemText>
         </MenuItem>
 
-        <Divider />
+        {access.create && <Divider />}
 
         {access.create && (
           <MenuItem onClick={handleImport}>
@@ -106,12 +106,14 @@ const ExportImportButton = (props) => {
           </MenuItem>
         )}
 
-        <MenuItem onClick={handleDownloadTemplate}>
-          <ListItemIcon>
-            <AssignmentReturned fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Unduh template</ListItemText>
-        </MenuItem>
+        {access.create && (
+          <MenuItem onClick={handleDownloadTemplate}>
+            <ListItemIcon>
+              <AssignmentReturned fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Unduh template</ListItemText>
+          </MenuItem>
+        )}
       </Menu>
     </Fragment>
   );

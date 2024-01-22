@@ -1,19 +1,23 @@
-import React, { useCallback, useState, Fragment } from "react";
-import PropTypes from "prop-types";
-import DownloadButton from "@/components/Buttons/DownloadButton";
+import ExportImportButton from "@/components/Buttons/ExportImportButton";
 import RefreshButton from "@/components/Buttons/RefreshButton";
+import CardPaper from "@/components/CardPaper";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
+import {
+  createKantor,
+  openModalImportKantor,
+} from "@/redux/reducers/kantorReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import { Link, router, usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { Box, Button, CardContent, Grid } from "@mui/material";
 import { saveAs } from "file-saver";
+import PropTypes from "prop-types";
+import { Fragment, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import FilterStatusKantor from "./Partials/FilterStatusKantor";
-import SearchKantor from "./Partials/SearchKantor";
 import ModalFormKantor from "./Partials/ModalFormKantor";
-import CardPaper from "@/components/CardPaper";
-import { createKantor } from "@/redux/reducers/kantorReducer";
+import SearchKantor from "./Partials/SearchKantor";
+import ModalImportKantor from "./Partials/ModalImportKantor";
 
 /**
  * Template untuk halaman division
@@ -80,7 +84,52 @@ const Template = ({ children }) => {
    */
   const handleFormOpen = useCallback(() => {
     dispatch(createKantor());
-  }, [dispatch])
+  }, [dispatch]);
+
+  /**
+   * fungsi untuk download template import
+   */
+  const handleDownloadTemplate = useCallback(async () => {
+    setLoading(true);
+
+    try {
+      const response = await axios({
+        method: "get",
+        url: route("kantor.import.template"),
+        responseType: "blob",
+      });
+
+      if (response.status === 200) {
+        // simpan dan download template
+        saveAs(response.data, "template_impor_kantor.xlsx");
+
+        // hentikan loading dan tampilkan notifikasi.
+        setLoading(false);
+        dispatch(
+          openNotification({
+            status: "success",
+            message: "Template berhasil diunduh.",
+          })
+        );
+      }
+    } catch (error) {
+      // hentikan loading dan tampilkan notifikasi error
+      setLoading(false);
+      dispatch(
+        openNotification({
+          status: "error",
+          message: "Terjadi kesalahan, gagal mengunduh template.",
+        })
+      );
+    }
+  }, [setLoading]);
+
+  /**
+   * fungsi untuk membuka modal import
+   */
+  const handleOpenModalImport = () => {
+    dispatch(openModalImportKantor());
+  };
 
   return (
     <Fragment>
@@ -88,11 +137,7 @@ const Template = ({ children }) => {
         title="Kantor"
         action={
           access.create && (
-            <Button
-              type="button"
-              variant="contained"
-              onClick={handleFormOpen}
-            >
+            <Button type="button" variant="contained" onClick={handleFormOpen}>
               Tambah kantor
             </Button>
           )
@@ -104,7 +149,12 @@ const Template = ({ children }) => {
           <CardContent>
             <Grid container spacing={3} justifyContent="space-between">
               <Grid item md={2} xs={12}>
-                <DownloadButton title="Ekspor excel" onClick={handleExport} />
+                <ExportImportButton
+                  onExport={handleExport}
+                  onDownloadTemplate={handleDownloadTemplate}
+                  onImport={handleOpenModalImport}
+                />
+
                 <RefreshButton onClick={handleRefresh} />
               </Grid>
 
@@ -129,6 +179,9 @@ const Template = ({ children }) => {
 
       {/* Komponen modal form */}
       <ModalFormKantor />
+
+      {/* Komponen modal import */}
+      <ModalImportKantor />
     </Fragment>
   );
 };

@@ -90,7 +90,7 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
     try {
       const response = await axios({
         method: "get",
-        url: route("perusahaan.hthptl.export.template"),
+        url: route("perusahaan.hthptl.import.template"),
         responseType: "blob",
       });
 

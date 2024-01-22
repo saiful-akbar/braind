@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kantor', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('nama', 50)->unique();
+            $table->string('nama', 100)->unique();
             $table->timestamps();
             $table->softDeletes();
 

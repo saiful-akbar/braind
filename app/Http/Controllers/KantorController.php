@@ -9,6 +9,7 @@ use App\Exports\Templates\KantorTemplateExport;
 use App\Http\Requests\Kantor\KantorRequest;
 use App\Http\Requests\Kantor\StoreKantorRequest;
 use App\Http\Requests\Kantor\UpdateKantorRequest;
+use App\Imports\KantorImport;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -126,10 +127,31 @@ class KantorController extends Controller
     }
 
     /**
-     * Export template excel
+     * download template import excel
      */
-    public function exportTemplate(): BinaryFileResponse
+    public function downloadTemplate(): BinaryFileResponse
     {
-        return Excel::download(new KantorTemplateExport, 'template_impor_kantor.xlsx');
+        $fileName = 'template_impor_kantor.xlsx';
+        return Excel::download(new KantorTemplateExport, $fileName);
+    }
+
+    /**
+     * Import excel
+     */
+    public function import(Request $request): RedirectResponse
+    {
+        // validasi request
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls|max:100000'
+        ]);
+
+        // Jalankan proses import excel
+        Excel::import(new KantorImport, $request->file('file'));
+
+        // redirect
+        return to_route('kantor', $request->query())->with([
+            'flash.status' => 'success',
+            'message' => 'Import berhasil.'
+        ]);
     }
 }

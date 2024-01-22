@@ -38,13 +38,13 @@ Route::controller(KantorController::class)
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:kantor,read');
         Route::get('/get', 'get')->name('.get');
-        
-        Route::prefix('/export')->name('.export')->group(function(): void {
-            Route::get('/', 'export')->middleware('access:kantor,read');
-            Route::get('/template', 'exportTemplate')->name('.template')->middleware('access:kantor,read');
-        });
-        
+        Route::get('/export', 'export')->middleware('access:kantor,read');
         Route::post('/', 'store')->name('.store')->middleware('access:kantor,create');
+        Route::prefix('/import')->name('.import')->group(function (): void {
+            Route::post('/', 'import')->middleware('access:kantor,create');
+            Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:kantor,create');
+        });
+
         Route::patch('/{kantor}', 'update')->name('.update')->middleware('access:kantor,update');
         Route::patch('/{kantor}/restore', 'restore')->name('.restore')->middleware('access:kantor,destroy');
         Route::delete('/{kantor}', 'remove')->name('.remove')->middleware('access:kantor,remove');
@@ -130,9 +130,12 @@ Route::prefix('/perusahaan')->name('perusahaan')->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan.hthptl,read');
             Route::get('/create', 'create')->name('.create')->middleware('access:perusahaan.hthptl,create');
             Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan.hthptl,read');
-            Route::get('/export/template', 'exportTemplate')->name('.export.template')->middleware('access:perusahaan.hthptl,read');
             Route::post('/', 'store')->name('.store')->middleware('access:perusahaan.hthptl,create');
-            Route::post('/import', 'import')->name('.import')->middleware('access:perusahaan.hthptl,create');
+            Route::prefix('/import')->name('.import')->group(function (): void {
+                Route::post('/', 'import')->middleware('access:perusahaan.hthptl,create');
+                Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan.hthptl,create');
+            });
+
             Route::patch('/{id}', 'update')->name('.update')->middleware('access:perusahaan.hthptl,update');
             Route::delete('/{id}', 'remove')->name('.remove')->middleware('access:perusahaan.hthptl,remove');
             Route::delete('/{id}/destroy', 'destroy')->name('.destroy')->middleware('access:perusahaan.hthptl,destroy');

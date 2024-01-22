@@ -68,7 +68,7 @@ class PerusahaanHtHptlController extends Controller
     /**
      * Download template untuk import excel
      */
-    public function exportTemplate(): BinaryFileResponse
+    public function downloadTemplate(): BinaryFileResponse
     {
         $name = 'template_impor_perusahaan_cukai_ht_hptl.xlsx';
         return Excel::download(new PerusahaanHtHptlTemplateExport(), $name);
@@ -81,7 +81,7 @@ class PerusahaanHtHptlController extends Controller
     {
         // validasi request
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls|max:10000'
+            'file' => 'required|mimes:xlsx,xls|max:100000'
         ]);
 
         // Jalankan proses insert data dari file yang di import
