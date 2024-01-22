@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use Inertia\Response;
 use App\Models\Kantor;
-use Illuminate\Http\Request;
 use App\Exports\KantorExport;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\RedirectResponse;
+use App\Exports\Templates\KantorTemplateExport;
 use App\Http\Requests\Kantor\KantorRequest;
 use App\Http\Requests\Kantor\StoreKantorRequest;
 use App\Http\Requests\Kantor\UpdateKantorRequest;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class KantorController extends Controller
@@ -31,38 +32,16 @@ class KantorController extends Controller
     }
 
     /**
-     * Menampilkan halaman tambah divisi baru.
-     */
-    public function create(): Response
-    {
-        return $this->render('Kantor/Create/index');
-    }
-
-    /**
      * Menyimpan data kantor baru.
      */
     public function store(StoreKantorRequest $request): RedirectResponse
     {
         $request->insert();
 
-        return to_route('kantor.create')->with([
+        return to_route('kantor', $request->query())->with([
             'flash.status' => 'success',
-            'flash.message' => 'Kantor baru berhasil ditambahkan'
+            'flash.message' => 'Kantor berhasil ditambahkan.'
         ]);
-    }
-
-    /**
-     * Menampilkan halaman edit kantor.
-     */
-    public function edit(Kantor $kantor): Response
-    {
-        $access = $this->getAccessByRoute('kantor');
-
-        return $this->render(
-            component: 'Kantor/Edit/index',
-            data: $kantor,
-            access: $access
-        );
     }
 
     /**
@@ -72,9 +51,9 @@ class KantorController extends Controller
     {
         $request->update();
 
-        return to_route('kantor.edit', ['kantor' => $kantor->id])->with([
+        return to_route('kantor', $request->query())->with([
             'flash.status' => 'success',
-            'flash.message' => 'Data kantor berhasil diperbarui.'
+            'flash.message' => 'Kantor berhasil diperbarui.'
         ]);
     }
 
@@ -144,5 +123,13 @@ class KantorController extends Controller
         $kantor = Kantor::orderBy('nama', 'asc')->get();
 
         return $this->jsonResponse(data: $kantor);
+    }
+
+    /**
+     * Export template excel
+     */
+    public function exportTemplate(): BinaryFileResponse
+    {
+        return Excel::download(new KantorTemplateExport, 'template_impor_kantor.xlsx');
     }
 }

@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FilterPeriod from "./Partials/FilterPeriod";
 import FilterStatus from "./Partials/FilterStatus";
 import ImportExcel from "./Partials/ImportExcel";
-import ModalAction from "./Partials/ModalAction";
+import ModalForm from "./Partials/ModalForm";
 import Search from "./Partials/Search";
 
 /**
@@ -177,7 +177,7 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
       </Box>
 
       {/* Komponen modal create & update */}
-      <ModalAction />
+      <ModalForm />
 
       {/* Komponen modal import excel */}
       <ImportExcel open={openImport} onClose={toggleModalImport} />

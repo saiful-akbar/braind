@@ -17,7 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
  * @param {object} props
  * @returns {React.ReactElement}
  */
-const BaseModal = (props) => {
+const Modal = (props) => {
   const { open, maxWidth, loading, title, onClose, children, ...rest } = props;
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -75,7 +75,7 @@ const BaseModal = (props) => {
 /**
  * Prop types
  */
-BaseModal.propTypes = {
+Modal.propTypes = {
   open: PropTypes.bool,
   loading: PropTypes.bool,
   maxWidth: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl"]),
@@ -87,10 +87,10 @@ BaseModal.propTypes = {
 /**
  * Default props
  */
-BaseModal.defaultProps = {
+Modal.defaultProps = {
   open: false,
   loading: false,
-  maxWidth: "lg",
+  maxWidth: "sm",
 };
 
-export default BaseModal;
+export default Modal;

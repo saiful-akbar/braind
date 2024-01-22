@@ -4,12 +4,9 @@ import BaseLayout from "./BaseLayout";
 import { Head } from "@inertiajs/react";
 import { Box, Container } from "@mui/material";
 import Sidebar from "@/components/Sidebar";
-import SettingsModal from "@/components/Modals/SettingsModal";
+import Settings from "@/components/Settings";
 import Notification from "@/components/Notification";
-import {
-  openNotification,
-  closeNotification,
-} from "@/redux/reducers/notificationReducer";
+import { openNotification, closeNotification } from "@/redux/reducers/notificationReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { usePage } from "@inertiajs/react";
 
@@ -64,7 +61,7 @@ const AuthLayout = (props) => {
           <Container maxWidth="xl">{children}</Container>
         </Box>
 
-        <SettingsModal />
+        <Settings />
         <Notification />
       </Box>
     </BaseLayout>

@@ -1,3 +1,5 @@
+import React, { useCallback, useState, Fragment } from "react";
+import PropTypes from "prop-types";
 import DownloadButton from "@/components/Buttons/DownloadButton";
 import RefreshButton from "@/components/Buttons/RefreshButton";
 import Header from "@/components/Header";
@@ -6,12 +8,12 @@ import { openNotification } from "@/redux/reducers/notificationReducer";
 import { Link, router, usePage } from "@inertiajs/react";
 import { Box, Button, CardContent, Grid } from "@mui/material";
 import { saveAs } from "file-saver";
-import PropTypes from "prop-types";
-import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import FilterStatusKantor from "./Partials/FilterStatusKantor";
 import SearchKantor from "./Partials/SearchKantor";
+import ModalFormKantor from "./Partials/ModalFormKantor";
 import CardPaper from "@/components/CardPaper";
+import { createKantor } from "@/redux/reducers/kantorReducer";
 
 /**
  * Template untuk halaman division
@@ -36,7 +38,7 @@ const Template = ({ children }) => {
   /**
    * fungsi untuk menangani ketika tombol refresh diklik.
    */
-  const handleRefreshClick = useCallback(() => {
+  const handleRefresh = useCallback(() => {
     fetchData(params);
   }, [params, fetchData]);
 
@@ -51,15 +53,11 @@ const Template = ({ children }) => {
         method: "get",
         responseType: "blob",
         url: route("kantor.export"),
-        params: {
-          ...params,
-          _token: app.csrf,
-        },
+        params,
       });
 
       saveAs(response.data, `braind_master_kantor.xlsx`);
       setLoading(false);
-
       dispatch(
         openNotification({
           status: "success",
@@ -68,7 +66,6 @@ const Template = ({ children }) => {
       );
     } catch (error) {
       setLoading(false);
-
       dispatch(
         openNotification({
           status: "error",
@@ -78,8 +75,15 @@ const Template = ({ children }) => {
     }
   }, [setLoading, params, dispatch, app]);
 
+  /**
+   * fungsi untuk mmebuka dialog form untuk create kantor.
+   */
+  const handleFormOpen = useCallback(() => {
+    dispatch(createKantor());
+  }, [dispatch])
+
   return (
-    <>
+    <Fragment>
       <Header
         title="Kantor"
         action={
@@ -87,8 +91,7 @@ const Template = ({ children }) => {
             <Button
               type="button"
               variant="contained"
-              component={Link}
-              href={route("kantor.create")}
+              onClick={handleFormOpen}
             >
               Tambah kantor
             </Button>
@@ -102,7 +105,7 @@ const Template = ({ children }) => {
             <Grid container spacing={3} justifyContent="space-between">
               <Grid item md={2} xs={12}>
                 <DownloadButton title="Ekspor excel" onClick={handleExport} />
-                <RefreshButton onClick={handleRefreshClick} />
+                <RefreshButton onClick={handleRefresh} />
               </Grid>
 
               {access.destroy && (
@@ -121,8 +124,12 @@ const Template = ({ children }) => {
         </CardPaper>
       </Box>
 
+      {/* Komponen preloader */}
       <Loader open={loading} />
-    </>
+
+      {/* Komponen modal form */}
+      <ModalFormKantor />
+    </Fragment>
   );
 };
 

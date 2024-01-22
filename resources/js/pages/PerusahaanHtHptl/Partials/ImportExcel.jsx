@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import BaseModal from "@/components/Modals/BaseModal";
+import Modal from "@/components/Modal";
 import { useForm, usePage } from "@inertiajs/react";
 import {
   Alert,
@@ -88,7 +88,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
   };
 
   return (
-    <BaseModal
+    <Modal
       open={open}
       title="Impor Excel"
       maxWidth="sm"
@@ -163,7 +163,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
           Impor
         </LoadingButton>
       </DialogActions>
-    </BaseModal>
+    </Modal>
   );
 };
 

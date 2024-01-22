@@ -1,7 +1,7 @@
 import DateInput from "@/components/Input/DateInput";
 import SelectInput from "@/components/Input/SelectInput";
 import TextInput from "@/components/Input/TextInput";
-import BaseModal from "@/components/Modals/BaseModal";
+import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { closeModalPerusahaanHtHptl } from "@/redux/reducers/perusahaanHtHptlReducer";
 import Kantor from "@/services/kantorService";
@@ -41,7 +41,7 @@ const perusahaan = [
  *
  * @returns {React.ReactElement}
  */
-const ModalAction = () => {
+const ModalForm = () => {
   const dispatch = useDispatch();
   const { open, type, data } = useSelector((state) => state.perusahaanHtHptl);
   const { auth, app } = usePage().props;
@@ -187,7 +187,7 @@ const ModalAction = () => {
   );
 
   return (
-    <BaseModal
+    <Modal
       open={open}
       title={type === "create" ? "Tambah Perusahaan" : "Edit Perusahaan"}
       onClose={handleClose}
@@ -347,8 +347,8 @@ const ModalAction = () => {
           Simpan
         </LoadingButton>
       </DialogActions>
-    </BaseModal>
+    </Modal>
   );
 };
 
-export default ModalAction;
+export default ModalForm;

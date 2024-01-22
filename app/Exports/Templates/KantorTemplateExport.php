@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class PerusahaanHtHptlTemplateExport implements WithStyles, ShouldAutoSize, WithHeadings
+class KantorTemplateExport implements WithStyles, ShouldAutoSize, WithHeadings
 {
     /**
      * Style cell
@@ -17,7 +17,7 @@ class PerusahaanHtHptlTemplateExport implements WithStyles, ShouldAutoSize, With
     public function styles(Worksheet $sheet): array
     {
         return [
-            1 => [
+            'A1' => [
                 'font' => [
                     'bold' => true,
                 ],
@@ -40,14 +40,7 @@ class PerusahaanHtHptlTemplateExport implements WithStyles, ShouldAutoSize, With
     public function headings(): array
     {
         return [
-            'ID Kantor',
             'Nama Kantor',
-            'Nama Perusahaan',
-            'NPPBKC',
-            'Jumlah CK',
-            'Jenis BKC',
-            'Jumlah',
-            'Jumlah Cukai',
         ];
     }
 }

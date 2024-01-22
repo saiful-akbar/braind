@@ -5,6 +5,8 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { router } from "@inertiajs/react";
 import { Fragment, useCallback, useState } from "react";
 import Template from "./Template";
+import { useDispatch } from "react-redux";
+import { updateKantor } from "@/redux/reducers/kantorReducer"; 
 
 /**
  * Halaman kantor (Kanwil)
@@ -15,6 +17,7 @@ const Kantor = (props) => {
   const order = params.order ?? "asc";
   const orderBy = params.order_by ?? "nama";
   const status = params.status ?? "aktif";
+  const dispatch = useDispatch();
 
   // Daftar kolom yang akan ditampilkan pada tabel
   const columns = [
@@ -182,11 +185,10 @@ const Kantor = (props) => {
    * fungsi untuk menangani ketika button edit diklik.
    */
   const handleUpdate = useCallback((row) => {
-    router.get(
-      route("kantor.edit", {
-        kantor: row.id,
-      })
-    );
+    dispatch(updateKantor({
+      id: row.id,
+      nama: row.nama,
+    }));
   }, []);
 
   return (
@@ -201,7 +203,7 @@ const Kantor = (props) => {
         remove={Boolean(access.remove && status === "aktif")}
         destroy={Boolean(access.destroy && status === "dihapus")}
         onOrder={(field) => handleOrder(field)}
-        onUpdate={handleUpdate}
+        onUpdate={(row) => handleUpdate(row)}
         onRemove={(row) => openDeleteConfirmation("remove", row.id)}
         onDestroy={(row) => openDeleteConfirmation("destroy", row.id)}
         onRestore={(row) => openRestoreConfirmation(row.id)}
