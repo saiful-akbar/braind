@@ -38,7 +38,7 @@ Route::controller(KantorController::class)
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:kantor,read');
         Route::get('/get', 'get')->name('.get');
-        Route::get('/export', 'export')->middleware('access:kantor,read');
+        Route::get('/export', 'export')->name('.export')->middleware('access:kantor,read');
         Route::post('/', 'store')->name('.store')->middleware('access:kantor,create');
         Route::prefix('/import')->name('.import')->group(function (): void {
             Route::post('/', 'import')->middleware('access:kantor,create');
