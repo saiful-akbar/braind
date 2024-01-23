@@ -5,7 +5,7 @@ import DataTable from "@/components/DataTable";
 import { useCallback } from "react";
 import { router } from "@inertiajs/react";
 import { useDispatch } from "react-redux";
-import { editKomoditi } from "@/redux/reducers/komoditiReducer";
+import { updateKomoditi } from "@/redux/reducers/komoditiReducer";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import RestoreConfirmation from "@/components/RestoreConfirmation";
 
@@ -117,17 +117,14 @@ const Komoditi = (props) => {
   /**
    * fungsi untuk mmebuka dialog modal untuk edit commodity
    */
-  const handleEditRow = useCallback(
-    (row) => {
-      dispatch(
-        editKomoditi({
-          id: row.id,
-          kode: row.kode,
-        })
-      );
-    },
-    [dispatch]
-  );
+  const handleEditRow = useCallback((row) => {
+    dispatch(
+      updateKomoditi({
+        id: row.id,
+        kode: row.kode,
+      })
+    );
+  }, [dispatch]);
 
   /**
    * fungsi untuk membuka modal konfirmasi delete

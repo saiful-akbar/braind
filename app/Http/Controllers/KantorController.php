@@ -111,7 +111,7 @@ class KantorController extends Controller
     public function export(Request $request): BinaryFileResponse
     {
         $access = $this->getAccessByRoute('kantor');
-        $name = 'braind_master_kantor.xlsx';
+        $name = 'master_kantor_ekspor.xlsx';
 
         return Excel::download(new KantorExport($request, $access), $name);
     }

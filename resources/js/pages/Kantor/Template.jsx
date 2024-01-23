@@ -60,7 +60,7 @@ const Template = ({ children }) => {
         params,
       });
 
-      saveAs(response.data, `braind_master_kantor.xlsx`);
+      saveAs(response.data, 'master_kantor_ekspor');
       setLoading(false);
       dispatch(
         openNotification({

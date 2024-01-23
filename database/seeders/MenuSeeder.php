@@ -13,7 +13,7 @@ class MenuSeeder extends Seeder
 {
     private array $data = [
         [
-            'nama' => 'Master',
+            'nama' => 'Data Master',
             'sub_menu' => [
                 [
                     'nama' => 'Kantor',

@@ -35,19 +35,27 @@ class KomoditiController extends Controller
     /**
      * Menyimpan data baru pada tabel Komoditi.
      */
-    public function store(StoreKomoditiRequest $request): HttpResponse
+    public function store(StoreKomoditiRequest $request): RedirectResponse
     {
         $request->insert();
-        return response()->noContent();
+        
+        return to_route('komoditi', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Kode komoditi berhasil ditambahkan.',
+        ]);
     }
 
     /**
      * Simpan perubahan komoditi pada database.
      */
-    public function update(UpdateKomoditiRequest $request, Komoditi $komoditi): HttpResponse
+    public function update(UpdateKomoditiRequest $request, Komoditi $komoditi): RedirectResponse
     {
         $request->update();
-        return response()->noContent();
+        
+        return to_route('komoditi', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Kode komoditi berhasil dirubah.',
+        ]);
     }
 
     /**

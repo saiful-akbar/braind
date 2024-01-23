@@ -2,7 +2,7 @@ import DownloadButton from "@/components/Buttons/DownloadButton";
 import RefreshButton from "@/components/Buttons/RefreshButton";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
-import { addKomoditi } from "@/redux/reducers/komoditiReducer";
+import { createKomoditi } from "@/redux/reducers/komoditiReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { router, usePage } from "@inertiajs/react";
 import { Box, Button, CardContent, Grid } from "@mui/material";
@@ -30,7 +30,7 @@ const KomoditiTemplate = ({ children }) => {
    * fungsi untuk membuka modal add commodity
    */
   const handleAdd = () => {
-    dispatch(addKomoditi());
+    dispatch(createKomoditi());
   };
 
   /**

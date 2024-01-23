@@ -3,52 +3,41 @@ import { createSlice } from "@reduxjs/toolkit";
 const komoditiSlice = createSlice({
   name: "komoditi",
 
-  /**
-   * Nilai default.
-   */
   initialState: {
-    open: false,
-    type: "create",
-    data: {
-      id: "",
-      kode: "",
-    },
+    form: {
+      open: false,
+      type: "create",
+      data: {
+        id: "",
+        kode: "",
+      },
+    }
   },
 
   reducers: {
-    /**
-     * membuka modal untuk menambah data komoditi
-     */
-    addKomoditi: (state) => {
-      state.open = true;
-      state.type = "create";
-      state.data = {
+    createKomoditi: (state) => {
+      state.form.open = true;
+      state.form.type = "create";
+      state.form.data = {
         id: "",
         kode: "",
       };
     },
 
-    /**
-     * membuka modal untuk edit komoditi
-     */
-    editKomoditi: (state, action) => {
-      const { id, kode } = action.payload;
-
-      state.open = true;
-      state.type = "update";
-      state.data = { id, kode };
+    updateKomoditi: (state, action) => {
+      state.form.open = true;
+      state.form.type = "update";
+      state.form.data = {
+        id: action.payload.id,
+        kode: action.payload.kode,
+      };
     },
 
-    /**
-     * menutup modal komoditi
-     */
     closeFormKomoditi: (state) => {
-      state.open = false;
+      state.form.open = false;
     },
   },
 });
 
-export const { addKomoditi, editKomoditi, closeFormKomoditi } =
-  komoditiSlice.actions;
-
+export const { createKomoditi, updateKomoditi, closeFormKomoditi } = komoditiSlice.actions;
 export default komoditiSlice.reducer;

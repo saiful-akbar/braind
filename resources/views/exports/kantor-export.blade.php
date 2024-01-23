@@ -2,7 +2,7 @@
 <html lang="id">
 
 <head>
-    <title>Kantor - {{ config('app.name') }}</title>
+    <title>Master Kantor</title>
 </head>
 
 <body>

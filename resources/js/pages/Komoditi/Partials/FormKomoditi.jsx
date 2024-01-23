@@ -1,7 +1,7 @@
 import TextInput from "@/components/Input/TextInput";
 import { closeFormKomoditi } from "@/redux/reducers/komoditiReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import { router, usePage } from "@inertiajs/react";
+import { router, usePage, useForm } from "@inertiajs/react";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -18,161 +18,112 @@ import { useDispatch, useSelector } from "react-redux";
  * Komponen partials untuk form komoditi
  */
 const FormKomoditi = React.memo(() => {
-  const { app } = usePage().props;
   const komoditi = useSelector((state) => state.komoditi);
   const dispatch = useDispatch();
+  const { app } = usePage().props;
+  const { params } = app.url;
 
-  // state
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(null);
-  const [title, setTitle] = React.useState("Tambah Komoditi");
-  const [data, setData] = React.useState({
-    id: "",
-    kode: "",
-    _token: app.csrf,
-  });
-
-  /**
-   * Update title komoditi berdasarkan type-nya
-   */
-  React.useEffect(() => {
-    setTitle(komoditi.type === "create" ? "Tambah Komoditi" : "Edit Komoditi");
-  }, [komoditi.type]);
+  // form data
+  const {
+    data,
+    setData,
+    processing,
+    errors,
+    clearErrors,
+    reset,
+    post,
+    patch,
+  } = useForm(komoditi.form.data);
 
   /**
-   * update value berdasarkan type aksinya
+   * Update form saat modal dibuka
    */
   React.useEffect(() => {
-    const { data } = komoditi;
-
-    setData((prevState) => ({
-      ...prevState,
-      id: data.id,
-      kode: data.kode,
-    }));
-  }, [komoditi.data, setData]);
+    setData(komoditi.form.data);
+    clearErrors();
+  }, [komoditi.form.open]);
 
   /**
    * fungsi untuk menutup dialog modal.
-   *
-   * NB: modal hanya bisa ditutup jika loading bernilai false.
    */
   const handleClose = () => {
-    if (!loading) {
-      setError(null);
+    if (!processing) {
       dispatch(closeFormKomoditi());
     }
   };
 
   /**
-   * fungsi untuk reset form
-   */
-  const reset = () => {
-    setData((prevState) => ({
-      ...prevState,
-      id: "",
-      kode: "",
-    }));
-  };
-
-  /**
    * fungsi untuk menangani ketika form diisi.
    */
-  const handleChange = React.useCallback(
-    (e) => {
-      const { name, value } = e.target;
-
-      setData((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    },
-    [setData]
-  );
+  const handleChange = React.useCallback((e) => {
+    setData(e.target.name, e.target.value);
+  }, [setData]);
 
   /**
    * fungsi untuk menyimpan data komoditi baru
    */
-  const storeData = async () => {
-    setLoading(true);
+  const handleCreate = () => {
+    const url = route("komoditi.store", {
+      _query: params,
+    });
 
-    try {
-      await axios({
-        method: "post",
-        url: route("komoditi.store"),
-        data: data,
-      });
-
-      setLoading(false);
-      setError(null);
-      reset();
-      router.reload();
-
-      dispatch(
-        openNotification({
-          status: "success",
-          message: "Kode komoditi berhasil ditambahkan.",
-        })
-      );
-    } catch (error) {
-      const { message } = error.response.data;
-
-      setLoading(false);
-      setError(message);
-    }
+    post(url, {
+      preserveScroll: true,
+      onSuccess: () => {
+        reset();
+      },
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: 'error',
+            message: 'Terjadi kesalahan, periksa kembali inpurtan anda.',
+          })
+        );
+      }
+    });
   };
 
   /**
    * Fungsi untuk fetch update data komoditi
    */
-  const updateData = async () => {
-    setLoading(true);
-    setError(null);
+  const handleUpdate = () => {
+    const url = route('komoditi.update', {
+      komoditi: data.id,
+      _query: params,
+    });
 
-    try {
-      await axios({
-        method: "patch",
-        data,
-        url: route("komoditi.update", {
-          komoditi: data.id,
-        }),
-      });
-
-      router.reload();
-      setLoading(false);
-      dispatch(
-        openNotification({
-          status: "success",
-          message: "Kode komoditi berhasil diperbarui.",
-        })
-      );
-    } catch (error) {
-      const { message } = error.response.data;
-
-      setLoading(false);
-      setError(message);
-    }
+    patch(url, {
+      preserveScroll: true,
+      onSuccess: () => {
+        handleClose();
+      },
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: 'error',
+            message: 'Terjadi kesalahan, periksa kembali inpurtan anda.',
+          })
+        );
+      }
+    });
   };
 
   /**
    * Fungsi untuk menangani ketika form di-submit
    */
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
 
-      if (komoditi.type === "create") {
-        storeData();
-      } else {
-        updateData();
-      }
-    },
-    [storeData, komoditi, updateData]
-  );
+    if (komoditi.form.type === "create") {
+      handleCreate();
+    } else {
+      handleUpdate();
+    }
+  }, [handleCreate, komoditi, handleUpdate]);
 
   return (
     <Dialog
-      open={komoditi.open}
+      open={komoditi.form.open}
       fullWidth
       maxWidth="sm"
       onClose={handleClose}
@@ -180,37 +131,31 @@ const FormKomoditi = React.memo(() => {
       autoComplete="off"
       onSubmit={handleSubmit}
     >
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle>
+        {komoditi.form.type === "create" ? "Tambah kode komoditi" : "Edit kode komoditi"}
+      </DialogTitle>
 
-      <DialogContent
-        sx={{
-          borderTop: 1,
-          borderColor: "divider",
-        }}
-      >
-        <Box sx={{ mt: 3 }}>
-          <TextInput
-            fullWidth
-            required
-            autoFocus
-            label="Kode Komoditi"
-            name="kode"
-            value={data.kode}
-            onChange={handleChange}
-            disabled={loading}
-            error={Boolean(error !== null)}
-            helperText={error}
-          />
-        </Box>
+      <DialogContent dividers sx={{ py: 3 }}>
+        <TextInput
+          fullWidth
+          required
+          label="Kode Komoditi"
+          name="kode"
+          value={data.kode}
+          onChange={handleChange}
+          disabled={processing}
+          error={Boolean(errors.kode)}
+          helperText={errors.kode}
+        />
       </DialogContent>
 
-      <DialogActions sx={{ py: 2, px: 3 }}>
+      <DialogActions sx={{ py: 3 }}>
         <Button
           type="button"
           variant="outlined"
           color="primary"
           size="large"
-          disabled={loading}
+          disabled={processing}
           onClick={handleClose}
         >
           Tutup
@@ -221,7 +166,7 @@ const FormKomoditi = React.memo(() => {
           variant="contained"
           color="primary"
           size="large"
-          loading={loading}
+          loading={processing}
         >
           Simpan
         </LoadingButton>
