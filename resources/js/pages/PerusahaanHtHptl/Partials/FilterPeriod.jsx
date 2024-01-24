@@ -70,7 +70,7 @@ const FilterPeriod = () => {
             <LoadingButton
               fullWidth
               variant="contained"
-              color="secondary"
+              color="primary"
               loading={processing}
               onClick={handleSubmit}
             >

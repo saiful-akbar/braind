@@ -36,8 +36,7 @@ const Header = memo((props) => {
       >
         <Grid
           item
-          xs={4}
-          md={6}
+          xs={6}
           lg={8}
           zeroMinWidth
           sx={{

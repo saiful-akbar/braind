@@ -1,5 +1,5 @@
-import DownloadButton from "@/components/Buttons/DownloadButton";
-import RefreshButton from "@/components/Buttons/RefreshButton";
+import TableActionButton from "@/components/Buttons/TableActionButton";
+import CardPaper from "@/components/CardPaper";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import { createKomoditi } from "@/redux/reducers/komoditiReducer";
@@ -13,7 +13,6 @@ import { useDispatch } from "react-redux";
 import FilterStatusKomoditi from "./Partials/FilterStatusKomoditi";
 import FormCommodity from "./Partials/FormKomoditi";
 import SearchKomoditi from "./Partials/SearchKomoditi";
-import CardPaper from "@/components/CardPaper";
 
 /**
  * Komponen template untuk halaman commodity.
@@ -36,7 +35,7 @@ const KomoditiTemplate = ({ children }) => {
   /**
    * fungsi untuk menangani ketika tombol refresh diklik
    */
-  const handleRefresh = useCallback(() => {
+  const handleReload = useCallback(() => {
     router.reload();
   }, []);
 
@@ -81,16 +80,16 @@ const KomoditiTemplate = ({ children }) => {
       <Header
         title="Kode Komoditi"
         action={
-          access.create && (
+          access.create ? (
             <Button
               type="button"
               variant="contained"
               color="primary"
               onClick={handleAdd}
             >
-              Tambah komoditi
+              Tambah Komoditi
             </Button>
-          )
+          ) : null
         }
       />
 
@@ -98,19 +97,24 @@ const KomoditiTemplate = ({ children }) => {
         <CardPaper>
           <CardContent>
             <Grid container spacing={3} justifyContent="space-between">
-              <Grid item md={2} xs={12}>
-                <DownloadButton title="Ekspor Excel" onClick={handleExport} />
-                <RefreshButton title="Muat ulang" onClick={handleRefresh} />
-              </Grid>
-
               {access.destroy && (
-                <Grid item md={5} xs={12}>
+                <Grid item md={4.5} xs={12}>
                   <FilterStatusKomoditi />
                 </Grid>
               )}
 
-              <Grid item md={5} xs={12}>
+              <Grid item md={4.5} xs={12}>
                 <SearchKomoditi />
+              </Grid>
+
+              <Grid item md={3} xs={12}>
+                <TableActionButton
+                  reload
+                  export
+                  import={access.create}
+                  onReload={handleReload}
+                  onExport={handleExport}
+                />
               </Grid>
             </Grid>
           </CardContent>

@@ -1,5 +1,4 @@
-import ExportImportButton from "@/components/Buttons/ExportImportButton";
-import RefreshButton from "@/components/Buttons/RefreshButton";
+import TableActionButton from "@/components/Buttons/TableActionButton";
 import CardPaper from "@/components/CardPaper";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
@@ -16,8 +15,8 @@ import { Fragment, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import FilterStatusKantor from "./Partials/FilterStatusKantor";
 import ModalFormKantor from "./Partials/ModalFormKantor";
-import SearchKantor from "./Partials/SearchKantor";
 import ModalImportKantor from "./Partials/ModalImportKantor";
+import SearchKantor from "./Partials/SearchKantor";
 
 /**
  * Template untuk halaman division
@@ -42,7 +41,7 @@ const Template = ({ children }) => {
   /**
    * fungsi untuk menangani ketika tombol refresh diklik.
    */
-  const handleRefresh = useCallback(() => {
+  const handleReload = useCallback(() => {
     fetchData(params);
   }, [params, fetchData]);
 
@@ -60,7 +59,7 @@ const Template = ({ children }) => {
         params,
       });
 
-      saveAs(response.data, 'master_kantor_ekspor');
+      saveAs(response.data, "master_kantor_ekspor");
       setLoading(false);
       dispatch(
         openNotification({
@@ -87,44 +86,6 @@ const Template = ({ children }) => {
   }, [dispatch]);
 
   /**
-   * fungsi untuk download template import
-   */
-  const handleDownloadTemplate = useCallback(async () => {
-    setLoading(true);
-
-    try {
-      const response = await axios({
-        method: "get",
-        url: route("kantor.import.template"),
-        responseType: "blob",
-      });
-
-      if (response.status === 200) {
-        // simpan dan download template
-        saveAs(response.data, "template_impor_kantor.xlsx");
-
-        // hentikan loading dan tampilkan notifikasi.
-        setLoading(false);
-        dispatch(
-          openNotification({
-            status: "success",
-            message: "Template berhasil diunduh.",
-          })
-        );
-      }
-    } catch (error) {
-      // hentikan loading dan tampilkan notifikasi error
-      setLoading(false);
-      dispatch(
-        openNotification({
-          status: "error",
-          message: "Terjadi kesalahan, gagal mengunduh template.",
-        })
-      );
-    }
-  }, [setLoading]);
-
-  /**
    * fungsi untuk membuka modal import
    */
   const handleOpenModalImport = () => {
@@ -136,36 +97,42 @@ const Template = ({ children }) => {
       <Header
         title="Kantor"
         action={
-          access.create && (
+          access.create ? (
             <Button type="button" variant="contained" onClick={handleFormOpen}>
-              Tambah kantor
+              Tambah Kantor
             </Button>
-          )
+          ) : null
         }
       />
 
       <Box component="main" sx={{ mt: 5 }}>
         <CardPaper>
           <CardContent>
-            <Grid container spacing={3} justifyContent="space-between">
-              <Grid item md={2} xs={12}>
-                <ExportImportButton
-                  onExport={handleExport}
-                  onDownloadTemplate={handleDownloadTemplate}
-                  onImport={handleOpenModalImport}
-                />
-
-                <RefreshButton onClick={handleRefresh} />
-              </Grid>
-
+            <Grid
+              container
+              spacing={3}
+              justifyContent="space-between"
+              alignItems="center"
+            >
               {access.destroy && (
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={4.5}>
                   <FilterStatusKantor />
                 </Grid>
               )}
 
-              <Grid item xs={12} md={5}>
+              <Grid item xs={12} md={4.5}>
                 <SearchKantor />
+              </Grid>
+
+              <Grid item xs={12} md={3}>
+                <TableActionButton
+                  reload
+                  export
+                  import={access.create}
+                  onReload={handleReload}
+                  onExport={handleExport}
+                  onImport={handleOpenModalImport}
+                />
               </Grid>
             </Grid>
           </CardContent>

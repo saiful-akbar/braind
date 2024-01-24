@@ -1,21 +1,20 @@
-import React, { useCallback, useState } from "react";
 import Modal from "@/components/Modal";
 import { closeModalImportKantor } from "@/redux/reducers/kantorReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { useForm, usePage } from "@inertiajs/react";
+import { LoadingButton } from "@mui/lab";
 import {
   Alert,
-  AlertTitle,
   Box,
   Button,
   DialogActions,
   DialogContent,
   Grid,
   TextField,
-  Typography,
 } from "@mui/material";
+import { saveAs } from "file-saver";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { LoadingButton } from "@mui/lab";
 
 /**
  * Komponen modal untuk import excel data kantor.
@@ -27,6 +26,9 @@ const ModalImportKantor = () => {
   const dispatch = useDispatch();
   const { app } = usePage().props;
   const { params } = app.url;
+
+  // state
+  const [downloading, setDownloading] = useState(false);
 
   // form data
   const form = useForm({
@@ -46,6 +48,43 @@ const ModalImportKantor = () => {
       setErrors([]);
     }
   }, [form, setErrors]);
+
+  /**
+   * fungsi untuk download template import
+   */
+  const handleDownloadTemplate = useCallback(async () => {
+    setDownloading(true);
+
+    try {
+      const response = await axios({
+        method: "get",
+        url: route("kantor.import.template"),
+        responseType: "blob",
+      });
+
+      if (response.status === 200) {
+        // simpan dan download template
+        saveAs(response.data, "template_impor_kantor.xlsx");
+
+        // hentikan loading dan tampilkan notifikasi.
+        setDownloading(false);
+        dispatch(
+          openNotification({
+            status: "success",
+            message: "Template berhasil didownload.",
+          })
+        );
+      }
+    } catch (error) {
+      setDownloading(false);
+      dispatch(
+        openNotification({
+          status: "error",
+          message: "Terjadi kesalahan. Download template gagal.",
+        })
+      );
+    }
+  }, [setDownloading]);
 
   /**
    * fungsi untuk menangani ketika form diisi
@@ -90,7 +129,7 @@ const ModalImportKantor = () => {
 
   return (
     <Modal
-      title="Impor kantor"
+      title="Import Kantor"
       open={open}
       onClose={handleCloseModal}
       loading={form.processing}
@@ -103,8 +142,7 @@ const ModalImportKantor = () => {
         <Grid container spacing={3}>
           {errors.length > 0 && (
             <Grid item xs={12}>
-              <Alert severity="error">
-                <AlertTitle>Error</AlertTitle>
+              <Alert severity="error" icon={false}>
                 <Box component="ul" sx={{ paddingInlineStart: 2 }}>
                   {errors.map((error, index) => (
                     <li key={index}>{error}</li>
@@ -113,6 +151,20 @@ const ModalImportKantor = () => {
               </Alert>
             </Grid>
           )}
+
+          <Grid item xs={12}>
+            <LoadingButton
+              fullWidth
+              type="button"
+              color="primary"
+              variant="contained"
+              loading={downloading}
+              disabled={form.processing}
+              onClick={handleDownloadTemplate}
+            >
+              Download Template
+            </LoadingButton>
+          </Grid>
 
           <Grid item xs={12}>
             <TextField
@@ -157,7 +209,7 @@ const ModalImportKantor = () => {
           size="large"
           loading={form.processing}
         >
-          Impor
+          Import
         </LoadingButton>
       </DialogActions>
     </Modal>

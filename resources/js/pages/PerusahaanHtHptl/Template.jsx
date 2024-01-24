@@ -1,5 +1,4 @@
-import ExportImportButton from "@/components/Buttons/ExportImportButton";
-import RefreshButton from "@/components/Buttons/RefreshButton";
+import TableActionButton from "@/components/Buttons/TableActionButton";
 import CardPaper from "@/components/CardPaper";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
@@ -10,7 +9,7 @@ import { Box, Button, CardContent, Grid } from "@mui/material";
 import { saveAs } from "file-saver";
 import PropTypes from "prop-types";
 import React, { Fragment, useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import FilterPeriod from "./Partials/FilterPeriod";
 import FilterStatus from "./Partials/FilterStatus";
 import ImportExcel from "./Partials/ImportExcel";
@@ -23,9 +22,8 @@ import Search from "./Partials/Search";
  * @returns {React.ReactElement}
  */
 const PerusahaanHtHptlTemplate = ({ children }) => {
-  const perusahaanHtHptl = useSelector((state) => state.perusahaanHtHptl);
   const dispatch = useDispatch();
-  const { app } = usePage().props;
+  const { app, access } = usePage().props;
   const { params } = app.url;
 
   // state
@@ -42,9 +40,9 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
   /**
    * fungsi untuk reload table
    */
-  const handleReload = () => {
+  const handleReload = useCallback(() => {
     router.reload();
-  };
+  }, []);
 
   /**
    * fungsi untuk menangani export excel
@@ -82,40 +80,6 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
   }, [setLoading, dispatch, params]);
 
   /**
-   * fungsi untuk download template import
-   */
-  const handleDownloadTemplate = useCallback(async () => {
-    setLoading(true);
-
-    try {
-      const response = await axios({
-        method: "get",
-        url: route("perusahaan.hthptl.import.template"),
-        responseType: "blob",
-      });
-
-      if (response.status === 200) {
-        setLoading(false);
-        saveAs(response.data, "template_impor_perusahaan_cukai_ht_hptl.xlsx");
-        dispatch(
-          openNotification({
-            status: "success",
-            message: "Template berhasil diunduh.",
-          })
-        );
-      }
-    } catch (error) {
-      setLoading(false);
-      dispatch(
-        openNotification({
-          status: "error",
-          message: "Terjadi kesalahan, template gagal diunduh.",
-        })
-      );
-    }
-  }, [dispatch, setLoading]);
-
-  /**
    * Toggle buka dan tutup modal import
    */
   const toggleModalImport = useCallback(() => {
@@ -127,13 +91,15 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
       <Header
         title="Perusahaan Cukai HT + HPTL"
         action={
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleOpenCreateModal}
-          >
-            Tambah perusahaan
-          </Button>
+          access.create ? (
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleOpenCreateModal}
+            >
+              Tambah perusahaan
+            </Button>
+          ) : null
         }
       />
 
@@ -148,22 +114,23 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
             <CardPaper>
               <CardContent>
                 <Grid container spacing={3}>
-                  <Grid item md={2} xs={12}>
-                    <ExportImportButton
-                      onExport={handleExport}
-                      onImport={toggleModalImport}
-                      onDownloadTemplate={handleDownloadTemplate}
-                    />
-
-                    <RefreshButton onClick={handleReload} />
-                  </Grid>
-
-                  <Grid item md={5} xs={12}>
+                  <Grid item md={4.5} xs={12}>
                     <FilterStatus />
                   </Grid>
 
-                  <Grid item md={5} xs={12}>
+                  <Grid item md={4.5} xs={12}>
                     <Search />
+                  </Grid>
+
+                  <Grid item md={3} xs={12}>
+                    <TableActionButton
+                      reload
+                      export
+                      import={access.create}
+                      onReload={handleReload}
+                      onExport={handleExport}
+                      onImport={toggleModalImport}
+                    />
                   </Grid>
 
                   <Grid item xs={12}>

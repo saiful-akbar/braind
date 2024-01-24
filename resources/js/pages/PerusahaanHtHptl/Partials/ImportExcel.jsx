@@ -4,7 +4,6 @@ import { useForm, usePage } from "@inertiajs/react";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
-  AlertTitle,
   Box,
   Button,
   DialogActions,
@@ -12,6 +11,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import { saveAs } from "file-saver";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -29,6 +29,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
 
   // state
   const [errors, setErrors] = useState([]);
+  const [downloading, setDownloading] = useState(false);
 
   /**
    * bersihkan form saat modal dibuka
@@ -45,6 +46,40 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
   const handleClose = useCallback(() => {
     if (!form.processing) onClose();
   }, [form.processing]);
+
+  /**
+   * fungsi untuk download template import
+   */
+  const handleDownloadTemplate = useCallback(async () => {
+    setDownloading(true);
+
+    try {
+      const response = await axios({
+        method: "get",
+        url: route("perusahaan.hthptl.import.template"),
+        responseType: "blob",
+      });
+
+      if (response.status === 200) {
+        setDownloading(false);
+        saveAs(response.data, "template_impor_perusahaan_cukai_ht_hptl.xlsx");
+        dispatch(
+          openNotification({
+            status: "success",
+            message: "Template berhasil diunduh.",
+          })
+        );
+      }
+    } catch (error) {
+      setDownloading(false);
+      dispatch(
+        openNotification({
+          status: "error",
+          message: "Terjadi kesalahan, template gagal diunduh.",
+        })
+      );
+    }
+  }, [dispatch, setDownloading]);
 
   /**
    * fungsi untuk menangani ketika form diisi.
@@ -103,9 +138,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
         <Grid container spacing={3}>
           {errors.length > 0 && (
             <Grid item xs={12}>
-              <Alert severity="error">
-                <AlertTitle>Error</AlertTitle>
-
+              <Alert severity="error" icon={false}>
                 <Box component="ul" sx={{ paddingInlineStart: 2 }}>
                   {errors.map((error, index) => (
                     <li key={index}>{error}</li>
@@ -116,8 +149,23 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
           )}
 
           <Grid item xs={12}>
+            <LoadingButton
+              fullWidth
+              type="button"
+              color="primary"
+              variant="contained"
+              onClick={handleDownloadTemplate}
+              loading={downloading}
+              disabled={form.processing}
+            >
+              Download Template
+            </LoadingButton>
+          </Grid>
+
+          <Grid item xs={12}>
             <TextField
               fullWidth
+              required
               label="Unggal file"
               name="file"
               type="file"

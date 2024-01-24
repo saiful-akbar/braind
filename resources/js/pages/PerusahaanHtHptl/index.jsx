@@ -22,8 +22,6 @@ const PerusahaanHtHptl = (props) => {
   const status = params.status ?? "aktif";
   const dispatch = useDispatch();
 
-  console.dir(data);
-
   // state
   const [deleteId, setDeleteId] = useState(null);
   const [deleteType, setDeleteType] = useState("remove");
@@ -261,7 +259,6 @@ const PerusahaanHtHptl = (props) => {
    */
   const handleEdit = useCallback(
     (row) => {
-      console.log(row);
       dispatch(
         updatePerusahaanHtHptl({
           id: row.id,
