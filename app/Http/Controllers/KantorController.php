@@ -111,7 +111,7 @@ class KantorController extends Controller
     public function export(Request $request): BinaryFileResponse
     {
         $access = $this->getAccessByRoute('kantor');
-        $name = 'master_kantor_ekspor.xlsx';
+        $name = 'kantor_export.xlsx';
 
         return Excel::download(new KantorExport($request, $access), $name);
     }
@@ -131,7 +131,7 @@ class KantorController extends Controller
      */
     public function downloadTemplate(): BinaryFileResponse
     {
-        $fileName = 'template_impor_kantor.xlsx';
+        $fileName = 'template_import_kantor.xlsx';
         return Excel::download(new KantorTemplateExport, $fileName);
     }
 
@@ -140,18 +140,15 @@ class KantorController extends Controller
      */
     public function import(Request $request): RedirectResponse
     {
-        // validasi request
         $request->validate([
             'file' => 'required|mimes:xlsx,xls|max:100000'
         ]);
 
-        // Jalankan proses import excel
         Excel::import(new KantorImport, $request->file('file'));
 
-        // redirect
         return to_route('kantor', $request->query())->with([
             'flash.status' => 'success',
-            'message' => 'Import berhasil.'
+            'flash.message' => 'Import berhasil.'
         ]);
     }
 }

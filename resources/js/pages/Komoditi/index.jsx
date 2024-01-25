@@ -31,7 +31,7 @@ const Komoditi = (props) => {
   const columns = [
     {
       field: "id",
-      label: "ID Komoditi",
+      label: "ID",
       align: "left",
       format: "none",
       show: true,
@@ -117,14 +117,17 @@ const Komoditi = (props) => {
   /**
    * fungsi untuk mmebuka dialog modal untuk edit commodity
    */
-  const handleEditRow = useCallback((row) => {
-    dispatch(
-      updateKomoditi({
-        id: row.id,
-        kode: row.kode,
-      })
-    );
-  }, [dispatch]);
+  const handleEditRow = useCallback(
+    (row) => {
+      dispatch(
+        updateKomoditi({
+          id: row.id,
+          kode: row.kode,
+        })
+      );
+    },
+    [dispatch]
+  );
 
   /**
    * fungsi untuk membuka modal konfirmasi delete
@@ -152,10 +155,7 @@ const Komoditi = (props) => {
 
     const url = route(`komoditi.${deleteType}`, {
       komoditi: deleteId,
-      _query: {
-        ...params,
-        _token: app.csrf,
-      },
+      _query: params,
     });
 
     router.delete(url, {
@@ -237,8 +237,8 @@ const Komoditi = (props) => {
         open={Boolean(deleteId)}
         title={
           deleteType === "remove"
-            ? "Hapus komoditi"
-            : "Hapus komoditi selamanya"
+            ? "Hapus kode komoditi"
+            : "Hapus kode komoditi selamanya"
         }
         loading={deleting}
         onClose={closeDeleteConfirmation}
@@ -247,7 +247,7 @@ const Komoditi = (props) => {
 
       <RestoreConfirmation
         open={Boolean(restoreId)}
-        title="Pulihkan komoditi"
+        title="Pulihkan kode komoditi"
         loading={restoring}
         onClose={closeRestoreConfirmation}
         onRestore={handleRestore}

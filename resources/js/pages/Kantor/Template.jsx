@@ -59,7 +59,7 @@ const Template = ({ children }) => {
         params,
       });
 
-      saveAs(response.data, "master_kantor_ekspor");
+      saveAs(response.data, "kantor_export.xlsx");
       setLoading(false);
       dispatch(
         openNotification({

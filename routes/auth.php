@@ -40,15 +40,14 @@ Route::controller(KantorController::class)
         Route::get('/get', 'get')->name('.get');
         Route::get('/export', 'export')->name('.export')->middleware('access:kantor,read');
         Route::post('/', 'store')->name('.store')->middleware('access:kantor,create');
-        Route::prefix('/import')->name('.import')->group(function (): void {
-            Route::post('/', 'import')->middleware('access:kantor,create');
-            Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:kantor,create');
-        });
-
         Route::patch('/{kantor}', 'update')->name('.update')->middleware('access:kantor,update');
         Route::patch('/{kantor}/restore', 'restore')->name('.restore')->middleware('access:kantor,destroy');
         Route::delete('/{kantor}', 'remove')->name('.remove')->middleware('access:kantor,remove');
         Route::delete('/{kantor}/destroy', 'destroy')->name('.destroy')->middleware('access:kantor,destroy');
+        Route::prefix('/import')->name('.import')->group(function (): void {
+            Route::post('/', 'import')->middleware('access:kantor,create');
+            Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:kantor,create');
+        });
     });
 
 /**
@@ -65,6 +64,10 @@ Route::controller(KomoditiController::class)
         Route::delete('/{komoditi}', 'remove')->name('.remove')->middleware('access:komoditi,remove');
         Route::patch('/{komoditi}/restore', 'restore')->name('.restore')->middleware('access:komoditi,destroy');
         Route::delete('/{komoditi}/destroy', 'destroy')->name('.destroy')->middleware('access:komoditi,destroy');
+        Route::prefix('/import')->name('.import')->group(function (): void {
+            Route::post('/', 'import')->middleware('access:komoditi,create');
+            Route::get('/template', 'downloadTemplateImport')->name('.template')->middleware('access:komoditi,create');
+        });
     });
 
 /**

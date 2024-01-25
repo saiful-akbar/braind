@@ -11,7 +11,10 @@ const komoditiSlice = createSlice({
         id: "",
         kode: "",
       },
-    }
+    },
+    import: {
+      open: false,
+    },
   },
 
   reducers: {
@@ -36,8 +39,22 @@ const komoditiSlice = createSlice({
     closeFormKomoditi: (state) => {
       state.form.open = false;
     },
+
+    openModalImportKomoditi: (state) => {
+      state.import.open = true;
+    },
+
+    closeModalImportKomoditi: (state) => {
+      state.import.open = false;
+    },
   },
 });
 
-export const { createKomoditi, updateKomoditi, closeFormKomoditi } = komoditiSlice.actions;
+export const {
+  createKomoditi,
+  updateKomoditi,
+  closeFormKomoditi,
+  openModalImportKomoditi,
+  closeModalImportKomoditi,
+} = komoditiSlice.actions;
 export default komoditiSlice.reducer;

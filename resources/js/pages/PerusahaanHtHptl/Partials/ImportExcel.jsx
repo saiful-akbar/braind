@@ -126,7 +126,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
   return (
     <Modal
       open={open}
-      title="Impor Excel"
+      title="Import Excel"
       maxWidth="sm"
       onClose={handleClose}
       component="form"
@@ -206,7 +206,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
           size="large"
           loading={form.processing}
         >
-          Impor
+          Import
         </LoadingButton>
       </DialogActions>
     </Modal>

@@ -24,16 +24,8 @@ const FormKomoditi = React.memo(() => {
   const { params } = app.url;
 
   // form data
-  const {
-    data,
-    setData,
-    processing,
-    errors,
-    clearErrors,
-    reset,
-    post,
-    patch,
-  } = useForm(komoditi.form.data);
+  const { data, setData, processing, errors, clearErrors, reset, post, patch } =
+    useForm(komoditi.form.data);
 
   /**
    * Update form saat modal dibuka
@@ -55,9 +47,12 @@ const FormKomoditi = React.memo(() => {
   /**
    * fungsi untuk menangani ketika form diisi.
    */
-  const handleChange = React.useCallback((e) => {
-    setData(e.target.name, e.target.value);
-  }, [setData]);
+  const handleChange = React.useCallback(
+    (e) => {
+      setData(e.target.name, e.target.value);
+    },
+    [setData]
+  );
 
   /**
    * fungsi untuk menyimpan data komoditi baru
@@ -75,11 +70,11 @@ const FormKomoditi = React.memo(() => {
       onError: () => {
         dispatch(
           openNotification({
-            status: 'error',
-            message: 'Terjadi kesalahan, periksa kembali inpurtan anda.',
+            status: "error",
+            message: "Terjadi kesalahan, periksa kembali inpurtan anda.",
           })
         );
-      }
+      },
     });
   };
 
@@ -87,7 +82,7 @@ const FormKomoditi = React.memo(() => {
    * Fungsi untuk fetch update data komoditi
    */
   const handleUpdate = () => {
-    const url = route('komoditi.update', {
+    const url = route("komoditi.update", {
       komoditi: data.id,
       _query: params,
     });
@@ -100,26 +95,29 @@ const FormKomoditi = React.memo(() => {
       onError: () => {
         dispatch(
           openNotification({
-            status: 'error',
-            message: 'Terjadi kesalahan, periksa kembali inpurtan anda.',
+            status: "error",
+            message: "Terjadi kesalahan, periksa kembali inpurtan anda.",
           })
         );
-      }
+      },
     });
   };
 
   /**
    * Fungsi untuk menangani ketika form di-submit
    */
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    if (komoditi.form.type === "create") {
-      handleCreate();
-    } else {
-      handleUpdate();
-    }
-  }, [handleCreate, komoditi, handleUpdate]);
+      if (komoditi.form.type === "create") {
+        handleCreate();
+      } else {
+        handleUpdate();
+      }
+    },
+    [handleCreate, komoditi, handleUpdate]
+  );
 
   return (
     <Dialog
@@ -132,7 +130,9 @@ const FormKomoditi = React.memo(() => {
       onSubmit={handleSubmit}
     >
       <DialogTitle>
-        {komoditi.form.type === "create" ? "Tambah kode komoditi" : "Edit kode komoditi"}
+        {komoditi.form.type === "create"
+          ? "Tambah kode komoditi"
+          : "Edit kode komoditi"}
       </DialogTitle>
 
       <DialogContent dividers sx={{ py: 3 }}>
@@ -149,7 +149,7 @@ const FormKomoditi = React.memo(() => {
         />
       </DialogContent>
 
-      <DialogActions sx={{ py: 3 }}>
+      <DialogActions sx={{ p: 3 }}>
         <Button
           type="button"
           variant="outlined"

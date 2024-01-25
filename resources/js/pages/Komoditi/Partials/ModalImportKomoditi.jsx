@@ -1,5 +1,5 @@
 import Modal from "@/components/Modal";
-import { closeModalImportKantor } from "@/redux/reducers/kantorReducer";
+import { closeModalImportKomoditi } from "@/redux/reducers/komoditiReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { useForm, usePage } from "@inertiajs/react";
 import { LoadingButton } from "@mui/lab";
@@ -12,66 +12,66 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import { saveAs } from "file-saver";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { saveAs } from "file-saver";
 
 /**
- * Komponen modal untuk import excel data kantor.
- *
- * @returns {React.ReactElement}
+ * Komponen modal untuk import data kode komoditi
  */
-const ModalImportKantor = () => {
-  const { open } = useSelector((state) => state.kantor.import);
+const ModalImportKomoditi = () => {
+  const komoditi = useSelector((state) => state.komoditi);
   const dispatch = useDispatch();
   const { app } = usePage().props;
   const { params } = app.url;
 
-  // state
-  const [downloading, setDownloading] = useState(false);
-
   // form data
   const form = useForm({
     file: "",
-    _token: app.csrf,
   });
 
   // state
+  const [downloading, setDownloading] = useState(false);
   const [errors, setErrors] = useState([]);
+
+  /**
+   * Update form data
+   */
+  useEffect(() => {
+    form.setData("file", "");
+    form.clearErrors();
+    setErrors([]);
+  }, [komoditi.import.open]);
 
   /**
    * fungsi untuk menutup modal
    */
-  const handleCloseModal = useCallback(() => {
+  const handleClose = useCallback(() => {
     if (!form.processing) {
-      dispatch(closeModalImportKantor());
-      setErrors([]);
+      dispatch(closeModalImportKomoditi());
     }
-  }, [form, setErrors]);
+  }, [form, dispatch]);
 
   /**
-   * fungsi untuk download template import
+   * fungsii untuk download template import
    */
-  const handleDownloadTemplate = useCallback(async () => {
+  const handleDownloadTemplateImport = async () => {
     setDownloading(true);
 
     try {
       const response = await axios({
         method: "get",
-        url: route("kantor.import.template"),
+        url: route("komoditi.import.template"),
         responseType: "blob",
       });
 
       if (response.status === 200) {
-        // simpan dan download template
-        saveAs(response.data, "template_import_kantor.xlsx");
-
-        // hentikan loading dan tampilkan notifikasi.
+        saveAs(response.data, "template_import_kode_komoditi.xlsx");
         setDownloading(false);
         dispatch(
           openNotification({
             status: "success",
-            message: "Template berhasil didownload.",
+            message: "Download template berhasil.",
           })
         );
       }
@@ -84,43 +84,40 @@ const ModalImportKantor = () => {
         })
       );
     }
-  }, [setDownloading, dispatch]);
+  };
 
   /**
-   * fungsi untuk menangani ketika form diisi
+   * fungsi untuk mengatasi ketika form disis
    */
-  const handleChange = useCallback(
-    (e) => {
-      const { files, name } = e.target;
+  const handleInputChange = (e) => {
+    const { name, files } = e.target;
 
-      if (files.length > 0) {
-        form.setData(name, files[0]);
-      }
-    },
-    [form]
-  );
+    if (files.length > 0) {
+      form.setData(name, files[0]);
+    }
+  };
 
   /**
-   * fungsi untuk menangani ketika form di-submit
+   * fungsi untuk mengatasi ketika form di-submit
    */
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const url = route("kantor.import", {
+    const url = route("komoditi.import", {
       _query: params,
     });
 
     form.post(url, {
       preserveScroll: true,
       onSuccess: () => {
-        handleCloseModal();
+        handleClose();
       },
       onError: (error) => {
         setErrors(Object.values(error));
         dispatch(
           openNotification({
             status: "error",
-            message: "Terjadi kesalahan, import data kantor gagal.",
+            message: "Terjadi kesalahan. import kode komoditi gagal.",
           })
         );
       },
@@ -129,11 +126,10 @@ const ModalImportKantor = () => {
 
   return (
     <Modal
+      open={komoditi.import.open}
       title="Import Excel"
-      open={open}
-      onClose={handleCloseModal}
+      onClose={handleClose}
       loading={form.processing}
-      maxWidth="sm"
       component="form"
       autoComplete="off"
       encType="multipart/form-data"
@@ -161,7 +157,7 @@ const ModalImportKantor = () => {
               variant="contained"
               loading={downloading}
               disabled={form.processing}
-              onClick={handleDownloadTemplate}
+              onClick={handleDownloadTemplateImport}
             >
               Download Template
             </LoadingButton>
@@ -174,7 +170,7 @@ const ModalImportKantor = () => {
               label="Upload file"
               name="file"
               type="file"
-              onChange={handleChange}
+              onChange={handleInputChange}
               disabled={form.processing}
               error={Boolean(form.errors.file)}
               helperText={form.errors.file}
@@ -195,10 +191,10 @@ const ModalImportKantor = () => {
       <DialogActions sx={{ p: 3 }}>
         <Button
           type="button"
+          size="large"
           color="primary"
           variant="outlined"
-          size="large"
-          onClick={handleCloseModal}
+          onClick={handleClose}
           disabled={form.processing}
         >
           Tutup
@@ -206,9 +202,9 @@ const ModalImportKantor = () => {
 
         <LoadingButton
           type="submit"
+          size="large"
           color="primary"
           variant="contained"
-          size="large"
           loading={form.processing}
         >
           Import
@@ -218,4 +214,4 @@ const ModalImportKantor = () => {
   );
 };
 
-export default ModalImportKantor;
+export default ModalImportKomoditi;

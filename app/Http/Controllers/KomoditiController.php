@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Response;
 use App\Models\Komoditi;
-use App\Exports\KomoditiExport;
-use App\Http\Requests\Komoditi\KomoditiRequest;
-use App\Http\Requests\Komoditi\StoreKomoditiRequest;
-use App\Http\Requests\Komoditi\UpdateKomoditiRequest;
 use Illuminate\Http\Request;
+use App\Exports\KomoditiExport;
+use App\Imports\KomoditiImport;
 use Illuminate\Http\JsonResponse;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response as HttpResponse;
-use Inertia\Response;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\Komoditi\KomoditiRequest;
+use App\Exports\Templates\KomoditiTemplateExport;
+use App\Http\Requests\Komoditi\StoreKomoditiRequest;
+use App\Http\Requests\Komoditi\UpdateKomoditiRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class KomoditiController extends Controller
@@ -38,7 +40,7 @@ class KomoditiController extends Controller
     public function store(StoreKomoditiRequest $request): RedirectResponse
     {
         $request->insert();
-        
+
         return to_route('komoditi', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Kode komoditi berhasil ditambahkan.',
@@ -51,7 +53,7 @@ class KomoditiController extends Controller
     public function update(UpdateKomoditiRequest $request, Komoditi $komoditi): RedirectResponse
     {
         $request->update();
-        
+
         return to_route('komoditi', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Kode komoditi berhasil dirubah.',
@@ -61,11 +63,11 @@ class KomoditiController extends Controller
     /**
      * Hapus komoditi (soft deleted).
      */
-    public function remove(Komoditi $komoditi): RedirectResponse
+    public function remove(Request $request, Komoditi $komoditi): RedirectResponse
     {
         $komoditi->delete();
 
-        return to_route('komoditi')->with([
+        return to_route('komoditi', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Komoditi berhasil dihapus.'
         ]);
@@ -79,7 +81,7 @@ class KomoditiController extends Controller
         $komoditi = Komoditi::onlyTrashed()->findOrFail($id);
         $komoditi->restore();
 
-        return to_route('komoditi', $request->all())->with([
+        return to_route('komoditi', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Komoditi berhasil dipulihkan.'
         ]);
@@ -93,7 +95,7 @@ class KomoditiController extends Controller
         $komoditi = Komoditi::onlyTrashed()->findOrFail($id);
         $komoditi->forceDelete();
 
-        return to_route('komoditi', $request->all())->with([
+        return to_route('komoditi', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Komoditi berhasil dihapus selamanya.'
         ]);
@@ -105,8 +107,34 @@ class KomoditiController extends Controller
     public function export(Request $request): BinaryFileResponse
     {
         $access = $this->getAccessByRoute('komoditi');
-        $name = "komoditi_export.xlsx";
+        $name = "kode_komoditi_export.xlsx";
 
         return Excel::download(new KomoditiExport($request, $access), $name);
+    }
+
+    /**
+     * Download template import
+     */
+    public function downloadTemplateImport(): BinaryFileResponse
+    {
+        $name = 'template_import_kode_komoditi.xlsx';
+        return Excel::download(new KomoditiTemplateExport, $name);
+    }
+
+    /**
+     * Import excel
+     */
+    public function import(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls|max:100000'
+        ]);
+
+        Excel::import(new KomoditiImport, $request->file('file'));
+
+        return to_route('komoditi', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Import berhasil.'
+        ]);
     }
 }

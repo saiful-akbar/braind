@@ -2,7 +2,10 @@ import TableActionButton from "@/components/Buttons/TableActionButton";
 import CardPaper from "@/components/CardPaper";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
-import { createKomoditi } from "@/redux/reducers/komoditiReducer";
+import {
+  createKomoditi,
+  openModalImportKomoditi,
+} from "@/redux/reducers/komoditiReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { router, usePage } from "@inertiajs/react";
 import { Box, Button, CardContent, Grid } from "@mui/material";
@@ -13,6 +16,7 @@ import { useDispatch } from "react-redux";
 import FilterStatusKomoditi from "./Partials/FilterStatusKomoditi";
 import FormCommodity from "./Partials/FormKomoditi";
 import SearchKomoditi from "./Partials/SearchKomoditi";
+import ModalImportKomoditi from "./Partials/ModalImportKomoditi";
 
 /**
  * Komponen template untuk halaman commodity.
@@ -57,11 +61,11 @@ const KomoditiTemplate = ({ children }) => {
       });
 
       setLoading(false);
-      saveAs(response.data, `braind_master_komoditi.xlsx`);
+      saveAs(response.data, "komoditi_export.xlsx");
       dispatch(
         openNotification({
           status: "success",
-          message: "Ekspor komoditi berhasil.",
+          message: "Export berhasil.",
         })
       );
     } catch (error) {
@@ -69,11 +73,18 @@ const KomoditiTemplate = ({ children }) => {
       dispatch(
         openNotification({
           status: "error",
-          message: "Terjadi kesalahan, Ekspor komoditi gagal.",
+          message: "Terjadi kesalahan, Export gagal.",
         })
       );
     }
   }, [setLoading, dispatch, params, app]);
+
+  /**
+   * fungsi untuk membuka modal import
+   */
+  const handleOpenModalImport = useCallback(() => {
+    dispatch(openModalImportKomoditi());
+  }, [dispatch]);
 
   return (
     <>
@@ -114,6 +125,7 @@ const KomoditiTemplate = ({ children }) => {
                   import={access.create}
                   onReload={handleReload}
                   onExport={handleExport}
+                  onImport={handleOpenModalImport}
                 />
               </Grid>
             </Grid>
@@ -122,7 +134,13 @@ const KomoditiTemplate = ({ children }) => {
           {children}
         </CardPaper>
 
+        {/* komponen modal create & update kode komoditi */}
         <FormCommodity />
+
+        {/* komponen modal import excel kode komoditi */}
+        <ModalImportKomoditi />
+
+        {/* komponen loader */}
         <Loader open={loading} />
       </Box>
     </>
