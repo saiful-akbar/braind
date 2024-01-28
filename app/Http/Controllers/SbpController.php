@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Sbp;
 use Inertia\Response;
-use App\Models\Kantor;
 use App\Exports\SbpExport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -13,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Sbp\StoreSbpRequest;
 use App\Http\Requests\Sbp\UpdateSbpRequest;
 use Illuminate\Http\JsonResponse;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SbpController extends Controller
@@ -39,32 +39,15 @@ class SbpController extends Controller
     }
 
     /**
-     * Menampilkan halaman tambah data SBP
-     */
-    public function create(): Response
-    {
-        $access = $this->getAccessByRoute('sbp');
-        $kantor = Kantor::select('id as value', 'nama as label')
-            ->orderBy('nama', 'desc')
-            ->get();
-
-        return $this->render(
-            component: 'Sbp/Create/index',
-            data: compact('kantor'),
-            access: $access,
-        );
-    }
-
-    /**
      * Tambahkan sbp baru pada database
      */
     public function store(StoreSbpRequest $request): RedirectResponse
     {
         $request->insert();
 
-        return to_route('sbp.create')->with([
+        return to_route('sbp', $request->query())->with([
             'flash.status' => 'success',
-            'flash.message' => 'Data SBP berhasil ditambahkan.'
+            'flash.message' => 'SBP berhasil ditambahkan.'
         ]);
     }
 
@@ -74,27 +57,9 @@ class SbpController extends Controller
     public function export(Request $request): BinaryFileResponse
     {
         $access = $this->getAccessByRoute('sbp');
-        $name = 'braind_master_sbp.xlsx';
+        $name = 'sbp_export.xlsx';
 
         return Excel::download(new SbpExport($request, $access), $name);
-    }
-
-    /**
-     * Menampilkan halaman edit SBP
-     */
-    public function edit(Sbp $sbp): Response
-    {
-        $kantor = Kantor::select('id as value', 'nama as label')
-            ->orderBy('nama', 'desc')
-            ->get();
-
-        return $this->render(
-            component: 'Sbp/Edit/index',
-            data: [
-                'sbp' => $sbp,
-                'kantor' => $kantor,
-            ],
-        );
     }
 
     /**
@@ -102,42 +67,50 @@ class SbpController extends Controller
      */
     public function update(UpdateSbpRequest $request, Sbp $sbp): RedirectResponse
     {
-        $request->update();
+        $request->update($sbp);
 
-        return to_route('sbp.edit', ['sbp' => $sbp->id])->with([
+        return to_route('sbp', $request->query())->with([
             'flash.status' => 'success',
-            'flash.message' => 'Data SBP berhasil diperbarui.',
+            'flash.message' => 'SBP berhasil diperbarui.',
         ]);
     }
 
     /**
      * Remove data SBP (soft delete)
      */
-    public function remove(Sbp $sbp): JsonResponse
+    public function remove(Request $request, Sbp $sbp): RedirectResponse
     {
         $sbp->delete();
-        return $this->jsonResponse();
+
+        return to_route('sbp', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'SBP berhasil dihapus.'
+        ]);
     }
 
     /**
      * Restore data SBP
      */
-    public function restore(string $id): JsonResponse
+    public function restore(Request $request, string $id): RedirectResponse
     {
-        $sbp = Sbp::onlyTrashed()->findOrFail($id);
-        $sbp->restore();
+        Sbp::onlyTrashed()->findOrFail($id)->restore();
 
-        return $this->jsonResponse();
+        return to_route('sbp', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'SBP berhasil dipuihkan.'
+        ]);
     }
 
     /**
      * Destroy data SBP (permanent delete)
      */
-    public function destroy(string $id): JsonResponse
+    public function destroy(Request $request, string $id): RedirectResponse
     {
-        $sbp = Sbp::onlyTrashed()->findOrFail($id);
-        $sbp->forceDelete();
+        Sbp::onlyTrashed()->findOrFail($id)->forceDelete();
 
-        return $this->jsonResponse();
+        return to_route('sbp', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'SBP berhasil dihapus selamanya.'
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Sbp;
 
+use App\Models\Sbp;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSbpRequest extends FormRequest
@@ -32,13 +33,13 @@ class UpdateSbpRequest extends FormRequest
     /**
      * perbarui data SBP dan simpan ke database
      */
-    public function update(): void
+    public function update(Sbp $sbp): void
     {
-        $this->sbp->kantor_id = $this->kantor_id;
-        $this->sbp->jumlah = $this->jumlah;
-        $this->sbp->tindak_lanjut = $this->tindak_lanjut;
-        $this->sbp->tanggal_input = $this->tanggal_input;
+        $sbp->kantor_id = $this->kantor_id;
+        $sbp->jumlah = $this->jumlah;
+        $sbp->tindak_lanjut = $this->tindak_lanjut;
+        $sbp->tanggal_input = $this->tanggal_input;
 
-        $this->sbp->save();
+        $sbp->save();
     }
 }

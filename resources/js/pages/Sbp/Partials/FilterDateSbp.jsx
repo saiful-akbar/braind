@@ -79,7 +79,7 @@ const FilterDateSbp = () => {
             <Button
               fullWidth
               type="button"
-              color="secondary"
+              color="primary"
               variant="contained"
               disabled={processing}
               onClick={handleSubmit}

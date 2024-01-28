@@ -1,89 +1,47 @@
-import DownloadButton from "@/components/Buttons/DownloadButton";
-import RefreshButton from "@/components/Buttons/RefreshButton";
+import TableActionButton from "@/components/Buttons/TableActionButton";
 import CardPaper from "@/components/CardPaper";
 import Header from "@/components/Header";
-import Loader from "@/components/Loader";
-import { openNotification } from "@/redux/reducers/notificationReducer";
-import { Link, router, usePage } from "@inertiajs/react";
+import useSbp from "@/hooks/useSbp";
 import { Box, Button, CardContent, Grid } from "@mui/material";
-import { saveAs } from "file-saver";
 import PropTypes from "prop-types";
-import { Fragment, useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
-import FilterStatusSbp from "./Partials/FilterStatusSbp";
-import SearchSbp from "./Partials/SearchSbp";
+import { Fragment } from "react";
 import FilterDateSbp from "./Partials/FilterDateSbp";
+import FilterStatusSbp from "./Partials/FilterStatusSbp";
+import ModalFormSbp from "./Partials/ModalFormSbp";
+import SearchSbp from "./Partials/SearchSbp";
+import { usePage } from "@inertiajs/react";
+import ModalFormImportSbp from "./Partials/ModalFormImportSbp";
 
 /**
  * Komponen template untuk halaman SBP
+ *
+ * @param {children} props
+ * @return {React.ReactElement}
  */
 const SbpTemplate = ({ children }) => {
-  const { params } = usePage().props.app.url;
-  const dispatch = useDispatch();
-
-  // state
-  const [loading, setLoading] = useState(false);
-
-  /**
-   * fungsi reload
-   */
-  const handleReload = useCallback(() => {
-    router.get(route("sbp"), params, {
-      preserveScroll: true,
-    });
-  }, [params]);
-
-  /**
-   * fungsi untuk menangani export excel
-   */
-  const handleExport = useCallback(async () => {
-    setLoading(true);
-
-    try {
-      const response = await axios({
-        method: "get",
-        responseType: "blob",
-        url: route("sbp.export"),
-        params,
-      });
-
-      setLoading(false);
-      saveAs(response.data, `braind_master_sbp.xlsx`);
-      dispatch(
-        openNotification({
-          status: "success",
-          message: "Ekspor SBP berhasil.",
-        })
-      );
-    } catch (error) {
-      console.dir(error);
-      setLoading(false);
-      dispatch(
-        openNotification({
-          status: "error",
-          message: "Terjadi kesalahan, Ekspor SBP gagal.",
-        })
-      );
-    }
-  }, [setLoading, dispatch, params, app]);
+  const { exportExcel, reload, openModalForm } = useSbp();
+  const { openForm: openFormImport } = useSbp().import;
+  const { access } = usePage().props;
 
   return (
     <Fragment>
       <Header
         title="Master SBP"
         action={
-          <Button
-            type="button"
-            color="primary"
-            variant="contained"
-            component={Link}
-            href={route("sbp.create")}
-          >
-            Tambah SBP
-          </Button>
+          access.create ? (
+            <Button
+              type="button"
+              color="primary"
+              variant="contained"
+              onClick={() => openModalForm()}
+            >
+              Tambah SBP
+            </Button>
+          ) : null
         }
       />
 
+      {/* Komponen untuk table */}
       <Box component="main" sx={{ mt: 5 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -94,20 +52,23 @@ const SbpTemplate = ({ children }) => {
             <CardPaper>
               <CardContent>
                 <Grid container spacing={3} justifyContent="space-between">
-                  <Grid item xs={12} md={2}>
-                    <DownloadButton
-                      title="Export excel"
-                      onClick={handleExport}
-                    />
-                    <RefreshButton title="Muat ulang" onClick={handleReload} />
-                  </Grid>
-
-                  <Grid item xs={12} md={5}>
+                  <Grid item xs={12} md={4.5}>
                     <FilterStatusSbp />
                   </Grid>
 
-                  <Grid item xs={12} md={5}>
+                  <Grid item xs={12} md={4.5}>
                     <SearchSbp />
+                  </Grid>
+
+                  <Grid item xs={12} md={3}>
+                    <TableActionButton
+                      reload
+                      import
+                      export
+                      onReload={reload}
+                      onExport={exportExcel}
+                      onImport={openFormImport}
+                    />
                   </Grid>
                 </Grid>
               </CardContent>
@@ -118,7 +79,11 @@ const SbpTemplate = ({ children }) => {
         </Grid>
       </Box>
 
-      <Loader open={loading} />
+      {/* Komponen modal form create & update */}
+      <ModalFormSbp />
+
+      {/* Komponen modal form import */}
+      <ModalFormImportSbp />
     </Fragment>
   );
 };

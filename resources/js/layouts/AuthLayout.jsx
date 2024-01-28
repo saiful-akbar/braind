@@ -6,9 +6,13 @@ import { Box, Container } from "@mui/material";
 import Sidebar from "@/components/Sidebar";
 import Settings from "@/components/Settings";
 import Notification from "@/components/Notification";
-import { openNotification, closeNotification } from "@/redux/reducers/notificationReducer";
+import {
+  openNotification,
+  closeNotification,
+} from "@/redux/reducers/notificationReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { usePage } from "@inertiajs/react";
+import Loader from "@/components/Loader";
 
 /**
  * Auth layout
@@ -17,8 +21,9 @@ import { usePage } from "@inertiajs/react";
  * @returns {React.ReactElement}
  */
 const AuthLayout = (props) => {
-  const { title, children } = props; // redux
+  const { title, children } = props;
   const sidebar = useSelector((state) => state.sidebar);
+  const loading = useSelector((state) => state.loading);
   const dispatch = useDispatch();
   const { flash } = usePage().props;
 
@@ -63,6 +68,7 @@ const AuthLayout = (props) => {
 
         <Settings />
         <Notification />
+        <Loader open={loading.open} />
       </Box>
     </BaseLayout>
   );

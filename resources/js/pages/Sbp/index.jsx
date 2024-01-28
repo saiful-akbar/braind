@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import RestoreConfirmation from "@/components/RestoreConfirmation";
+import useSbp from "@/hooks/useSbp";
 
 /**
  * Halaman utama SBP
@@ -16,8 +17,6 @@ const Sbp = (props) => {
   const { data, pagination, access, app } = props;
   const { params } = app.url;
   const status = params.status ?? "aktif";
-  const order = params.order ?? "asc";
-  const orderBy = params.order_by ?? "kantor_nama";
   const dispatch = useDispatch();
 
   const columns = [
@@ -48,7 +47,7 @@ const Sbp = (props) => {
     {
       field: "jumlah",
       label: "Jumlah",
-      align: "left",
+      align: "right",
       format: "decimal",
       sort: true,
       show: true,
@@ -56,7 +55,7 @@ const Sbp = (props) => {
     {
       field: "tindak_lanjut",
       label: "Tidak lanjut",
-      align: "left",
+      align: "right",
       format: "decimal",
       sort: true,
       show: true,
@@ -83,70 +82,10 @@ const Sbp = (props) => {
   const [deleteId, setDeleteId] = useState(null);
   const [deleteType, setDeleteType] = useState("remove");
   const [deleting, setDeleting] = useState(false);
-
   const [restoreId, setRestoreId] = useState(null);
   const [restoring, setRestoring] = useState(false);
 
-  /**
-   * fungsi untuk redirect ke halaman edit
-   */
-  const handleUpdate = useCallback((id) => {
-    router.get(
-      route("sbp.edit", {
-        sbp: id,
-      })
-    );
-  }, []);
-
-  /**
-   * fungsi untuk request data SBP
-   */
-  const fetchData = useCallback((parameters) => {
-    router.get(route("sbp"), parameters, {
-      preserveScroll: true,
-    });
-  }, []);
-
-  /**
-   * fungsi untuk menangani sort pada tabel
-   */
-  const handleOrder = useCallback(
-    (column) => {
-      fetchData({
-        ...params,
-        order_by: column,
-        order: orderBy === column && order === "asc" ? "desc" : "asc",
-      });
-    },
-    [fetchData, params, order, orderBy]
-  );
-
-  /**
-   * fungsi untuk mengatasi ketika halaman pada table dirubah
-   */
-  const handlePageChange = useCallback(
-    (newPage) => {
-      fetchData({
-        ...params,
-        page: newPage + 1,
-      });
-    },
-    [fetchData, params]
-  );
-
-  /**
-   * fungsi untuk menangani ketika baris per halaman pada tabel dirubah
-   */
-  const handleRowsPerPageChange = useCallback(
-    (e) => {
-      fetchData({
-        ...params,
-        page: 1,
-        per_page: e.target.value,
-      });
-    },
-    [fetchData, params]
-  );
+  const { openModalForm, table } = useSbp();
 
   /**
    * fungsi untuk membuka modal konfirmasi hapus
@@ -170,40 +109,26 @@ const Sbp = (props) => {
   /**
    * fungsi request untuk menghapus data sbp
    */
-  const handleDelete = useCallback(async () => {
-    setDeleting(true);
+  const handleDelete = useCallback(() => {
+    const url = route(`sbp.${deleteType}`, {
+      sbp: deleteId,
+      _query: params,
+    });
 
-    try {
-      const response = await axios({
-        method: "delete",
-        data: {
-          _token: app.csrf,
-        },
-        url: route(`sbp.${deleteType}`, {
-          sbp: deleteId,
-        }),
-      });
-
-      if (response.status === 200) {
-        router.reload();
-        setDeleting(false);
-        handleCloseDeleteConfirmation();
+    router.delete(url, {
+      preserveScroll: true,
+      onStart: () => setDeleting(true),
+      onFinish: () => setDeleting(false),
+      onSuccess: () => handleCloseDeleteConfirmation(),
+      onError: () => {
         dispatch(
           openNotification({
-            status: "success",
-            message: "Data SBP berhasil dihapus.",
+            status: "error",
+            message: "Terjadi kesalahan. Gagal menghapus SBP.",
           })
         );
-      }
-    } catch (error) {
-      setDeleting(false);
-      dispatch(
-        openNotification({
-          status: "error",
-          message: "Terjadi kesalahan, gagal menghpaus data SBP",
-        })
-      );
-    }
+      },
+    });
   }, [
     deleteId,
     deleteType,
@@ -233,40 +158,26 @@ const Sbp = (props) => {
   /**
    * fungsi request untuk restore data sbp
    */
-  const handleRestore = useCallback(async () => {
-    setRestoring(true);
+  const handleRestore = useCallback(() => {
+    const url = route("sbp.restore", {
+      sbp: restoreId,
+      _query: params,
+    });
 
-    try {
-      const response = await axios({
-        method: "patch",
-        data: {
-          _token: app.csrf,
-        },
-        url: route(`sbp.restore`, {
-          sbp: restoreId,
-        }),
-      });
-
-      if (response.status === 200) {
-        router.reload();
-        setRestoring(false);
-        handleCloseRestoreConfirmation();
+    router.patch(url, null, {
+      preserveScroll: true,
+      onStart: () => setRestoring(true),
+      onFinish: () => setRestoring(false),
+      onSuccess: () => handleCloseRestoreConfirmation(),
+      onError: () => {
         dispatch(
           openNotification({
-            status: "success",
-            message: "Data SBP berhasil dipulihkan.",
+            status: "error",
+            message: "Terjadi kesalahan. SBP gagal dipulihkan.",
           })
         );
-      }
-    } catch (error) {
-      setRestoring(false);
-      dispatch(
-        openNotification({
-          status: "error",
-          message: "Terjadi kesalahan, gagal memulihkan data SBP",
-        })
-      );
-    }
+      },
+    });
   }, [restoreId, setRestoring, handleCloseRestoreConfirmation, dispatch]);
 
   return (
@@ -275,13 +186,13 @@ const Sbp = (props) => {
         columns={columns}
         data={data}
         from={pagination.from}
-        order={order}
-        orderBy={orderBy}
+        orderBy={params.order_by ?? "kantor_nama"}
+        order={params.order ?? "asc"}
         update={Boolean(access.update && status === "aktif")}
         remove={Boolean(access.remove && status === "aktif")}
         destroy={Boolean(access.destroy && status === "dihapus")}
-        onOrder={handleOrder}
-        onUpdate={(row) => handleUpdate(row.id)}
+        onOrder={table.onOrder}
+        onUpdate={(row) => openModalForm(row)}
         onRemove={(row) => handleOpenDeleteConfirmation("remove", row.id)}
         onDestroy={(row) => handleOpenDeleteConfirmation("destroy", row.id)}
         onRestore={(row) => handleOpenRestoreConfirmation(row.id)}
@@ -289,8 +200,8 @@ const Sbp = (props) => {
           count: pagination.total,
           page: pagination.page - 1,
           rowsPerPage: pagination.per_page,
-          onPageChange: (event, page) => handlePageChange(page),
-          onRowsPerPageChange: (event) => handleRowsPerPageChange(event),
+          onPageChange: (event, page) => table.onPageChange(page),
+          onRowsPerPageChange: (event) => table.onRowsPerPageChange(event),
         }}
       />
 

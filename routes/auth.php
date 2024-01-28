@@ -108,14 +108,19 @@ Route::controller(SbpController::class)
     ->prefix('/sbp')
     ->group(function (): void {
         Route::get('/', 'index')->middleware('access:sbp,read');
-        Route::get('/create', 'create')->name('.create')->middleware('access:sbp,create');
         Route::post('/store', 'store')->name('.store')->middleware('access:sbp,create');
         Route::get('/export', 'export')->name('.export')->middleware('access:sbp,read');
-        Route::get('/{sbp}/edit', 'edit')->name('.edit')->middleware('access:sbp,update');
         Route::patch('/{sbp}', 'update')->name('.update')->middleware('access:sbp,update');
         Route::delete('/{sbp}', 'remove')->name('.remove')->middleware('access:sbp,remove');
         Route::patch('/{sbp}/restore', 'restore')->name('.restore')->middleware('access:sbp,destroy');
         Route::delete('/{sbp}/destroy', 'destroy')->name('.destroy')->middleware('access:sbp,destroy');
+
+        Route::prefix('/import')
+            ->name('.import')
+            ->group(function (): void {
+                Route::post('/', 'import')->middleware('access:sbp,create');
+                Route::get('/template', 'downloadTemplateImport')->middleware('access:sbp,create');
+            });
     });
 
 /**
