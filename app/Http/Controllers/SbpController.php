@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Sbp;
 use Inertia\Response;
 use App\Exports\SbpExport;
+use App\Exports\Templates\SbpTemplateExport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Sbp\SbpRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Sbp\StoreSbpRequest;
 use App\Http\Requests\Sbp\UpdateSbpRequest;
+use App\Imports\SbpImport;
 use Illuminate\Http\JsonResponse;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -111,6 +113,31 @@ class SbpController extends Controller
         return to_route('sbp', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'SBP berhasil dihapus selamanya.'
+        ]);
+    }
+
+    /**
+     * download template import
+     */
+    public function downloadTemplateImport(): BinaryFileResponse
+    {
+        return Excel::download(new SbpTemplateExport, 'template_import_sbp.xlsx');
+    }
+
+    /**
+     * import excel
+     */
+    public function import(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls|max:10000'
+        ]);
+
+        Excel::import(new SbpImport, $request->file('file'));
+
+        return to_route('sbp', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Import berhasil.'
         ]);
     }
 }

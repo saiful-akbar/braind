@@ -183,7 +183,7 @@ const useSbp = () => {
       onPageChange,
       onRowsPerPageChange,
     },
-    import: {
+    importExcel: {
       openForm: openFormImport,
       closeForm: closeFormImport,
       downloadTemplate: downloadTemplateImport,

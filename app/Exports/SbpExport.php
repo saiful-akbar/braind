@@ -63,9 +63,9 @@ class SbpExport implements FromView, WithStyles, ShouldAutoSize
             ]);
 
         // periksa role user.
+        // jika bukan sebagai admin tampilkan hanya data yang sesuai dengan kantonya.
         // jika user sebagai admin tampilkan semua data.
-        // jika bukan admin tampilkan hanya sbp yang sesuai dengan kantonya.
-        if (user()->admin) {
+        if (!user()->admin) {
             $this->query->where('kantor.id', user()->kantor_id);
         }
 

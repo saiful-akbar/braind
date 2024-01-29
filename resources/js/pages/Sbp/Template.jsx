@@ -20,7 +20,7 @@ import ModalFormImportSbp from "./Partials/ModalFormImportSbp";
  */
 const SbpTemplate = ({ children }) => {
   const { exportExcel, reload, openModalForm } = useSbp();
-  const { openForm: openFormImport } = useSbp().import;
+  const { openForm: openFormImport } = useSbp().importExcel;
   const { access } = usePage().props;
 
   return (
@@ -53,11 +53,11 @@ const SbpTemplate = ({ children }) => {
               <CardContent>
                 <Grid container spacing={3} justifyContent="space-between">
                   <Grid item xs={12} md={4.5}>
-                    <FilterStatusSbp />
+                    <SearchSbp />
                   </Grid>
 
                   <Grid item xs={12} md={4.5}>
-                    <SearchSbp />
+                    <FilterStatusSbp />
                   </Grid>
 
                   <Grid item xs={12} md={3}>

@@ -114,15 +114,15 @@ const Template = ({ children }) => {
               justifyContent="space-between"
               alignItems="center"
             >
+              <Grid item xs={12} md={4.5}>
+                <SearchKantor />
+              </Grid>
+
               {access.destroy && (
                 <Grid item xs={12} md={4.5}>
                   <FilterStatusKantor />
                 </Grid>
               )}
-
-              <Grid item xs={12} md={4.5}>
-                <SearchKantor />
-              </Grid>
 
               <Grid item xs={12} md={3}>
                 <TableActionButton

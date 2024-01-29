@@ -61,8 +61,8 @@ class SbpRequest extends FormRequest implements Pagination
             ]);
 
         // periksa role user.
+        // jika bukan sebagai admin tampilkan hanya data yang sesuai dengan kantonya.
         // jika user sebagai admin tampilkan semua data.
-        // jika bukan admin tampilkan hanya sbp yang sesuai dengan kantonya.
         if (!user()->admin) {
             $sbp->where('kantor.id', user()->kantor_id);
         }

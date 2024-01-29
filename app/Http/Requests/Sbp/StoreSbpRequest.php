@@ -23,8 +23,8 @@ class StoreSbpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kantor_id' => 'nullable|exists:kantor,id',
-            'jumlah' => 'required|numeric|min:0',
+            'kantor_id'     => 'nullable|exists:kantor,id',
+            'jumlah'        => 'required|numeric|min:0',
             'tindak_lanjut' => 'required|numeric|min:0',
             'tanggal_input' => 'nullable|date',
         ];

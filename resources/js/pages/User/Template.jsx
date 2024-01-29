@@ -1,5 +1,5 @@
-import DownloadButton from "@/components/Buttons/DownloadButton";
-import RefreshButton from "@/components/Buttons/RefreshButton";
+import TableActionButton from "@/components/Buttons/TableActionButton";
+import CardPaper from "@/components/CardPaper";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import { openNotification } from "@/redux/reducers/notificationReducer";
@@ -11,7 +11,6 @@ import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import FilterStatusUser from "./Partials/FilterStatusUser";
 import SearchUser from "./Partials/SearchUser";
-import CardPaper from "@/components/CardPaper";
 
 /**
  * Komponen template untuk halaman user
@@ -61,7 +60,7 @@ const UserTemplate = ({ children }) => {
   /**
    * fungsi untuk mengatasi ketika tombol refresh diklik
    */
-  const handleRefresh = useCallback(() => {
+  const handleReload = useCallback(() => {
     router.reload();
   }, []);
 
@@ -88,19 +87,23 @@ const UserTemplate = ({ children }) => {
         <CardPaper>
           <CardContent>
             <Grid container spacing={3} justifyContent="space-between">
-              <Grid item md={2} xs={12}>
-                <DownloadButton title="Ekspor Excel" onClick={handleExport} />
-                <RefreshButton onClick={handleRefresh} />
+              <Grid item md={4.5} xs={12}>
+                <SearchUser />
               </Grid>
 
               {access.destroy && (
-                <Grid item md={5} xs={12}>
+                <Grid item md={4.5} xs={12}>
                   <FilterStatusUser />
                 </Grid>
               )}
 
-              <Grid item md={5} xs={12}>
-                <SearchUser />
+              <Grid item md={3} xs={12}>
+                <TableActionButton
+                  export
+                  reload
+                  onExport={handleExport}
+                  onReload={handleReload}
+                />
               </Grid>
             </Grid>
           </CardContent>

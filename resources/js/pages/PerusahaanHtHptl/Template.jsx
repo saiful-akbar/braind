@@ -115,12 +115,14 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
               <CardContent>
                 <Grid container spacing={3}>
                   <Grid item md={4.5} xs={12}>
-                    <FilterStatus />
-                  </Grid>
-
-                  <Grid item md={4.5} xs={12}>
                     <Search />
                   </Grid>
+
+                  {access.destroy && (
+                    <Grid item md={4.5} xs={12}>
+                      <FilterStatus />
+                    </Grid>
+                  )}
 
                   <Grid item md={3} xs={12}>
                     <TableActionButton

@@ -28,8 +28,7 @@ export default function SidebarContent() {
           width: "100%",
           overflowY: "auto",
           overflowX: "hidden",
-          pb: 2,
-          mt: 2,
+          pb: 1,
         }}
       >
         <SidebarAccount ref={accountRef} />

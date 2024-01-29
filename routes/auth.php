@@ -119,7 +119,7 @@ Route::controller(SbpController::class)
             ->name('.import')
             ->group(function (): void {
                 Route::post('/', 'import')->middleware('access:sbp,create');
-                Route::get('/template', 'downloadTemplateImport')->middleware('access:sbp,create');
+                Route::get('/template', 'downloadTemplateImport')->name('.template')->middleware('access:sbp,create');
             });
     });
 
