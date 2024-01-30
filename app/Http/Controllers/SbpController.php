@@ -119,7 +119,7 @@ class SbpController extends Controller
     /**
      * download template import
      */
-    public function downloadTemplateImport(): BinaryFileResponse
+    public function downloadTemplate(): BinaryFileResponse
     {
         return Excel::download(new SbpTemplateExport, 'template_import_sbp.xlsx');
     }

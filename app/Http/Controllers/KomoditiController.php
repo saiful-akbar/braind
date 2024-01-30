@@ -115,7 +115,7 @@ class KomoditiController extends Controller
     /**
      * Download template import
      */
-    public function downloadTemplateImport(): BinaryFileResponse
+    public function downloadTemplate(): BinaryFileResponse
     {
         $name = 'template_import_kode_komoditi.xlsx';
         return Excel::download(new KomoditiTemplateExport, $name);

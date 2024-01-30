@@ -21,7 +21,7 @@
     ```
   - Jalankan file dev.sh
     ```sh
-    sh app-dev.sh
+    sh dev.sh
     ```
   - Buat database dan Atur konfigurasi pada file `.env`, lalu jalankan migrasi
     ```bash
