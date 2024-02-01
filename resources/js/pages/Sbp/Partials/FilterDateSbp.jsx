@@ -1,10 +1,10 @@
 import CardPaper from "@/components/CardPaper";
 import DateInput from "@/components/Input/DateInput";
 import dateFormat from "@/utils";
-import { router, usePage } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import { Button, CardContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 /**
  * komponen filter tanggal sbp
@@ -13,21 +13,31 @@ const FilterDateSbp = () => {
   const { app } = usePage().props;
   const { params } = app.url;
 
-  const [processing, setProcessing] = useState(false);
-  const [data, setData] = useState({
+  const { data, setData, processing, get } = useForm({
+    ...params,
+    page: 1,
     start_period: params.start_period ?? null,
     end_period: params.end_period ?? null,
   });
+
+  /**
+   * Update form
+   */
+  useEffect(() => {
+    setData({
+      ...params,
+      page: 1,
+      start_period: params.start_period ?? null,
+      end_period: params.end_period ?? null,
+    });
+  }, [params]);
 
   /**
    * fungsi untuk menangani ketika form input dirubah
    */
   const handleChange = useCallback(
     (name, dateValue) => {
-      setData((prevState) => ({
-        ...prevState,
-        [name]: dateFormat(dateValue),
-      }));
+      setData(name, dateFormat(dateValue));
     },
     [setData]
   );
@@ -36,18 +46,8 @@ const FilterDateSbp = () => {
    * fungsi ketika form di submit
    */
   const handleSubmit = () => {
-    setProcessing(true);
-
-    const url = route("sbp");
-    const dataParams = {
-      ...params,
-      ...data,
-      page: 1,
-    };
-
-    router.get(url, dataParams, {
+    get(route("sbp"), {
       preserveScroll: true,
-      onFinish: () => setProcessing(false),
     });
   };
 
@@ -81,8 +81,12 @@ const FilterDateSbp = () => {
               type="button"
               color="primary"
               variant="contained"
-              disabled={processing}
               onClick={handleSubmit}
+              disabled={Boolean(
+                processing ||
+                  data.start_period === null ||
+                  data.end_period === null
+              )}
             >
               Filter
             </Button>

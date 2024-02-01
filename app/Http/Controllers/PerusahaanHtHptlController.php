@@ -22,15 +22,6 @@ class PerusahaanHtHptlController extends Controller
      */
     public function index(PerusahaanHtHptlRequest $request): Response|RedirectResponse
     {
-        // jika tidak ada query string start_period dan end_period
-        // redirect dengan menmabhkan query string tersebut.
-        if (is_null($request->query('start_period')) || is_null($request->query('end_period'))) {
-            return redirect()->route('perusahaan.hthptl', [
-                'start_period' => $request->query('start_period', date('Y-m-01')),
-                'end_period' => $request->query('end_period', date('Y-m-d')),
-            ]);
-        }
-
         $access = $this->getAccessByRoute('perusahaan.hthptl');
         $data = $request->paginate(access: $access);
 

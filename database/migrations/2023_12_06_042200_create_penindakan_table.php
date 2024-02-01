@@ -31,10 +31,10 @@ return new class extends Migration
             $table->string('nomor_sbp', 100);
             $table->date('tanggal_sbp');
             $table->string('kode_komoditi', 50);
-            $table->decimal('jumlah', 15, 2)->unsigned();
+            $table->decimal('jumlah', 17, 2)->unsigned();
             $table->string('uraian');
-            $table->decimal('perkiraan_nilai_barang', 15, 2)->unsigned();
-            $table->decimal('potensi_kurang_bayar', 15, 2)->unsigned();
+            $table->decimal('perkiraan_nilai_barang', 17, 2)->unsigned();
+            $table->decimal('potensi_kurang_bayar', 17, 2)->unsigned();
             $table->string('tindak_lanjut', 100);
             $table->date('tanggal_input');
             $table->timestamps();

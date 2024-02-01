@@ -183,6 +183,7 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/perusahaan/mmea')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan.mmea,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:perusahaan.mmea,create');
         });
 
 

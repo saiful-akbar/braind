@@ -30,8 +30,8 @@ return new class extends Migration
             $table->string('nama_perusahaan', 50);
             $table->string('nppbkc', 100);
             $table->integer('jumlah_dokumen')->unsigned();
-            $table->integer('jumlah_liter')->unsigned();
-            $table->decimal('jumlah_cukai', 15, 2)->unsigned();
+            $table->decimal('jumlah_liter', 17, 2)->unsigned();
+            $table->decimal('jumlah_cukai', 17, 2)->unsigned();
             $table->date('tanggal_input');
             $table->timestamps();
             $table->softDeletes();

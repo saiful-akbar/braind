@@ -58,8 +58,8 @@ class SbpExport implements FromView, WithStyles, ShouldAutoSize
         $this->query = Sbp::select($columns)
             ->leftJoin('kantor', 'sbp.kantor_id', '=', 'kantor.id')
             ->whereBetween('sbp.tanggal_input', [
-                $request->query('start_period', date('Y-m-01')),
-                $request->query('end_period', date('Y-m-d')),
+                $request->query('start_period'),
+                $request->query('end_period'),
             ]);
 
         // periksa role user.

@@ -29,9 +29,9 @@ return new class extends Migration
             $table->string('kantor', 50);
             $table->string('sbp', 30);
             $table->string('tindak_lanjut', 100);
-            $table->decimal('nilai_barang', 15, 2)->unsigned();
-            $table->decimal('total', 15, 2)->unsigned();
-            $table->decimal('nilai_kerugian', 15, 2)->unsigned()->default(0);
+            $table->decimal('nilai_barang', 17, 2)->unsigned();
+            $table->decimal('total', 17, 2)->unsigned();
+            $table->decimal('nilai_kerugian', 17, 2)->unsigned()->default(0);
             $table->string('tipe', 10);
             $table->date('tanggal_input');
             $table->timestamps();

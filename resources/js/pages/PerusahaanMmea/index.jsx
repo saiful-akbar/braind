@@ -6,7 +6,8 @@ import PerusahaanMmeaTemplate from "./Template";
  *
  * @returns {React.ReactElement}
  */
-const PerusahaanMmea = () => {
+const PerusahaanMmea = (props) => {
+  console.log(props);
   return <div></div>;
 };
 

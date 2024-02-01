@@ -37,6 +37,19 @@ class PerusahaanHtHptlRequest extends FormRequest
     }
 
     /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'start_period' => 'date',
+            'end_period'   => 'date',
+        ];
+    }
+
+    /**
      * Ambil data perusahaan_ht_hptl
      *
      * @param MenuUser $access
@@ -55,8 +68,8 @@ class PerusahaanHtHptlRequest extends FormRequest
         $query = PerusahaanHtHptl::select($columns)
             ->leftJoin('kantor', 'perusahaan_ht_hptl.kantor_id', '=', 'kantor.id')
             ->whereBetween('perusahaan_ht_hptl.tanggal_input', [
-                $this->query('start_period', date('Y-m-01')),
-                $this->query('end_period', date('Y-m-d')),
+                $this->query('start_period'),
+                $this->query('end_period'),
             ]);
 
         // jika ada query string "status" dengan nilai "dihapus"

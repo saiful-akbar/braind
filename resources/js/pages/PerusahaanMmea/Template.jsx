@@ -4,6 +4,8 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { Box, Button } from "@mui/material";
 import { usePage } from "@inertiajs/react";
 import Header from "@/components/Header";
+import ModalFormPerusahaanMmea from "./ModalFormPerusahaanMmea/ModalFormPerusahaanMmea";
+import usePerusahaanMmea from "@/hooks/usePerusahaaMmea";
 
 /**
  * Komponen template untuk halaman perusahaan cukai MMEA.
@@ -13,6 +15,7 @@ import Header from "@/components/Header";
  */
 const PerusahaanMmeaTemplate = ({ children }) => {
   const { access } = usePage().props;
+  const { modalForm } = usePerusahaanMmea();
 
   return (
     <AuthLayout title="Perusahaan Cukai MMEA">
@@ -20,7 +23,12 @@ const PerusahaanMmeaTemplate = ({ children }) => {
         title="Perusahaan Cukai MMEA"
         action={
           access.create ? (
-            <Button type="button" color="primary" variant="contained">
+            <Button
+              type="button"
+              color="primary"
+              variant="contained"
+              onClick={() => modalForm.open()}
+            >
               Tambah Perusahaan
             </Button>
           ) : null
@@ -30,6 +38,9 @@ const PerusahaanMmeaTemplate = ({ children }) => {
       <Box component="main" sx={{ mt: 5 }}>
         {children}
       </Box>
+
+      {/* Modal form create & update */}
+      <ModalFormPerusahaanMmea />
     </AuthLayout>
   );
 };

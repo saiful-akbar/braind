@@ -27,8 +27,8 @@ return new class extends Migration
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->decimal('jumlah', 15, 2);
-            $table->decimal('tindak_lanjut', 15, 2);
+            $table->decimal('jumlah', 17, 2);
+            $table->decimal('tindak_lanjut', 17, 2);
             $table->date('tanggal_input');
             $table->timestamps();
             $table->softDeletes();

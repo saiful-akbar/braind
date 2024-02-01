@@ -36,6 +36,19 @@ class SbpRequest extends FormRequest implements Pagination
     }
 
     /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'start_period' => 'date',
+            'end_period'   => 'date',
+        ];
+    }
+
+    /**
      * Ambil data SBP dan buat query pagination
      */
     public function paginate(MenuUser $access): LengthAwarePaginator
@@ -56,8 +69,8 @@ class SbpRequest extends FormRequest implements Pagination
         $sbp = Sbp::select($columns)
             ->leftJoin('kantor', 'sbp.kantor_id', '=', 'kantor.id')
             ->whereBetween('sbp.tanggal_input', [
-                $this->query('start_period', date('Y-m-01')),
-                $this->query('end_period', date('Y-m-d')),
+                $this->query('start_period'),
+                $this->query('end_period'),
             ]);
 
         // periksa role user.

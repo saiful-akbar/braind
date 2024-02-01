@@ -39,6 +39,19 @@ class PerusahaanMmeaRequest extends FormRequest
     }
 
     /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'start_period' => 'date',
+            'end_period'   => 'date',
+        ];
+    }
+
+    /**
      * Ambil data perusahaan cukai mmea dan buat query pagination.
      *
      * @param MenuUser $access

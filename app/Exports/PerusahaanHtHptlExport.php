@@ -53,8 +53,8 @@ class PerusahaanHtHptlExport implements FromView, WithStyles, ShouldAutoSize
         $this->query = PerusahaanHtHptl::select($columns)
             ->leftJoin('kantor', 'perusahaan_ht_hptl.kantor_id', '=', 'kantor.id')
             ->whereBetween('perusahaan_ht_hptl.tanggal_input', [
-                $request->query('start_period', date('Y-m-01')),
-                $request->query('end_period', date('Y-m-d')),
+                $request->query('start_period'),
+                $request->query('end_period'),
             ]);
 
         // jika ada query string "status" dengan nilai "dihapus"

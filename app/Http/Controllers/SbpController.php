@@ -13,35 +13,33 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Sbp\StoreSbpRequest;
 use App\Http\Requests\Sbp\UpdateSbpRequest;
 use App\Imports\SbpImport;
-use Illuminate\Http\JsonResponse;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SbpController extends Controller
 {
     /**
      * Menampilkan halaman master SBP
+     *
+     * @param SbpRequest $request
+     * @return Response|RedirectResponse
      */
     public function index(SbpRequest $request): Response|RedirectResponse
     {
-        if (is_null($request->query('start_period')) || is_null($request->query('end_period'))) {
-            return to_route('sbp', [
-                'start_period' => $request->query('start_period', date('Y-m-01')),
-                'end_period' => $request->query('end_period', date('Y-m-d')),
-            ]);
-        }
-
         $access = $this->getAccessByRoute('sbp');
+        $data = $request->paginate($access);
 
         return $this->renderPaginate(
             component: 'Sbp/index',
-            paginator: $request->paginate($access),
+            paginator: $data,
             access: $access,
         );
     }
 
     /**
      * Tambahkan sbp baru pada database
+     *
+     * @param StoreSbpRequest $request
+     * @return RedirectResponse
      */
     public function store(StoreSbpRequest $request): RedirectResponse
     {
@@ -55,6 +53,9 @@ class SbpController extends Controller
 
     /**
      * Export excel
+     *
+     * @param Request $request
+     * @return BinaryFileResponse
      */
     public function export(Request $request): BinaryFileResponse
     {
@@ -66,6 +67,10 @@ class SbpController extends Controller
 
     /**
      * Perbarui data SBP pada database.
+     *
+     * @param UpdateSbpRequest $request
+     * @param Sbp $sbp
+     * @return RedirectResponse
      */
     public function update(UpdateSbpRequest $request, Sbp $sbp): RedirectResponse
     {
@@ -79,6 +84,10 @@ class SbpController extends Controller
 
     /**
      * Remove data SBP (soft delete)
+     *
+     * @param Request $request
+     * @param Sbp $sbp
+     * @return RedirectResponse
      */
     public function remove(Request $request, Sbp $sbp): RedirectResponse
     {
@@ -92,6 +101,10 @@ class SbpController extends Controller
 
     /**
      * Restore data SBP
+     *
+     * @param Request $request
+     * @param string $id
+     * @return RedirectResponse
      */
     public function restore(Request $request, string $id): RedirectResponse
     {
@@ -105,6 +118,10 @@ class SbpController extends Controller
 
     /**
      * Destroy data SBP (permanent delete)
+     *
+     * @param Request $request
+     * @param string $id
+     * @return RedirectResponse
      */
     public function destroy(Request $request, string $id): RedirectResponse
     {
@@ -118,6 +135,8 @@ class SbpController extends Controller
 
     /**
      * download template import
+     *
+     * @return BinaryFileResponse
      */
     public function downloadTemplate(): BinaryFileResponse
     {
@@ -126,6 +145,9 @@ class SbpController extends Controller
 
     /**
      * import excel
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function import(Request $request): RedirectResponse
     {

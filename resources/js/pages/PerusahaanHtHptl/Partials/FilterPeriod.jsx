@@ -5,7 +5,7 @@ import { useForm, usePage } from "@inertiajs/react";
 import { LoadingButton } from "@mui/lab";
 import { CardContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useEffect } from "react";
 import { useCallback } from "react";
 
 /**
@@ -22,6 +22,18 @@ const FilterPeriod = () => {
     start_period: params.start_period ?? null,
     end_period: params.end_period ?? null,
   });
+
+  /**
+   * Update form
+   */
+  useEffect(() => {
+    setData({
+      ...params,
+      page: 1,
+      start_period: params.start_period ?? null,
+      end_period: params.end_period ?? null,
+    });
+  }, [params]);
 
   /**
    * fungsi untuk menangani ketika periode diisi
@@ -71,8 +83,12 @@ const FilterPeriod = () => {
               fullWidth
               variant="contained"
               color="primary"
-              loading={processing}
               onClick={handleSubmit}
+              disabled={Boolean(
+                processing ||
+                  data.start_period === null ||
+                  data.end_period === null
+              )}
             >
               Filter
             </LoadingButton>
