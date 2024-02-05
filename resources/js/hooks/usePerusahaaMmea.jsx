@@ -4,7 +4,7 @@ import {
   createPerusahaanMmea,
   updatePerusahaanMmea,
 } from "@/redux/reducers/perusahaanMmeaReducer";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
@@ -64,11 +64,72 @@ const usePerusahaanMmea = () => {
     [dispatch, params]
   );
 
+  /**
+   * Fungsi untuk request order table
+   */
+  const handleOrderTable = useCallback(
+    (field) => {
+      const orderBy = params.order_by ?? "kantor_nama";
+      const order = params.order ?? "asc";
+
+      router.visit(route("perusahaan.mmea"), {
+        method: "get",
+        preserveScroll: true,
+        data: {
+          ...params,
+          order_by: field,
+          order: Boolean(orderBy === field && order === "asc") ? "desc" : "asc",
+        },
+      });
+    },
+    [params]
+  );
+
+  /**
+   * Fungsi untuk merubah halaman tabel
+   */
+  const handleChangePage = useCallback(
+    (page) => {
+      router.visit(route("perusahaan.mmea"), {
+        method: "get",
+        preserveScroll: true,
+        data: {
+          ...params,
+          page: page + 1,
+        },
+      });
+    },
+    [params]
+  );
+
+  /**
+   * Fungsi untuk merubah baris per halaman tabel
+   */
+  const handleChangeRowsPerPage = useCallback(
+    (event) => {
+      router.visit(route("perusahaan.mmea"), {
+        method: "get",
+        preserveScroll: true,
+        data: {
+          ...params,
+          page: 1,
+          per_page: event.target.value,
+        },
+      });
+    },
+    [params]
+  );
+
   return {
     modalForm: {
       close: closeModalForm,
       open: openModalForm,
       store: storeSubmit,
+    },
+    table: {
+      order: handleOrderTable,
+      changePage: handleChangePage,
+      changeRowsPerPage: handleChangeRowsPerPage,
     },
   };
 };

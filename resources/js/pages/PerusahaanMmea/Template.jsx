@@ -4,7 +4,7 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { Box, Button } from "@mui/material";
 import { usePage } from "@inertiajs/react";
 import Header from "@/components/Header";
-import ModalFormPerusahaanMmea from "./ModalFormPerusahaanMmea/ModalFormPerusahaanMmea";
+import ModalFormPerusahaanMmea from "./Partials/ModalFormPerusahaanMmea";
 import usePerusahaanMmea from "@/hooks/usePerusahaaMmea";
 
 /**

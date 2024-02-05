@@ -70,7 +70,7 @@ class PerusahaanMmeaRequest extends FormRequest
         // lalu buat filter berdasarkan periode waktu.
         $perusahaan = PerusahaanMmea::select($columns)
             ->leftJoin('kantor', 'perusahaan_mmea.kantor_id', '=', 'kantor.id')
-            ->whereBetween('perusahaan_mmea.tanggal_input', [
+            ->whereBetween('tanggal_input', [
                 $this->query('start_period'),
                 $this->query('end_period'),
             ]);
