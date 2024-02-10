@@ -2,6 +2,7 @@ import Modal from "@/components/Modal";
 import useSbp from "@/hooks/useSbp";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { useForm, usePage } from "@inertiajs/react";
+import { Close, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -131,7 +132,7 @@ const ModalFormImportSbp = () => {
       onSubmit={handleSubmit}
     >
       <DialogContent dividers sx={{ py: 3 }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={5}>
           {errors.length > 0 && (
             <Grid item xs={12}>
               <Alert severity="error" icon={false}>
@@ -148,7 +149,7 @@ const ModalFormImportSbp = () => {
             <LoadingButton
               fullWidth
               type="button"
-              color="primary"
+              color="secondary"
               variant="contained"
               onClick={handleDownloadTemplate}
               loading={downloading}
@@ -191,6 +192,7 @@ const ModalFormImportSbp = () => {
           size="large"
           onClick={handleClose}
           disabled={form.processing}
+          startIcon={<Close />}
         >
           Tutup
         </Button>
@@ -201,6 +203,7 @@ const ModalFormImportSbp = () => {
           variant="contained"
           size="large"
           loading={form.processing}
+          startIcon={<Save />}
         >
           Import
         </LoadingButton>

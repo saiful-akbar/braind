@@ -42,7 +42,7 @@ const FilterStatus = () => {
     (e) => {
       setValue(e.target.value);
 
-      router.visit(route("perusahaan.hthptl"), {
+      router.visit(route("perusahaan-hthptl"), {
         method: "get",
         data: {
           ...params,

@@ -2,6 +2,7 @@ import Modal from "@/components/Modal";
 import { closeModalImportKantor } from "@/redux/reducers/kantorReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { useForm, usePage } from "@inertiajs/react";
+import { Close, Download, Upload } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -140,7 +141,7 @@ const ModalImportKantor = () => {
       onSubmit={handleSubmit}
     >
       <DialogContent dividers sx={{ py: 3 }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={5}>
           {errors.length > 0 && (
             <Grid item xs={12}>
               <Alert severity="error" icon={false}>
@@ -157,11 +158,12 @@ const ModalImportKantor = () => {
             <LoadingButton
               fullWidth
               type="button"
-              color="primary"
+              color="secondary"
               variant="contained"
               loading={downloading}
               disabled={form.processing}
               onClick={handleDownloadTemplate}
+              startIcon={<Download />}
             >
               Download Template
             </LoadingButton>
@@ -195,21 +197,23 @@ const ModalImportKantor = () => {
       <DialogActions sx={{ p: 3 }}>
         <Button
           type="button"
+          size="large"
           color="primary"
           variant="outlined"
-          size="large"
           onClick={handleCloseModal}
           disabled={form.processing}
+          startIcon={<Close />}
         >
           Tutup
         </Button>
 
         <LoadingButton
           type="submit"
+          size="large"
           color="primary"
           variant="contained"
-          size="large"
           loading={form.processing}
+          startIcon={<Upload />}
         >
           Import
         </LoadingButton>

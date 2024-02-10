@@ -11,6 +11,7 @@ import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import FilterStatusUser from "./Partials/FilterStatusUser";
 import SearchUser from "./Partials/SearchUser";
+import { Add } from "@mui/icons-material";
 
 /**
  * Komponen template untuk halaman user
@@ -69,17 +70,18 @@ const UserTemplate = ({ children }) => {
       <Header
         title="User"
         action={
-          access.create && (
+          access.create ? (
             <Button
               type="button"
               color="primary"
               variant="contained"
               component={Link}
               href={route("user.create")}
+              startIcon={<Add />}
             >
-              Tambah user
+              Tambah
             </Button>
-          )
+          ) : null
         }
       />
 

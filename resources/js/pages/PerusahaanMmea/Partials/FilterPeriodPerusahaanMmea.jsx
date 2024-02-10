@@ -2,6 +2,7 @@ import CardPaper from "@/components/CardPaper";
 import DateInput from "@/components/Input/DateInput";
 import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
+import { FilterList } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { CardContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
@@ -52,7 +53,7 @@ const FilterPeriodPerusahaanMmea = () => {
    * Fungsi untuk menangani ketika form di submit
    */
   const handleSubmit = () => {
-    get(route("perusahaan.mmea"), {
+    get(route("perusahaan-mmea"), {
       preserveScroll: true,
     });
   };
@@ -91,6 +92,7 @@ const FilterPeriodPerusahaanMmea = () => {
               variant="contained"
               onClick={handleSubmit}
               loading={processing}
+              startIcon={<FilterList />}
               disabled={Boolean(
                 data.start_period === null || data.end_period === null
               )}

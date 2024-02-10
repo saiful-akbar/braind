@@ -15,6 +15,7 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveAs } from "file-saver";
+import { Close, Download, Upload } from "@mui/icons-material";
 
 /**
  * Komponen modal untuk import data kode komoditi
@@ -136,7 +137,7 @@ const ModalImportKomoditi = () => {
       onSubmit={handleSubmit}
     >
       <DialogContent dividers sx={{ py: 3 }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={5}>
           {errors.length > 0 && (
             <Grid item xs={12}>
               <Alert severity="error" icon={false}>
@@ -153,11 +154,12 @@ const ModalImportKomoditi = () => {
             <LoadingButton
               fullWidth
               type="button"
-              color="primary"
+              color="secondary"
               variant="contained"
               loading={downloading}
               disabled={form.processing}
               onClick={handleDownloadTemplateImport}
+              startIcon={<Download />}
             >
               Download Template
             </LoadingButton>
@@ -196,6 +198,7 @@ const ModalImportKomoditi = () => {
           variant="outlined"
           onClick={handleClose}
           disabled={form.processing}
+          startIcon={<Close />}
         >
           Tutup
         </Button>
@@ -206,6 +209,7 @@ const ModalImportKomoditi = () => {
           color="primary"
           variant="contained"
           loading={form.processing}
+          startIcon={<Upload />}
         >
           Import
         </LoadingButton>

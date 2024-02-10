@@ -44,7 +44,7 @@ const usePerusahaanMmea = () => {
    */
   const storeSubmit = useCallback(
     (form) => {
-      const url = route("perusahaan.mmea.store", {
+      const url = route("perusahaan-mmea.store", {
         _query: params,
       });
 
@@ -72,7 +72,7 @@ const usePerusahaanMmea = () => {
       const orderBy = params.order_by ?? "kantor_nama";
       const order = params.order ?? "asc";
 
-      router.visit(route("perusahaan.mmea"), {
+      router.visit(route("perusahaan-mmea"), {
         method: "get",
         preserveScroll: true,
         data: {
@@ -90,7 +90,7 @@ const usePerusahaanMmea = () => {
    */
   const handleChangePage = useCallback(
     (page) => {
-      router.visit(route("perusahaan.mmea"), {
+      router.visit(route("perusahaan-mmea"), {
         method: "get",
         preserveScroll: true,
         data: {
@@ -107,7 +107,7 @@ const usePerusahaanMmea = () => {
    */
   const handleChangeRowsPerPage = useCallback(
     (event) => {
-      router.visit(route("perusahaan.mmea"), {
+      router.visit(route("perusahaan-mmea"), {
         method: "get",
         preserveScroll: true,
         data: {

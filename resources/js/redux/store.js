@@ -8,6 +8,7 @@ import komoditiReducer from "./reducers/komoditiReducer";
 import sbpReducer from "./reducers/sbpReducer";
 import perusahaanHtHptlReducer from "./reducers/perusahaanHtHptlReducer";
 import perusahaanMmeaReducer from "./reducers/perusahaanMmeaReducer";
+import perusahaanReducer from "./reducers/perusahaanReducer";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     sbp: sbpReducer,
     perusahaanHtHptl: perusahaanHtHptlReducer,
     perusahaanMmea: perusahaanMmeaReducer,
+    perusahaan: perusahaanReducer,
   },
 });
 

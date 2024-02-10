@@ -17,6 +17,7 @@ import FilterStatusKantor from "./Partials/FilterStatusKantor";
 import ModalFormKantor from "./Partials/ModalFormKantor";
 import ModalImportKantor from "./Partials/ModalImportKantor";
 import SearchKantor from "./Partials/SearchKantor";
+import { Add } from "@mui/icons-material";
 
 /**
  * Template untuk halaman division
@@ -98,8 +99,13 @@ const Template = ({ children }) => {
         title="Kantor"
         action={
           access.create ? (
-            <Button type="button" variant="contained" onClick={handleFormOpen}>
-              Tambah Kantor
+            <Button
+              type="button"
+              variant="contained"
+              onClick={handleFormOpen}
+              startIcon={<Add />}
+            >
+              Tambah
             </Button>
           ) : null
         }

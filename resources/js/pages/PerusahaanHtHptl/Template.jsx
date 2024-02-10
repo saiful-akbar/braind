@@ -15,6 +15,7 @@ import FilterStatus from "./Partials/FilterStatus";
 import ImportExcel from "./Partials/ImportExcel";
 import ModalForm from "./Partials/ModalForm";
 import Search from "./Partials/Search";
+import { Add } from "@mui/icons-material";
 
 /**
  * Template intuk halaman perusahaan cukai HT + HPTL
@@ -54,7 +55,7 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
       const response = await axios({
         method: "get",
         responseType: "blob",
-        url: route("perusahaan.hthptl.export"),
+        url: route("perusahaan-hthptl.export"),
         params,
       });
 
@@ -96,8 +97,9 @@ const PerusahaanHtHptlTemplate = ({ children }) => {
               color="primary"
               variant="contained"
               onClick={handleOpenCreateModal}
+              startIcon={<Add />}
             >
-              Tambah perusahaan
+              Tambah
             </Button>
           ) : null
         }

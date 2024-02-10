@@ -7,137 +7,135 @@ import { closeFormKantor } from "@/redux/reducers/kantorReducer";
 import TextInput from "@/components/Input/TextInput";
 import { LoadingButton } from "@mui/lab";
 import { DialogContent, DialogActions, Button } from "@mui/material";
+import { Close, Save } from "@mui/icons-material";
 
 /**
  * Komponen partial untuk form create & edit data kantor.
  */
 export default function ModalFormKantor(props) {
-	const dispatch = useDispatch();
-	const { form } = useSelector((state) => state.kantor);
-	const { app } = usePage().props;
-	const { params } = app.url;
-	
-	// form data
-	const {
-		data,
-		setData,
-		errors,
-		processing,
-		clearErrors,
-		reset,
-		post,
-		patch,
-	} = useForm({ nama: form.data.nama });
+  const dispatch = useDispatch();
+  const { form } = useSelector((state) => state.kantor);
+  const { app } = usePage().props;
+  const { params } = app.url;
 
-	/**
-	 * Update form data jika ada perubahan pada redux state
-	 */
-	React.useEffect(() => {
-		setData("nama", form.data.nama);
-		clearErrors();
-	}, [form.open])
+  // form data
+  const { data, setData, errors, processing, clearErrors, reset, post, patch } =
+    useForm({ nama: form.data.nama });
 
-	/**
-	 * fungsi untuk menangani ketika form diisi
-	 */
-	const handleChange = React.useCallback((e) => {
-		setData(e.target.name, e.target.value);
-	}, [setData]);
+  /**
+   * Update form data jika ada perubahan pada redux state
+   */
+  React.useEffect(() => {
+    setData("nama", form.data.nama);
+    clearErrors();
+  }, [form.open]);
 
-	/**
-	 * Fungsi untuk menutup modal
-	 */
-	const handleClose = React.useCallback(() => {
-		if (!processing) dispatch(closeFormKantor())
-	}, [dispatch, processing]);
+  /**
+   * fungsi untuk menangani ketika form diisi
+   */
+  const handleChange = React.useCallback(
+    (e) => {
+      setData(e.target.name, e.target.value);
+    },
+    [setData]
+  );
 
-	/**
-	 * fungsi untuk request create kantor
-	 */
-	const handleUpdate = () => {
-		const url = route('kantor.update', {
-			kantor: form.data.id,
-			_query: params,
-		});
+  /**
+   * Fungsi untuk menutup modal
+   */
+  const handleClose = React.useCallback(() => {
+    if (!processing) dispatch(closeFormKantor());
+  }, [dispatch, processing]);
 
-		patch(url, {
-			preserveScroll: true,
-			onSuccess: () => handleClose(),
-		});
-	}
+  /**
+   * fungsi untuk request create kantor
+   */
+  const handleUpdate = () => {
+    const url = route("kantor.update", {
+      kantor: form.data.id,
+      _query: params,
+    });
 
-	/**
-	 * fungsi untuk request create kantor
-	 */
-	const handleCreate = () => {
-		const url = route('kantor.store', {
-			_query: params,
-		});
+    patch(url, {
+      preserveScroll: true,
+      onSuccess: () => handleClose(),
+    });
+  };
 
-		post(url, {
-			preserveScroll: true,
-			onSuccess: () => reset(),
-		});
-	}
+  /**
+   * fungsi untuk request create kantor
+   */
+  const handleCreate = () => {
+    const url = route("kantor.store", {
+      _query: params,
+    });
 
-	/**
-	 * fungsi untuk submit form
-	 */
-	const handleSubmit = (e) => {
-		e.preventDefault();
+    post(url, {
+      preserveScroll: true,
+      onSuccess: () => reset(),
+    });
+  };
 
-		if (form.type === "create") {
-			handleCreate();
-		} else {
-			handleUpdate();
-		}
-	}
+  /**
+   * fungsi untuk submit form
+   */
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-	return (
-		<Modal
-			open={form.open}
-			title={form.type === "create" ? "Tambah kantor" : "Edit kantor"}
-			onClose={handleClose}
-			loading={processing}
-			component="form"
-			autoComplete="off"
-			onSubmit={handleSubmit}
-		>
-			<DialogContent dividers sx={{ py: 3 }}>
-				<TextInput
-					fullWidth
-					label="Nama kantor"
-					name="nama"
-					value={data.nama}
-					onChange={handleChange}
-					disabled={processing}
-					error={Boolean(errors.nama)}
-					helperText={errors.nama}
-				/>
-			</DialogContent>
+    if (form.type === "create") {
+      handleCreate();
+    } else {
+      handleUpdate();
+    }
+  };
 
-			<DialogActions sx={{ p: 3 }}>
-				<Button
-					type="button"
-					color="primary"
-					variant="outlined"
-					size="large"
-					disabled={processing}
-					onClick={handleClose}
-				>
-					Tutup
-				</Button>
+  return (
+    <Modal
+      open={form.open}
+      title={form.type === "create" ? "Tambah kantor" : "Edit kantor"}
+      onClose={handleClose}
+      loading={processing}
+      component="form"
+      autoComplete="off"
+      onSubmit={handleSubmit}
+    >
+      <DialogContent dividers sx={{ py: 3 }}>
+        <TextInput
+          fullWidth
+          label="Nama kantor"
+          name="nama"
+          value={data.nama}
+          onChange={handleChange}
+          disabled={processing}
+          error={Boolean(errors.nama)}
+          helperText={errors.nama}
+        />
+      </DialogContent>
 
-				<LoadingButton
-					type="submit"
-					color="primary"
-					variant="contained"
-					size="large"
-					loading={processing}
-				>
-					Simpan
-				</LoadingButton>
-			</DialogActions>
-		</Modal>
-	);
+      <DialogActions sx={{ p: 3 }}>
+        <Button
+          type="button"
+          size="large"
+          color="primary"
+          variant="outlined"
+          disabled={processing}
+          onClick={handleClose}
+          startIcon={<Close />}
+        >
+          Tutup
+        </Button>
+
+        <LoadingButton
+          type="submit"
+          size="large"
+          color="primary"
+          variant="contained"
+          loading={processing}
+          startIcon={<Save />}
+        >
+          Simpan
+        </LoadingButton>
+      </DialogActions>
+    </Modal>
+  );
 }

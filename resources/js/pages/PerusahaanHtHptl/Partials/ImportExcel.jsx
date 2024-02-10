@@ -1,6 +1,7 @@
 import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { useForm, usePage } from "@inertiajs/react";
+import { Close, Download, Upload } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -56,7 +57,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
     try {
       const response = await axios({
         method: "get",
-        url: route("perusahaan.hthptl.import.template"),
+        url: route("perusahaan-hthptl.import.template"),
         responseType: "blob",
       });
 
@@ -100,7 +101,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
     form.clearErrors();
     setErrors([]);
 
-    const url = route("perusahaan.hthptl.import", {
+    const url = route("perusahaan-hthptl.import", {
       _query: {
         ...params,
       },
@@ -135,7 +136,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
       onSubmit={handleSubmit}
     >
       <DialogContent dividers sx={{ py: 3 }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={5}>
           {errors.length > 0 && (
             <Grid item xs={12}>
               <Alert severity="error" icon={false}>
@@ -152,11 +153,12 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
             <LoadingButton
               fullWidth
               type="button"
-              color="primary"
+              color="secondary"
               variant="contained"
               onClick={handleDownloadTemplate}
               loading={downloading}
               disabled={form.processing}
+              startIcon={<Download />}
             >
               Download Template
             </LoadingButton>
@@ -195,6 +197,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
           variant="outlined"
           onClick={handleClose}
           disabled={form.processing}
+          startIcon={<Close />}
         >
           Tutup
         </Button>
@@ -205,6 +208,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
           variant="contained"
           size="large"
           loading={form.processing}
+          startIcon={<Upload />}
         >
           Import
         </LoadingButton>

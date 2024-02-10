@@ -11,6 +11,7 @@ import ModalFormSbp from "./Partials/ModalFormSbp";
 import SearchSbp from "./Partials/SearchSbp";
 import { usePage } from "@inertiajs/react";
 import ModalFormImportSbp from "./Partials/ModalFormImportSbp";
+import { Add } from "@mui/icons-material";
 
 /**
  * Komponen template untuk halaman SBP
@@ -26,7 +27,7 @@ const SbpTemplate = ({ children }) => {
   return (
     <Fragment>
       <Header
-        title="Master SBP"
+        title="SBP"
         action={
           access.create ? (
             <Button
@@ -34,8 +35,9 @@ const SbpTemplate = ({ children }) => {
               color="primary"
               variant="contained"
               onClick={() => openModalForm()}
+              startIcon={<Add />}
             >
-              Tambah SBP
+              Tambah
             </Button>
           ) : null
         }

@@ -88,7 +88,7 @@ const User = (props) => {
       label: "Dihapus",
       sort: true,
       timeFormat: true,
-      show: status === "dihapus",
+      show: Boolean(access.destroy && status === "dihapus"),
     },
   ];
 

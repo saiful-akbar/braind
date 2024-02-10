@@ -5,6 +5,7 @@ import SwitchInput from "@/components/Input/SwitchInput";
 import AuthLayout from "@/layouts/AuthLayout";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { useForm } from "@inertiajs/react";
+import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
@@ -261,6 +262,7 @@ const CreateAccessUser = (props) => {
               color="primary"
               variant="contained"
               loading={processing}
+              startIcon={<Save />}
             >
               Simpan
             </LoadingButton>

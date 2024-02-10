@@ -1,7 +1,9 @@
 import TextInput from "@/components/Input/TextInput";
+import Modal from "@/components/Modal";
 import { closeFormKomoditi } from "@/redux/reducers/komoditiReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { router, usePage, useForm } from "@inertiajs/react";
+import { Close, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -96,7 +98,7 @@ const FormKomoditi = React.memo(() => {
         dispatch(
           openNotification({
             status: "error",
-            message: "Terjadi kesalahan, periksa kembali inpurtan anda.",
+            message: "Terjadi kesalahan, periksa kembali inputan anda.",
           })
         );
       },
@@ -120,21 +122,20 @@ const FormKomoditi = React.memo(() => {
   );
 
   return (
-    <Dialog
+    <Modal
       open={komoditi.form.open}
-      fullWidth
       maxWidth="sm"
       onClose={handleClose}
       component="form"
       autoComplete="off"
       onSubmit={handleSubmit}
-    >
-      <DialogTitle>
-        {komoditi.form.type === "create"
+      loading={processing}
+      title={
+        komoditi.form.type === "create"
           ? "Tambah kode komoditi"
-          : "Edit kode komoditi"}
-      </DialogTitle>
-
+          : "Edit kode komoditi"
+      }
+    >
       <DialogContent dividers sx={{ py: 3 }}>
         <TextInput
           fullWidth
@@ -155,6 +156,7 @@ const FormKomoditi = React.memo(() => {
           variant="outlined"
           color="primary"
           size="large"
+          startIcon={<Close />}
           disabled={processing}
           onClick={handleClose}
         >
@@ -166,12 +168,13 @@ const FormKomoditi = React.memo(() => {
           variant="contained"
           color="primary"
           size="large"
+          startIcon={<Save />}
           loading={processing}
         >
           Simpan
         </LoadingButton>
       </DialogActions>
-    </Dialog>
+    </Modal>
   );
 });
 

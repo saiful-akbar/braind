@@ -48,6 +48,8 @@ class PerusahaanMmeaRequest extends FormRequest
         return [
             'start_period' => 'date',
             'end_period'   => 'date',
+            'status'       => 'nullable|in:aktif,dihapus',
+            'search'       => 'nullable|string',
         ];
     }
 

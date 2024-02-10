@@ -1,27 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
 import AuthLayout from "@/layouts/AuthLayout";
-import { Box, Button } from "@mui/material";
-import { usePage } from "@inertiajs/react";
+import { Box, Button, Grid } from "@mui/material";
 import Header from "@/components/Header";
-import ModalFormPerusahaanMmea from "./Partials/ModalFormPerusahaanMmea";
-import usePerusahaanMmea from "@/hooks/usePerusahaaMmea";
+import { usePage } from "@inertiajs/react";
+import { useSelector } from "react-redux";
+import usePerusahaan from "@/hooks/usePerusahaan";
+import ModalFormPerusahaan from "./Partials/ModalFormPerusahaan";
 import { Add } from "@mui/icons-material";
 
 /**
- * Komponen template untuk halaman perusahaan cukai MMEA.
+ * Tamplate master perusahaan.
  *
- * @param {Object} props
  * @returns {React.ReactElement}
  */
-const PerusahaanMmeaTemplate = ({ children }) => {
+const PerusahaanTemplate = ({ children }) => {
   const { access } = usePage().props;
-  const { modalForm } = usePerusahaanMmea();
+  const { modalForm } = usePerusahaan();
 
   return (
-    <AuthLayout title="Perusahaan Cukai MMEA">
+    <AuthLayout title="Perusahaan">
       <Header
-        title="Perusahaan Cukai MMEA"
+        title="Perusahaan"
         action={
           access.create ? (
             <Button
@@ -41,14 +41,17 @@ const PerusahaanMmeaTemplate = ({ children }) => {
         {children}
       </Box>
 
-      {/* Modal form create & update */}
-      <ModalFormPerusahaanMmea />
+      {/* Komponen modal form create & update */}
+      <ModalFormPerusahaan />
     </AuthLayout>
   );
 };
 
-PerusahaanMmeaTemplate.propTypes = {
+/**
+ * Prop types
+ */
+PerusahaanTemplate.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default PerusahaanMmeaTemplate;
+export default PerusahaanTemplate;

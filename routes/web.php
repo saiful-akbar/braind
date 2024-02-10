@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KantorController;
 use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PerusahaanHtHptlController;
 use App\Http\Controllers\PerusahaanMmeaController;
 
@@ -101,6 +102,21 @@ Route::middleware('auth')->group(function (): void {
         });
 
     /**
+     * Master perusahaan
+     */
+    Route::controller(PerusahaanController::class)
+        ->name('master-perusahaan')
+        ->prefix('/master-perusahaan')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:master-perusahaan,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:master-perusahaan,create');
+            Route::patch('/{perusahaan}', 'update')->name('.update')->middleware('access:master-perusahaan,update');
+            Route::delete('/{perusahaan}', 'remove')->name('.remove')->middleware('access:master-perusahaan,remove');
+            Route::patch('/{perusahaan}/restore', 'restore')->name('.restore')->middleware('access:master-perusahaan,destroy');
+            Route::delete('/{perusahaan}/destroy', 'destroy')->name('.destroy')->middleware('access:master-perusahaan,destroy');
+        });
+
+    /**
      * Master user
      */
     Route::controller(UserController::class)
@@ -157,21 +173,21 @@ Route::middleware('auth')->group(function (): void {
      * perusahaan HT + HPTL
      */
     Route::controller(PerusahaanHtHptlController::class)
-        ->name('perusahaan.hthptl')
-        ->prefix('/perusahaan/ht-hptl')
+        ->name('perusahaan-hthptl')
+        ->prefix('/perusahaan-ht-hptl')
         ->group(function (): void {
-            Route::get('/', 'index')->middleware('access:perusahaan.hthptl,read');
-            Route::get('/create', 'create')->name('.create')->middleware('access:perusahaan.hthptl,create');
-            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan.hthptl,read');
-            Route::post('/', 'store')->name('.store')->middleware('access:perusahaan.hthptl,create');
-            Route::patch('/{id}', 'update')->name('.update')->middleware('access:perusahaan.hthptl,update');
-            Route::delete('/{id}', 'remove')->name('.remove')->middleware('access:perusahaan.hthptl,remove');
-            Route::delete('/{id}/destroy', 'destroy')->name('.destroy')->middleware('access:perusahaan.hthptl,destroy');
-            Route::patch('/{id}/restore', 'restore')->name('.restore')->middleware('access:perusahaan.hthptl,destroy');
+            Route::get('/', 'index')->middleware('access:perusahaan-hthptl,read');
+            Route::get('/create', 'create')->name('.create')->middleware('access:perusahaan-hthptl,create');
+            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-hthptl,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:perusahaan-hthptl,create');
+            Route::patch('/{id}', 'update')->name('.update')->middleware('access:perusahaan-hthptl,update');
+            Route::delete('/{id}', 'remove')->name('.remove')->middleware('access:perusahaan-hthptl,remove');
+            Route::delete('/{id}/destroy', 'destroy')->name('.destroy')->middleware('access:perusahaan-hthptl,destroy');
+            Route::patch('/{id}/restore', 'restore')->name('.restore')->middleware('access:perusahaan-hthptl,destroy');
 
             Route::prefix('/import')->name('.import')->group(function (): void {
-                Route::post('/', 'import')->middleware('access:perusahaan.hthptl,create');
-                Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan.hthptl,create');
+                Route::post('/', 'import')->middleware('access:perusahaan-hthptl,create');
+                Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan-hthptl,create');
             });
         });
 
@@ -179,11 +195,11 @@ Route::middleware('auth')->group(function (): void {
      * Perusahaan Cukai MMEA
      */
     Route::controller(PerusahaanMmeaController::class)
-        ->name('perusahaan.mmea')
-        ->prefix('/perusahaan/mmea')
+        ->name('perusahaan-mmea')
+        ->prefix('/perusahaan-mmea')
         ->group(function (): void {
-            Route::get('/', 'index')->middleware('access:perusahaan.mmea,read');
-            Route::post('/', 'store')->name('.store')->middleware('access:perusahaan.mmea,create');
+            Route::get('/', 'index')->middleware('access:perusahaan-mmea,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:perusahaan-mmea,create');
         });
 
 

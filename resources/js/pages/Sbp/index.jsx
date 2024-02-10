@@ -74,7 +74,7 @@ const Sbp = (props) => {
       align: "left",
       sort: true,
       format: "time",
-      show: status === "dihapus",
+      show: Boolean(access.destroy && status === "dihapus"),
     },
   ];
 

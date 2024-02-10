@@ -7,6 +7,7 @@ import { openNotification } from "@/redux/reducers/notificationReducer";
 import Kantor from "@/services/kantorService";
 import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
+import { Close, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
@@ -238,6 +239,7 @@ const ModalFormPerusahaanMmea = () => {
           size="large"
           disabled={form.processing}
           onClick={handleClose}
+          startIcon={<Close />}
         >
           Tutup
         </Button>
@@ -248,6 +250,7 @@ const ModalFormPerusahaanMmea = () => {
           variant="contained"
           size="large"
           loading={form.processing}
+          startIcon={<Save />}
         >
           Simpan
         </LoadingButton>

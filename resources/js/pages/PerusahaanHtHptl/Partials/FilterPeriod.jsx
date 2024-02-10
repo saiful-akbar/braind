@@ -2,6 +2,7 @@ import CardPaper from "@/components/CardPaper";
 import DateInput from "@/components/Input/DateInput";
 import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
+import { FilterList } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { CardContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
@@ -49,7 +50,7 @@ const FilterPeriod = () => {
    * fungsi untuk menangani ketika periode di submit
    */
   const handleSubmit = (e) => {
-    get(route("perusahaan.hthptl"), {
+    get(route("perusahaan-hthptl"), {
       preserveScroll: true,
     });
   };
@@ -84,6 +85,7 @@ const FilterPeriod = () => {
               variant="contained"
               color="primary"
               onClick={handleSubmit}
+              startIcon={<FilterList />}
               disabled={Boolean(
                 processing ||
                   data.start_period === null ||

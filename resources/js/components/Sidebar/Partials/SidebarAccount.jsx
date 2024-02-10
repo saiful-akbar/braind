@@ -63,7 +63,7 @@ const SidebarAccount = forwardRef((props, ref) => {
       sx={{
         width: "100%",
         px: 2,
-        py: 2,
+        pt: 2,
       }}
     >
       <ButtonBase

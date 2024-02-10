@@ -13,6 +13,7 @@ const SearchFormDivision = () => {
 
   // state
   const [value, setValue] = useState(searchParams);
+  const [processing, setProcessing] = useState(false);
 
   /**
    * Update value saat ada perubahan pada searchParams
@@ -37,6 +38,8 @@ const SearchFormDivision = () => {
   const fetchData = (parameters) => {
     router.get(route("kantor"), parameters, {
       preserveScroll: true,
+      onStart: () => setProcessing(true),
+      onFinish: () => setProcessing(false),
     });
   };
 
@@ -76,7 +79,6 @@ const SearchFormDivision = () => {
    */
   const handleClear = useCallback(() => {
     if (searchParams !== "") {
-      setValue("");
       fetchData({ ...params, page: 1, search: "" });
     }
   }, [fetchData, searchParams, params, setValue]);
@@ -91,6 +93,7 @@ const SearchFormDivision = () => {
         onChange={handleChange}
         onBlur={handleBlur}
         onClear={handleClear}
+        disabled={processing}
       />
     </form>
   );

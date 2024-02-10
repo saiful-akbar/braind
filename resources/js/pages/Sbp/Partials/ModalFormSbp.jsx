@@ -7,6 +7,7 @@ import useSbp from "@/hooks/useSbp";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
+import { Close, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
@@ -205,11 +206,7 @@ const ModalFormSbp = () => {
               onChange={(value) => handleDateInputChange(value)}
               disabled={processing}
               error={Boolean(errors.tanggal_input)}
-              helperText={
-                Boolean(errors.tanggal_input)
-                  ? errors.tanggal_input
-                  : "Optional"
-              }
+              helperText={errors.tanggal_input}
             />
           </Grid>
         </Grid>
@@ -223,6 +220,7 @@ const ModalFormSbp = () => {
           size="large"
           onClick={closeModalForm}
           disabled={processing}
+          startIcon={<Close />}
         >
           Tutup
         </Button>
@@ -233,6 +231,7 @@ const ModalFormSbp = () => {
           variant="contained"
           size="large"
           loading={processing}
+          startIcon={<Save />}
         >
           Simpan
         </LoadingButton>

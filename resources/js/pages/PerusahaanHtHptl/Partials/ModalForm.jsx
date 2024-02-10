@@ -7,6 +7,7 @@ import { closeModalPerusahaanHtHptl } from "@/redux/reducers/perusahaanHtHptlRed
 import Kantor from "@/services/kantorService";
 import dateFormat from "@/utils";
 import { router, useForm, usePage } from "@inertiajs/react";
+import { Close, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
@@ -122,7 +123,7 @@ const ModalForm = () => {
    * fungsi untuk request insert data
    */
   const handleCreate = () => {
-    const url = route("perusahaan.hthptl.store", {
+    const url = route("perusahaan-hthptl.store", {
       _query: params,
     });
 
@@ -144,7 +145,7 @@ const ModalForm = () => {
    * fungsi untuk request update data
    */
   const handleUpdate = () => {
-    const url = route("perusahaan.hthptl.update", {
+    const url = route("perusahaan-hthptl.update", {
       id: data.id,
       _query: params,
     });
@@ -333,6 +334,7 @@ const ModalForm = () => {
           size="large"
           disabled={processing}
           onClick={handleClose}
+          startIcon={<Close />}
         >
           Tutup
         </Button>
@@ -343,6 +345,7 @@ const ModalForm = () => {
           variant="contained"
           size="large"
           loading={processing}
+          startIcon={<Save />}
         >
           Simpan
         </LoadingButton>

@@ -58,7 +58,7 @@ const Komoditi = (props) => {
       label: "Dihapus",
       align: "left",
       format: "time",
-      show: status === "dihapus",
+      show: Boolean(access.destroy && status === "dihapus"),
       sort: true,
     },
   ];

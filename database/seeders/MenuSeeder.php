@@ -35,31 +35,36 @@ class MenuSeeder extends Seeder
                     'url' => '/user',
                     'route' => 'user',
                 ],
+                [
+                    'nama' => 'Perusahaan',
+                    'url' => '/master-perusahaan',
+                    'route' => 'master-perusahaan',
+                ],
             ],
         ],
         [
             'nama' => 'Data Perusahaan',
             'sub_menu' => [
                 [
-                    'nama' => 'Impor',
-                    'url' => '/perusahaan/impor',
-                    'route' => 'perusahaan.impor',
-                ],
-                [
-                    'nama' => 'Ekspor',
-                    'url' => '/perusahaan/ekspor',
-                    'route' => 'perusahaan.ekspor',
+                    'nama' => 'Cukai HT + HPTL',
+                    'url' => '/perusahaan-ht-hptl',
+                    'route' => 'perusahaan-hthptl',
                 ],
                 [
                     'nama' => 'Cukai MMEA',
-                    'url' => '/perusahaan/mmea',
-                    'route' => 'perusahaan.mmea',
+                    'url' => '/perusahaan-mmea',
+                    'route' => 'perusahaan-mmea',
                 ],
-                [
-                    'nama' => 'Cukai HT + HPTL',
-                    'url' => '/perusahaan/ht-hptl',
-                    'route' => 'perusahaan.hthptl',
-                ],
+                // [
+                //     'nama' => 'Impor',
+                //     'url' => '/perusahaan-impor',
+                //     'route' => 'perusahaan.impor',
+                // ],
+                // [
+                //     'nama' => 'Ekspor',
+                //     'url' => '/perusahaan-ekspor',
+                //     'route' => 'perusahaan.ekspor',
+                // ],
             ],
         ],
     ];

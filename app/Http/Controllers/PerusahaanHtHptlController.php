@@ -22,7 +22,21 @@ class PerusahaanHtHptlController extends Controller
      */
     public function index(PerusahaanHtHptlRequest $request): Response|RedirectResponse
     {
-        $access = $this->getAccessByRoute('perusahaan.hthptl');
+        $startPeriod = $request->query('start_period');
+        $endPeriod = $request->query('end_period');
+
+        // Jika pada request tidak ada query string "start_period" dan "end_period
+        // reqdirect ke halaman ini dengan menambahan query string
+        // start_period = tanggal 01 pada bulan saat ini
+        // end_period = tanggal saat ini. 
+        if (is_null($startPeriod) || is_null($endPeriod)) {
+            return to_route('perusahaan-hthptl', [
+                'start_period' => $request->query('start_period', date('Y-m-01')),
+                'end_period' => $request->query('end_period', date('Y-m-d')),
+            ]);
+        }
+
+        $access = $this->getAccessByRoute('perusahaan-hthptl');
         $data = $request->paginate(access: $access);
 
         return $this->renderPaginate(
@@ -39,7 +53,7 @@ class PerusahaanHtHptlController extends Controller
     {
         $request->insert();
 
-        return to_route('perusahaan.hthptl', $request->query())->with([
+        return to_route('perusahaan-hthptl', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Perusahaan berhasil ditambahkan.'
         ]);
@@ -79,7 +93,7 @@ class PerusahaanHtHptlController extends Controller
         Excel::import(new PerusahaanHtHptlImport, $request->file('file'));
 
         // response
-        return to_route('perusahaan.hthptl', $request->query())->with([
+        return to_route('perusahaan-hthptl', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
@@ -92,7 +106,7 @@ class PerusahaanHtHptlController extends Controller
     {
         $request->update();
 
-        return to_route('perusahaan.hthptl', $request->query())->with([
+        return to_route('perusahaan-hthptl', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Perusahaan berhasil diperbarui.'
         ]);
@@ -105,7 +119,7 @@ class PerusahaanHtHptlController extends Controller
     {
         PerusahaanHtHptl::findOrFail($id)->delete();
 
-        return to_route('perusahaan.hthptl', $request->query())->with([
+        return to_route('perusahaan-hthptl', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Perusahaan berhasil dihapus.'
         ]);
@@ -120,7 +134,7 @@ class PerusahaanHtHptlController extends Controller
             ->findOrFail($id)
             ->forceDelete();
 
-        return to_route('perusahaan.hthptl', $request->query())->with([
+        return to_route('perusahaan-hthptl', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Perusahaan berhasil dihapus selamanya.'
         ]);
@@ -135,7 +149,7 @@ class PerusahaanHtHptlController extends Controller
             ->findOrFail($id)
             ->restore();
 
-        return to_route('perusahaan.hthptl', $request->query())->with([
+        return to_route('perusahaan-hthptl', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Perusahaan berhasil dipulihkan.'
         ]);

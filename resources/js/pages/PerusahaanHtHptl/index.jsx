@@ -111,7 +111,7 @@ const PerusahaanHtHptl = (props) => {
       label: "Dihapus",
       align: "left",
       format: "time",
-      show: status === "dihapus",
+      show: Boolean(access.destroy && status === "dihapus"),
       sort: true,
     },
   ];
@@ -120,7 +120,7 @@ const PerusahaanHtHptl = (props) => {
    * fungsi untuk request data
    */
   const fetchData = useCallback((parameters) => {
-    router.visit(route("perusahaan.hthptl"), {
+    router.visit(route("perusahaan-hthptl"), {
       method: "get",
       data: parameters,
       preserveScroll: true,
@@ -191,7 +191,7 @@ const PerusahaanHtHptl = (props) => {
    * fungsi untuk delete data perusahaan
    */
   const handleDelete = useCallback(() => {
-    const url = route(`perusahaan.hthptl.${deleteType}`, {
+    const url = route(`perusahaan-hthptl.${deleteType}`, {
       id: deleteId,
       _query: params,
     });
@@ -233,7 +233,7 @@ const PerusahaanHtHptl = (props) => {
    * fungsi untuk restore data perusahaan
    */
   const handleRestore = useCallback(() => {
-    const url = route(`perusahaan.hthptl.restore`, {
+    const url = route(`perusahaan-hthptl.restore`, {
       id: restoreId,
       _query: params,
     });

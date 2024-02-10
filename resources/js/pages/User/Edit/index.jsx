@@ -11,6 +11,7 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import dateFormat from "@/utils";
 import { useForm } from "@inertiajs/react";
+import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Box, CardContent, Grid, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
@@ -410,6 +411,7 @@ const EditUser = (props) => {
               type="submit"
               color="primary"
               loading={processing}
+              startIcon={<Save />}
             >
               Simpan
             </LoadingButton>

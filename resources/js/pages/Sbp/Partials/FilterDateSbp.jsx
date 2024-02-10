@@ -1,10 +1,11 @@
 import CardPaper from "@/components/CardPaper";
 import DateInput from "@/components/Input/DateInput";
 import dateFormat from "@/utils";
-import { router, useForm, usePage } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
+import { FilterList } from "@mui/icons-material";
 import { Button, CardContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 
 /**
  * komponen filter tanggal sbp
@@ -82,6 +83,7 @@ const FilterDateSbp = () => {
               color="primary"
               variant="contained"
               onClick={handleSubmit}
+              startIcon={<FilterList />}
               disabled={Boolean(
                 processing ||
                   data.start_period === null ||

@@ -24,7 +24,7 @@ const Search = () => {
     (parameters) => {
       setLoading(true);
 
-      router.visit(route("perusahaan.hthptl"), {
+      router.visit(route("perusahaan-hthptl"), {
         method: "get",
         data: parameters,
         preserveScroll: true,

@@ -97,5 +97,6 @@
 
 ## 4. Note
 
-1. Ubah nama division menjadi kantor.
-2. Tampilkan hanya data transaksi hanya berdasarkan kantor yang dimiliki user yang sedang login.
+1. Buat master perusahaan untuk dijadikan selection saat menambah atau merubah data perusahaan. Jangan buat relasi antar tabel dengan master perusahaan, simpan saja karakter stringnya.
+2. Buat filter periode otomatis (start_period = tanggal 1bulan saat ini, end_period = tanggal saat ini) saat awal menu dibuka.
+3. Untuk tabel SBP data tidak bertambah, data SBP hanya sesuai dengan jumlah kantor yang ada. untuk mencatat history buat tabel baru `sbp_history`. Jika ada penambahan data SBP dengan kantor yang sudah ada pindahkan data yang lama ke tabel `sbp_history`.

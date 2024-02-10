@@ -17,6 +17,7 @@ import FilterStatusKomoditi from "./Partials/FilterStatusKomoditi";
 import FormCommodity from "./Partials/FormKomoditi";
 import SearchKomoditi from "./Partials/SearchKomoditi";
 import ModalImportKomoditi from "./Partials/ModalImportKomoditi";
+import { Add } from "@mui/icons-material";
 
 /**
  * Komponen template untuk halaman commodity.
@@ -97,8 +98,9 @@ const KomoditiTemplate = ({ children }) => {
               variant="contained"
               color="primary"
               onClick={handleAdd}
+              startIcon={<Add />}
             >
-              Tambah Komoditi
+              Tambah
             </Button>
           ) : null
         }
