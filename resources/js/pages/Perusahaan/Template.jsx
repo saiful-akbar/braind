@@ -8,6 +8,9 @@ import { useSelector } from "react-redux";
 import usePerusahaan from "@/hooks/usePerusahaan";
 import ModalFormPerusahaan from "./Partials/ModalFormPerusahaan";
 import { Add } from "@mui/icons-material";
+import DeleteConfirmation from "@/components/DeleteConfirmation";
+import RestoreConfirmation from "@/components/RestoreConfirmation";
+import ModalFormImportPerusahaan from "./Partials/ModalFormImportPerusahaan";
 
 /**
  * Tamplate master perusahaan.
@@ -16,7 +19,8 @@ import { Add } from "@mui/icons-material";
  */
 const PerusahaanTemplate = ({ children }) => {
   const { access } = usePage().props;
-  const { modalForm } = usePerusahaan();
+  const { modalForm, delete: destroy, restore } = usePerusahaan();
+  const perusahaan = useSelector((state) => state.perusahaan);
 
   return (
     <AuthLayout title="Perusahaan">
@@ -43,6 +47,31 @@ const PerusahaanTemplate = ({ children }) => {
 
       {/* Komponen modal form create & update */}
       <ModalFormPerusahaan />
+
+      {/* Modal dialog konfirmasi hapus */}
+      {Boolean(access.remove || access.destroy) && (
+        <DeleteConfirmation
+          open={Boolean(perusahaan.delete.id !== null)}
+          title={perusahaan.delete.title}
+          loading={perusahaan.delete.processing}
+          onDelete={() => destroy.submit()}
+          onClose={() => destroy.close()}
+        />
+      )}
+
+      {/* Modal dialog konfirmasi pemulihan (restore) */}
+      {access.destroy && (
+        <RestoreConfirmation
+          open={Boolean(perusahaan.restore.id !== null)}
+          title={perusahaan.restore.title}
+          loading={perusahaan.restore.processing}
+          onRestore={() => restore.submit()}
+          onClose={() => restore.close()}
+        />
+      )}
+
+      {/* Komponen import excel */}
+      {access.create && <ModalFormImportPerusahaan />}
     </AuthLayout>
   );
 };

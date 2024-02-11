@@ -48,7 +48,7 @@ const FormFilterStatusPerusahaan = () => {
         onFinish: () => setProcessing(false),
       });
     },
-    [setProcessing]
+    [setProcessing, params]
   );
 
   return (

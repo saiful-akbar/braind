@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\MenuUser;
 use Illuminate\View\View;
+use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 use App\Models\PerusahaanHtHptl;
 use Maatwebsite\Excel\Concerns\FromView;
@@ -16,78 +17,57 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class PerusahaanHtHptlExport implements FromView, WithStyles, ShouldAutoSize
+class PerusahaanExport implements FromView, WithStyles, ShouldAutoSize
 {
     use Exportable;
 
     private array $columns = [
-        'kantor_id',
-        'kantor_nama',
-        'nama_perusahaan',
-        'nppbkc',
-        'jumlah_ck',
-        'jenis_bkc',
-        'jumlah',
-        'jumlah_cukai',
-        'tanggal_input',
+        'id',
+        'nama',
+        'created_at',
+        'updated_at',
         'deleted_at',
     ];
 
+    private string $orderBy = 'nama';
     private string $order = 'asc';
-    private string $orderBy = 'kantor_nama';
 
     private $query;
 
     /**
      * Constructor method
      */
-    public function __construct(private Request $request, private MenuUser $access)
+    public function __construct(Request $request, MenuUser $access)
     {
-        $columns = [
-            'perusahaan_ht_hptl.*',
-            'kantor.nama as kantor_nama',
-        ];
+        // Ambil semua kolom pada data 
+        $this->query = Perusahaan::select($this->columns);
 
-        // Buat query select data perusahaan_ht_hptl dan join dengan data kantor.
-        // lalu filter berdasarkan tanggal_input dengan where between
-        $this->query = PerusahaanHtHptl::select($columns)
-            ->leftJoin('kantor', 'perusahaan_ht_hptl.kantor_id', '=', 'kantor.id')
-            ->whereBetween('perusahaan_ht_hptl.tanggal_input', [
-                $request->query('start_period'),
-                $request->query('end_period'),
-            ]);
-
-        // jika ada query string "status" dengan nilai "dihapus"
-        // tampilkan hanya data yang telah dihapus
-        if ($access->destroy && $request->query('status') == 'dihapus') {
+        // Jika dad request "status" dengan nilai "dihapus" dan user login
+        // memiliki akses destroy maka tampilkan data yang sudah dihapus.
+        if ($access->destroy && $request->query('status', 'aktif') == 'dihapus') {
             $this->query->onlyTrashed();
         }
 
-        // jika user sebegai admin tampilkan semua data perusahaan.
-        // jika user bukan admin tampilkan hanya data perusahaan dengan kantor_id
-        // yang sama dengan kantor_id yang dimiliki user.
-        if (!user()->admin) {
-            $this->query->where('perusahaan_ht_hptl.kantor_id', user()->kantor_id);
-        }
-
-        // jika ada query string "search" tambahkan query where like
+        // Periksa jika ada request "search" untuk pencarian data
+        // tambahkan query where like.
         if (!empty($request->query('search'))) {
             $this->query->where(function (Builder $query) use ($request): void {
-                $query->where('perusahaan_ht_hptl.nama_perusahaan', 'like', '%' . $request->query('search') . '%')
-                    ->orWhere('kantor.nama', 'like', '%' . $request->query('search') . '%');
+                $query->where('id', 'like', '%' . $request->query('search') . '%')
+                    ->orWhere('nama', 'like', '%' . $request->query('search') . '%');
             });
         }
 
-        // Periksa jika ada query string "order_by" ubah properti "$orderBy"
+        // Periksa jika ada request "order_by" ubah properti $orderBy
         if (in_array($request->query('order_by'), $this->columns)) {
             $this->orderBy = $request->query('order_by');
         }
 
-        // Periksa jika ada query string "order" ubah properti "$order"
-        if ($request->query('order') === 'desc') {
+        // Periksa jika ada request "order" obah properti pada $order
+        if ($request->query('order') == 'desc') {
             $this->order = 'desc';
         }
 
+        // Tambahkan query order
         $this->query->orderBy($this->orderBy, $this->order);
     }
 
@@ -117,7 +97,7 @@ class PerusahaanHtHptlExport implements FromView, WithStyles, ShouldAutoSize
             ],
 
             // style untuk semua cell
-            "A1:I{$count}" => [
+            "A1:D{$count}" => [
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
@@ -135,7 +115,7 @@ class PerusahaanHtHptlExport implements FromView, WithStyles, ShouldAutoSize
      */
     function view(): View
     {
-        return view('exports.perusahaan-ht-hptl', [
+        return view('exports.perusahaan-export', [
             'data' => $this->query->get(),
         ]);
     }

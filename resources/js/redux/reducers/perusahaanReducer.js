@@ -10,11 +10,27 @@ export const perusahaanSlice = createSlice({
     form: {
       type: "create",
       open: false,
-      loading: false,
       data: {
         id: "",
         nama: "",
       },
+    },
+
+    delete: {
+      type: "remove",
+      id: null,
+      processing: false,
+      title: "Hapus perusahaan",
+    },
+
+    restore: {
+      id: null,
+      processing: false,
+      title: "Pulihkan perusahaan",
+    },
+
+    import: {
+      open: false,
     },
   },
 
@@ -23,7 +39,6 @@ export const perusahaanSlice = createSlice({
       state.form = {
         type: "create",
         open: true,
-        loading: false,
         data: {
           id: "",
           nama: "",
@@ -36,7 +51,6 @@ export const perusahaanSlice = createSlice({
       state.form = {
         type: "update",
         open: true,
-        loading: false,
         data: {
           id,
           nama,
@@ -48,8 +62,46 @@ export const perusahaanSlice = createSlice({
       state.form.open = false;
     },
 
-    loadingFormPerusahaan: (state, action) => {
-      state.form.loading = action.payload;
+    openDeleteConfirmation: (state, action) => {
+      const { id, type } = action.payload;
+
+      state.delete.id = id;
+      state.delete.type = type;
+
+      if (type === "remove") {
+        state.delete.title = "Hapus perusahaan";
+      } else {
+        state.delete.title = "Hapus selamanya";
+      }
+    },
+
+    closeDeleteConfirmation: (state) => {
+      state.delete.id = null;
+    },
+
+    deleting: (state, action) => {
+      state.delete.processing = action.payload;
+    },
+
+    openRestoreConfirmation: (state, action) => {
+      state.restore.id = action.payload;
+      state.restore.processing = false;
+    },
+
+    closeRestoreConfirmation: (state) => {
+      state.restore.id = null;
+    },
+
+    restoring: (state, action) => {
+      state.restore.processing = action.payload;
+    },
+
+    openModalFormlImportPerusahaan: (state) => {
+      state.import.open = true;
+    },
+
+    closeModalFormlImportPerusahaan: (state) => {
+      state.import.open = false;
     },
   },
 });
@@ -62,6 +114,14 @@ export const {
   updatePerusahaan,
   closeFormPerusahaan,
   loadingFormPerusahaan,
+  openDeleteConfirmation,
+  closeDeleteConfirmation,
+  deleting,
+  openRestoreConfirmation,
+  closeRestoreConfirmation,
+  restoring,
+  openModalFormlImportPerusahaan,
+  closeModalFormlImportPerusahaan,
 } = perusahaanSlice.actions;
 
 /**

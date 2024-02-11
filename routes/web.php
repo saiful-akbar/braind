@@ -114,6 +114,14 @@ Route::middleware('auth')->group(function (): void {
             Route::delete('/{perusahaan}', 'remove')->name('.remove')->middleware('access:master-perusahaan,remove');
             Route::patch('/{perusahaan}/restore', 'restore')->name('.restore')->middleware('access:master-perusahaan,destroy');
             Route::delete('/{perusahaan}/destroy', 'destroy')->name('.destroy')->middleware('access:master-perusahaan,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:master-perusahaan,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:master-perusahaan,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:master-perusahaan,create');
+                });
         });
 
     /**

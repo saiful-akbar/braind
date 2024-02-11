@@ -55,6 +55,8 @@ const ModalFormPerusahaan = () => {
 
     if (type === "create") {
       modalForm.store(form);
+    } else {
+      modalForm.update(form);
     }
   };
 
@@ -72,6 +74,7 @@ const ModalFormPerusahaan = () => {
         <TextInput
           fullWidth
           required
+          autoFocus
           type="text"
           label="Nama Perusahaan"
           name="nama"

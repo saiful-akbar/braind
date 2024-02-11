@@ -53,6 +53,9 @@ TableActionButton.defaultProps = {
   export: false,
   import: false,
   reload: false,
+  onExport: () => {},
+  onImport: () => {},
+  onReload: () => {},
 };
 
 export default TableActionButton;
