@@ -6,7 +6,6 @@ import { Box, Typography } from "@mui/material";
  * Halaman dashboard.
  */
 const Dashboard = (props) => {
-  console.log("Dashboard:", props);
   return (
     <>
       <Header title="Dashboard" />

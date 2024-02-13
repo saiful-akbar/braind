@@ -1,100 +1,126 @@
 import TextInput from "@/components/Input/TextInput";
 import Modal from "@/components/Modal";
-import usePerusahaan from "@/hooks/usePerusahaan";
-import { closeFormPerusahaan } from "@/redux/reducers/perusahaanReducer";
+import { closeForm } from "@/redux/reducers/perusahaanReducer";
 import { useForm, usePage } from "@inertiajs/react";
 import { Close, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Button, DialogActions, DialogContent } from "@mui/material";
-import React, { useEffect } from "react";
-import { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
- * Komponen modal form create & update master perusahaan.
+ * Komponen modal form master perusahaan.
  *
  * @returns {React.ReactElement}
  */
 const ModalFormPerusahaan = () => {
+  const perusahaan = useSelector((state) => state.perusahaan);
   const dispatch = useDispatch();
-  const { open, type, data } = useSelector((state) => state.perusahaan.form);
-  const { modalForm } = usePerusahaan();
-  const { app } = usePage().props;
+  const { app, access } = usePage().props;
+  const { params } = app.url;
 
   /**
    * Form data
    */
-  const form = useForm({
-    ...data,
-    _token: app.csrf,
-  });
+  const { data, setData, processing, errors, clearErrors, post, reset } =
+    useForm({
+      ...perusahaan.form.data,
+      _token: app.csrf,
+    });
 
   /**
-   * Update form & hapus error saat modal dibuka
+   * Update form data saat modal dibuka
    */
   useEffect(() => {
-    form.setData({ ...data, _token: app.csrf });
-    form.clearErrors();
-  }, [open]);
+    clearErrors();
+    setData({
+      ...perusahaan.form.data,
+      _token: app.csrf,
+    });
+  }, [perusahaan.form.open]);
 
   /**
-   * fungsi untuk menutup modal.
-   * NB: modal hanya bisa di tutup jika tidak ada proses yang berjalan.
+   * fungsi untuk menutup modal
    */
   const handleClose = useCallback(() => {
-    if (!form.processing) {
-      modalForm.close();
+    if (!processing) {
+      dispatch(closeForm());
     }
-  }, [dispatch, form, modalForm]);
+  }, [dispatch, processing]);
 
   /**
-   * Fungsi untuk mengatasi ketika form di-submit
+   * fungsi untuk menangani ketika form diisi.
    */
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleInputChange = useCallback(
+    (e) => {
+      setData(e.target.name, e.target.value);
+    },
+    [setData]
+  );
 
-    if (type === "create") {
-      modalForm.store(form);
-    } else {
-      modalForm.update(form);
-    }
-  };
+  /**
+   * fungsi untuk menambah data perusahaan ke database
+   */
+  const handleStore = useCallback(() => {
+    const url = route(`master-perusahaan.${perusahaan.form.type}`, {
+      _query: params,
+    });
+
+    post(url, {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => reset(),
+    });
+  }, [post, perusahaan, params, reset]);
+
+  /**
+   * fungsi untuk menangani ketika form di submit
+   */
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      if (perusahaan.form.type === "store") {
+        handleStore();
+      }
+    },
+    [handleStore]
+  );
 
   return (
     <Modal
-      open={open}
-      title={type === "create" ? "Tambah Perusahaan" : "Edit Perusahaan"}
+      title={perusahaan.form.title}
+      open={perusahaan.form.open}
+      loading={processing}
       onClose={handleClose}
-      loading={form.processing}
       component="form"
       autoComplete="off"
       onSubmit={handleSubmit}
     >
-      <DialogContent dividers sx={{ py: 3 }}>
+      <DialogContent dividers sx={{ p: 3 }}>
         <TextInput
           fullWidth
           required
-          autoFocus
           type="text"
           label="Nama Perusahaan"
           name="nama"
           id="nama"
-          value={form.data.nama}
-          onChange={(e) => form.setData(e.target.name, e.target.value)}
-          disabled={form.processing}
-          error={Boolean(form.errors.nama)}
-          helperText={form.errors.nama}
+          value={data.nama}
+          disabled={processing}
+          onChange={handleInputChange}
+          error={Boolean(errors.nama)}
+          helperText={errors.nama}
         />
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
         <Button
           type="button"
-          size="large"
           color="primary"
           variant="outlined"
+          size="large"
+          disabled={processing}
           onClick={handleClose}
-          disabled={form.processing}
           startIcon={<Close />}
         >
           Tutup
@@ -102,10 +128,10 @@ const ModalFormPerusahaan = () => {
 
         <LoadingButton
           type="submit"
-          size="large"
           color="primary"
           variant="contained"
-          loading={form.processing}
+          size="large"
+          loading={processing}
           startIcon={<Save />}
         >
           Simpan

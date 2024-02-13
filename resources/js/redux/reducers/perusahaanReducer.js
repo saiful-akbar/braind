@@ -8,7 +8,8 @@ export const perusahaanSlice = createSlice({
 
   initialState: {
     form: {
-      type: "create",
+      type: "store",
+      title: "Tambah Perusahaan",
       open: false,
       data: {
         id: "",
@@ -19,13 +20,11 @@ export const perusahaanSlice = createSlice({
     delete: {
       type: "remove",
       id: null,
-      processing: false,
       title: "Hapus perusahaan",
     },
 
     restore: {
       id: null,
-      processing: false,
       title: "Pulihkan perusahaan",
     },
 
@@ -35,9 +34,10 @@ export const perusahaanSlice = createSlice({
   },
 
   reducers: {
-    createPerusahaan: (state) => {
+    openCreateForm: (state) => {
       state.form = {
-        type: "create",
+        type: "store",
+        title: "Tambah Perusahaan",
         open: true,
         data: {
           id: "",
@@ -46,10 +46,11 @@ export const perusahaanSlice = createSlice({
       };
     },
 
-    updatePerusahaan: (state, action) => {
+    openEditForm: (state, action) => {
       const { id, nama } = action.payload;
       state.form = {
         type: "update",
+        title: "Edit Perusahaan",
         open: true,
         data: {
           id,
@@ -58,7 +59,7 @@ export const perusahaanSlice = createSlice({
       };
     },
 
-    closeFormPerusahaan: (state) => {
+    closeForm: (state) => {
       state.form.open = false;
     },
 
@@ -79,10 +80,6 @@ export const perusahaanSlice = createSlice({
       state.delete.id = null;
     },
 
-    deleting: (state, action) => {
-      state.delete.processing = action.payload;
-    },
-
     openRestoreConfirmation: (state, action) => {
       state.restore.id = action.payload;
       state.restore.processing = false;
@@ -92,15 +89,11 @@ export const perusahaanSlice = createSlice({
       state.restore.id = null;
     },
 
-    restoring: (state, action) => {
-      state.restore.processing = action.payload;
-    },
-
-    openModalFormlImportPerusahaan: (state) => {
+    openFormlImport: (state) => {
       state.import.open = true;
     },
 
-    closeModalFormlImportPerusahaan: (state) => {
+    closeFormlImport: (state) => {
       state.import.open = false;
     },
   },
@@ -110,18 +103,15 @@ export const perusahaanSlice = createSlice({
  * Actions
  */
 export const {
-  createPerusahaan,
-  updatePerusahaan,
-  closeFormPerusahaan,
-  loadingFormPerusahaan,
+  openCreateForm,
+  openEditForm,
+  closeForm,
   openDeleteConfirmation,
   closeDeleteConfirmation,
-  deleting,
   openRestoreConfirmation,
   closeRestoreConfirmation,
-  restoring,
-  openModalFormlImportPerusahaan,
-  closeModalFormlImportPerusahaan,
+  openFormlImport,
+  closeFormlImport,
 } = perusahaanSlice.actions;
 
 /**

@@ -1,53 +1,64 @@
-import CardPaper from "@/components/CardPaper";
-import { CardContent, Grid } from "@mui/material";
-import TablePerusahaan from "./Partials/TablePerusahaan";
-import PerusahaanTemplate from "./Template";
-import FormSearchPerusahaan from "./Partials/FormSearchPerusahaan";
-import FormFilterStatusPerusahaan from "./Partials/FormFilterStatusPerusahaan";
-import TableActionButton from "@/components/Buttons/TableActionButton";
-import usePerusahaan from "@/hooks/usePerusahaan";
+import Header from "@/components/Header";
+import AuthLayout from "@/layouts/AuthLayout";
+import { Add } from "@mui/icons-material";
+import { Box, Button, Grid } from "@mui/material";
+import React from "react";
+import ModalFormPerusahaan from "./Partials/ModalFormPerusahaan";
+import { useDispatch } from "react-redux";
+import { openCreateForm } from "@/redux/reducers/perusahaanReducer";
 
+/**
+ * Komponen halaman master perusahaan.
+ *
+ * @returns {React.ReactElement}
+ */
 const Perusahaan = (props) => {
   const { access } = props;
-  const { table, exportExcel, importExcel } = usePerusahaan();
+  const dispatch = useDispatch();
+
+  /**
+   * fungsi untuk mmebuka modal form untuk
+   * menambah data perusahaan.
+   */
+  const handleOpenCreateForm = () => {
+    dispatch(openCreateForm());
+  };
 
   return (
-    <CardPaper>
-      <CardContent>
-        <Grid container spacing={3} justifyContent="space-between">
-          <Grid item md={4.5} xs={12}>
-            <FormSearchPerusahaan />
-          </Grid>
+    <React.Fragment>
+      <Header
+        title="Perusahaan"
+        action={
+          access.create ? (
+            <Button
+              type="button"
+              color="primary"
+              variant="contained"
+              startIcon={<Add />}
+              onClick={handleOpenCreateForm}
+            >
+              Tambah
+            </Button>
+          ) : null
+        }
+      />
 
-          {access.destroy && (
-            <Grid item md={4.5} xs={12}>
-              <FormFilterStatusPerusahaan />
-            </Grid>
-          )}
+      {/* Komponen utama */}
+      <Box component="main" sx={{ mt: 5 }}>
+        <Grid container spacing={3}></Grid>
+      </Box>
 
-          <Grid item xs={12} md={3}>
-            <TableActionButton
-              reload
-              export
-              import={access.create}
-              onReload={table.reload}
-              onExport={exportExcel}
-              onImport={importExcel.open}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TablePerusahaan />
-          </Grid>
-        </Grid>
-      </CardContent>
-    </CardPaper>
+      {/* Komponen modal form create & update */}
+      <ModalFormPerusahaan />
+    </React.Fragment>
   );
 };
 
 /**
  * Layout
  */
-Perusahaan.layout = (page) => <PerusahaanTemplate children={page} />;
+Perusahaan.layout = (page) => (
+  <AuthLayout title="Perusahaan">{page}</AuthLayout>
+);
 
 export default Perusahaan;
