@@ -1,4 +1,4 @@
-import React, { Fragment, memo } from "react";
+import React, { Fragment, memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   IconButton,
@@ -25,7 +25,7 @@ const DataTable = memo((props) => {
   const {
     columns,
     from,
-    order,
+    order: orderProps,
     orderBy,
     data,
     update,
@@ -38,6 +38,17 @@ const DataTable = memo((props) => {
     onOrder,
     paginationProps: pagination,
   } = props;
+
+  const [order, setOrder] = useState("asc");
+
+  /**
+   * Periksa dan ubah order
+   */
+  useEffect(() => {
+    if (orderProps === "asc" || orderProps === "desc") {
+      setOrder(orderProps);
+    }
+  }, [orderProps]);
 
   return (
     <Fragment>
@@ -213,7 +224,7 @@ DataTable.propTypes = {
   columns: PropTypes.arrayOf(columnsType).isRequired,
   from: PropTypes.number,
   orderBy: PropTypes.string.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]),
+  order: PropTypes.string.isRequired,
   update: PropTypes.bool,
   remove: PropTypes.bool,
   destroy: PropTypes.bool,

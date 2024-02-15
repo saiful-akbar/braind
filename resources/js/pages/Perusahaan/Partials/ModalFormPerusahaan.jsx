@@ -2,7 +2,7 @@ import TextInput from "@/components/Input/TextInput";
 import Modal from "@/components/Modal";
 import { closeForm } from "@/redux/reducers/perusahaanReducer";
 import { useForm, usePage } from "@inertiajs/react";
-import { Close, Save } from "@mui/icons-material";
+import { AccessTimeSharp, Close, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Button, DialogActions, DialogContent } from "@mui/material";
 import React, { useCallback, useEffect } from "react";
@@ -22,7 +22,7 @@ const ModalFormPerusahaan = () => {
   /**
    * Form data
    */
-  const { data, setData, processing, errors, clearErrors, post, reset } =
+  const { data, setData, processing, errors, clearErrors, post, patch, reset } =
     useForm({
       ...perusahaan.form.data,
       _token: app.csrf,
@@ -74,17 +74,39 @@ const ModalFormPerusahaan = () => {
   }, [post, perusahaan, params, reset]);
 
   /**
+   * fungsi untuk memperbarui data perusahaan ke database.
+   */
+  const handleUpdate = useCallback(() => {
+    const url = route(`master-perusahaan.${perusahaan.form.type}`, {
+      perusahaan: perusahaan.form.data.id,
+      _query: params,
+    });
+
+    patch(url, {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => {
+        handleClose();
+      },
+    });
+  }, [patch, perusahaan, params, handleClose, access]);
+
+  /**
    * fungsi untuk menangani ketika form di submit
    */
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
 
-      if (perusahaan.form.type === "store") {
+      const { type } = perusahaan.form;
+
+      if (type === "store" && access.create) {
         handleStore();
+      } else if (type === "update" && access.update) {
+        handleUpdate();
       }
     },
-    [handleStore]
+    [handleStore, handleUpdate, perusahaan, access]
   );
 
   return (
