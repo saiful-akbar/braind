@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { Box, Typography, Grid } from "@mui/material";
 import TextInput from "@/components/Input/TextInput";
 import PasswordInput from "@/components/Input/PasswordInput";
@@ -8,10 +8,16 @@ import { LoadingButton } from "@mui/lab";
 /**
  * Form login
  */
-const FormLogin = () => {
+const FormLogin = React.memo(() => {
+  const { app } = usePage().props;
+
+  /**
+   * Form data
+   */
   const { data, setData, post, processing, errors } = useForm({
     username: "",
     password: "",
+    _token: app.csrf,
   });
 
   /**
@@ -28,16 +34,15 @@ const FormLogin = () => {
   /**
    * Fungsi untuk menangani ketika form disubmit
    */
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const { username, password } = data;
-
-    if (username !== "" && password !== "") {
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
       post(route("login.store"), {
         preserveScroll: true,
       });
-    }
-  };
+    },
+    [post]
+  );
 
   return (
     <Box
@@ -62,7 +67,9 @@ const FormLogin = () => {
         <Grid item xs={12}>
           <TextInput
             fullWidth
+            required
             label="Username"
+            id="username"
             name="username"
             type="username"
             onChange={handleInputChange}
@@ -76,7 +83,9 @@ const FormLogin = () => {
         <Grid item xs={12}>
           <PasswordInput
             fullWidth
+            required
             label="Password"
+            id="password"
             name="password"
             onChange={handleInputChange}
             value={data.password}
@@ -96,6 +105,6 @@ const FormLogin = () => {
       </LoadingButton>
     </Box>
   );
-};
+});
 
 export default FormLogin;

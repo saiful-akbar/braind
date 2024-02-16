@@ -1,6 +1,6 @@
 import React from "react";
 import GuestLayout from "@/layouts/GuestLayout";
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import FormLogin from "./Partials/FormLogin";
 import bgLogin from "@/assets/images/login.webp";
 

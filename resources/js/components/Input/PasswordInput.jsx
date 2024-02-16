@@ -1,67 +1,60 @@
-import React from "react";
-import PropTypes from "prop-types";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { TextField, IconButton, Tooltip, InputAdornment } from "@mui/material";
+import { IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
+import PropTypes from "prop-types";
+import React, { useCallback, useEffect } from "react";
 
 /**
  * Komponen password input
  */
-const PasswordInput = React.memo(
-  ({ disabled, inputProps, iconSize, ...rest }) => {
-    const [show, setShow] = React.useState(false);
+const PasswordInput = React.memo(({ disabled, iconSize, ...rest }) => {
+  const [show, setShow] = React.useState(false);
+  const [title, setTitle] = React.useState("Sembunyikan password");
 
-    /**
-     * Fungsi untuk mengatasi ketika
-     * button toggle password diklik
-     */
-    const handleClick = (event) => {
-      setShow((prevState) => !prevState);
-    };
+  /**
+   * Update title
+   */
+  useEffect(() => {
+    setTitle(show ? "Sembunyikan password" : "Tampilkan password");
+  }, [show]);
 
-    return (
-      <TextField
-        {...rest}
-        type={show ? "text" : "password"}
-        disabled={disabled}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <Tooltip
-                title={show ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
-              >
-                <IconButton
-                  onClick={handleClick}
-                  disabled={disabled}
-                  sx={{
-                    color: "text.secondary",
-                    "&:hover": {
-                      color: "text.primary",
-                    },
-                  }}
-                >
-                  {show ? (
-                    <VisibilityOffIcon fontSize={iconSize} />
-                  ) : (
-                    <VisibilityIcon fontSize={iconSize} />
-                  )}
-                </IconButton>
-              </Tooltip>
-            </InputAdornment>
-          ),
-          ...inputProps,
-        }}
-      />
-    );
-  }
-);
+  /**
+   * Fungsi untuk mengatasi ketika
+   * button toggle password diklik
+   */
+  const handleClick = useCallback(() => {
+    setShow((prevState) => !prevState);
+  }, [setShow, setTitle]);
+
+  return (
+    <TextField
+      {...rest}
+      type={show ? "text" : "password"}
+      disabled={disabled}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <Tooltip title={title}>
+              <IconButton onClick={handleClick} disabled={disabled}>
+                {show ? (
+                  <VisibilityOffIcon fontSize={iconSize} />
+                ) : (
+                  <VisibilityIcon fontSize={iconSize} />
+                )}
+              </IconButton>
+            </Tooltip>
+          </InputAdornment>
+        ),
+      }}
+    />
+  );
+});
 
 /**
  * Prop types
  */
 PasswordInput.propTypes = {
   disabled: PropTypes.bool,
-  inputProps: PropTypes.object,
   iconSize: PropTypes.string,
 };
 
@@ -70,7 +63,6 @@ PasswordInput.propTypes = {
  */
 PasswordInput.defaultProps = {
   disabled: false,
-  inputProps: {},
   iconSize: "medium",
 };
 
