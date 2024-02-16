@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\PerusahaanExport;
 use App\Exports\Templates\PerusahaanTemplateExport;
+use App\Http\Requests\Perusahaan\ImportPerusahaanRequest;
 use App\Http\Requests\Perusahaan\PerusahaanRequest;
 use App\Http\Requests\Perusahaan\StorePerusahaanRequest;
 use App\Http\Requests\Perusahaan\UpdatePerusahaanRequest;
@@ -148,12 +149,12 @@ class PerusahaanController extends Controller
     /**
      * Import excel.
      *
-     * @param Request $request
+     * @param ImportPerusahaanRequest $request
      * @return RedirectResponse
      */
-    public function import(Request $request): RedirectResponse
+    public function import(ImportPerusahaanRequest $request): RedirectResponse
     {
-        $request->import();
+        $request->importExcel();
 
         return to_route('master-perusahaan', $request->query())->with([
             'flash.status' => 'success',

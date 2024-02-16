@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Perusahaan;
 
-use App\Models\PerusahaanImpor;
+use App\Imports\PerusahaanImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -31,8 +31,8 @@ class ImportPerusahaanRequest extends FormRequest
     /**
      * Jalankan proses import excel
      */
-    public function import(): void
+    public function importExcel(): void
     {
-        Excel::import(new PerusahaanImpor, $this->file('file'));
+        Excel::import(new PerusahaanImport, $this->file('file'));
     }
 }

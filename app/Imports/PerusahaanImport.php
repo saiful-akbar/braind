@@ -18,7 +18,7 @@ class PerusahaanImport implements ToModel, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            'nama_perusahaan' => 'required|string|max:100,unique:perusahaan,nama',
+            'nama_perusahaan' => 'required|string|max:100|unique:perusahaan,nama',
         ];
     }
 
