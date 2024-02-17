@@ -24,7 +24,6 @@ const FilterStatusPerusahaanMmea = () => {
   /**
    * State
    */
-  const [processing, setProcessing] = useState(false);
   const [value, setValue] = useState(params.status ?? "aktif");
 
   /**
@@ -37,8 +36,6 @@ const FilterStatusPerusahaanMmea = () => {
       router.visit(route("perusahaan-mmea"), {
         method: "get",
         preserveScroll: true,
-        onStart: () => setProcessing(true),
-        onFinish: () => setProcessing(false),
         data: {
           ...params,
           page: 1,
@@ -46,7 +43,7 @@ const FilterStatusPerusahaanMmea = () => {
         },
       });
     },
-    [params, setProcessing, setValue]
+    [params, setValue]
   );
 
   return (
@@ -58,7 +55,6 @@ const FilterStatusPerusahaanMmea = () => {
       items={list}
       value={value}
       onChange={handleInputChange}
-      disabled={processing}
     />
   );
 };

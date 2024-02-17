@@ -7,6 +7,7 @@ export const perusahaanMmeaSlice = createSlice({
     form: {
       open: false,
       type: "create",
+      title: "Tambah Perusahaan",
       data: {
         id: "",
         kantor_id: "",
@@ -18,17 +19,30 @@ export const perusahaanMmeaSlice = createSlice({
         tanggal_input: "",
       },
     },
+
+    delete: {
+      type: "remove",
+      title: "Hapus Perusahaan",
+      id: null,
+    },
+
+    restore: {
+      title: "Pulihkan Perusahaan",
+      id: null,
+    },
   },
 
   reducers: {
-    createPerusahaanMmea: (state) => {
+    openCreateForm: (state) => {
       state.form.open = true;
       state.form.type = "create";
+      state.form.title = "Tambah Perusahaan";
     },
 
-    updatePerusahaanMmea: (state, action) => {
+    openEditForm: (state, action) => {
       state.form.open = true;
       state.form.type = "update";
+      state.form.title = "Edit Perusahaan";
       state.form.data = {
         id: action.payload.id,
         kantor_id: action.payload.kantor_id,
@@ -36,21 +50,50 @@ export const perusahaanMmeaSlice = createSlice({
         nppbkc: action.payload.nppbkc,
         jumlah_dokumen: action.payload.jumlah_dokumen,
         jumlah_liter: action.payload.jumlah_liter,
-        jumlah_cukai: action.payload.jumlah_liter,
+        jumlah_cukai: action.payload.jumlah_cukai,
         tanggal_input: action.payload.tanggal_input,
       };
     },
 
-    closeFormPerusahaanMmea: (state) => {
+    closeForm: (state) => {
       state.form.open = false;
+    },
+
+    openRemoveConfirmation: (state, action) => {
+      state.delete.type = "remove";
+      state.delete.title = "Hapus Perusahaan";
+      state.delete.id = action.payload;
+    },
+
+    openDestroyConfirmation: (state, action) => {
+      state.delete.type = "destroy";
+      state.delete.title = "Hapus Perusahaan Selamanya";
+      state.delete.id = action.payload;
+    },
+
+    closeDeleteConfirmation: (state) => {
+      state.delete.id = null;
+    },
+
+    openRestoreConfirmation: (state, action) => {
+      state.restore.id = action.payload;
+    },
+
+    closeRestoreConfirmation: (state) => {
+      state.restore.id = null;
     },
   },
 });
 
 export const {
-  createPerusahaanMmea,
-  updatePerusahaanMmea,
-  closeFormPerusahaanMmea,
+  openCreateForm,
+  openEditForm,
+  closeForm,
+  openRemoveConfirmation,
+  openDestroyConfirmation,
+  closeDeleteConfirmation,
+  openRestoreConfirmation,
+  closeRestoreConfirmation,
 } = perusahaanMmeaSlice.actions;
 
 export default perusahaanMmeaSlice.reducer;

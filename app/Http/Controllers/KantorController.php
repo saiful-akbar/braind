@@ -117,16 +117,6 @@ class KantorController extends Controller
     }
 
     /**
-     * Mengambil data kantor dengan json response
-     */
-    public function get(): JsonResponse
-    {
-        $kantor = Kantor::orderBy('nama', 'asc')->get();
-
-        return $this->jsonResponse(data: $kantor);
-    }
-
-    /**
      * download template import excel
      */
     public function downloadTemplate(): BinaryFileResponse
@@ -150,5 +140,15 @@ class KantorController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Mengambil data kantor dengan json response
+     */
+    public function json(): JsonResponse
+    {
+        $kantor = Kantor::orderBy('nama', 'asc')->get();
+
+        return $this->jsonResponse(data: $kantor);
     }
 }

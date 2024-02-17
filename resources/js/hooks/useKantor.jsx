@@ -7,7 +7,7 @@ const useKantor = () => {
   const getAll = useCallback(async () => {
     return axios({
       method: "get",
-      url: route("kantor.get"),
+      url: route("kantor.json"),
     })
       .then((response) => response.data)
       .catch((error) => error.response);

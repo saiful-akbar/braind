@@ -4,37 +4,16 @@ import TextInput from "@/components/Input/TextInput";
 import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { closeModalPerusahaanHtHptl } from "@/redux/reducers/perusahaanHtHptlReducer";
+import Perusahaan from "@/services/PerusahaanService";
 import Kantor from "@/services/kantorService";
 import dateFormat from "@/utils";
-import { router, useForm, usePage } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { Close, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-/**
- * List daftar perusahaan
- */
-const perusahaan = [
-  {
-    label: "Cukai HT + HPTL",
-    value: "Cukai HT + HPTL",
-  },
-  {
-    label: "Cukai MMEA",
-    value: "Cukai MMEA",
-  },
-  {
-    label: "Ekspor",
-    value: "Ekspor",
-  },
-  {
-    label: "Impor",
-    value: "Impor",
-  },
-];
 
 /**
  * Komponen modal create & update partials untuk
@@ -51,12 +30,13 @@ const ModalForm = () => {
 
   // state
   const [kantor, setKantor] = useState([]);
+  const [perusahaan, setPerusahaan] = useState([]);
 
   /**
    * Ambil data kantor
    */
   useEffect(() => {
-    const getKantor = async () => {
+    const getAllKantor = async () => {
       try {
         const response = await Kantor.getAll();
         const { data } = response;
@@ -77,8 +57,32 @@ const ModalForm = () => {
       }
     };
 
-    getKantor();
-  }, []);
+    const getAllPerusahaan = async () => {
+      try {
+        const response = await Perusahaan.getAll();
+        const { data } = response;
+
+        setPerusahaan(() =>
+          data.map((item) => ({
+            label: item.nama,
+            value: item.nama,
+          }))
+        );
+      } catch (error) {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: `${error.status} - Gagal mengambil data perusahaan`,
+          })
+        );
+      }
+    };
+
+    if (open) {
+      getAllKantor();
+      getAllPerusahaan();
+    }
+  }, [open]);
 
   // form
   const {
@@ -308,21 +312,23 @@ const ModalForm = () => {
             />
           </Grid>
 
-          <Grid item md={6} xs={12}>
-            <DateInput
-              fullWidth
-              label="Tanggal input"
-              name="tanggal_input"
-              value={dayjs(formData.tanggal_input)}
-              onChange={(value) => handleDateChange("tanggal_input", value)}
-              error={Boolean(errors.tanggal_input)}
-              helperText={
-                Boolean(errors.tanggal_input)
-                  ? errors.tanggal_input
-                  : "Biarkan tanggal input tetap kosong untuk mengambil tanggal saat ini."
-              }
-            />
-          </Grid>
+          {user.admin && (
+            <Grid item md={6} xs={12}>
+              <DateInput
+                fullWidth
+                label="Tanggal input"
+                name="tanggal_input"
+                value={dayjs(formData.tanggal_input)}
+                onChange={(value) => handleDateChange("tanggal_input", value)}
+                error={Boolean(errors.tanggal_input)}
+                helperText={
+                  Boolean(errors.tanggal_input)
+                    ? errors.tanggal_input
+                    : "Biarkan tanggal input tetap kosong untuk mengambil tanggal saat ini."
+                }
+              />
+            </Grid>
+          )}
         </Grid>
       </DialogContent>
 

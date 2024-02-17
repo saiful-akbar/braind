@@ -16,7 +16,6 @@ const FormSearchPerusahaanMmea = () => {
    * State
    */
   const [value, setValue] = useState(searchParams);
-  const [processing, setProcessing] = useState(false);
 
   /**
    * Fungsi untuk mengatasi ketika form diisi
@@ -41,11 +40,9 @@ const FormSearchPerusahaanMmea = () => {
           page: 1,
           search: data,
         },
-        onStart: () => setProcessing(true),
-        onFinish: () => setProcessing(false),
       });
     },
-    [setProcessing, params]
+    [params]
   );
 
   /**
@@ -95,7 +92,6 @@ const FormSearchPerusahaanMmea = () => {
         onChange={handleInputChange}
         onBlur={handleInputBlur}
         onClear={handleInputClear}
-        disabled={processing}
       />
     </form>
   );

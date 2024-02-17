@@ -10,6 +10,7 @@ use App\Http\Requests\Perusahaan\StorePerusahaanRequest;
 use App\Http\Requests\Perusahaan\UpdatePerusahaanRequest;
 use App\Models\Perusahaan;
 use App\Models\PerusahaanImpor;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -160,5 +161,17 @@ class PerusahaanController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import excel berhasil.'
         ]);
+    }
+
+    /**
+     * Mengambil semua data perusahaan
+     *
+     * @return JsonResponse
+     */
+    public function json(): JsonResponse
+    {
+        return $this->jsonResponse(
+            data: Perusahaan::orderBy('nama', 'asc')->get(),
+        );
     }
 }

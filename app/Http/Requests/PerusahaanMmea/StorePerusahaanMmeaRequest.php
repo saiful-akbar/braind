@@ -24,7 +24,7 @@ class StorePerusahaanMmeaRequest extends FormRequest
     {
         return [
             'kantor_id'       => 'nullable|exists:kantor,id',
-            'nama_perusahaan' => 'required|string|max:50',
+            'nama_perusahaan' => 'required|string|max:100',
             'nppbkc'          => 'required|string|max:100',
             'jumlah_dokumen'  => 'required|numeric|min:0',
             'jumlah_liter'    => 'required|numeric|min:0',
@@ -40,7 +40,14 @@ class StorePerusahaanMmeaRequest extends FormRequest
      */
     public function insert(): void
     {
-        $kantorId = (user()->admin && $this->kantor_id != null) ? $this->kantor_id : user()->kantor_id;
+        // Jika user sebagai admin dan kantor_id diisi ambil kantor_id dari request, jika kosong
+        // ambil kantor_id yang dimiliki user.
+        // Jika user bukan admin ambil kantor_id yang dimiliki user.
+        if (user()->admin) {
+            $kantorId = $this->kantor_id ?? user()->kantor_id;
+        } else {
+            $kantorId = user()->kantor_id;
+        }
 
         PerusahaanMmea::create([
             'user_id'         => user()->id,

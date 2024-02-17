@@ -48,12 +48,13 @@ const DeleteConfirmation = React.memo((props) => {
       <DialogActions sx={{ px: 3, pb: 3 }}>
         <LoadingButton
           fullWidth
+          autoFocus
+          size="large"
           type="button"
           variant="contained"
           color="error"
           loading={loading}
           onClick={onDelete}
-          loadingIndicator="Menghapus..."
         >
           Hapus
         </LoadingButton>

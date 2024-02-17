@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PerusahaanMmeaExport;
+use App\Exports\Templates\PerusahaanMmeaTemplateExport;
+use Inertia\Response;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\PerusahaanMmea\PerusahaanMmeaRequest;
 use App\Http\Requests\PerusahaanMmea\StorePerusahaanMmeaRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Inertia\Response;
+use App\Http\Requests\PerusahaanMmea\UpdatePerusahaanMmeaRequest;
+use App\Models\PerusahaanMmea;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PerusahaanMmeaController extends Controller
 {
@@ -56,5 +62,103 @@ class PerusahaanMmeaController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Perusahaan berhasil ditambahkan.'
         ]);
+    }
+
+    /**
+     * Update data perusahaan MMEA ke database.
+     *
+     * @param UpdatePerusahaanMmeaRequest $request
+     * @param Perusahaan $perusahaan
+     * @return RedirectResponse
+     */
+    public function update(UpdatePerusahaanMmeaRequest $request, PerusahaanMmea $perusahaan): RedirectResponse
+    {
+        $request->update();
+
+        return to_route('perusahaan-mmea', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil diperbarui.',
+        ]);
+    }
+
+    /**
+     * Hapus (soft delete) data perusahaan mmea
+     *
+     * @param Request $request
+     * @param PerusahaanMmea $perusahaan
+     * @return RedirectResponse
+     */
+    public function remove(Request $request, PerusahaanMmea $perusahaan): RedirectResponse
+    {
+        $perusahaan->delete();
+
+        return to_route('perusahaan-mmea', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil dihapus.',
+        ]);
+    }
+
+    /**
+     * Hapus (soft delete) data perusahaan mmea
+     *
+     * @param Request $request
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function restore(Request $request, string $id): RedirectResponse
+    {
+        PerusahaanMmea::onlyTrashed()
+            ->findOrFail($id)
+            ->restore();
+
+        return to_route('perusahaan-mmea', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil dipulihkan.',
+        ]);
+    }
+
+    /**
+     * Hapus (permanent delete) data perusahaan mmea
+     *
+     * @param Request $request
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function destroy(Request $request, string $id): RedirectResponse
+    {
+        PerusahaanMmea::onlyTrashed()
+            ->findOrFail($id)
+            ->forceDelete();
+
+        return to_route('perusahaan-mmea', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil dihapus selamanya.',
+        ]);
+    }
+
+    /**
+     * Export excel
+     *
+     * @param Request $request
+     * @return BinaryFileResponse
+     */
+    public function export(Request $request): BinaryFileResponse
+    {
+        $access = $this->getAccessByRoute('perusahaan-mmea');
+        $fileName = "perusahaan_mmea_export.xlsx";
+
+        return Excel::download(new PerusahaanMmeaExport($request, $access), $fileName);
+    }
+
+    /**
+     * Download template import
+     *
+     * @return BinaryFileResponse
+     */
+    public function downloadTemplate(): BinaryFileResponse
+    {
+        $fileName = "template_import_perusahaan_mmea.xlsx";
+
+        return Excel::download(new PerusahaanMmeaTemplateExport, $fileName);
     }
 }

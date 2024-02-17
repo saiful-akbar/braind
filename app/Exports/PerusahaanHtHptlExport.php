@@ -135,7 +135,7 @@ class PerusahaanHtHptlExport implements FromView, WithStyles, ShouldAutoSize
      */
     function view(): View
     {
-        return view('exports.perusahaan-ht-hptl', [
+        return view('exports.perusahaan-ht-hptl-export', [
             'data' => $this->query->get(),
         ]);
     }

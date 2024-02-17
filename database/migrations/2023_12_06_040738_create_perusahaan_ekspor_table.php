@@ -27,7 +27,7 @@ return new class extends Migration
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->string('nama_perusahaan', 50);
+            $table->string('nama_perusahaan', 100);
             $table->string('npwp', 20);
             $table->integer('peb')->unsigned()->comment('Pemberitahuan Ekspor Barang');
             $table->decimal('bruto', 17, 2)->unsigned();

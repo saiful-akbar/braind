@@ -2,8 +2,9 @@ import DateInput from "@/components/Input/DateInput";
 import SelectInput from "@/components/Input/SelectInput";
 import TextInput from "@/components/Input/TextInput";
 import Modal from "@/components/Modal";
-import usePerusahaanMmea from "@/hooks/usePerusahaaMmea";
 import { openNotification } from "@/redux/reducers/notificationReducer";
+import { closeForm } from "@/redux/reducers/perusahaanMmeaReducer";
+import Perusahaan from "@/services/PerusahaanService";
 import Kantor from "@/services/kantorService";
 import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
@@ -12,7 +13,7 @@ import { LoadingButton } from "@mui/lab";
 import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
  * Komponen modal (dialog) form create & update untuk perusahaan cukai MMEA.
@@ -20,21 +21,26 @@ import { useSelector } from "react-redux";
  * @returns {React.ReactElement}
  */
 const ModalFormPerusahaanMmea = () => {
-  const { open, type, data } = useSelector(
+  const { open, type, data, title } = useSelector(
     (state) => state.perusahaanMmea.form
   );
 
-  const { modalForm } = usePerusahaanMmea();
   const form = useForm(data);
   const { auth, app } = usePage().props;
+  const { user } = auth;
+  const { csrf } = app;
+  const { params } = app.url;
+  const dispatch = useDispatch();
 
   /**
    * State
    */
   const [kantor, setKantor] = useState([]);
+  const [perusahaan, setPerusahaan] = useState([]);
 
   /**
-   * Ambil data kantor dari backend dan update value pada form
+   * Ambil data kantor dan perusahaan dari backend
+   * serta update value pada form saat modal dibuka
    */
   useEffect(() => {
     const getAllKantor = async () => {
@@ -51,15 +57,39 @@ const ModalFormPerusahaanMmea = () => {
         dispatch(
           openNotification({
             status: "error",
-            message: "Terjadi kesalahan, Gagal mengambil data kantor.",
+            message: `${error.status} - Gagal mengambil data kantor.`,
+          })
+        );
+      }
+    };
+
+    const getAllPerusahaan = async () => {
+      try {
+        const response = await Perusahaan.getAll();
+
+        setPerusahaan(
+          response.data.map(({ nama }) => ({
+            label: nama,
+            value: nama,
+          }))
+        );
+      } catch (error) {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: `${error.status} - Gagal mengambil data perusahaan.`,
           })
         );
       }
     };
 
     getAllKantor();
-    form.clearErrors();
-    form.setData({ ...data, _token: app.csrf });
+    getAllPerusahaan();
+
+    if (open) {
+      form.clearErrors();
+      form.setData({ ...data, _token: csrf });
+    }
   }, [open]);
 
   /**
@@ -67,9 +97,9 @@ const ModalFormPerusahaanMmea = () => {
    */
   const handleClose = useCallback(() => {
     if (!form.processing) {
-      modalForm.close();
+      dispatch(closeForm());
     }
-  }, [form.processing, modalForm.close]);
+  }, [form, dispatch]);
 
   /**
    * fungsi untuk mengatasi ketika form diisi
@@ -85,11 +115,60 @@ const ModalFormPerusahaanMmea = () => {
    * fungsi untuk mengatasi ketika form date diisi
    */
   const handleDateInputChange = useCallback(
-    (dateValue) => {
-      form.setData("tanggal_input", dateFormat(dateValue));
+    (value) => {
+      form.setData("tanggal_input", dateFormat(value));
     },
-    [form.setData]
+    [form]
   );
+
+  /**
+   * fungsi untuk request tambah fata perusahaan mmea ke database.
+   */
+  const handleStore = useCallback(() => {
+    const url = route("perusahaan-mmea.store", {
+      _query: params,
+    });
+
+    form.post(url, {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => form.reset(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "success",
+            message: "Terjadi kesalahan, periksa kembali inputan anda.",
+          })
+        );
+      },
+    });
+  }, [form, params]);
+
+  /**
+   * fungsi untuk request update data perusahaan mmea ke database
+   */
+  const handleUpdate = useCallback(() => {
+    const url = route("perusahaan-mmea.update", {
+      perusahaan: data.id,
+      _query: params,
+    });
+
+    form.patch(url, {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => {
+        handleClose();
+      },
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "success",
+            message: "Terjadi kesalahan, periksa kembali inputan anda.",
+          })
+        );
+      },
+    });
+  }, [data, params, form, handleClose]);
 
   /**
    * Fungsi untuk menangani ketika form di submit
@@ -98,14 +177,16 @@ const ModalFormPerusahaanMmea = () => {
     e.preventDefault();
 
     if (type === "create") {
-      modalForm.store(form);
+      handleStore();
+    } else if (type === "update") {
+      handleUpdate();
     }
   };
 
   return (
     <Modal
       open={open}
-      title={type === "create" ? "Tambah Perusahaan" : "Edit Perusahaan"}
+      title={title}
       onClose={handleClose}
       maxWidth="md"
       component="form"
@@ -114,7 +195,7 @@ const ModalFormPerusahaanMmea = () => {
     >
       <DialogContent dividers sx={{ py: 3 }}>
         <Grid container spacing={3}>
-          {auth.user.admin && (
+          {user.admin && (
             <Grid item xs={12} md={6}>
               <SelectInput
                 fullWidth
@@ -132,16 +213,16 @@ const ModalFormPerusahaanMmea = () => {
           )}
 
           <Grid item xs={12} md={6}>
-            <TextInput
+            <SelectInput
               fullWidth
               required
-              type="text"
               label="Nama Perusahaan"
               name="nama_perusahaan"
               id="nama_perusahaan"
-              value={form.data.nama_perusahaan}
+              items={perusahaan}
               onChange={handleInputChange}
               disabled={form.processing}
+              value={form.data.nama_perusahaan}
               error={Boolean(form.errors.nama_perusahaan)}
               helperText={form.errors.nama_perusahaan}
             />
@@ -184,7 +265,7 @@ const ModalFormPerusahaanMmea = () => {
               fullWidth
               required
               type="number"
-              step="0.01"
+              step="any"
               label="Jumlah Liter"
               name="jumlah_liter"
               id="jumlah_liter"
@@ -201,7 +282,7 @@ const ModalFormPerusahaanMmea = () => {
               fullWidth
               required
               type="number"
-              step="0.01"
+              step="any"
               label="Jumlah Cukai"
               name="jumlah_cukai"
               id="jumlah_cukai"
@@ -213,21 +294,23 @@ const ModalFormPerusahaanMmea = () => {
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <DateInput
-              fullWidth
-              label="Tanggal Input"
-              value={dayjs(form.data.tanggal_input)}
-              onChange={handleDateInputChange}
-              disabled={form.processing}
-              error={Boolean(form.errors.tanggal_input)}
-              helperText={
-                Boolean(form.errors.tanggal_input)
-                  ? form.errors.tanggal_input
-                  : "Opsional"
-              }
-            />
-          </Grid>
+          {user.admin && (
+            <Grid item xs={12} md={6}>
+              <DateInput
+                fullWidth
+                label="Tanggal Input"
+                value={dayjs(form.data.tanggal_input)}
+                onChange={handleDateInputChange}
+                disabled={form.processing}
+                error={Boolean(form.errors.tanggal_input)}
+                helperText={
+                  Boolean(form.errors.tanggal_input)
+                    ? form.errors.tanggal_input
+                    : "Opsional"
+                }
+              />
+            </Grid>
+          )}
         </Grid>
       </DialogContent>
 

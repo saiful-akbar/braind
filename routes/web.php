@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/kantor')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:kantor,read');
-            Route::get('/get', 'get')->name('.get');
+            Route::get('/json', 'json')->name('.json');
             Route::get('/export', 'export')->name('.export')->middleware('access:kantor,read');
             Route::post('/', 'store')->name('.store')->middleware('access:kantor,create');
             Route::patch('/{kantor}', 'update')->name('.update')->middleware('access:kantor,update');
@@ -122,6 +122,8 @@ Route::middleware('auth')->group(function (): void {
                     Route::post('/', 'import')->middleware('access:master-perusahaan,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:master-perusahaan,create');
                 });
+
+            Route::get('/json', 'json')->name('.json');
         });
 
     /**
@@ -208,6 +210,18 @@ Route::middleware('auth')->group(function (): void {
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan-mmea,read');
             Route::post('/', 'store')->name('.store')->middleware('access:perusahaan-mmea,create');
+            Route::patch('/{perusahaan}', 'update')->name('.update')->middleware('access:perusahaan-mmea,update');
+            Route::delete('/{perusahaan}', 'remove')->name('.remove')->middleware('access:perusahaan-mmea,remove');
+            Route::patch('/{perusahaan}/restore', 'restore')->name('.restore')->middleware('access:perusahaan-mmea,destroy');
+            Route::delete('/{perusahaan}/destroy', 'destroy')->name('.destroy')->middleware('access:perusahaan-mmea,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-mmea,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:perusahaan-mmea,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan-mmea,create');
+                });
         });
 
 

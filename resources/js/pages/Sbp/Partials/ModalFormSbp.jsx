@@ -2,9 +2,10 @@ import DateInput from "@/components/Input/DateInput";
 import SelectInput from "@/components/Input/SelectInput";
 import TextInput from "@/components/Input/TextInput";
 import Modal from "@/components/Modal";
-import useKantor from "@/hooks/useKantor";
 import useSbp from "@/hooks/useSbp";
 import { openNotification } from "@/redux/reducers/notificationReducer";
+import Perusahaan from "@/services/PerusahaanService";
+import Kantor from "@/services/kantorService";
 import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
 import { Close, Save } from "@mui/icons-material";
@@ -22,7 +23,6 @@ import { useDispatch, useSelector } from "react-redux";
 const ModalFormSbp = () => {
   const { form } = useSelector((state) => state.sbp);
   const { closeModalForm } = useSbp();
-  const kantor = useKantor();
   const dispatch = useDispatch();
   const { auth, app } = usePage().props;
   const { user } = auth;
@@ -31,7 +31,7 @@ const ModalFormSbp = () => {
   /**
    * State
    */
-  const [kantorData, setKantorData] = useState([]);
+  const [kantor, setKantor] = useState([]);
 
   /**
    * form data
@@ -49,8 +49,8 @@ const ModalFormSbp = () => {
   useEffect(() => {
     const getAllKantor = async () => {
       try {
-        const response = await kantor.getAll();
-        setKantorData(
+        const response = await Kantor.getAll();
+        setKantor(
           response.data.map((item) => ({
             label: item.nama,
             value: item.id,
@@ -155,7 +155,7 @@ const ModalFormSbp = () => {
                 fullWidth
                 label="Pilih Kantor"
                 name="kantor_id"
-                items={kantorData}
+                items={kantor}
                 onChange={handleInputChange}
                 value={data.kantor_id}
                 error={Boolean(errors.kantor_id)}

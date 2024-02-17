@@ -48,12 +48,13 @@ const RestoreConfirmation = React.memo((props) => {
       <DialogActions sx={{ p: 3 }}>
         <LoadingButton
           fullWidth
+          autoFocus
+          size="large"
           type="button"
           variant="contained"
           color="primary"
           loading={loading}
           onClick={onRestore}
-          loadingIndicator="Memulihkan..."
         >
           Pulihkan
         </LoadingButton>
