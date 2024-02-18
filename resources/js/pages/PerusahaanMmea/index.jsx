@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { closeLoading, openLoading } from "@/redux/reducers/loadingReducer";
 import { saveAs } from "file-saver";
 import { openNotification } from "@/redux/reducers/notificationReducer";
+import { openFormImportExcel } from "@/redux/reducers/perusahaanMmeaReducer";
 
 /**
  * Halaman perusahaan cukai MMEA.
@@ -55,7 +56,6 @@ const PerusahaanMmea = (props) => {
         );
       }
     } catch (error) {
-      console.log(error);
       dispatch(closeLoading());
       dispatch(
         openNotification({
@@ -65,6 +65,13 @@ const PerusahaanMmea = (props) => {
       );
     }
   }, [params]);
+
+  /**
+   * fungsi untuk mmebuka modal import excel
+   */
+  const handleOpenFormImportExcel = useCallback(() => {
+    dispatch(openFormImportExcel());
+  }, [dispatch]);
 
   return (
     <Grid container spacing={3}>
@@ -93,7 +100,7 @@ const PerusahaanMmea = (props) => {
                   import={access.create}
                   onReload={handleReload}
                   onExport={handleExport}
-                  onImport={() => {}}
+                  onImport={handleOpenFormImportExcel}
                 />
               </Grid>
 

@@ -15,6 +15,7 @@ import ModalFormPerusahaanMmea from "./Partials/ModalFormPerusahaanMmea";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import RestoreConfirmation from "@/components/RestoreConfirmation";
+import ModalFormImportPerusahaanMmea from "./Partials/ModalFormImportPerusahaanMmea";
 
 /**
  * Komponen template untuk halaman perusahaan cukai MMEA.
@@ -181,6 +182,9 @@ const PerusahaanMmeaTemplate = ({ children }) => {
           onRestore={handleRestore}
         />
       )}
+
+      {/* Modal form import excel */}
+      {access.create && <ModalFormImportPerusahaanMmea />}
     </AuthLayout>
   );
 };

@@ -30,6 +30,10 @@ export const perusahaanMmeaSlice = createSlice({
       title: "Pulihkan Perusahaan",
       id: null,
     },
+
+    importExcel: {
+      open: false,
+    },
   },
 
   reducers: {
@@ -82,6 +86,14 @@ export const perusahaanMmeaSlice = createSlice({
     closeRestoreConfirmation: (state) => {
       state.restore.id = null;
     },
+
+    openFormImportExcel: (state) => {
+      state.importExcel.open = true;
+    },
+
+    closeFormImportExcel: (state) => {
+      state.importExcel.open = false;
+    },
   },
 });
 
@@ -94,6 +106,8 @@ export const {
   closeDeleteConfirmation,
   openRestoreConfirmation,
   closeRestoreConfirmation,
+  openFormImportExcel,
+  closeFormImportExcel,
 } = perusahaanMmeaSlice.actions;
 
 export default perusahaanMmeaSlice.reducer;

@@ -1,6 +1,6 @@
 import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import { closeFormlImport } from "@/redux/reducers/perusahaanReducer";
+import { closeFormImportExcel } from "@/redux/reducers/perusahaanMmeaReducer";
 import { useForm, usePage } from "@inertiajs/react";
 import { Close, Download, Upload } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
@@ -13,36 +13,55 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import { saveAs } from "file-saver";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const ModalFormImportPerusahaan = () => {
-  const { app } = usePage().props;
-  const { params } = app.url;
-  const perusahaan = useSelector((state) => state.perusahaan);
+/**
+ * Komponen modal untuk form import excel perusahaan cukai mmea.
+ *
+ * @returns {React.ReactElement}
+ */
+const ModalFormImportPerusahaanMmea = () => {
   const dispatch = useDispatch();
+  const { open } = useSelector((state) => state.perusahaanMmea.importExcel);
+  const { app } = usePage().props;
+  const { csrf } = app;
+  const { params } = app.url;
 
-  // state
+  /**
+   * State
+   */
   const [downloading, setDownloading] = useState(false);
+  const [errors, setErrors] = useState([]);
 
-  // form data
+  /**
+   * Form
+   */
   const form = useForm({
     file: "",
-    _token: app.csrf,
+    _token: csrf,
   });
 
-  // state
-  const [errors, setErrors] = useState([]);
+  /**
+   * Update form saat modal dibuka
+   */
+  useEffect(() => {
+    if (open) {
+      form.reset();
+      form.clearErrors();
+      setErrors([]);
+    }
+  }, [open]);
 
   /**
    * fungsi untuk menutup modal
    */
   const handleClose = useCallback(() => {
     if (!form.processing) {
-      dispatch(closeFormlImport());
-      setErrors([]);
+      dispatch(closeFormImportExcel());
     }
-  }, [form, setErrors]);
+  }, [form]);
 
   /**
    * fungsi untuk download template import
@@ -50,35 +69,33 @@ const ModalFormImportPerusahaan = () => {
   const handleDownloadTemplate = useCallback(async () => {
     setDownloading(true);
 
-    if (!form.processing) {
-      try {
-        const response = await axios({
-          method: "get",
-          url: route("master-perusahaan.import.template"),
-          responseType: "blob",
-        });
+    try {
+      const response = await axios({
+        method: "get",
+        url: route("perusahaan-mmea.import.template"),
+        responseType: "blob",
+      });
 
-        if (response.status === 200) {
-          saveAs(response.data, "template_import_perusahaan.xlsx");
-          setDownloading(false);
-          dispatch(
-            openNotification({
-              status: "success",
-              message: "Template berhasil didownload.",
-            })
-          );
-        }
-      } catch (error) {
+      if (response.status === 200) {
+        saveAs(response.data, "template_import_perusahaan_mmea.xlsx");
         setDownloading(false);
         dispatch(
           openNotification({
-            status: "error",
-            message: "Terjadi kesalahan. Download template gagal.",
+            status: "success",
+            message: "Download template berhasil.",
           })
         );
       }
+    } catch (error) {
+      setDownloading(false);
+      dispatch(
+        openNotification({
+          status: "error",
+          message: `${error.status} - Download template gagal.`,
+        })
+      );
     }
-  }, [setDownloading, dispatch, form]);
+  }, [dispatch, setDownloading]);
 
   /**
    * fungsi untuk menangani ketika form diisi
@@ -97,33 +114,37 @@ const ModalFormImportPerusahaan = () => {
   /**
    * fungsi untuk menangani ketika form di-submit
    */
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    const url = route("master-perusahaan.import", {
-      _query: params,
-    });
+      const url = route("perusahaan-mmea.import", {
+        _query: params,
+      });
 
-    form.post(url, {
-      preserveScroll: true,
-      onStart: () => setErrors([]),
-      onSuccess: () => handleClose(),
-      onError: (error) => {
-        setErrors(Object.values(error));
-        dispatch(
-          openNotification({
-            status: "error",
-            message: "Terjadi kesalahan, import gagal.",
-          })
-        );
-      },
-    });
-  };
+      form.post(url, {
+        preserveScroll: true,
+        preserveState: true,
+        onStart: () => setErrors([]),
+        onSuccess: () => handleClose(),
+        onError: (error) => {
+          setErrors(Object.values(error));
+          dispatch(
+            openNotification({
+              status: "error",
+              message: "Terjadi kesalahan, import gagal.",
+            })
+          );
+        },
+      });
+    },
+    [params, form, setErrors, handleClose, dispatch]
+  );
 
   return (
     <Modal
       title="Import Excel"
-      open={perusahaan.import.open}
+      open={open}
       onClose={handleClose}
       loading={form.processing}
       maxWidth="sm"
@@ -214,4 +235,4 @@ const ModalFormImportPerusahaan = () => {
   );
 };
 
-export default ModalFormImportPerusahaan;
+export default ModalFormImportPerusahaanMmea;

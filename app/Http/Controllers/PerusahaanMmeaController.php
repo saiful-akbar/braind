@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\PerusahaanMmeaExport;
 use App\Exports\Templates\PerusahaanMmeaTemplateExport;
+use App\Http\Requests\PerusahaanMmea\ImportPerusahaanMmeaRequest;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -160,5 +161,21 @@ class PerusahaanMmeaController extends Controller
         $fileName = "template_import_perusahaan_mmea.xlsx";
 
         return Excel::download(new PerusahaanMmeaTemplateExport, $fileName);
+    }
+
+    /**
+     * Import dari excel ke database.
+     *
+     * @param ImportPerusahaanMmeaRequest $request
+     * @return RedirectResponse
+     */
+    public function import(ImportPerusahaanMmeaRequest $request): RedirectResponse
+    {
+        $request->importExcel();
+
+        return to_route('perusahaan-mmea', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Import berhasil.'
+        ]);
     }
 }

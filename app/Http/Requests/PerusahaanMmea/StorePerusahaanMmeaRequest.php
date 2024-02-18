@@ -24,7 +24,7 @@ class StorePerusahaanMmeaRequest extends FormRequest
     {
         return [
             'kantor_id'       => 'nullable|exists:kantor,id',
-            'nama_perusahaan' => 'required|string|max:100',
+            'nama_perusahaan' => 'required|string|max:100|exists:perusahaan,nama',
             'nppbkc'          => 'required|string|max:100',
             'jumlah_dokumen'  => 'required|numeric|min:0',
             'jumlah_liter'    => 'required|numeric|min:0',
