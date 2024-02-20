@@ -24,7 +24,7 @@ const ModalFormSbp = () => {
   const { form } = useSelector((state) => state.sbp);
   const { closeModalForm } = useSbp();
   const dispatch = useDispatch();
-  const { auth, app } = usePage().props;
+  const { auth, app, access } = usePage().props;
   const { user } = auth;
   const { params } = app.url;
 
@@ -44,7 +44,6 @@ const ModalFormSbp = () => {
 
   /**
    * ambil data kantor saat setelah komponen dirender.
-   * Update value pada form data saat modal dibuka.
    */
   useEffect(() => {
     const getAllKantor = async () => {
@@ -66,8 +65,16 @@ const ModalFormSbp = () => {
       }
     };
 
-    if (form.open) {
+    if (access.create || access.update) {
       getAllKantor();
+    }
+  }, []);
+
+  /**
+   * Update value pada form data saat modal dibuka.
+   */
+  useEffect(() => {
+    if (form.open) {
       setData(form.data);
       clearErrors();
     }

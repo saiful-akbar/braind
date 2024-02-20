@@ -3,34 +3,37 @@ import SelectInput from "@/components/Input/SelectInput";
 import TextInput from "@/components/Input/TextInput";
 import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import { closeForm } from "@/redux/reducers/perusahaanMmeaReducer";
+import { closeForm } from "@/redux/reducers/perusahaanExportReducer";
 import Perusahaan from "@/services/PerusahaanService";
 import Kantor from "@/services/kantorService";
-import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
 import { Close, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
- * Komponen modal (dialog) form create & update untuk perusahaan cukai MMEA.
+ * Komponen modal form master perusahaan.
  *
  * @returns {React.ReactElement}
  */
-const ModalFormPerusahaanMmea = () => {
-  const { open, type, data, title } = useSelector(
-    (state) => state.perusahaanMmea.form
+const ModalFormPerusahaanExport = memo(() => {
+  const { open, type, title, data } = useSelector(
+    (state) => state.perusahaanExport.form
   );
 
-  const form = useForm(data);
-  const { auth, app, access } = usePage().props;
-  const { user } = auth;
-  const { csrf } = app;
-  const { params } = app.url;
   const dispatch = useDispatch();
+  const { app, access, auth } = usePage().props;
+  const { params } = app.url;
+  const { csrf } = app;
+  const { user } = auth;
+
+  /**
+   * Form data
+   */
+  const form = useForm({ ...data, _token: csrf });
 
   /**
    * State
@@ -99,16 +102,16 @@ const ModalFormPerusahaanMmea = () => {
   }, [open]);
 
   /**
-   * fungsi untuk menutup modal form
+   * fungsi untuk menutup modal
    */
   const handleClose = useCallback(() => {
     if (!form.processing) {
       dispatch(closeForm());
     }
-  }, [form, dispatch]);
+  }, [dispatch, form]);
 
   /**
-   * fungsi untuk mengatasi ketika form diisi
+   * fungsi untuk menangani ketika form diisi.
    */
   const handleInputChange = useCallback(
     (e) => {
@@ -128,10 +131,10 @@ const ModalFormPerusahaanMmea = () => {
   );
 
   /**
-   * fungsi untuk request tambah fata perusahaan mmea ke database.
+   * fungsi untuk menambah data perusahaan ke database
    */
   const handleStore = useCallback(() => {
-    const url = route("perusahaan-mmea.store", {
+    const url = route("perusahaan-export.store", {
       _query: params,
     });
 
@@ -139,22 +142,14 @@ const ModalFormPerusahaanMmea = () => {
       preserveScroll: true,
       preserveState: true,
       onSuccess: () => form.reset(),
-      onError: () => {
-        dispatch(
-          openNotification({
-            status: "success",
-            message: "Terjadi kesalahan, periksa kembali inputan anda.",
-          })
-        );
-      },
     });
   }, [form, params]);
 
   /**
-   * fungsi untuk request update data perusahaan mmea ke database
+   * fungsi untuk memperbarui data perusahaan ke database.
    */
   const handleUpdate = useCallback(() => {
-    const url = route("perusahaan-mmea.update", {
+    const url = route("perusahaan-export.update", {
       perusahaan: data.id,
       _query: params,
     });
@@ -162,44 +157,38 @@ const ModalFormPerusahaanMmea = () => {
     form.patch(url, {
       preserveScroll: true,
       preserveState: true,
-      onSuccess: () => {
-        handleClose();
-      },
-      onError: () => {
-        dispatch(
-          openNotification({
-            status: "success",
-            message: "Terjadi kesalahan, periksa kembali inputan anda.",
-          })
-        );
-      },
+      onSuccess: () => handleClose(),
     });
-  }, [data, params, form, handleClose]);
+  }, [form, data, params, handleClose]);
 
   /**
-   * Fungsi untuk menangani ketika form di submit
+   * fungsi untuk menangani ketika form di submit
    */
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    if (type === "create") {
-      handleStore();
-    } else if (type === "update") {
-      handleUpdate();
-    }
-  };
+      if (type === "create" && access.create) {
+        handleStore();
+      } else if (type === "edit" && access.update) {
+        handleUpdate();
+      }
+    },
+    [handleStore, handleUpdate, type, access]
+  );
 
   return (
     <Modal
       open={open}
       title={title}
+      loading={form.processing}
       onClose={handleClose}
-      maxWidth="md"
+      maxWidth="lg"
       component="form"
       autoComplete="off"
       onSubmit={handleSubmit}
     >
-      <DialogContent dividers sx={{ py: 3 }}>
+      <DialogContent dividers sx={{ p: 3 }}>
         <Grid container spacing={3}>
           {user.admin && (
             <Grid item xs={12} md={6}>
@@ -239,14 +228,14 @@ const ModalFormPerusahaanMmea = () => {
               fullWidth
               required
               type="text"
-              label="NPPKC"
-              name="nppbkc"
-              id="nppbkc"
-              value={form.data.nppbkc}
+              label="NPWP"
+              name="npwp"
+              id="npwp"
+              value={form.data.npwp}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.nppbkc)}
-              helperText={form.errors.nppbkc}
+              error={Boolean(form.errors.npwp)}
+              helperText={form.errors.npwp}
             />
           </Grid>
 
@@ -255,14 +244,14 @@ const ModalFormPerusahaanMmea = () => {
               fullWidth
               required
               type="number"
-              label="Jumlah Dokumen"
-              name="jumlah_dokumen"
-              id="jumlah_dokumen"
-              value={form.data.jumlah_dokumen}
+              label="PEB"
+              name="peb"
+              id="peb"
+              value={form.data.peb}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.jumlah_dokumen)}
-              helperText={form.errors.jumlah_dokumen}
+              error={Boolean(form.errors.peb)}
+              helperText={form.errors.peb}
             />
           </Grid>
 
@@ -272,6 +261,73 @@ const ModalFormPerusahaanMmea = () => {
               required
               type="number"
               step="any"
+              label="Bruto"
+              name="bruto"
+              id="bruto"
+              value={form.data.bruto}
+              onChange={handleInputChange}
+              disabled={form.processing}
+              error={Boolean(form.errors.bruto)}
+              helperText={form.errors.bruto}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              required
+              type="number"
+              step="any"
+              label="Netto"
+              name="netto"
+              id="netto"
+              value={form.data.netto}
+              onChange={handleInputChange}
+              disabled={form.processing}
+              error={Boolean(form.errors.netto)}
+              helperText={form.errors.netto}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              required
+              type="number"
+              step="any"
+              label="Devisa"
+              name="devisa"
+              id="devisa"
+              value={form.data.devisa}
+              onChange={handleInputChange}
+              disabled={form.processing}
+              error={Boolean(form.errors.devisa)}
+              helperText={form.errors.devisa}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              required
+              type="number"
+              step="any"
+              label="Bea Keluar"
+              name="bea_keluar"
+              id="bea_keluar"
+              value={form.data.bea_keluar}
+              onChange={handleInputChange}
+              disabled={form.processing}
+              error={Boolean(form.errors.bea_keluar)}
+              helperText={form.errors.bea_keluar}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              required
+              type="number"
               label="Jumlah Liter"
               name="jumlah_liter"
               id="jumlah_liter"
@@ -309,11 +365,7 @@ const ModalFormPerusahaanMmea = () => {
                 onChange={handleDateInputChange}
                 disabled={form.processing}
                 error={Boolean(form.errors.tanggal_input)}
-                helperText={
-                  Boolean(form.errors.tanggal_input)
-                    ? form.errors.tanggal_input
-                    : "Opsional"
-                }
+                helperText={form.errors.tanggal_input}
               />
             </Grid>
           )}
@@ -346,6 +398,6 @@ const ModalFormPerusahaanMmea = () => {
       </DialogActions>
     </Modal>
   );
-};
+});
 
-export default ModalFormPerusahaanMmea;
+export default ModalFormPerusahaanExport;

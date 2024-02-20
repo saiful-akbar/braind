@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PerusahaanImpor extends Model
+class PerusahaanImport extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
 
-    protected $table = 'perusahaan_impor';
+    protected $table = 'perusahaan_import';
     protected $keyType = 'string';
     public $incrementing = false;
 
@@ -31,7 +31,7 @@ class PerusahaanImpor extends Model
     ];
 
     /**
-     * Ambil User yang memiliki PerusahaanImpor.
+     * Ambil User yang memiliki PerusahaanImport.
      */
     public function user(): BelongsTo
     {
@@ -39,7 +39,7 @@ class PerusahaanImpor extends Model
     }
 
     /**
-     * Ambil Division yang memiliki PerusahaanImpor.
+     * Ambil Division yang memiliki PerusahaanImport.
      */
     public function kantor(): BelongsTo
     {

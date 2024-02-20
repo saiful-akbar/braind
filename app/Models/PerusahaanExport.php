@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PerusahaanEkspor extends Model
+class PerusahaanExport extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
 
-    protected $table = 'perusahaan_ekspor';
+    protected $table = 'perusahaan_export';
     protected $keyType = 'string';
     public $incrementing = false;
 
@@ -40,7 +40,7 @@ class PerusahaanEkspor extends Model
     }
 
     /**
-     * Ambil Kantor yang memiliki PerusahaanEkspor.
+     * Ambil Kantor yang memiliki PerusahaanExport.
      */
     public function kantor(): BelongsTo
     {

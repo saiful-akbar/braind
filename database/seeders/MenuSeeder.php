@@ -55,16 +55,16 @@ class MenuSeeder extends Seeder
                     'url' => '/perusahaan-mmea',
                     'route' => 'perusahaan-mmea',
                 ],
-                // [
-                //     'nama' => 'Impor',
-                //     'url' => '/perusahaan-impor',
-                //     'route' => 'perusahaan.impor',
-                // ],
-                // [
-                //     'nama' => 'Ekspor',
-                //     'url' => '/perusahaan-ekspor',
-                //     'route' => 'perusahaan.ekspor',
-                // ],
+                [
+                    'nama' => 'Import',
+                    'url' => '/perusahaan-impor',
+                    'route' => 'perusahaan-impor',
+                ],
+                [
+                    'nama' => 'Export',
+                    'url' => '/perusahaan-export',
+                    'route' => 'perusahaan-export',
+                ],
             ],
         ],
     ];

@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 const ModalForm = () => {
   const dispatch = useDispatch();
   const { open, type, data } = useSelector((state) => state.perusahaanHtHptl);
-  const { auth, app } = usePage().props;
+  const { auth, app, access } = usePage().props;
   const { user } = auth;
   const { params } = app.url;
 
@@ -78,11 +78,11 @@ const ModalForm = () => {
       }
     };
 
-    if (open) {
+    if (access.create || access.update) {
       getAllKantor();
       getAllPerusahaan();
     }
-  }, [open]);
+  }, []);
 
   // form
   const {
@@ -100,8 +100,10 @@ const ModalForm = () => {
    * Update data pada form
    */
   useEffect(() => {
-    clearErrors();
-    setData(data);
+    if (open) {
+      clearErrors();
+      setData(data);
+    }
   }, [open]);
 
   /**

@@ -1,15 +1,17 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SbpController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KantorController;
 use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PerusahaanController;
-use App\Http\Controllers\PerusahaanHtHptlController;
 use App\Http\Controllers\PerusahaanMmeaController;
+use App\Http\Controllers\PerusahaanExportController;
+use App\Http\Controllers\PerusahaanHtHptlController;
+use App\Http\Controllers\PerusahaanImportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -224,7 +226,24 @@ Route::middleware('auth')->group(function (): void {
                 });
         });
 
+    /**
+     * Perusahaan Export
+     */
+    Route::controller(PerusahaanExportController::class)
+        ->name('perusahaan-export')
+        ->prefix('/perusahaan-export')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:perusahaan-export,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:perusahaan-export,create');
+        });
 
-    Route::get('/perusahaan/ekspor', [DashboardController::class, 'index'])->name('perusahaan.ekspor');
-    Route::get('/perusahaan/impor', [DashboardController::class, 'index'])->name('perusahaan.impor');
+    /**
+     * Perusahaan Import
+     */
+    Route::controller(PerusahaanImportController::class)
+        ->name('perusahaan-import')
+        ->prefix('/perusahaan-import')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:perusahaan-import,read');
+        });
 });
