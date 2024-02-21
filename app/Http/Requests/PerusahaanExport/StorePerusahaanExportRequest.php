@@ -53,6 +53,15 @@ class StorePerusahaanExportRequest extends FormRequest
             $kantorId = user()->kantor_id;
         }
 
+        // Jika user sebagai admin dan tanggal_input tidak kosong...
+        // ...ambil data tanggal_input dari request. Selain dari itu...
+        // ...ambil tanggal hari ini.
+        if (user()->admin && !empty($this->tanggal_input)) {
+            $tanggalInput = $this->tanggal_input;
+        } else {
+            $tanggalInput = date('Y-m-d');
+        }
+
         PerusahaanExport::create([
             'user_id'         => user()->id,
             'kantor_id'       => $kantorId,
@@ -65,7 +74,7 @@ class StorePerusahaanExportRequest extends FormRequest
             'bea_keluar'      => $this->bea_keluar,
             'jumlah_liter'    => $this->jumlah_liter,
             'jumlah_cukai'    => $this->jumlah_cukai,
-            'tanggal_input'   => $this->tanggal_input ?? date('Y-m-d'),
+            'tanggal_input'   => $tanggalInput,
         ]);
     }
 }

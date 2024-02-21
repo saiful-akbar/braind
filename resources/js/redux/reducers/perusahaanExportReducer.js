@@ -23,6 +23,19 @@ export const perusahaanExportSlice = createSlice({
         tanggal_input: "",
       },
     },
+
+    delete: {
+      type: "remove",
+      title: "Hapus Perusahaan",
+      open: false,
+      id: null,
+    },
+
+    restore: {
+      title: "Pulihkan",
+      open: false,
+      id: null,
+    },
   },
 
   reducers: {
@@ -69,10 +82,47 @@ export const perusahaanExportSlice = createSlice({
     closeForm: (state) => {
       state.form.open = false;
     },
+
+    openRemoveConfirmation: (state, action) => {
+      state.delete.type = "remove";
+      state.delete.title = "Hapus Perusahaan";
+      state.delete.open = true;
+      state.delete.id = action.payload;
+    },
+
+    openDestroyConfirmation: (state, action) => {
+      state.delete.type = "destroy";
+      state.delete.title = "Hapus Selamanya";
+      state.delete.open = true;
+      state.delete.id = action.payload;
+    },
+
+    closeDeleteConfirmation: (state) => {
+      state.delete.open = false;
+      state.delete.id = null;
+    },
+
+    openRestoreConfirmation: (state, action) => {
+      state.restore.open = true;
+      state.restore.id = action.payload;
+    },
+
+    closeRestoreConfirmation: (state) => {
+      state.restore.open = false;
+      state.restore.id = null;
+    },
   },
 });
 
-export const { openCreateForm, openEditForm, closeForm } =
-  perusahaanExportSlice.actions;
+export const {
+  openCreateForm,
+  openEditForm,
+  closeForm,
+  openRemoveConfirmation,
+  openDestroyConfirmation,
+  closeDeleteConfirmation,
+  openRestoreConfirmation,
+  closeRestoreConfirmation,
+} = perusahaanExportSlice.actions;
 
 export default perusahaanExportSlice.reducer;

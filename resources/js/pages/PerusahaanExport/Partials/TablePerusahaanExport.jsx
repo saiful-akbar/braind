@@ -1,11 +1,12 @@
 import DataTable from "@/components/DataTable";
 import {
-  openDeleteConfirmation,
+  openDestroyConfirmation,
   openEditForm,
+  openRemoveConfirmation,
   openRestoreConfirmation,
-} from "@/redux/reducers/perusahaanReducer";
+} from "@/redux/reducers/perusahaanExportReducer";
 import { router, usePage } from "@inertiajs/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 const columns = (access, status) => {
@@ -173,42 +174,36 @@ const TablePerusahaanExport = () => {
   /**
    * fungsi untuk membuka form edit
    */
-  // const handleOpenEditForm = useCallback(
-  //   (row) => {
-  //     dispatch(
-  //       openEditForm({
-  //         id: row.id,
-  //         nama: row.nama,
-  //       })
-  //     );
-  //   },
-  //   [dispatch]
-  // );
+  const handleOpenEditForm = useCallback(
+    (row) => {
+      dispatch(openEditForm(row));
+    },
+    [dispatch]
+  );
 
   /**
    * fungsi untuk membuka modal konfirmasi hapus
    */
-  // const handleOpenDeleteConfirmation = useCallback(
-  //   (type, id) => {
-  //     dispatch(
-  //       openDeleteConfirmation({
-  //         type,
-  //         id,
-  //       })
-  //     );
-  //   },
-  //   [dispatch]
-  // );
+  const handleOpenDeleteConfirmation = useCallback(
+    (type, id) => {
+      if (type === "remove") {
+        dispatch(openRemoveConfirmation(id));
+      } else if (type === "destroy") {
+        dispatch(openDestroyConfirmation(id));
+      }
+    },
+    [dispatch]
+  );
 
   /**
    * fungsi untuk membuka modal konfirmasi restore
    */
-  // const handleOpenRestoreConfirmation = useCallback(
-  //   (id) => {
-  //     dispatch(openRestoreConfirmation(id));
-  //   },
-  //   [dispatch]
-  // );
+  const handleOpenRestoreConfirmation = useCallback(
+    (id) => {
+      dispatch(openRestoreConfirmation(id));
+    },
+    [dispatch]
+  );
 
   return (
     <DataTable
@@ -221,10 +216,10 @@ const TablePerusahaanExport = () => {
       remove={Boolean(isRemove && status === "aktif")}
       destroy={Boolean(isDestroy && status === "dihapus")}
       onOrder={handleOrder}
-      onUpdate={() => {}}
-      onRemove={(row) => {}}
-      onDestroy={(row) => {}}
-      onRestore={(row) => {}}
+      onUpdate={(row) => handleOpenEditForm(row)}
+      onRemove={(row) => handleOpenDeleteConfirmation("remove", row.id)}
+      onDestroy={(row) => handleOpenDeleteConfirmation("destroy", row.id)}
+      onRestore={(row) => handleOpenRestoreConfirmation(row.id)}
       paginationProps={{
         count: pagination.total,
         page: pagination.page - 1,

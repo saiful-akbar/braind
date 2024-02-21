@@ -2,22 +2,37 @@ import Header from "@/components/Header";
 import AuthLayout from "@/layouts/AuthLayout";
 import { Add } from "@mui/icons-material";
 import { Box, Button, CardContent, Grid } from "@mui/material";
-import React, { Fragment, useCallback } from "react";
+import React, { Fragment, useCallback, useState } from "react";
 import ModalFormPerusahaanExport from "./Partials/ModalFormPerusahaanExport";
-import { useDispatch } from "react-redux";
-import { openCreateForm } from "@/redux/reducers/perusahaanExportReducer";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  closeDeleteConfirmation,
+  closeRestoreConfirmation,
+  openCreateForm,
+} from "@/redux/reducers/perusahaanExportReducer";
 import FormFilterPeriodPerusahaanExport from "./Partials/FormFilterPeriodPerusahaanExport";
 import CardPaper from "@/components/CardPaper";
 import TablePerusahaanExport from "./Partials/TablePerusahaanExport";
 import FormSearchPerusahaanExport from "./Partials/FormSearchPerusahaanExport";
 import FormFilterStatusPerusahaanExport from "./Partials/FormFilterStatusPerusahaanExport";
+import DeleteConfirmation from "@/components/DeleteConfirmation";
+import RestoreConfirmation from "@/components/RestoreConfirmation";
+import { router } from "@inertiajs/react";
 
 /**
  * Halaman perusahaan export
  */
 const PerusahaanExport = (props) => {
-  const { access } = props;
+  const { access, app } = props;
+  const { params } = app.url;
+  const { csrf } = app;
   const dispatch = useDispatch();
+  const perusahaanExport = useSelector((state) => state.perusahaanExport);
+
+  /**
+   * State
+   */
+  const [processing, setProcessing] = useState(false);
 
   /**
    * fungsi untuk membuka create form.
@@ -28,6 +43,96 @@ const PerusahaanExport = (props) => {
       dispatch(openCreateForm());
     }
   }, [dispatch, access]);
+
+  /**
+   * fungsi untuk menutup modal delete confirmation
+   */
+  const handleCloseDeleteConfirmation = useCallback(() => {
+    if (!processing) {
+      dispatch(closeDeleteConfirmation());
+    }
+  }, [processing, dispatch]);
+
+  /**
+   * fungsi untuk mengapus data perusahaan
+   */
+  const handleDelete = useCallback(() => {
+    const url = route(`perusahaan-export.${perusahaanExport.delete.type}`, {
+      perusahaan: perusahaanExport.delete.id,
+      _query: params,
+    });
+
+    router.visit(url, {
+      method: "delete",
+      preserveScroll: true,
+      preserveState: true,
+      data: {
+        _token: csrf,
+      },
+      onStart: () => setProcessing(true),
+      onFinish: () => setProcessing(false),
+      onSuccess: () => handleCloseDeleteConfirmation(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "Terjadi kesalahan, gagal menghapus perusahaan.",
+          })
+        );
+      },
+    });
+  }, [
+    perusahaanExport,
+    params,
+    csrf,
+    setProcessing,
+    handleCloseDeleteConfirmation,
+    dispatch,
+  ]);
+
+  /**
+   * fungsi untuk menutup modal konfirmasi restore
+   */
+  const handleCloseRestoreConfirmation = useCallback(() => {
+    dispatch(closeRestoreConfirmation());
+  }, [dispatch]);
+
+  /**
+   * fungsi untuk request restore
+   */
+  const handleRestore = useCallback(() => {
+    const url = route("perusahaan-export.restore", {
+      perusahaan: perusahaanExport.restore.id,
+      _query: params,
+    });
+
+    router.visit(url, {
+      method: "patch",
+      preserveScroll: true,
+      preserveState: true,
+      data: {
+        _token: csrf,
+      },
+      onStart: () => setProcessing(true),
+      onFinish: () => setProcessing(false),
+      onSuccess: () => handleCloseRestoreConfirmation(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "Terjadi kesalahan, gagal memulihkan perusahaan.",
+          })
+        );
+      },
+    });
+  }, [
+    perusahaanExport,
+    setProcessing,
+    params,
+    csrf,
+    handleCloseRestoreConfirmation,
+    dispatch,
+  ]);
 
   return (
     <Fragment>
@@ -81,6 +186,24 @@ const PerusahaanExport = (props) => {
 
       {/* Modal form create & edit */}
       <ModalFormPerusahaanExport />
+
+      {/* Modal konfirmasi delete */}
+      <DeleteConfirmation
+        title={perusahaanExport.delete.title}
+        open={perusahaanExport.delete.open}
+        onClose={handleCloseDeleteConfirmation}
+        onDelete={handleDelete}
+        loading={processing}
+      />
+
+      {/* Modal konfirmasi restore */}
+      <RestoreConfirmation
+        open={perusahaanExport.restore.open}
+        title={perusahaanExport.restore.title}
+        onClose={handleCloseRestoreConfirmation}
+        onRestore={handleRestore}
+        loading={processing}
+      />
     </Fragment>
   );
 };

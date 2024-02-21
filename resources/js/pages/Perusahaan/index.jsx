@@ -32,6 +32,7 @@ import ModalFormImportPerusahaan from "./Partials/ModalFormImportPerusahaan";
 const Perusahaan = (props) => {
   const { access, app, auth } = props;
   const { params } = app.url;
+  const { csrf } = app;
   const dispatch = useDispatch();
   const perusahaan = useSelector((state) => state.perusahaan);
 
@@ -44,9 +45,9 @@ const Perusahaan = (props) => {
    * fungsi untuk mmebuka modal form untuk
    * menambah data perusahaan.
    */
-  const handleOpenCreateForm = () => {
+  const handleOpenCreateForm = useCallback(() => {
     dispatch(openCreateForm());
-  };
+  }, [dispatch]);
 
   /**
    * fungsi untuk menutup modal delete confirmation
@@ -71,17 +72,72 @@ const Perusahaan = (props) => {
       preserveScroll: true,
       preserveState: true,
       data: {
-        _token: app.csrf,
+        _token: csrf,
       },
-      onStart: () => {
-        setProcessing(true);
-      },
-      onFinish: () => {
-        setProcessing(false);
-        handleCloseDeleteConfirmation();
+      onStart: () => setProcessing(true),
+      onFinish: () => setProcessing(false),
+      onSuccess: () => handleCloseDeleteConfirmation(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "Terjadi kesalahan, gagal menghapus perusahaan.",
+          })
+        );
       },
     });
-  }, [perusahaan, params.app, setProcessing, handleCloseDeleteConfirmation]);
+  }, [
+    perusahaan,
+    params,
+    csrf,
+    setProcessing,
+    handleCloseDeleteConfirmation,
+    dispatch,
+  ]);
+
+  /**
+   * fungsi untuk menutup modal konfirmasi restore
+   */
+  const handleCloseRestoreConfirmation = useCallback(() => {
+    dispatch(closeRestoreConfirmation());
+  }, [dispatch]);
+
+  /**
+   * fungsi untuk request restore
+   */
+  const handleRestore = useCallback(() => {
+    const url = route("master-perusahaan.restore", {
+      perusahaan: perusahaan.restore.id,
+      _query: params,
+    });
+
+    router.visit(url, {
+      method: "patch",
+      preserveScroll: true,
+      preserveState: true,
+      data: {
+        _token: csrf,
+      },
+      onStart: () => setProcessing(true),
+      onFinish: () => setProcessing(false),
+      onSuccess: () => handleCloseRestoreConfirmation(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "Terjadi kesalahan, gagal memulihkan perusahaan.",
+          })
+        );
+      },
+    });
+  }, [
+    perusahaan,
+    setProcessing,
+    dispatch,
+    params,
+    csrf,
+    handleCloseRestoreConfirmation,
+  ]);
 
   /**
    * fungsi untuk reload table
@@ -126,48 +182,6 @@ const Perusahaan = (props) => {
       );
     }
   }, [params]);
-
-  /**
-   * fungsi untuk menutup modal konfirmasi restore
-   */
-  const handleCloseRestoreConfirmation = useCallback(() => {
-    dispatch(closeRestoreConfirmation());
-  }, [dispatch]);
-
-  /**
-   * fungsi untuk request restore
-   */
-  const handleRestore = useCallback(() => {
-    const url = route("master-perusahaan.restore", {
-      perusahaan: perusahaan.restore.id,
-      _query: params,
-    });
-
-    router.visit(url, {
-      method: "patch",
-      preserveScroll: true,
-      preserveState: true,
-      onStart: () => setProcessing(true),
-      onFinish: () => setProcessing(false),
-      onSuccess: () => {
-        handleCloseRestoreConfirmation();
-      },
-      onError: () => {
-        dispatch(
-          openNotification({
-            status: "error",
-            message: "Terjadi kesalahan, gagal memulihkan perusahaan.",
-          })
-        );
-      },
-    });
-  }, [
-    perusahaan,
-    setProcessing,
-    dispatch,
-    params,
-    handleCloseRestoreConfirmation,
-  ]);
 
   /**
    * fungsi untuk membuka modal form import

@@ -235,6 +235,18 @@ Route::middleware('auth')->group(function (): void {
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan-export,read');
             Route::post('/', 'store')->name('.store')->middleware('access:perusahaan-export,create');
+            Route::patch('/{perusahaan}', 'update')->name('.update')->middleware('access:perusahaan-export,update');
+            Route::delete('/{perusahaan}', 'remove')->name('.remove')->middleware('access:perusahaan-export,remove');
+            Route::patch('/{perusahaan}/restore', 'restore')->name('.restore')->middleware('access:perusahaan-export,destroy');
+            Route::delete('/{perusahaan}/destroy', 'destroy')->name('.destroy')->middleware('access:perusahaan-export,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-export,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:perusahaan-mmea,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan-export,create');
+                });
         });
 
     /**

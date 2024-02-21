@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Response;
 use Illuminate\Http\Request;
+use App\Models\PerusahaanExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\RedirectResponse;
+use App\Exports\PerusahaanExportExport;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\PerusahaanExport\PerusahaanExportRequest;
 use App\Http\Requests\PerusahaanExport\StorePerusahaanExportRequest;
-use Illuminate\Http\RedirectResponse;
-use Inertia\Response;
+use App\Http\Requests\PerusahaanExport\UpdatePerusahaanExportRequest;
 
 class PerusahaanExportController extends Controller
 {
@@ -56,5 +61,87 @@ class PerusahaanExportController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Perusahaan berhasil ditambahkan.',
         ]);
+    }
+
+    /**
+     * Perbarui data perusahaan export.
+     *
+     * @param UpdatePerusahaanExportRequest $request
+     * @param PerusahaanExport $perusahaan
+     * @return RedirectResponse
+     */
+    public function update(UpdatePerusahaanExportRequest $request, PerusahaanExport $perusahaan): RedirectResponse
+    {
+        $request->update();
+
+        return to_route('perusahaan-export', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil diubah.',
+        ]);
+    }
+
+    /**
+     * Hapus data perusahaan export (soft deletes)
+     *
+     * @param Request $request
+     * @param PerusahaanExport $perusahaan
+     * @return RedirectResponse
+     */
+    public function remove(Request $request, PerusahaanExport $perusahaan): RedirectResponse
+    {
+        $perusahaan->delete();
+
+        return to_route('perusahaan-export', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil dihapus.',
+        ]);
+    }
+
+    /**
+     * Restore data perusahaan export
+     *
+     * @param Request $request
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function restore(Request $request, string $id): RedirectResponse
+    {
+        PerusahaanExport::onlyTrashed()->findOrFail($id)->restore();
+
+        return to_route('perusahaan-export', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil dipulihkan.',
+        ]);
+    }
+
+    /**
+     * Hapus data perusahaan export (permanent deletes)
+     *
+     * @param Request $request
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function destroy(Request $request, string $id): RedirectResponse
+    {
+        PerusahaanExport::onlyTrashed()->findOrFail($id)->forceDelete();
+
+        return to_route('perusahaan-export', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Perusahaan berhasil dihapus selamanya.',
+        ]);
+    }
+
+    /**
+     * Export excel
+     *
+     * @param Request $request
+     * @return BinaryFileResponse
+     */
+    public function export(Request $request): BinaryFileResponse
+    {
+        $access = $this->getAccessByRoute('perusahaan-export');
+        $fileName = "perusahaan_export_export.xlsx";
+
+        return Excel::download(new PerusahaanExportExport($request, $access), $fileName);
     }
 }
