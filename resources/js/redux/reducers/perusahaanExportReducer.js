@@ -36,6 +36,10 @@ export const perusahaanExportSlice = createSlice({
       open: false,
       id: null,
     },
+
+    import: {
+      open: false,
+    },
   },
 
   reducers: {
@@ -111,6 +115,14 @@ export const perusahaanExportSlice = createSlice({
       state.restore.open = false;
       state.restore.id = null;
     },
+
+    openFormlImport: (state) => {
+      state.import.open = true;
+    },
+
+    closeFormlImport: (state) => {
+      state.import.open = false;
+    },
   },
 });
 
@@ -123,6 +135,8 @@ export const {
   closeDeleteConfirmation,
   openRestoreConfirmation,
   closeRestoreConfirmation,
+  openFormlImport,
+  closeFormlImport,
 } = perusahaanExportSlice.actions;
 
 export default perusahaanExportSlice.reducer;

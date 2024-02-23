@@ -73,13 +73,22 @@ class PerusahaanMmeaImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row): void
     {
-        // Jika user yang sedang login seorang admin dan row kantor_id tidak kosong...
-        // ...isikan variable $kantorId dari $row['kantor_id']. Namun jika user bukan sebagai admin atau...
-        // ...$row['kantor_id'] kosong ambil data kantor_id yang dimiliki user yang sedang login.
+        // Jika user sebagai admin dan dan request kantor_id tidak kosong...
+        // ...ambil data kantor_id dari request. Jika user bukan admin atau request...
+        // ...kantor_id kosong ambil data kantor_id dari user yang sedang login.
         if (user()->admin && !empty($row['kantor_id'])) {
             $kantorId = $row['kantor_id'];
         } else {
             $kantorId = user()->kantor_id;
+        }
+
+        // Jika user sebagai admin dan tanggal_input tidak kosong...
+        // ...ambil data tanggal_input dari request. Selain dari itu...
+        // ...ambil tanggal hari ini.
+        if (user()->admin && !empty($row['tanggal_input'])) {
+            $tanggalInput = $row['tanggal_input'];
+        } else {
+            $tanggalInput = date('Y-m-d');
         }
 
         PerusahaanMmea::create([
@@ -90,7 +99,7 @@ class PerusahaanMmeaImport implements ToModel, WithHeadingRow, WithValidation
             'jumlah_dokumen'  => $row['jumlah_dokumen'],
             'jumlah_liter'    => $row['jumlah_liter'],
             'jumlah_cukai'    => $row['jumlah_cukai'],
-            'tanggal_input'   => $row['tanggal_input'] ?? date('Y-m-d'),
+            'tanggal_input'   => $tanggalInput,
         ]);
     }
 }

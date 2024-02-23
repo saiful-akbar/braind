@@ -9,6 +9,7 @@ import {
   closeDeleteConfirmation,
   closeRestoreConfirmation,
   openCreateForm,
+  openFormlImport,
 } from "@/redux/reducers/perusahaanExportReducer";
 import FormFilterPeriodPerusahaanExport from "./Partials/FormFilterPeriodPerusahaanExport";
 import CardPaper from "@/components/CardPaper";
@@ -18,6 +19,11 @@ import FormFilterStatusPerusahaanExport from "./Partials/FormFilterStatusPerusah
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import RestoreConfirmation from "@/components/RestoreConfirmation";
 import { router } from "@inertiajs/react";
+import TableActionButton from "@/components/Buttons/TableActionButton";
+import { closeLoading, openLoading } from "@/redux/reducers/loadingReducer";
+import { saveAs } from "file-saver";
+import { openNotification } from "@/redux/reducers/notificationReducer";
+import ModalFormImportPerusahaanExport from "./Partials/ModalFormImportPerusahaanExport";
 
 /**
  * Halaman perusahaan export
@@ -134,6 +140,55 @@ const PerusahaanExport = (props) => {
     dispatch,
   ]);
 
+  /**
+   * fungsi untuk reload table
+   */
+  const handleReload = useCallback(() => {
+    router.reload();
+  }, []);
+
+  /**
+   * fungsi untuk export excel
+   */
+  const handleExport = useCallback(async () => {
+    dispatch(openLoading());
+
+    try {
+      const response = await axios({
+        method: "get",
+        responseType: "blob",
+        url: route("perusahaan-export.export"),
+        params,
+      });
+
+      if (response.status === 200) {
+        saveAs(response.data, "perusahaan_export.xlsx");
+        dispatch(closeLoading());
+        dispatch(
+          openNotification({
+            status: "success",
+            message: "Export berhasil.",
+          })
+        );
+      }
+    } catch (error) {
+      dispatch(closeLoading());
+      dispatch(
+        openNotification({
+          status: "error",
+          message: "Terjadi kesalahan. Export gagal.",
+        })
+      );
+    }
+  }, [params]);
+
+  /**
+   * fungsi untuk membuka modal form import
+   */
+  const handleOpenFormImport = useCallback(() => {
+    dispatch(openFormlImport());
+  }, [dispatch]);
+
   return (
     <Fragment>
       <Header
@@ -174,6 +229,17 @@ const PerusahaanExport = (props) => {
                     </Grid>
                   )}
 
+                  <Grid item md={3} xs={12}>
+                    <TableActionButton
+                      reload
+                      export
+                      import={access.create}
+                      onReload={handleReload}
+                      onExport={handleExport}
+                      onImport={handleOpenFormImport}
+                    />
+                  </Grid>
+
                   <Grid item xs={12}>
                     <TablePerusahaanExport />
                   </Grid>
@@ -204,6 +270,9 @@ const PerusahaanExport = (props) => {
         onRestore={handleRestore}
         loading={processing}
       />
+
+      {/* Modal form import excel */}
+      <ModalFormImportPerusahaanExport />
     </Fragment>
   );
 };

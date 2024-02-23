@@ -18,7 +18,7 @@ class SbpImport implements ToModel, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            'id_kantor'     => 'nullable|exists:kantor,id',
+            'kantor_id'     => 'nullable|exists:kantor,id',
             'jumlah'        => 'required|numeric|min:0',
             'tindak_lanjut' => 'required|numeric|min:0',
             'tanggal_input' => 'nullable|date',
@@ -33,7 +33,7 @@ class SbpImport implements ToModel, WithHeadingRow, WithValidation
     public function customValidationAttributes(): array
     {
         return [
-            'id_kantor'     => 'ID kantor',
+            'kantor_id'     => 'ID kantor',
             'jumlah'        => 'jumlah',
             'tindak_lanjut' => 'tindak lanjut',
             'tanggal_input' => 'tanggal input',
@@ -45,10 +45,22 @@ class SbpImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
-        if (user()->admin && !is_null($row['id_kantor'])) {
-            $kantorId = $row['id_kantor'];
+        // Jika user sebagai admin dan dan request kantor_id tidak kosong...
+        // ...ambil data kantor_id dari request. Jika user bukan admin atau request...
+        // ...kantor_id kosong ambil data kantor_id dari user yang sedang login.
+        if (user()->admin && !empty($row['kantor_id'])) {
+            $kantorId = $row['kantor_id'];
         } else {
             $kantorId = user()->kantor_id;
+        }
+
+        // Jika user sebagai admin dan tanggal_input tidak kosong...
+        // ...ambil data tanggal_input dari request. Selain dari itu...
+        // ...ambil tanggal hari ini.
+        if (user()->admin && !empty($row['tanggal_input'])) {
+            $tanggalInput = $row['tanggal_input'];
+        } else {
+            $tanggalInput = date('Y-m-d');
         }
 
         return Sbp::create([
@@ -56,7 +68,7 @@ class SbpImport implements ToModel, WithHeadingRow, WithValidation
             'user_id'       => user()->id,
             'jumlah'        => $row['jumlah'],
             'tindak_lanjut' => $row['tindak_lanjut'],
-            'tanggal_input' => $row['tanggal_input'] ?? date('Y-m-d'),
+            'tanggal_input' => $tanggalInput,
         ]);
     }
 }

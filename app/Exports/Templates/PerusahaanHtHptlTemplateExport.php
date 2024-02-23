@@ -40,7 +40,7 @@ class PerusahaanHtHptlTemplateExport implements WithStyles, ShouldAutoSize, With
     public function headings(): array
     {
         return [
-            'ID Kantor',
+            'Kantor ID',
             'Nama Kantor',
             'Nama Perusahaan',
             'NPPBKC',
@@ -48,6 +48,7 @@ class PerusahaanHtHptlTemplateExport implements WithStyles, ShouldAutoSize, With
             'Jenis BKC',
             'Jumlah',
             'Jumlah Cukai',
+            'Tanggal Input',
         ];
     }
 }

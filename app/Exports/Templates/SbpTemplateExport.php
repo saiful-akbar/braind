@@ -17,7 +17,7 @@ class SbpTemplateExport implements WithStyles, ShouldAutoSize, WithHeadings
     public function styles(Worksheet $sheet): array
     {
         return [
-            'A1:D1' => [
+            'A1:E1' => [
                 'font' => [
                     'bold' => true,
                 ],
@@ -40,10 +40,11 @@ class SbpTemplateExport implements WithStyles, ShouldAutoSize, WithHeadings
     public function headings(): array
     {
         return [
-            'ID Kantor',
+            'Kantor ID',
             'Nama Kantor',
             'Jumlah',
             'Tindak Lanjut',
+            'Tanggal Input',
         ];
     }
 }

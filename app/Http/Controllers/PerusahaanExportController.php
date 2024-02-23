@@ -9,8 +9,10 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
 use App\Exports\PerusahaanExportExport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use App\Exports\Templates\PerusahaanExportTemplateExport;
 use App\Http\Requests\PerusahaanExport\PerusahaanExportRequest;
 use App\Http\Requests\PerusahaanExport\StorePerusahaanExportRequest;
+use App\Http\Requests\PerusahaanExport\ImportPerusahaanExportRequest;
 use App\Http\Requests\PerusahaanExport\UpdatePerusahaanExportRequest;
 
 class PerusahaanExportController extends Controller
@@ -143,5 +145,33 @@ class PerusahaanExportController extends Controller
         $fileName = "perusahaan_export_export.xlsx";
 
         return Excel::download(new PerusahaanExportExport($request, $access), $fileName);
+    }
+
+    /**
+     * Download template import
+     *
+     * @return BinaryFileResponse
+     */
+    public function downloadTemplate(): BinaryFileResponse
+    {
+        $fileName = "template_export_perusahaan_export.xlsx";
+
+        return Excel::download(new PerusahaanExportTemplateExport, $fileName);
+    }
+
+    /**
+     * Import dari excel ke database.
+     *
+     * @param ImportPerusahaanExportRequest $request
+     * @return RedirectResponse
+     */
+    public function import(ImportPerusahaanExportRequest $request): RedirectResponse
+    {
+        $request->importExcel();
+
+        return to_route('perusahaan-export', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Import berhasil.'
+        ]);
     }
 }
