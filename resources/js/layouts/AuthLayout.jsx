@@ -1,18 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import BaseLayout from "./BaseLayout";
-import { Head } from "@inertiajs/react";
-import { Box, Container } from "@mui/material";
-import Sidebar from "@/components/Sidebar";
-import Settings from "@/components/Settings";
-import Notification from "@/components/Notification";
-import {
-  openNotification,
-  closeNotification,
-} from "@/redux/reducers/notificationReducer";
-import { useSelector, useDispatch } from "react-redux";
-import { usePage } from "@inertiajs/react";
 import Loader from "@/components/Loader";
+import Notification from "@/components/Notification";
+import Settings from "@/components/Settings";
+import Sidebar from "@/components/Sidebar";
+import { openNotification } from "@/redux/reducers/notificationReducer";
+import { Head, usePage } from "@inertiajs/react";
+import { Box, Container } from "@mui/material";
+import PropTypes from "prop-types";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import BaseLayout from "./BaseLayout";
 
 /**
  * Auth layout
