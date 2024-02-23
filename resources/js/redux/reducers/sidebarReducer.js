@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const sidebarSlice = createSlice({
   name: "sidebar",
   initialState: {
-    width: 260,
+    width: 250,
     mobile: {
       open: false,
     },
