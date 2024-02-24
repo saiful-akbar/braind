@@ -13,7 +13,7 @@ import React, { memo, useCallback, useEffect } from "react";
  *
  * @returns {React.ReactElement}
  */
-const FormFilterPeriodPerusahaanImport = memo(() => {
+const FormFilterPeriodPerusahaanExport = memo(() => {
   const { app } = usePage().props;
   const { params } = app.url;
 
@@ -53,7 +53,7 @@ const FormFilterPeriodPerusahaanImport = memo(() => {
    * Fungsi untuk menangani ketika form di submit
    */
   const handleSubmit = () => {
-    form.get(route("perusahaan-import"), {
+    form.get(route("perusahaan-export"), {
       preserveScroll: true,
       preserveState: true,
     });
@@ -107,4 +107,4 @@ const FormFilterPeriodPerusahaanImport = memo(() => {
   );
 });
 
-export default FormFilterPeriodPerusahaanImport;
+export default FormFilterPeriodPerusahaanExport;

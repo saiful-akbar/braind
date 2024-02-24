@@ -57,8 +57,8 @@ class MenuSeeder extends Seeder
                 ],
                 [
                     'nama' => 'Import',
-                    'url' => '/perusahaan-impor',
-                    'route' => 'perusahaan-impor',
+                    'url' => '/perusahaan-import',
+                    'route' => 'perusahaan-import',
                 ],
                 [
                     'nama' => 'Export',

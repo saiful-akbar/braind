@@ -2,7 +2,6 @@
 
 namespace App\Imports;
 
-use App\Models\PerusahaanMmea;
 use App\Models\PerusahaanExport;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;

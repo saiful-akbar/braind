@@ -3,19 +3,19 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { Add } from "@mui/icons-material";
 import { Box, Button, CardContent, Grid } from "@mui/material";
 import React, { Fragment, useCallback, useState } from "react";
-import ModalFormPerusahaanExport from "./Partials/ModalFormPerusahaanExport";
+import ModalFormPerusahaanImport from "./Partials/ModalFormPerusahaanImport";
 import { useDispatch, useSelector } from "react-redux";
 import {
   closeDeleteConfirmation,
   closeRestoreConfirmation,
   openCreateForm,
   openFormlImport,
-} from "@/redux/reducers/perusahaanExportReducer";
-import FormFilterPeriodPerusahaanExport from "./Partials/FormFilterPeriodPerusahaanExport";
+} from "@/redux/reducers/perusahaanImportReducer";
+import FormFilterPeriodPerusahaanImport from "./Partials/FormFilterPeriodPerusahaanImport";
 import CardPaper from "@/components/CardPaper";
-import TablePerusahaanExport from "./Partials/TablePerusahaanExport";
-import FormSearchPerusahaanExport from "./Partials/FormSearchPerusahaanExport";
-import FormFilterStatusPerusahaanExport from "./Partials/FormFilterStatusPerusahaanExport";
+import TablePerusahaanImport from "./Partials/TablePerusahaanImport";
+import FormSearchPerusahaanImport from "./Partials/FormSearchPerusahaanImport";
+import FormFilterStatusPerusahaanImport from "./Partials/FormFilterStatusPerusahaanImport";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import RestoreConfirmation from "@/components/RestoreConfirmation";
 import { router } from "@inertiajs/react";
@@ -23,17 +23,17 @@ import TableActionButton from "@/components/Buttons/TableActionButton";
 import { closeLoading, openLoading } from "@/redux/reducers/loadingReducer";
 import { saveAs } from "file-saver";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import ModalFormImportPerusahaanExport from "./Partials/ModalFormImportPerusahaanExport";
+import ModalFormImportPerusahaanImport from "./Partials/ModalFormImportPerusahaanImport";
 
 /**
  * Halaman perusahaan export
  */
-const PerusahaanExport = (props) => {
+const PerusahaanImport = (props) => {
   const { access, app } = props;
   const { params } = app.url;
   const { csrf } = app;
   const dispatch = useDispatch();
-  const perusahaanExport = useSelector((state) => state.perusahaanExport);
+  const perusahaanImport = useSelector((state) => state.perusahaanImport);
 
   /**
    * State
@@ -63,8 +63,8 @@ const PerusahaanExport = (props) => {
    * fungsi untuk mengapus data perusahaan
    */
   const handleDelete = useCallback(() => {
-    const url = route(`perusahaan-export.${perusahaanExport.delete.type}`, {
-      perusahaan: perusahaanExport.delete.id,
+    const url = route(`perusahaan-import.${perusahaanImport.delete.type}`, {
+      perusahaan: perusahaanImport.delete.id,
       _query: params,
     });
 
@@ -88,7 +88,7 @@ const PerusahaanExport = (props) => {
       },
     });
   }, [
-    perusahaanExport,
+    perusahaanImport,
     params,
     csrf,
     setProcessing,
@@ -107,8 +107,8 @@ const PerusahaanExport = (props) => {
    * fungsi untuk request restore
    */
   const handleRestore = useCallback(() => {
-    const url = route("perusahaan-export.restore", {
-      perusahaan: perusahaanExport.restore.id,
+    const url = route("perusahaan-import.restore", {
+      perusahaan: perusahaanImport.restore.id,
       _query: params,
     });
 
@@ -132,7 +132,7 @@ const PerusahaanExport = (props) => {
       },
     });
   }, [
-    perusahaanExport,
+    perusahaanImport,
     setProcessing,
     params,
     csrf,
@@ -157,12 +157,12 @@ const PerusahaanExport = (props) => {
       const response = await axios({
         method: "get",
         responseType: "blob",
-        url: route("perusahaan-export.export"),
+        url: route("perusahaan-import.export"),
         params,
       });
 
       if (response.status === 200) {
-        saveAs(response.data, "perusahaan_export;_export.xlsx");
+        saveAs(response.data, "perusahaan_import_export.xlsx");
         dispatch(closeLoading());
         dispatch(
           openNotification({
@@ -211,7 +211,7 @@ const PerusahaanExport = (props) => {
       <Box component="main" sx={{ mt: 5 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <FormFilterPeriodPerusahaanExport />
+            <FormFilterPeriodPerusahaanImport />
           </Grid>
 
           {/* Tabel */}
@@ -220,12 +220,12 @@ const PerusahaanExport = (props) => {
               <CardContent>
                 <Grid container spacing={3} justifyContent="space-between">
                   <Grid item md={4.5} xs={12}>
-                    <FormSearchPerusahaanExport />
+                    <FormSearchPerusahaanImport />
                   </Grid>
 
                   {access.destroy && (
                     <Grid item md={4.5} xs={12}>
-                      <FormFilterStatusPerusahaanExport />
+                      <FormFilterStatusPerusahaanImport />
                     </Grid>
                   )}
 
@@ -241,7 +241,7 @@ const PerusahaanExport = (props) => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <TablePerusahaanExport />
+                    <TablePerusahaanImport />
                   </Grid>
                 </Grid>
               </CardContent>
@@ -251,12 +251,12 @@ const PerusahaanExport = (props) => {
       </Box>
 
       {/* Modal form create & edit */}
-      <ModalFormPerusahaanExport />
+      <ModalFormPerusahaanImport />
 
       {/* Modal konfirmasi delete */}
       <DeleteConfirmation
-        title={perusahaanExport.delete.title}
-        open={perusahaanExport.delete.open}
+        title={perusahaanImport.delete.title}
+        open={perusahaanImport.delete.open}
         onClose={handleCloseDeleteConfirmation}
         onDelete={handleDelete}
         loading={processing}
@@ -264,15 +264,15 @@ const PerusahaanExport = (props) => {
 
       {/* Modal konfirmasi restore */}
       <RestoreConfirmation
-        open={perusahaanExport.restore.open}
-        title={perusahaanExport.restore.title}
+        open={perusahaanImport.restore.open}
+        title={perusahaanImport.restore.title}
         onClose={handleCloseRestoreConfirmation}
         onRestore={handleRestore}
         loading={processing}
       />
 
       {/* Modal form import excel */}
-      <ModalFormImportPerusahaanExport />
+      <ModalFormImportPerusahaanImport />
     </Fragment>
   );
 };
@@ -280,8 +280,8 @@ const PerusahaanExport = (props) => {
 /**
  * Layout
  */
-PerusahaanExport.layout = (page) => (
+PerusahaanImport.layout = (page) => (
   <AuthLayout title="Perusahaan Export" children={page} />
 );
 
-export default PerusahaanExport;
+export default PerusahaanImport;

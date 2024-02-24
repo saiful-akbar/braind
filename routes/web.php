@@ -244,7 +244,7 @@ Route::middleware('auth')->group(function (): void {
             Route::name('.import')
                 ->prefix('/import')
                 ->group(function (): void {
-                    Route::post('/', 'import')->middleware('access:perusahaan-mmea,create');
+                    Route::post('/', 'import')->middleware('access:perusahaan-export,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan-export,create');
                 });
         });
@@ -257,5 +257,18 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/perusahaan-import')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan-import,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:perusahaan-import,create');
+            Route::patch('/{perusahaan}', 'update')->name('.update')->middleware('access:perusahaan-import,update');
+            Route::delete('/{perusahaan}', 'remove')->name('.remove')->middleware('access:perusahaan-import,remove');
+            Route::patch('/{perusahaan}/restore', 'restore')->name('.restore')->middleware('access:perusahaan-import,destroy');
+            Route::delete('/{perusahaan}/destroy', 'destroy')->name('.destroy')->middleware('access:perusahaan-import,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-import,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:perusahaan-import,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan-import,create');
+                });
         });
 });

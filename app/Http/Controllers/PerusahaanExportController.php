@@ -154,7 +154,7 @@ class PerusahaanExportController extends Controller
      */
     public function downloadTemplate(): BinaryFileResponse
     {
-        $fileName = "template_export_perusahaan_export.xlsx";
+        $fileName = "template_import_perusahaan_export.xlsx";
 
         return Excel::download(new PerusahaanExportTemplateExport, $fileName);
     }
