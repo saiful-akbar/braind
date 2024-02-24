@@ -26,7 +26,7 @@ import { openNotification } from "@/redux/reducers/notificationReducer";
 import ModalFormImportPerusahaanImport from "./Partials/ModalFormImportPerusahaanImport";
 
 /**
- * Halaman perusahaan export
+ * Halaman perusahaan Import
  */
 const PerusahaanImport = (props) => {
   const { access, app } = props;
@@ -192,7 +192,7 @@ const PerusahaanImport = (props) => {
   return (
     <Fragment>
       <Header
-        title="Perusahaan Export"
+        title="Perusahaan Import"
         action={
           access.create ? (
             <Button
@@ -281,7 +281,7 @@ const PerusahaanImport = (props) => {
  * Layout
  */
 PerusahaanImport.layout = (page) => (
-  <AuthLayout title="Perusahaan Export" children={page} />
+  <AuthLayout title="Perusahaan Import" children={page} />
 );
 
 export default PerusahaanImport;
