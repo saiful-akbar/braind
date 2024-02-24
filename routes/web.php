@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KantorController;
 use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PerusahaanMmeaController;
 use App\Http\Controllers\PerusahaanExportController;
@@ -186,7 +187,7 @@ Route::middleware('auth')->group(function (): void {
      */
     Route::controller(PerusahaanHtHptlController::class)
         ->name('perusahaan-hthptl')
-        ->prefix('/perusahaan-ht-hptl')
+        ->prefix('/perusahaan-hthptl')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan-hthptl,read');
             Route::get('/create', 'create')->name('.create')->middleware('access:perusahaan-hthptl,create');
@@ -269,6 +270,29 @@ Route::middleware('auth')->group(function (): void {
                 ->group(function (): void {
                     Route::post('/', 'import')->middleware('access:perusahaan-import,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan-import,create');
+                });
+        });
+
+    /**
+     * Penerimaan
+     */
+    Route::controller(PenerimaanController::class)
+        ->name('penerimaan')
+        ->prefix('/penerimaan')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:penerimaan,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:penerimaan,create');
+            Route::patch('/{penerimaan}', 'update')->name('.update')->middleware('access:penerimaan,update');
+            Route::delete('/{penerimaan}', 'remove')->name('.remove')->middleware('access:penerimaan,remove');
+            Route::patch('/{penerimaan}/restore', 'restore')->name('.restore')->middleware('access:penerimaan,destroy');
+            Route::delete('/{penerimaan}/destroy', 'destroy')->name('.destroy')->middleware('access:penerimaan,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:penerimaan,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:penerimaan,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:penerimaan,create');
                 });
         });
 });

@@ -4,9 +4,9 @@ import {
   openEditForm,
   openRemoveConfirmation,
   openRestoreConfirmation,
-} from "@/redux/reducers/perusahaanExportReducer";
+} from "@/redux/reducers/penerimaanReducer";
 import { router, usePage } from "@inertiajs/react";
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 const columns = (access, status) => {
@@ -20,64 +20,48 @@ const columns = (access, status) => {
       sort: true,
     },
     {
-      field: "nama_perusahaan",
-      label: "Nama Perusahaan",
-      align: "left",
-      format: "none",
-      show: true,
-      sort: true,
-    },
-    {
-      field: "peb",
-      label: "PEB",
-      align: "right",
-      format: "number",
-      show: true,
-      sort: true,
-    },
-    {
-      field: "bruto",
-      label: "Bruto",
+      field: "target_bea_masuk",
+      label: "Target Bea Masuk",
       align: "right",
       format: "decimal",
       show: true,
       sort: true,
     },
     {
-      field: "netto",
-      label: "Netto",
+      field: "realisasi_bea_masuk",
+      label: "Realisasi Bea Masuk",
       align: "right",
       format: "decimal",
       show: true,
       sort: true,
     },
     {
-      field: "devisa",
-      label: "Devisa",
+      field: "target_bea_keluar",
+      label: "Target Bea Keluar",
       align: "right",
       format: "decimal",
       show: true,
       sort: true,
     },
     {
-      field: "bea_keluar",
-      label: "Bea Keluar",
+      field: "realisasi_bea_keluar",
+      label: "Realisasi Bea Keluar",
       align: "right",
       format: "decimal",
       show: true,
       sort: true,
     },
     {
-      field: "jumlah_liter",
-      label: "jumlah_liter",
+      field: "target_cukai",
+      label: "Target Cukai",
       align: "right",
-      format: "number",
+      format: "decimal",
       show: true,
       sort: true,
     },
     {
-      field: "jumlah_cukai",
-      label: "jumlah_cukai",
+      field: "realisasi_cukai",
+      label: "Realisasi Cukai",
       align: "right",
       format: "decimal",
       show: true,
@@ -107,7 +91,7 @@ const columns = (access, status) => {
  *
  * @returns {React.ReactElement}
  */
-const TablePerusahaanExport = () => {
+const TablePenerimaan = memo(() => {
   const { app, access, data, pagination } = usePage().props;
   const { params } = app.url;
   const status = params.status ?? "aktif";
@@ -122,7 +106,7 @@ const TablePerusahaanExport = () => {
    * fungsi untuk fetch data perusahaan
    */
   const fetchData = (parameters) => {
-    router.visit(route("perusahaan-export"), {
+    router.visit(route("penerimaan"), {
       method: "get",
       data: parameters,
       preserveScroll: true,
@@ -229,6 +213,6 @@ const TablePerusahaanExport = () => {
       }}
     />
   );
-};
+});
 
-export default TablePerusahaanExport;
+export default TablePenerimaan;

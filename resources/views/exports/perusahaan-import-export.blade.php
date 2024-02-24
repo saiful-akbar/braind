@@ -2,7 +2,7 @@
 <html lang="id">
 
 <head>
-    <title>Perusahaan Export</title>
+    <title>Perusahaan Import</title>
 </head>
 
 <body>

@@ -3,8 +3,7 @@ import SelectInput from "@/components/Input/SelectInput";
 import TextInput from "@/components/Input/TextInput";
 import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import { closeForm } from "@/redux/reducers/perusahaanExportReducer";
-import Perusahaan from "@/services/PerusahaanService";
+import { closeForm } from "@/redux/reducers/penerimaanReducer";
 import Kantor from "@/services/kantorService";
 import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
@@ -16,13 +15,13 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
- * Komponen modal form master perusahaan.
+ * Komponen modal form master penerimaan.
  *
  * @returns {React.ReactElement}
  */
-const ModalFormPerusahaanExport = memo(() => {
+const ModalFormPenerimaan = memo(() => {
   const { open, type, title, data } = useSelector(
-    (state) => state.perusahaanExport.form
+    (state) => state.penerimaan.form
   );
 
   const dispatch = useDispatch();
@@ -40,10 +39,9 @@ const ModalFormPerusahaanExport = memo(() => {
    * State
    */
   const [kantor, setKantor] = useState([]);
-  const [perusahaan, setPerusahaan] = useState([]);
 
   /**
-   * Ambil data kantor dan perusahaan.
+   * Ambil data kantor dan penerimaan.
    */
   useEffect(() => {
     const getAllKantor = async () => {
@@ -66,29 +64,8 @@ const ModalFormPerusahaanExport = memo(() => {
       }
     };
 
-    const getAllPerusahaan = async () => {
-      try {
-        const response = await Perusahaan.getAll();
-
-        setPerusahaan(
-          response.data.map(({ nama }) => ({
-            label: nama,
-            value: nama,
-          }))
-        );
-      } catch (error) {
-        dispatch(
-          openNotification({
-            status: "error",
-            message: `${error.status} - Gagal mengambil data perusahaan.`,
-          })
-        );
-      }
-    };
-
     if (access.create || access.update) {
       getAllKantor();
-      getAllPerusahaan();
     }
   }, []);
 
@@ -132,10 +109,10 @@ const ModalFormPerusahaanExport = memo(() => {
   );
 
   /**
-   * fungsi untuk menambah data perusahaan ke database
+   * fungsi untuk menambah data penerimaan ke database
    */
   const handleStore = useCallback(() => {
-    const url = route("perusahaan-export.store", {
+    const url = route("penerimaan.store", {
       _query: params,
     });
 
@@ -147,11 +124,11 @@ const ModalFormPerusahaanExport = memo(() => {
   }, [form, params]);
 
   /**
-   * fungsi untuk memperbarui data perusahaan ke database.
+   * fungsi untuk memperbarui data penerimaan ke database.
    */
   const handleUpdate = useCallback(() => {
-    const url = route("perusahaan-export.update", {
-      perusahaan: data.id,
+    const url = route("penerimaan.update", {
+      penerimaan: data.id,
       _query: params,
     });
 
@@ -209,34 +186,18 @@ const ModalFormPerusahaanExport = memo(() => {
           )}
 
           <Grid item xs={12} md={6}>
-            <SelectInput
-              fullWidth
-              required
-              label="Nama Perusahaan"
-              name="nama_perusahaan"
-              id="nama_perusahaan"
-              items={perusahaan}
-              onChange={handleInputChange}
-              disabled={form.processing}
-              value={form.data.nama_perusahaan}
-              error={Boolean(form.errors.nama_perusahaan)}
-              helperText={form.errors.nama_perusahaan}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
             <TextInput
               fullWidth
               required
-              type="text"
-              label="NPWP"
-              name="npwp"
-              id="npwp"
-              value={form.data.npwp}
+              type="number"
+              label="Target Bea Masuk"
+              name="target_bea_masuk"
+              id="target_bea_masuk"
+              value={form.data.target_bea_masuk}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.npwp)}
-              helperText={form.errors.npwp}
+              error={Boolean(form.errors.target_bea_masuk)}
+              helperText={form.errors.target_bea_masuk}
             />
           </Grid>
 
@@ -245,14 +206,14 @@ const ModalFormPerusahaanExport = memo(() => {
               fullWidth
               required
               type="number"
-              label="PEB"
-              name="peb"
-              id="peb"
-              value={form.data.peb}
+              label="Realisasi Bea Masuk"
+              name="realisasi_bea_masuk"
+              id="realisasi_bea_masuk"
+              value={form.data.realisasi_bea_masuk}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.peb)}
-              helperText={form.errors.peb}
+              error={Boolean(form.errors.realisasi_bea_masuk)}
+              helperText={form.errors.realisasi_bea_masuk}
             />
           </Grid>
 
@@ -261,15 +222,14 @@ const ModalFormPerusahaanExport = memo(() => {
               fullWidth
               required
               type="number"
-              step="any"
-              label="Bruto"
-              name="bruto"
-              id="bruto"
-              value={form.data.bruto}
+              label="Target Bea Keluar"
+              name="target_bea_keluar"
+              id="target_bea_keluar"
+              value={form.data.target_bea_keluar}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.bruto)}
-              helperText={form.errors.bruto}
+              error={Boolean(form.errors.target_bea_keluar)}
+              helperText={form.errors.target_bea_keluar}
             />
           </Grid>
 
@@ -278,15 +238,14 @@ const ModalFormPerusahaanExport = memo(() => {
               fullWidth
               required
               type="number"
-              step="any"
-              label="Netto"
-              name="netto"
-              id="netto"
-              value={form.data.netto}
+              label="Realisasi Bea Keluar"
+              name="realisasi_bea_keluar"
+              id="realisasi_bea_keluar"
+              value={form.data.realisasi_bea_keluar}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.netto)}
-              helperText={form.errors.netto}
+              error={Boolean(form.errors.realisasi_bea_keluar)}
+              helperText={form.errors.realisasi_bea_keluar}
             />
           </Grid>
 
@@ -295,15 +254,14 @@ const ModalFormPerusahaanExport = memo(() => {
               fullWidth
               required
               type="number"
-              step="any"
-              label="Devisa"
-              name="devisa"
-              id="devisa"
-              value={form.data.devisa}
+              label="Target Cukai"
+              name="target_cukai"
+              id="target_cukai"
+              value={form.data.target_cukai}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.devisa)}
-              helperText={form.errors.devisa}
+              error={Boolean(form.errors.target_cukai)}
+              helperText={form.errors.target_cukai}
             />
           </Grid>
 
@@ -312,48 +270,14 @@ const ModalFormPerusahaanExport = memo(() => {
               fullWidth
               required
               type="number"
-              step="any"
-              label="Bea Keluar"
-              name="bea_keluar"
-              id="bea_keluar"
-              value={form.data.bea_keluar}
+              label="Realisasi Cukai"
+              name="realisasi_cukai"
+              id="realisasi_cukai"
+              value={form.data.realisasi_cukai}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.bea_keluar)}
-              helperText={form.errors.bea_keluar}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <TextInput
-              fullWidth
-              required
-              type="number"
-              label="Jumlah Liter"
-              name="jumlah_liter"
-              id="jumlah_liter"
-              value={form.data.jumlah_liter}
-              onChange={handleInputChange}
-              disabled={form.processing}
-              error={Boolean(form.errors.jumlah_liter)}
-              helperText={form.errors.jumlah_liter}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <TextInput
-              fullWidth
-              required
-              type="number"
-              step="any"
-              label="Jumlah Cukai"
-              name="jumlah_cukai"
-              id="jumlah_cukai"
-              value={form.data.jumlah_cukai}
-              onChange={handleInputChange}
-              disabled={form.processing}
-              error={Boolean(form.errors.jumlah_cukai)}
-              helperText={form.errors.jumlah_cukai}
+              error={Boolean(form.errors.realisasi_cukai)}
+              helperText={form.errors.realisasi_cukai}
             />
           </Grid>
 
@@ -401,4 +325,4 @@ const ModalFormPerusahaanExport = memo(() => {
   );
 });
 
-export default ModalFormPerusahaanExport;
+export default ModalFormPenerimaan;

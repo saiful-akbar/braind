@@ -47,7 +47,7 @@ class MenuSeeder extends Seeder
             'sub_menu' => [
                 [
                     'nama' => 'Cukai HT + HPTL',
-                    'url' => '/perusahaan-ht-hptl',
+                    'url' => '/perusahaan-hthptl',
                     'route' => 'perusahaan-hthptl',
                 ],
                 [
@@ -64,6 +64,16 @@ class MenuSeeder extends Seeder
                     'nama' => 'Export',
                     'url' => '/perusahaan-export',
                     'route' => 'perusahaan-export',
+                ],
+            ],
+        ],
+        [
+            'nama' => 'Data Penerimaan',
+            'sub_menu' => [
+                [
+                    'nama' => 'Penerimaan',
+                    'url' => '/penerimaan',
+                    'route' => 'penerimaan',
                 ],
             ],
         ],

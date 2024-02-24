@@ -76,10 +76,10 @@ const columns = (access, status) => {
       sort: true,
     },
     {
-      field: "updated_at",
-      label: "Dibuat atau Diperbarui",
+      field: "tanggal_input",
+      label: "Tanggal Input",
       align: "left",
-      format: "time",
+      format: "none",
       show: status === "aktif",
       sort: true,
     },

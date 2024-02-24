@@ -11,6 +11,7 @@ import perusahaanMmeaReducer from "./reducers/perusahaanMmeaReducer";
 import perusahaanReducer from "./reducers/perusahaanReducer";
 import perusahaanExportReducer from "./reducers/perusahaanExportReducer";
 import perusahaanImportReducer from "./reducers/perusahaanImportReducer";
+import penerimaanReducer from "./reducers/penerimaanReducer";
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const store = configureStore({
     perusahaan: perusahaanReducer,
     perusahaanExport: perusahaanExportReducer,
     perusahaanImport: perusahaanImportReducer,
+    penerimaan: penerimaanReducer,
   },
 });
 
