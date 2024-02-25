@@ -4,7 +4,7 @@ import {
   openEditForm,
   openRemoveConfirmation,
   openRestoreConfirmation,
-} from "@/redux/reducers/penerimaanReducer";
+} from "@/redux/reducers/pengawasanReducer";
 import { router, usePage } from "@inertiajs/react";
 import React, { memo, useCallback } from "react";
 import { useDispatch } from "react-redux";
@@ -20,48 +20,48 @@ const columns = (access, status) => {
       sort: true,
     },
     {
-      field: "target_bea_masuk",
-      label: "Target Bea Masuk",
+      field: "tipe",
+      label: "Tipe Pengawasan",
+      align: "left",
+      format: "none",
+      show: true,
+      sort: true,
+    },
+    {
+      field: "sbp",
+      label: "SBP",
+      align: "left",
+      format: "none",
+      show: true,
+      sort: true,
+    },
+    {
+      field: "kantor",
+      label: "Kantor",
+      align: "left",
+      format: "none",
+      show: true,
+      sort: true,
+    },
+    {
+      field: "nilai_barang",
+      label: "Nilai Barang",
       align: "right",
       format: "decimal",
       show: true,
       sort: true,
     },
     {
-      field: "realisasi_bea_masuk",
-      label: "Realisasi Bea Masuk",
+      field: "total_kerugian",
+      label: "Total Kerugian",
       align: "right",
       format: "decimal",
       show: true,
       sort: true,
     },
     {
-      field: "target_bea_keluar",
-      label: "Target Bea Keluar",
-      align: "right",
-      format: "decimal",
-      show: true,
-      sort: true,
-    },
-    {
-      field: "realisasi_bea_keluar",
-      label: "Realisasi Bea Keluar",
-      align: "right",
-      format: "decimal",
-      show: true,
-      sort: true,
-    },
-    {
-      field: "target_cukai",
-      label: "Target Cukai",
-      align: "right",
-      format: "decimal",
-      show: true,
-      sort: true,
-    },
-    {
-      field: "realisasi_cukai",
-      label: "Realisasi Cukai",
+      field: "potensi_kerugian",
+      label: "Potensi Kerugian",
       align: "right",
       format: "decimal",
       show: true,
@@ -87,7 +87,7 @@ const columns = (access, status) => {
 };
 
 /**
- * Komponen table data penerimaan.
+ * Komponen table data pengawasan.
  *
  * @returns {React.ReactElement}
  */
@@ -106,7 +106,7 @@ const TablePenerimaan = memo(() => {
    * fungsi untuk fetch data perusahaan
    */
   const fetchData = (parameters) => {
-    router.visit(route("penerimaan"), {
+    router.visit(route("pengawasan"), {
       method: "get",
       data: parameters,
       preserveScroll: true,

@@ -14,11 +14,11 @@ const items = [
 ];
 
 /**
- * Komponen form filter status penerimaan.
+ * Komponen form filter status pengawasan.
  *
  * @returns {React.ReactElement}
  */
-const FormFilterStatusPenerimaan = memo(() => {
+const FormFilterStatusPengawasan = memo(() => {
   const { app } = usePage().props;
   const { params } = app.url;
 
@@ -43,7 +43,7 @@ const FormFilterStatusPenerimaan = memo(() => {
    */
   const handleInputChange = useCallback(
     (e) => {
-      router.visit(route("penerimaan"), {
+      router.visit(route("pengawasan"), {
         method: "get",
         preserveScroll: true,
         preserveState: true,
@@ -69,4 +69,4 @@ const FormFilterStatusPenerimaan = memo(() => {
   );
 });
 
-export default FormFilterStatusPenerimaan;
+export default FormFilterStatusPengawasan;

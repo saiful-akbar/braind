@@ -26,13 +26,13 @@ return new class extends Migration
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->string('kantor', 50);
-            $table->string('sbp', 30);
-            $table->string('tindak_lanjut', 100);
-            $table->decimal('nilai_barang', 17, 2)->unsigned();
-            $table->decimal('total', 17, 2)->unsigned();
-            $table->decimal('nilai_kerugian', 17, 2)->unsigned()->default(0);
             $table->string('tipe', 10);
+            $table->string('sbp', 30);
+            $table->string('kantor', 50);
+            $table->decimal('nilai_barang', 17, 2)->unsigned();
+            $table->decimal('total_kerugian', 17, 2)->unsigned();
+            $table->decimal('potensi_kerugian', 17, 2)->unsigned()->default(0);
+            $table->string('tindak_lanjut', 100);
             $table->date('tanggal_input');
             $table->timestamps();
             $table->softDeletes();

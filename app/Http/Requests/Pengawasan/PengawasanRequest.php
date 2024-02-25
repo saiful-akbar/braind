@@ -1,24 +1,33 @@
 <?php
 
-namespace App\Http\Requests\Penerimaan;
+namespace App\Http\Requests\Pengawasan;
 
 use App\Models\MenuUser;
-use App\Models\Penerimaan;
+use App\Models\Pengawasan;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class PenerimaanRequest extends FormRequest
+class PengawasanRequest extends FormRequest
 {
+    private array $types = [
+        'Cukai EA',
+        'Cukai HT',
+        'Cukai MMEA',
+        'Export',
+        'Import',
+    ];
+
     private array $columns = [
-        'kantor_id',
         'kantor_nama',
-        'target_bea_masuk',
-        'realisasi_bea_masuk',
-        'target_bea_keluar',
-        'realisasi_bea_keluar',
-        'target_cukai',
-        'realisasi_cukai',
+        'kantor_id',
+        'tipe',
+        'sbp',
+        'kantor',
+        'nilai_barang',
+        'total_kerugian',
+        'potensi_kerugian',
+        'tindak_lanjut',
         'tanggal_input',
         'created_at',
         'updated_at',
@@ -46,7 +55,10 @@ class PenerimaanRequest extends FormRequest
      */
     public function rules(): array
     {
+        $types = implode(',', $this->types);
+
         return [
+            'type'         => "in:semua,{$types}",
             'start_period' => 'date',
             'end_period'   => 'date',
             'status'       => 'nullable|in:aktif,dihapus',
@@ -64,16 +76,16 @@ class PenerimaanRequest extends FormRequest
     {
         // daftar kolom yang akan diambil atau ditampilkan.
         $columns = [
-            'penerimaan.*',
+            'pengawasan.*',
             'kantor.id as kantor_id',
             'kantor.nama as kantor_nama',
         ];
 
-        // Ambil data pada tabel penerimaan dan join dengan tabel kantor.
+        // Ambil data pada tabel pengawasan dan join dengan tabel kantor.
         // lalu buat filter berdasarkan periode waktu.
-        $penerimaan = Penerimaan::select($columns)
-            ->leftJoin('kantor', 'penerimaan.kantor_id', '=', 'kantor.id')
-            ->whereBetween('tanggal_input', [
+        $pengawasan = Pengawasan::select($columns)
+            ->leftJoin('kantor', 'pengawasan.kantor_id', '=', 'kantor.id')
+            ->whereBetween('pengawasan.tanggal_input', [
                 $this->query('start_period'),
                 $this->query('end_period'),
             ]);
@@ -82,22 +94,31 @@ class PenerimaanRequest extends FormRequest
         // hanya data perusahaan yang sesuai dengan kantor yang dimiliki user.
         // Jika user sebagai admin tampilkan semua data.
         if (!user()->admin) {
-            $penerimaan->where('kantor.id', user()->kantor_id);
+            $pengawasan->where('kantor.id', user()->kantor_id);
+        }
+
+        // Periksa request type
+        if (in_array($this->query('type'), $this->types)) {
+            $pengawasan->where('pengawasan.tipe', $this->query('type'));
         }
 
         // Periksa jika ada request "status" dengan nilai "dihapus"
         // dan user yang sedang login memiliki akses "destroy" (hapus permanen)
         // tampilkan hanya data yang sudah dihapus saja.
         if ($access->destroy && $this->query('status', 'aktif') == 'dihapus') {
-            $penerimaan->onlyTrashed();
+            $pengawasan->onlyTrashed();
         }
 
         // Periksa jika ada request "search" untuk pencarian data
         // tambahkan query where like.
         if (!empty($this->query('search'))) {
-            $penerimaan->where(function (Builder $query): void {
+            $pengawasan->where(function (Builder $query): void {
                 $search = $this->query('search');
-                $query->where('kantor.nama', 'like', "%{$search}%");
+
+                $query->where('kantor.nama', 'like', "%{$search}%")
+                    ->orWhere('pengawasan.kantor', 'like', "%{$search}%")
+                    ->orWhere('pengawasan.sbp', 'like', "%{$search}%")
+                    ->orWhere('pengawasan.tindak_lanjut', 'like', "%{$search}%");
             });
         }
 
@@ -116,7 +137,7 @@ class PenerimaanRequest extends FormRequest
             $this->perPage = $this->query('per_page');
         }
 
-        return $penerimaan->orderBy($this->orderBy, $this->order)
+        return $pengawasan->orderBy($this->orderBy, $this->order)
             ->paginate($this->perPage)
             ->withQueryString();
     }

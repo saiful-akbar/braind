@@ -1,6 +1,6 @@
 import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import { closeFormlImport } from "@/redux/reducers/penerimaanReducer";
+import { closeFormlImport } from "@/redux/reducers/pengawasanReducer";
 import { useForm, usePage } from "@inertiajs/react";
 import { Close, Download, Upload } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
@@ -17,12 +17,12 @@ import React, { memo, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
- * Komponen modal form import excel data penerimaan.
+ * Komponen modal form import excel data pengawasan.
  */
-const ModalFormImportPenerimaan = memo(() => {
+const ModalFormImportPengawasan = memo(() => {
   const { app } = usePage().props;
   const { params } = app.url;
-  const { open } = useSelector((state) => state.penerimaan.import);
+  const { open } = useSelector((state) => state.pengawasan.import);
   const dispatch = useDispatch();
 
   // state
@@ -57,12 +57,12 @@ const ModalFormImportPenerimaan = memo(() => {
       try {
         const response = await axios({
           method: "get",
-          url: route("penerimaan.import.template"),
+          url: route("pengawasan.import.template"),
           responseType: "blob",
         });
 
         if (response.status === 200) {
-          saveAs(response.data, "template_import_penerimaan.xlsx");
+          saveAs(response.data, "template_import_pengawasan.xlsx");
           setDownloading(false);
           dispatch(
             openNotification({
@@ -103,7 +103,7 @@ const ModalFormImportPenerimaan = memo(() => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const url = route("penerimaan.import", {
+    const url = route("pengawasan.import", {
       _query: params,
     });
 
@@ -217,4 +217,4 @@ const ModalFormImportPenerimaan = memo(() => {
   );
 });
 
-export default ModalFormImportPenerimaan;
+export default ModalFormImportPengawasan;

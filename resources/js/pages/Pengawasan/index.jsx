@@ -3,19 +3,19 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { Add } from "@mui/icons-material";
 import { Box, Button, CardContent, Grid } from "@mui/material";
 import React, { Fragment, useCallback, useState } from "react";
-import ModalFormPenerimaan from "./Partials/ModalFormPenerimaan";
+import ModalFormPengawasan from "./Partials/ModalFormPengawasan";
 import { useDispatch, useSelector } from "react-redux";
 import {
   closeDeleteConfirmation,
   closeRestoreConfirmation,
   openCreateForm,
   openFormlImport,
-} from "@/redux/reducers/penerimaanReducer";
-import FormFilterPeriodPenerimaan from "./Partials/FormFilterPeriodPenerimaan";
+} from "@/redux/reducers/pengawasanReducer";
+import FormFilterPeriodPengawasan from "./Partials/FormFilterPeriodPengawasan";
 import CardPaper from "@/components/CardPaper";
-import TablePenerimaan from "./Partials/TablePenerimaan";
-import FormSearchPenerimaan from "./Partials/FormSearchPenerimaan";
-import FormFilterStatusPenerimaan from "./Partials/FormFilterStatusPenerimaan";
+import TablePengawasan from "./Partials/TablePengawasan";
+import FormSearchPengawasan from "./Partials/FormSearchPengawasan";
+import FormFilterStatusPengawasan from "./Partials/FormFilterStatusPengawasan";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import RestoreConfirmation from "@/components/RestoreConfirmation";
 import { router } from "@inertiajs/react";
@@ -23,17 +23,17 @@ import TableActionButton from "@/components/Buttons/TableActionButton";
 import { closeLoading, openLoading } from "@/redux/reducers/loadingReducer";
 import { saveAs } from "file-saver";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import ModalFormImportPenerimaan from "./Partials/ModalFormImportPenerimaan";
+import ModalFormImportPengawasan from "./Partials/ModalFormImportPengawasan";
 
 /**
- * Halaman penerimaan
+ * Halaman Pengawasan
  */
-const Penerimaan = (props) => {
+const Pengawasan = (props) => {
   const { access, app } = props;
   const { params } = app.url;
   const { csrf } = app;
   const dispatch = useDispatch();
-  const penerimaan = useSelector((state) => state.penerimaan);
+  const pengawasan = useSelector((state) => state.pengawasan);
 
   /**
    * State
@@ -60,11 +60,11 @@ const Penerimaan = (props) => {
   }, [processing, dispatch]);
 
   /**
-   * fungsi untuk mengapus data penerimaan
+   * fungsi untuk mengapus data Pengawasan
    */
   const handleDelete = useCallback(() => {
-    const url = route(`penerimaan.${penerimaan.delete.type}`, {
-      penerimaan: penerimaan.delete.id,
+    const url = route(`pengawasan.${pengawasan.delete.type}`, {
+      pengawasan: pengawasan.delete.id,
       _query: params,
     });
 
@@ -82,13 +82,13 @@ const Penerimaan = (props) => {
         dispatch(
           openNotification({
             status: "error",
-            message: "Terjadi kesalahan, gagal menghapus data penerimaan.",
+            message: "Terjadi kesalahan, gagal menghapus data pengawasan.",
           })
         );
       },
     });
   }, [
-    penerimaan,
+    pengawasan,
     params,
     csrf,
     setProcessing,
@@ -107,8 +107,8 @@ const Penerimaan = (props) => {
    * fungsi untuk request restore
    */
   const handleRestore = useCallback(() => {
-    const url = route("penerimaan.restore", {
-      penerimaan: penerimaan.restore.id,
+    const url = route("pengawasan.restore", {
+      pengawasan: pengawasan.restore.id,
       _query: params,
     });
 
@@ -126,13 +126,13 @@ const Penerimaan = (props) => {
         dispatch(
           openNotification({
             status: "error",
-            message: "Terjadi kesalahan, gagal memulihkan data penerimaan.",
+            message: "Terjadi kesalahan, gagal memulihkan data pengawasan.",
           })
         );
       },
     });
   }, [
-    penerimaan,
+    pengawasan,
     setProcessing,
     params,
     csrf,
@@ -157,12 +157,12 @@ const Penerimaan = (props) => {
       const response = await axios({
         method: "get",
         responseType: "blob",
-        url: route("penerimaan.export"),
+        url: route("pengawasan.export"),
         params,
       });
 
       if (response.status === 200) {
-        saveAs(response.data, "penerimaan_export.xlsx");
+        saveAs(response.data, "pengawasan_export.xlsx");
         dispatch(closeLoading());
         dispatch(
           openNotification({
@@ -192,7 +192,7 @@ const Penerimaan = (props) => {
   return (
     <Fragment>
       <Header
-        title="Penerimaan"
+        title="Pengawasan"
         action={
           access.create ? (
             <Button
@@ -211,7 +211,7 @@ const Penerimaan = (props) => {
       <Box component="main" sx={{ mt: 5 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <FormFilterPeriodPenerimaan />
+            <FormFilterPeriodPengawasan />
           </Grid>
 
           {/* Tabel */}
@@ -220,12 +220,12 @@ const Penerimaan = (props) => {
               <CardContent>
                 <Grid container spacing={3} justifyContent="space-between">
                   <Grid item md={4.5} xs={12}>
-                    <FormSearchPenerimaan />
+                    <FormSearchPengawasan />
                   </Grid>
 
                   {access.destroy && (
                     <Grid item md={4.5} xs={12}>
-                      <FormFilterStatusPenerimaan />
+                      <FormFilterStatusPengawasan />
                     </Grid>
                   )}
 
@@ -241,7 +241,7 @@ const Penerimaan = (props) => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <TablePenerimaan />
+                    <TablePengawasan />
                   </Grid>
                 </Grid>
               </CardContent>
@@ -251,12 +251,12 @@ const Penerimaan = (props) => {
       </Box>
 
       {/* Modal form create & edit */}
-      <ModalFormPenerimaan />
+      <ModalFormPengawasan />
 
       {/* Modal konfirmasi delete */}
       <DeleteConfirmation
-        title={penerimaan.delete.title}
-        open={penerimaan.delete.open}
+        title={pengawasan.delete.title}
+        open={pengawasan.delete.open}
         onClose={handleCloseDeleteConfirmation}
         onDelete={handleDelete}
         loading={processing}
@@ -264,15 +264,15 @@ const Penerimaan = (props) => {
 
       {/* Modal konfirmasi restore */}
       <RestoreConfirmation
-        open={penerimaan.restore.open}
-        title={penerimaan.restore.title}
+        open={pengawasan.restore.open}
+        title={pengawasan.restore.title}
         onClose={handleCloseRestoreConfirmation}
         onRestore={handleRestore}
         loading={processing}
       />
 
       {/* Modal form import excel */}
-      <ModalFormImportPenerimaan />
+      <ModalFormImportPengawasan />
     </Fragment>
   );
 };
@@ -280,6 +280,6 @@ const Penerimaan = (props) => {
 /**
  * Layout
  */
-Penerimaan.layout = (page) => <AuthLayout title="Penerimaan" children={page} />;
+Pengawasan.layout = (page) => <AuthLayout title="Pengawasan" children={page} />;
 
-export default Penerimaan;
+export default Pengawasan;

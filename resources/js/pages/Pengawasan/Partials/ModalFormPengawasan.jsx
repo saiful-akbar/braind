@@ -3,7 +3,7 @@ import SelectInput from "@/components/Input/SelectInput";
 import TextInput from "@/components/Input/TextInput";
 import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import { closeForm } from "@/redux/reducers/penerimaanReducer";
+import { closeForm } from "@/redux/reducers/pengawasanReducer";
 import Kantor from "@/services/kantorService";
 import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
@@ -15,33 +15,31 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
- * Komponen modal form data penerimaan.
+ * Komponen modal form data pengawasan.
  *
  * @returns {React.ReactElement}
  */
-const ModalFormPenerimaan = memo(() => {
-  const { open, type, title, data } = useSelector(
-    (state) => state.penerimaan.form
-  );
-
-  const dispatch = useDispatch();
+const ModalFormPengawasan = memo(() => {
   const { app, access, auth } = usePage().props;
   const { params } = app.url;
   const { csrf } = app;
   const { user } = auth;
+  const dispatch = useDispatch();
+  const pengawasan = useSelector((state) => state.pengawasan);
 
   /**
    * Form data
    */
-  const form = useForm({ ...data, _token: csrf });
+  const form = useForm({ ...pengawasan.form.data, _token: csrf });
 
   /**
    * State
    */
   const [kantor, setKantor] = useState([]);
+  const [types, setTypes] = useState([]);
 
   /**
-   * Ambil data kantor dan penerimaan.
+   * Ambil data kantor dan pengawasan.
    */
   useEffect(() => {
     const getAllKantor = async () => {
@@ -66,6 +64,13 @@ const ModalFormPenerimaan = memo(() => {
 
     if (access.create || access.update) {
       getAllKantor();
+
+      setTypes(
+        pengawasan.types.map((value) => ({
+          label: value,
+          value,
+        }))
+      );
     }
   }, []);
 
@@ -73,11 +78,11 @@ const ModalFormPenerimaan = memo(() => {
    * Update value pada form saat modal dibuka
    */
   useEffect(() => {
-    if (open) {
+    if (pengawasan.form.open) {
       form.clearErrors();
-      form.setData({ ...data, _token: csrf });
+      form.setData({ ...pengawasan.form.data, _token: csrf });
     }
-  }, [open]);
+  }, [pengawasan.form.open]);
 
   /**
    * fungsi untuk menutup modal
@@ -109,10 +114,10 @@ const ModalFormPenerimaan = memo(() => {
   );
 
   /**
-   * fungsi untuk menambah data penerimaan ke database
+   * fungsi untuk menambah data pengawasan.
    */
   const handleStore = useCallback(() => {
-    const url = route("penerimaan.store", {
+    const url = route("pengawasan.store", {
       _query: params,
     });
 
@@ -124,11 +129,11 @@ const ModalFormPenerimaan = memo(() => {
   }, [form, params]);
 
   /**
-   * fungsi untuk memperbarui data penerimaan ke database.
+   * fungsi untuk memperbarui data pengawasan.
    */
   const handleUpdate = useCallback(() => {
-    const url = route("penerimaan.update", {
-      penerimaan: data.id,
+    const url = route("pengawasan.update", {
+      pengawasan: pengawasan.form.data.id,
       _query: params,
     });
 
@@ -137,7 +142,7 @@ const ModalFormPenerimaan = memo(() => {
       preserveState: true,
       onSuccess: () => handleClose(),
     });
-  }, [form, data, params, handleClose]);
+  }, [form, pengawasan, params, handleClose]);
 
   /**
    * fungsi untuk menangani ketika form di submit
@@ -146,19 +151,19 @@ const ModalFormPenerimaan = memo(() => {
     (e) => {
       e.preventDefault();
 
-      if (type === "create" && access.create) {
+      if (pengawasan.form.type === "create" && access.create) {
         handleStore();
-      } else if (type === "edit" && access.update) {
+      } else if (pengawasan.form.type === "edit" && access.update) {
         handleUpdate();
       }
     },
-    [handleStore, handleUpdate, type, access]
+    [handleStore, handleUpdate, pengawasan, access]
   );
 
   return (
     <Modal
-      open={open}
-      title={title}
+      open={pengawasan.form.open}
+      title={pengawasan.form.title}
       loading={form.processing}
       onClose={handleClose}
       maxWidth="lg"
@@ -186,18 +191,49 @@ const ModalFormPenerimaan = memo(() => {
           )}
 
           <Grid item xs={12} md={6}>
+            <SelectInput
+              fullWidth
+              label="Tipe"
+              name="tipe"
+              id="tipe"
+              items={types}
+              value={form.data.tipe}
+              onChange={handleInputChange}
+              disabled={form.processing}
+              error={Boolean(form.errors.tipe)}
+              helperText={form.errors.tipe}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
             <TextInput
               fullWidth
               required
-              type="number"
-              label="Target Bea Masuk"
-              name="target_bea_masuk"
-              id="target_bea_masuk"
-              value={form.data.target_bea_masuk}
+              type="text"
+              label="SBP"
+              name="sbp"
+              id="sbp"
+              value={form.data.sbp}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.target_bea_masuk)}
-              helperText={form.errors.target_bea_masuk}
+              error={Boolean(form.errors.sbp)}
+              helperText={form.errors.sbp}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              required
+              type="text"
+              label="Kantor"
+              name="kantor"
+              id="kantor"
+              value={form.data.kantor}
+              onChange={handleInputChange}
+              disabled={form.processing}
+              error={Boolean(form.errors.kantor)}
+              helperText={form.errors.kantor}
             />
           </Grid>
 
@@ -206,14 +242,14 @@ const ModalFormPenerimaan = memo(() => {
               fullWidth
               required
               type="number"
-              label="Realisasi Bea Masuk"
-              name="realisasi_bea_masuk"
-              id="realisasi_bea_masuk"
-              value={form.data.realisasi_bea_masuk}
+              label="Nilai Barang"
+              name="nilai_barang"
+              id="nilai_barang"
+              value={form.data.nilai_barang}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.realisasi_bea_masuk)}
-              helperText={form.errors.realisasi_bea_masuk}
+              error={Boolean(form.errors.nilai_barang)}
+              helperText={form.errors.nilai_barang}
             />
           </Grid>
 
@@ -222,14 +258,14 @@ const ModalFormPenerimaan = memo(() => {
               fullWidth
               required
               type="number"
-              label="Target Bea Keluar"
-              name="target_bea_keluar"
-              id="target_bea_keluar"
-              value={form.data.target_bea_keluar}
+              label="Total Kerugian"
+              name="total_kerugian"
+              id="total_kerugian"
+              value={form.data.total_kerugian}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.target_bea_keluar)}
-              helperText={form.errors.target_bea_keluar}
+              error={Boolean(form.errors.total_kerugian)}
+              helperText={form.errors.total_kerugian}
             />
           </Grid>
 
@@ -238,14 +274,14 @@ const ModalFormPenerimaan = memo(() => {
               fullWidth
               required
               type="number"
-              label="Realisasi Bea Keluar"
-              name="realisasi_bea_keluar"
-              id="realisasi_bea_keluar"
-              value={form.data.realisasi_bea_keluar}
+              label="Potensi Kerugian Negara"
+              name="potensi_kerugian"
+              id="potensi_kerugian"
+              value={form.data.potensi_kerugian}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.realisasi_bea_keluar)}
-              helperText={form.errors.realisasi_bea_keluar}
+              error={Boolean(form.errors.potensi_kerugian)}
+              helperText={form.errors.potensi_kerugian}
             />
           </Grid>
 
@@ -253,31 +289,15 @@ const ModalFormPenerimaan = memo(() => {
             <TextInput
               fullWidth
               required
-              type="number"
-              label="Target Cukai"
-              name="target_cukai"
-              id="target_cukai"
-              value={form.data.target_cukai}
+              type="text"
+              label="Tidak Lanjut"
+              name="tindak_lanjut"
+              id="tindak_lanjut"
+              value={form.data.tindak_lanjut}
               onChange={handleInputChange}
               disabled={form.processing}
-              error={Boolean(form.errors.target_cukai)}
-              helperText={form.errors.target_cukai}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <TextInput
-              fullWidth
-              required
-              type="number"
-              label="Realisasi Cukai"
-              name="realisasi_cukai"
-              id="realisasi_cukai"
-              value={form.data.realisasi_cukai}
-              onChange={handleInputChange}
-              disabled={form.processing}
-              error={Boolean(form.errors.realisasi_cukai)}
-              helperText={form.errors.realisasi_cukai}
+              error={Boolean(form.errors.tindak_lanjut)}
+              helperText={form.errors.tindak_lanjut}
             />
           </Grid>
 
@@ -325,4 +345,4 @@ const ModalFormPenerimaan = memo(() => {
   );
 });
 
-export default ModalFormPenerimaan;
+export default ModalFormPengawasan;

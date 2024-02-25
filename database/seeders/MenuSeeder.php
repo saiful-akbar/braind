@@ -77,6 +77,16 @@ class MenuSeeder extends Seeder
                 ],
             ],
         ],
+        [
+            'nama' => 'Data Pengawasan',
+            'sub_menu' => [
+                [
+                    'nama' => 'Pengawasan',
+                    'url' => '/pengawasan',
+                    'route' => 'pengawasan',
+                ],
+            ],
+        ],
     ];
 
     /**

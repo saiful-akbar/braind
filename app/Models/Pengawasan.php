@@ -21,13 +21,13 @@ class Pengawasan extends Model
     protected $fillable = [
         'user_id',
         'kantor_id',
-        'kantor',
-        'sbp',
-        'tindak_lanjut',
-        'nilai_barang',
-        'total',
-        'nilai_kerugian',
         'tipe',
+        'sbp',
+        'kantor',
+        'nilai_barang',
+        'total_kerugian',
+        'potensi_kerugian',
+        'tindak_lanjut',
         'tanggal_input',
     ];
 

@@ -10,7 +10,7 @@
   - npm >= 10.2
   - database MySQL atau MariaDB
 
-- **Proses Instalasi**
+- **Instalasi untuk pengembangan**
   - Clone repository
     ```bash
     git clone https://github.com/saiful-akbar/braind.git
@@ -32,17 +32,7 @@
     npm run dev
     ```
 
-## 2. Pengenalan Aplikasi
-
-- **Deskripsi Aplikasi**
-
-  - Jelaskan fungsi dan tujuan utama aplikasi.
-
-- **Fitur Utama**
-  - Data master
-    - Fitur ini merupakan fitur untuk mengelola data-data dasar.
-
-## 3. Panduan Pengguna
+## 2. Panduan Pengguna
 
 - **Masuk (Login)**
 
@@ -54,19 +44,20 @@
 
     - **Master**
 
-      - Kanwil
+      - Kantor
       - Kode Komoditi
+      - Perusahaan
       - SBP
       - User
 
-    - **Kanwil**
+    - **Kantor**
 
       - Profil
       - Peta Kerawanan
 
-    - **Penerimaan**
+    - **Data Penerimaan**
 
-      - Data Penerimaan
+      - Penerimaan
 
     - **Perusahaan**
 
@@ -75,16 +66,16 @@
       - Ekspor
       - Impor
 
-    - **Pengawasan**
+    - **Data Pengawasan**
 
-      - Cuka MMEA
-      - Cukai HT
-      - Cukai EA
-      - Ekspor
-      - Impor
+      - Pengawasan
+
+    - **Data Penindakan**
+
       - Penindakan
 
     - **Sarana Operasi**
+
       - Alat Telekomunikasi
       - Alat Pemindai dan Pendeteksi
       - Kapal Patroli

@@ -3,11 +3,11 @@ import { router, usePage } from "@inertiajs/react";
 import React, { memo, useCallback, useEffect, useState } from "react";
 
 /**
- * komponen form search untuk tabel penerimaan.
+ * komponen form search untuk tabel pengawasan.
  *
  * @returns {React.ReactElement}
  */
-const FormSearchPenerimaan = memo(() => {
+const FormSearchPengawasan = memo(() => {
   const { app } = usePage().props;
   const { params } = app.url;
 
@@ -15,6 +15,7 @@ const FormSearchPenerimaan = memo(() => {
    * State
    */
   const [value, setValue] = useState(params.search ?? "");
+  const [processing, setProcessing] = useState(false);
 
   /**
    * Update value
@@ -28,7 +29,7 @@ const FormSearchPenerimaan = memo(() => {
    */
   const fetchData = useCallback(
     (searchValue) => {
-      router.visit(route("penerimaan"), {
+      router.visit(route("pengawasan"), {
         method: "get",
         preserveScroll: true,
         preserveState: true,
@@ -37,9 +38,11 @@ const FormSearchPenerimaan = memo(() => {
           page: 1,
           search: searchValue,
         },
+        onStart: () => setProcessing(true),
+        onFinish: () => setProcessing(false),
       });
     },
-    [params]
+    [params, setProcessing]
   );
 
   /**
@@ -99,9 +102,10 @@ const FormSearchPenerimaan = memo(() => {
         onChange={handleInputChange}
         onBlur={handleInputBlur}
         onClear={handleInputClear}
+        disabled={processing}
       />
     </form>
   );
 });
 
-export default FormSearchPenerimaan;
+export default FormSearchPengawasan;

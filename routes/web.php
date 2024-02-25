@@ -8,6 +8,7 @@ use App\Http\Controllers\KantorController;
 use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PenerimaanController;
+use App\Http\Controllers\PengawasanController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PerusahaanMmeaController;
 use App\Http\Controllers\PerusahaanExportController;
@@ -293,6 +294,29 @@ Route::middleware('auth')->group(function (): void {
                 ->group(function (): void {
                     Route::post('/', 'import')->middleware('access:penerimaan,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:penerimaan,create');
+                });
+        });
+
+    /**
+     * Pengawasan
+     */
+    Route::controller(PengawasanController::class)
+        ->name('pengawasan')
+        ->prefix('/pengawasan')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:pengawasan,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:pengawasan,create');
+            Route::patch('/{pengawasan}', 'update')->name('.update')->middleware('access:pengawasan,update');
+            Route::delete('/{pengawasan}', 'remove')->name('.remove')->middleware('access:pengawasan,remove');
+            Route::patch('/{pengawasan}/restore', 'restore')->name('.restore')->middleware('access:pengawasan,destroy');
+            Route::delete('/{pengawasan}/destroy', 'destroy')->name('.destroy')->middleware('access:pengawasan,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:pengawasan,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:pengawasan,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:pengawasan,create');
                 });
         });
 });
