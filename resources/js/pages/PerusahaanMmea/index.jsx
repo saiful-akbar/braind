@@ -13,6 +13,7 @@ import { closeLoading, openLoading } from "@/redux/reducers/loadingReducer";
 import { saveAs } from "file-saver";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { openFormImportExcel } from "@/redux/reducers/perusahaanMmeaReducer";
+import AuthLayout from "@/layouts/AuthLayout";
 
 /**
  * Halaman perusahaan cukai MMEA.
@@ -119,7 +120,9 @@ const PerusahaanMmea = (props) => {
  * Layout
  */
 PerusahaanMmea.layout = (page) => (
-  <PerusahaanMmeaTemplate>{page}</PerusahaanMmeaTemplate>
+  <AuthLayout title="Perusahaan Cukai MMEA">
+    <PerusahaanMmeaTemplate>{page}</PerusahaanMmeaTemplate>
+  </AuthLayout>
 );
 
 export default PerusahaanMmea;

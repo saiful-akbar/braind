@@ -9,7 +9,7 @@ import { router, usePage } from "@inertiajs/react";
 import { Add } from "@mui/icons-material";
 import { Box, Button } from "@mui/material";
 import PropTypes from "prop-types";
-import React, { useCallback, useState } from "react";
+import React, { Fragment, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ModalFormPerusahaanMmea from "./Partials/ModalFormPerusahaanMmea";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
@@ -136,7 +136,7 @@ const PerusahaanMmeaTemplate = ({ children }) => {
   ]);
 
   return (
-    <AuthLayout title="Perusahaan Cukai MMEA">
+    <Fragment>
       <Header
         title="Perusahaan Cukai MMEA"
         action={
@@ -185,7 +185,7 @@ const PerusahaanMmeaTemplate = ({ children }) => {
 
       {/* Modal form import excel */}
       {access.create && <ModalFormImportPerusahaanMmea />}
-    </AuthLayout>
+    </Fragment>
   );
 };
 
