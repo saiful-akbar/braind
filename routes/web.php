@@ -9,6 +9,7 @@ use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\PengawasanController;
+use App\Http\Controllers\PenindakanController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PerusahaanMmeaController;
 use App\Http\Controllers\PerusahaanExportController;
@@ -92,6 +93,7 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/komoditi')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:komoditi,read');
+            Route::get('/json', 'json')->name('.json');
             Route::post('/', 'store')->name('.store')->middleware('access:komoditi,create');
             Route::get('/export', 'export')->name('.export')->middleware('access:komoditi,read');
             Route::patch('/{komoditi}', 'update')->name('.update')->middleware('access:komoditi,update');
@@ -317,6 +319,29 @@ Route::middleware('auth')->group(function (): void {
                 ->group(function (): void {
                     Route::post('/', 'import')->middleware('access:pengawasan,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:pengawasan,create');
+                });
+        });
+
+    /**
+     * Penindakan
+     */
+    Route::controller(PenindakanController::class)
+        ->name('penindakan')
+        ->prefix('/penindakan')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:penindakan,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:penindakan,create');
+            Route::patch('/{penindakan}', 'update')->name('.update')->middleware('access:penindakan,update');
+            Route::delete('/{penindakan}', 'remove')->name('.remove')->middleware('access:penindakan,remove');
+            Route::patch('/{penindakan}/restore', 'restore')->name('.restore')->middleware('access:penindakan,destroy');
+            Route::delete('/{penindakan}/destroy', 'destroy')->name('.destroy')->middleware('access:penindakan,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:penindakan,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:penindakan,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:penindakan,create');
                 });
         });
 });

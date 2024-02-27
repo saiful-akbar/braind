@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string('uraian');
             $table->decimal('perkiraan_nilai_barang', 17, 2)->unsigned();
             $table->decimal('potensi_kurang_bayar', 17, 2)->unsigned();
-            $table->string('tindak_lanjut', 100);
+            $table->string('tindak_lanjut', 100)->nullable();
             $table->date('tanggal_input');
             $table->timestamps();
             $table->softDeletes();

@@ -85,6 +85,11 @@ class MenuSeeder extends Seeder
                     'url' => '/pengawasan',
                     'route' => 'pengawasan',
                 ],
+                [
+                    'nama' => 'Penindakan',
+                    'url' => '/penindakan',
+                    'route' => 'penindakan',
+                ],
             ],
         ],
     ];

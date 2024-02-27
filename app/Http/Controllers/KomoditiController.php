@@ -13,6 +13,7 @@ use App\Http\Requests\Komoditi\KomoditiRequest;
 use App\Exports\Templates\KomoditiTemplateExport;
 use App\Http\Requests\Komoditi\StoreKomoditiRequest;
 use App\Http\Requests\Komoditi\UpdateKomoditiRequest;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class KomoditiController extends Controller
@@ -134,5 +135,17 @@ class KomoditiController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Ambil data komoditi dalam format json
+     *
+     * @return JsonResponse
+     */
+    public function json(): JsonResponse
+    {
+        return $this->jsonResponse(
+            data: Komoditi::orderBy('kode', 'asc')->get()
+        );
     }
 }

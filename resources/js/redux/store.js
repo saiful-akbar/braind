@@ -13,6 +13,7 @@ import perusahaanExportReducer from "./reducers/perusahaanExportReducer";
 import perusahaanImportReducer from "./reducers/perusahaanImportReducer";
 import penerimaanReducer from "./reducers/penerimaanReducer";
 import pengawasanReducer from "./reducers/pengawasanReducer";
+import penindakanReducer from "./reducers/penindakanReducer";
 
 const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ const store = configureStore({
     perusahaanImport: perusahaanImportReducer,
     penerimaan: penerimaanReducer,
     pengawasan: pengawasanReducer,
+    penindakan: penindakanReducer,
   },
 });
 
