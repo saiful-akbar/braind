@@ -55,7 +55,6 @@ class LoginRequest extends FormRequest
                     $query->join('menu_user', 'menu.id', '=', 'menu_user.menu_id')
                         ->where('menu_user.user_id', '=', user()->id)
                         ->where('menu_user.read', '=', 1)
-                        ->orderBy('menu.nama', 'asc')
                         ->select([
                             'menu.*',
                             'menu_user.create',
@@ -67,7 +66,6 @@ class LoginRequest extends FormRequest
                 }
             ])
                 ->whereRelation('subMenu.userWithReadAccess', 'user_id', '=', user()->id)
-                ->orderBy('menu_group.nama', 'asc')
                 ->get(),
         ]);
     }

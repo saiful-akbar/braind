@@ -21,24 +21,24 @@ class MenuSeeder extends Seeder
                     'route' => 'kantor',
                 ],
                 [
-                    'nama' => 'SBP', // Surat Bukti Penindakan
-                    'url' => '/sbp',
-                    'route' => 'sbp',
-                ],
-                [
                     'nama' => 'Kode Komoditi',
                     'url' => '/komoditi',
                     'route' => 'komoditi',
                 ],
                 [
-                    'nama' => 'User',
-                    'url' => '/user',
-                    'route' => 'user',
-                ],
-                [
                     'nama' => 'Perusahaan',
                     'url' => '/master-perusahaan',
                     'route' => 'master-perusahaan',
+                ],
+                [
+                    'nama' => 'SBP', // Surat Bukti Penindakan
+                    'url' => '/sbp',
+                    'route' => 'sbp',
+                ],
+                [
+                    'nama' => 'User',
+                    'url' => '/user',
+                    'route' => 'user',
                 ],
             ],
         ],
@@ -56,14 +56,14 @@ class MenuSeeder extends Seeder
                     'route' => 'perusahaan-mmea',
                 ],
                 [
-                    'nama' => 'Import',
-                    'url' => '/perusahaan-import',
-                    'route' => 'perusahaan-import',
-                ],
-                [
                     'nama' => 'Export',
                     'url' => '/perusahaan-export',
                     'route' => 'perusahaan-export',
+                ],
+                [
+                    'nama' => 'Import',
+                    'url' => '/perusahaan-import',
+                    'route' => 'perusahaan-import',
                 ],
             ],
         ],
