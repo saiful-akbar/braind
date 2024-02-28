@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\OperasiAlatPemindai;
 
+use App\Imports\OperasiAlatPemindaiImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImportOperasiAlatPemindaiRequest extends FormRequest
@@ -11,7 +13,7 @@ class ImportOperasiAlatPemindaiRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,17 @@ class ImportOperasiAlatPemindaiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'file' => 'required|mimes:xlsx,xls|max:5000'
         ];
+    }
+
+    /**
+     * Import data dari excel ke database
+     *
+     * @return void
+     */
+    public function importExcel(): void
+    {
+        Excel::import(new OperasiAlatPemindaiImport, $this->file('file'));
     }
 }

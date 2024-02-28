@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\OperasiAlatPemindai;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SbpController;
 use App\Http\Controllers\AuthController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\PerusahaanMmeaController;
 use App\Http\Controllers\PerusahaanExportController;
 use App\Http\Controllers\PerusahaanHtHptlController;
 use App\Http\Controllers\PerusahaanImportController;
+use App\Http\Controllers\OperasiAlatPemindaiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -344,4 +346,32 @@ Route::middleware('auth')->group(function (): void {
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:penindakan,create');
                 });
         });
+
+    /**
+     * Oprasi alat pemindai
+     */
+    Route::controller(OperasiAlatPemindaiController::class)
+        ->name('operasi-alat-pemindai')
+        ->prefix('/operasi-alat-pemindai')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:operasi-alat-pemindai,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:operasi-alat-pemindai,create');
+            Route::patch('/{operasi-alat-pemindai}', 'update')->name('.update')->middleware('access:operasi-alat-pemindai,update');
+            Route::delete('/{operasi-alat-pemindai}', 'remove')->name('.remove')->middleware('access:operasi-alat-pemindai,remove');
+            Route::patch('/{operasi-alat-pemindai}/restore', 'restore')->name('.restore')->middleware('access:operasi-alat-pemindai,destroy');
+            Route::delete('/{operasi-alat-pemindai}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-alat-pemindai,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:operasi-alat-pemindai,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:operasi-alat-pemindai,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:operasi-alat-pemindai,create');
+                });
+        });
+
+    Route::get('/operasi-alat-telekomunikasi', fn () => redirect('/'))->name('operasi-alat-telekomunikasi');
+    Route::get('/operasi-kapal-patroli', fn () => redirect('/'))->name('operasi-kapal-patroli');
+    Route::get('/operasi-senjata-api', fn () => redirect('/'))->name('operasi-senjata-api');
+    Route::get('/operasi-lainnya', fn () => redirect('/'))->name('operasi-lainnya');
 });

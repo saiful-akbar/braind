@@ -92,6 +92,36 @@ class MenuSeeder extends Seeder
                 ],
             ],
         ],
+        [
+            'nama' => 'Sarana Operasi',
+            'sub_menu' => [
+                [
+                    'nama' => 'Alat Pemindai & Pendeteksi',
+                    'url' => '/operasi-alat-pemindai',
+                    'route' => 'operasi-alat-pemindai',
+                ],
+                [
+                    'nama' => 'ALat Telekomunikasi',
+                    'url' => '/operasi-alat-telekomunikasi',
+                    'route' => 'operasi-alat-telekomunikasi',
+                ],
+                [
+                    'nama' => 'Kapal Patroli',
+                    'url' => '/operasi-kapal-patroli',
+                    'route' => 'operasi-kapal-patroli',
+                ],
+                [
+                    'nama' => 'Senjata Api',
+                    'url' => '/operasi-senjata-api',
+                    'route' => 'operasi-senjata-api',
+                ],
+                [
+                    'nama' => 'Sarana Operasi Lainnya',
+                    'url' => '/operasi-lainnya',
+                    'route' => 'operasi-lainnya',
+                ],
+            ],
+        ],
     ];
 
     /**

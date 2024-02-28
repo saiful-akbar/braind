@@ -65,7 +65,7 @@ class PenindakanExport implements FromView, WithStyles, ShouldAutoSize
             ]);
 
         // Periksa jika user yang sedang login bukan sebagai admin tampilkan
-        // hanya data perusahaan yang sesuai dengan kantor yang dimiliki user.
+        // hanya data penindakan yang sesuai dengan kantor yang dimiliki user.
         // Jika user sebagai admin tampilkan semua data.
         if (!user()->admin) {
             $this->query->where('kantor.id', user()->kantor_id);
