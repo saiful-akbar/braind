@@ -16,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RestoreIcon from "@mui/icons-material/Restore";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { numberFormat, utcToLocale } from "@/utils";
 
 /**
@@ -28,9 +29,11 @@ const DataTable = memo((props) => {
     order: orderProps,
     orderBy,
     data,
+    detail,
     update,
     remove,
     destroy,
+    onDetail,
     onUpdate,
     onRemove,
     onDestroy,
@@ -53,7 +56,7 @@ const DataTable = memo((props) => {
   return (
     <Fragment>
       <TableContainer>
-        <Table className="nowrap">
+        <Table className="nowrap" size="small">
           <TableHead>
             <TableRow>
               <TableCell>No</TableCell>
@@ -145,6 +148,14 @@ const DataTable = memo((props) => {
                 })}
 
                 <TableCell align="center">
+                  {detail && (
+                    <Tooltip title="Detail" disableInteractive>
+                      <IconButton onClick={() => onDetail(row)}>
+                        <VisibilityIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+
                   {update && (
                     <Tooltip title="Edit" disableInteractive>
                       <IconButton onClick={() => onUpdate(row)}>
@@ -226,6 +237,7 @@ DataTable.propTypes = {
   orderBy: PropTypes.string.isRequired,
   order: PropTypes.string.isRequired,
   update: PropTypes.bool,
+  detail: PropTypes.bool,
   remove: PropTypes.bool,
   destroy: PropTypes.bool,
   onUpdate: PropTypes.func,
@@ -241,9 +253,11 @@ DataTable.propTypes = {
  */
 DataTable.defaultProps = {
   from: -1,
+  detail: false,
   update: false,
   remove: false,
   destroy: false,
+  onDetail: () => {},
   onUpdate: () => {},
   onRemove: () => {},
   onDestroy: () => {},

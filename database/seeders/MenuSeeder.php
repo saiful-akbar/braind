@@ -101,7 +101,7 @@ class MenuSeeder extends Seeder
                     'route' => 'operasi-alat-pemindai',
                 ],
                 [
-                    'nama' => 'ALat Telekomunikasi',
+                    'nama' => 'Alat Telekomunikasi',
                     'url' => '/operasi-alat-telekomunikasi',
                     'route' => 'operasi-alat-telekomunikasi',
                 ],

@@ -23,15 +23,49 @@ export function numberFormat(number, minimumDigits = 0) {
 }
 
 /**
+ * Fungsi untuk format waktu.
+ *
+ * @param {*} timeValue
+ * @returns string
+ */
+export function timeFormat(timeValue) {
+  let hours = timeValue.toDate().getHours();
+  let minutes = timeValue.toDate().getMinutes();
+  let seconds = timeValue.toDate().getSeconds();
+
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+/**
  * Fungsi untuk format tanggal.
  *
  * @param {*} dateValue
  * @returns string
  */
 export default function dateFormat(dateValue) {
-  const date = dateValue.toDate().getDate();
-  const month = dateValue.toDate().getMonth() + 1;
-  const year = dateValue.toDate().getFullYear();
+  let date = dateValue.toDate().getDate();
+  let month = dateValue.toDate().getMonth() + 1;
+  let year = dateValue.toDate().getFullYear();
+
+  if (date < 10) {
+    date = `0${date}`;
+  }
+
+  if (month < 10) {
+    month = `0${month}`;
+  }
 
   return `${year}-${month}-${date}`;
 }

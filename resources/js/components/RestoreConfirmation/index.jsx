@@ -45,7 +45,7 @@ const RestoreConfirmation = React.memo((props) => {
         </Tooltip>
       </DialogTitle>
 
-      <DialogActions sx={{ p: 3 }}>
+      <DialogActions sx={{ px: 3, pb: 3 }}>
         <LoadingButton
           fullWidth
           autoFocus

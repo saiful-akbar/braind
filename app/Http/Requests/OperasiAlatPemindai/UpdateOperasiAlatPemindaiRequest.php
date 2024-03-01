@@ -21,20 +21,23 @@ class UpdateOperasiAlatPemindaiRequest extends FormRequest
      */
     public function rules(): array
     {
+        $minYear = date('Y') - 100;
+        $maxYear = date('Y');
+
         return [
             'kantor_id'         => 'nullable|exists:kantor,id',
             'pemindai'          => 'required|string|max:30',
             'nama_alat'         => 'required|string|max:50',
-            'ukuran_alat'       => 'required|string|max:50',
+            'ukuran'            => 'required|string|max:50',
             'merek'             => 'required|string|max:30',
             'tipe'              => 'required|string|max:20',
             'nomor_seri'        => 'required|string|max:30',
-            'tampilan'          => 'required|string|in:runggal,ganda',
-            'tahun_perolehan'   => 'required|date_format:Y|min:1970|max:' . date('Y'),
+            'tampilan'          => 'required|string|in:tunggal,ganda',
+            'tahun_perolehan'   => "required|integer|digits:4|min:$minYear|max:$maxYear",
             'kondisi'           => 'required|string|max:50',
             'lokasi_penempatan' => 'required|string|max:50',
-            'jam_operasi'       => 'required|date_format:H:i',
-            'jam_pemindaian'    => 'required|date_format:H:i',
+            'jam_operasi'       => 'required|date_format:H:i:s',
+            'jam_pemindaian'    => 'required|date_format:H:i:s',
             'jumlah_pemindaian' => 'required|numeric|min:0|max:1000',
             'hasil_keluaran'    => 'required|string|max:250',
             'catatan'           => 'required|string|max:250',
@@ -53,9 +56,9 @@ class UpdateOperasiAlatPemindaiRequest extends FormRequest
             $this->operasi->kantor_id = $this->kantor_id;
         }
 
-        $this->operasi->pemindaian        = $this->pemindaian;
+        $this->operasi->pemindai          = $this->pemindai;
         $this->operasi->nama_alat         = $this->nama_alat;
-        $this->operasi->ukuran_alat       = $this->ukuran_alat;
+        $this->operasi->ukuran            = $this->ukuran;
         $this->operasi->merek             = $this->merek;
         $this->operasi->tipe              = $this->tipe;
         $this->operasi->nomor_seri        = $this->nomor_seri;

@@ -23,8 +23,8 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
     public function prepareForValidation(array $data, int $index): array
     {
         $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
-        $data['jam_operasi'] = Date::excelToDateTimeObject($data['jam_operasi'])->format('H:i');
-        $data['jam_pemindaian'] = Date::excelToDateTimeObject($data['jam_pemindaian'])->format('H:i');
+        $data['jam_operasi'] = Date::excelToDateTimeObject($data['jam_operasi'])->format('H:i:s');
+        $data['jam_pemindaian'] = Date::excelToDateTimeObject($data['jam_pemindaian'])->format('H:i:s');
 
         return $data;
     }
@@ -36,20 +36,23 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
      */
     public function rules(): array
     {
+        $minYear = date('Y') - 100;
+        $maxYear = date('Y');
+
         return [
             'kantor_id'         => 'nullable|exists:kantor,id',
             'pemindai'          => 'required|string|max:30',
             'nama_alat'         => 'required|string|max:50',
-            'ukuran_alat'       => 'required|string|max:50',
+            'ukuran'            => 'required|string|max:50',
             'merek'             => 'required|string|max:30',
             'tipe'              => 'required|string|max:20',
             'nomor_seri'        => 'required|string|max:30',
-            'tampilan'          => 'required|string|in:runggal,ganda',
-            'tahun_perolehan'   => 'required|date_format:Y|min:1970|max:' . date('Y'),
+            'tampilan'          => 'required|string|in:tunggal,Tunggal,TUNGGAL,ganda,Ganda,GANDA',
+            'tahun_perolehan'   => "required|integer|digits:4|min:$minYear|max:$maxYear",
             'kondisi'           => 'required|string|max:50',
             'lokasi_penempatan' => 'required|string|max:50',
-            'jam_operasi'       => 'required|date_format:H:i',
-            'jam_pemindaian'    => 'required|date_format:H:i',
+            'jam_operasi'       => 'required|date_format:H:i:s',
+            'jam_pemindaian'    => 'required|date_format:H:i:s',
             'jumlah_pemindaian' => 'required|numeric|min:0|max:1000',
             'hasil_keluaran'    => 'required|string|max:250',
             'catatan'           => 'required|string|max:250',
@@ -68,7 +71,7 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
             'kantor_id'         => 'kantor ID',
             'pemindai'          => 'pemindai',
             'nama_alat'         => 'nama alat',
-            'ukuran_alat'       => 'ukuran alat',
+            'ukuran'            => 'ukuran',
             'merek'             => 'merek',
             'tipe'              => 'tipe',
             'nomor_seri'        => 'nomor seri',
@@ -78,6 +81,7 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
             'lokasi_penempatan' => 'lokasi penempatan',
             'jam_operasi'       => 'jam operasi',
             'jam_pemindaian'    => 'jam pemindaian',
+            'jumlah_pemindaian' => 'jumlah pemindaian',
             'hasil_keluaran'    => 'hasil keluaran',
             'catatan'           => 'catatan',
             'tanggal_input'     => 'tanggal input',
@@ -113,9 +117,9 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
         OperasiAlatPemindai::create([
             'user_id'           => user()->id,
             'kantor_id'         => $kantorId,
-            'pemindaian'        => $row['pemindaian'],
+            'pemindai'          => $row['pemindai'],
             'nama_alat'         => $row['nama_alat'],
-            'ukuran_alat'       => $row['ukuran_alat'],
+            'ukuran'            => $row['ukuran'],
             'merek'             => $row['merek'],
             'tipe'              => $row['tipe'],
             'nomor_seri'        => $row['nomor_seri'],

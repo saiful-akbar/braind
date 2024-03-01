@@ -21,7 +21,7 @@ class OperasiAlatPemindai extends Model
         'kantor_id',
         'pemindai',
         'nama_alat',
-        'ukuran_alat',
+        'ukuran',
         'merek',
         'tipe',
         'nomor_seri',

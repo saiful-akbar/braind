@@ -24,7 +24,7 @@ class ImportOperasiAlatPemindaiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|mimes:xlsx,xls|max:5000'
+            'file' => 'required|mimes:xlsx,xls|max:1024'
         ];
     }
 

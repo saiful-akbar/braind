@@ -13,7 +13,7 @@
                 <th>Nama Kantor</th>
                 <th>Pemindai</th>
                 <th>Nama Alat</th>
-                <th>Ukuran Alat</th>
+                <th>Ukuran</th>
                 <th>Merek</th>
                 <th>Tipe</th>
                 <th>Nomor Seri</th>
@@ -23,6 +23,7 @@
                 <th>Lokasi Penempatan</th>
                 <th>Jam Oprasi</th>
                 <th>Jam Pemindaian</th>
+                <th>Jumlah Pemindaian</th>
                 <th>Hasik Keluaran</th>
                 <th>Catatan</th>
                 <th>Tanggal Input</th>
@@ -36,7 +37,7 @@
                     <td>{{ $item->kantor_nama }}</td>
                     <td>{{ $item->pemindai }}</td>
                     <td>{{ $item->nama_alat }}</td>
-                    <td>{{ $item->ukuran_alat }}</td>
+                    <td>{{ $item->ukuran }}</td>
                     <td>{{ $item->merek }}</td>
                     <td>{{ $item->tipe }}</td>
                     <td>{{ $item->nomor_seri }}</td>

@@ -26,7 +26,7 @@ class OperasiAlatPemindaiExport implements FromView, WithStyles, ShouldAutoSize
         'kantor_nama',
         'pemindaian',
         'nama_alat',
-        'ukuran_alat',
+        'ukuran',
         'merek',
         'tipe',
         'nomor_seri',

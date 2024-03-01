@@ -29,11 +29,11 @@ return new class extends Migration
 
             $table->string('pemindai', 30);
             $table->string('nama_alat', 50);
-            $table->string('ukuran_alat', 10);
+            $table->string('ukuran', 10);
             $table->string('merek', 30);
             $table->string('tipe', 20);
             $table->string('nomor_seri', 30);
-            $table->enum('tampilan', ['tunggal', 'ganda']);
+            $table->enum('tampilan', ['Tunggal', 'Ganda']);
             $table->year('tahun_perolehan');
             $table->string('kondisi', 50);
             $table->string('lokasi_penempatan', 50);

@@ -86,7 +86,7 @@ class PerusahaanHtHptlController extends Controller
     {
         // validasi request
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls|max:100000'
+            'file' => 'required|mimes:xlsx,xls|max:1024'
         ]);
 
         // Jalankan proses insert data dari file yang di import

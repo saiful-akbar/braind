@@ -166,7 +166,7 @@ class SbpController extends Controller
     public function import(Request $request): RedirectResponse
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls|max:10000'
+            'file' => 'required|mimes:xlsx,xls|max:1024'
         ]);
 
         Excel::import(new SbpImport, $request->file('file'));

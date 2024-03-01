@@ -126,7 +126,7 @@ class KomoditiController extends Controller
     public function import(Request $request): RedirectResponse
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls|max:100000'
+            'file' => 'required|mimes:xlsx,xls|max:1024'
         ]);
 
         Excel::import(new KomoditiImport, $request->file('file'));

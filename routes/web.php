@@ -356,10 +356,10 @@ Route::middleware('auth')->group(function (): void {
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:operasi-alat-pemindai,read');
             Route::post('/', 'store')->name('.store')->middleware('access:operasi-alat-pemindai,create');
-            Route::patch('/{operasi-alat-pemindai}', 'update')->name('.update')->middleware('access:operasi-alat-pemindai,update');
-            Route::delete('/{operasi-alat-pemindai}', 'remove')->name('.remove')->middleware('access:operasi-alat-pemindai,remove');
-            Route::patch('/{operasi-alat-pemindai}/restore', 'restore')->name('.restore')->middleware('access:operasi-alat-pemindai,destroy');
-            Route::delete('/{operasi-alat-pemindai}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-alat-pemindai,destroy');
+            Route::patch('/{operasi}', 'update')->name('.update')->middleware('access:operasi-alat-pemindai,update');
+            Route::delete('/{operasi}', 'remove')->name('.remove')->middleware('access:operasi-alat-pemindai,remove');
+            Route::patch('/{operasi}/restore', 'restore')->name('.restore')->middleware('access:operasi-alat-pemindai,destroy');
+            Route::delete('/{operasi}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-alat-pemindai,destroy');
             Route::get('/export', 'export')->name('.export')->middleware('access:operasi-alat-pemindai,read');
 
             Route::name('.import')

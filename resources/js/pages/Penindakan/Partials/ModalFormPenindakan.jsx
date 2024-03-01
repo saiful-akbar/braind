@@ -116,7 +116,6 @@ const ModalFormPenindakan = memo(() => {
    */
   const handleInputChange = useCallback(
     (e) => {
-      console.log(e.target.name, e.target.value);
       form.setData(e.target.name, e.target.value);
     },
     [form.setData]
