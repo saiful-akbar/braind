@@ -195,7 +195,7 @@ const OperasilKapalPatroli = (props) => {
   return (
     <Fragment>
       <Header
-        title="Oprasi Kapal Patroli"
+        title="Operasi Kapal Patroli"
         action={
           access.create ? (
             <Button

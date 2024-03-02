@@ -197,7 +197,7 @@ const OperasilAlatTelekomunikasi = (props) => {
   return (
     <Fragment>
       <Header
-        title="Oprasi Alat Telekomunikasi"
+        title="Operasi Alat Telekomunikasi"
         action={
           access.create ? (
             <Button

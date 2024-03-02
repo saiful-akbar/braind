@@ -23,7 +23,7 @@ class OperasiSenjataApi extends Model
         'nomor_senjata',
         'nama_pemegang_senjata',
         'pangkat_pemegang_senjata',
-        'jabatan_pemegang_senajat',
+        'jabatan_pemegang_senjata',
         'nomor_buku_pas',
         'masa_berlaku',
         'kondisi',

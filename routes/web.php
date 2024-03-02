@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\OperasiAlatPemindai;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SbpController;
 use App\Http\Controllers\AuthController;
@@ -16,9 +15,10 @@ use App\Http\Controllers\PerusahaanMmeaController;
 use App\Http\Controllers\PerusahaanExportController;
 use App\Http\Controllers\PerusahaanHtHptlController;
 use App\Http\Controllers\PerusahaanImportController;
+use App\Http\Controllers\OperasiSenjataApiController;
 use App\Http\Controllers\OperasiAlatPemindaiController;
-use App\Http\Controllers\OperasiAlatTelekomunikasiController;
 use App\Http\Controllers\OperasiKapalPatroliController;
+use App\Http\Controllers\OperasiAlatTelekomunikasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -418,6 +418,28 @@ Route::middleware('auth')->group(function (): void {
                 });
         });
 
-    Route::get('/operasi-senjata-api', fn () => redirect('/'))->name('operasi-senjata-api');
+    /**
+     * Sarana oprasi senjata api
+     */
+    Route::controller(OperasiSenjataApiController::class)
+        ->name('operasi-senjata-api')
+        ->prefix('/operasi-senjata-api')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:operasi-senjata-api,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:operasi-senjata-api,create');
+            Route::patch('/{operasi}', 'update')->name('.update')->middleware('access:operasi-senjata-api,update');
+            Route::delete('/{operasi}', 'remove')->name('.remove')->middleware('access:operasi-senjata-api,remove');
+            Route::patch('/{operasi}/restore', 'restore')->name('.restore')->middleware('access:operasi-senjata-api,destroy');
+            Route::delete('/{operasi}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-senjata-api,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:operasi-senjata-api,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:operasi-senjata-api,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:operasi-senjata-api,create');
+                });
+        });
+
     Route::get('/operasi-lainnya', fn () => redirect('/'))->name('operasi-lainnya');
 });

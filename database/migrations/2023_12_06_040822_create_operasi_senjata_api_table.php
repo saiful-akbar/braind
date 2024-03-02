@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('operasi_sejata_api', function (Blueprint $table) {
+        Schema::create('operasi_senjata_api', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
             $table->foreignUuid('user_id')
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('nomor_senjata', 30);
             $table->string('nama_pemegang_senjata', 50);
             $table->string('pangkat_pemegang_senjata', 50);
-            $table->string('jabatan_pemegang_senajat', 50);
+            $table->string('jabatan_pemegang_senjata', 50);
             $table->string('nomor_buku_pas', 30);
             $table->string('masa_berlaku', 30);
             $table->string('kondisi', 50);
@@ -48,6 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('operasi_sejata_api');
+        Schema::dropIfExists('operasi_senjata_api');
     }
 };

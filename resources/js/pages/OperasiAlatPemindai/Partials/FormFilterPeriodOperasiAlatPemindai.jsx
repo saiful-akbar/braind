@@ -13,7 +13,7 @@ import React, { memo, useCallback, useEffect } from "react";
  *
  * @returns {React.ReactElement}
  */
-const FormFilterPeriodOprasiAlatPemindai = memo(() => {
+const FormFilterPeriodOperasiAlatPemindai = memo(() => {
   const { app } = usePage().props;
   const { params } = app.url;
 
@@ -107,4 +107,4 @@ const FormFilterPeriodOprasiAlatPemindai = memo(() => {
   );
 });
 
-export default FormFilterPeriodOprasiAlatPemindai;
+export default FormFilterPeriodOperasiAlatPemindai;

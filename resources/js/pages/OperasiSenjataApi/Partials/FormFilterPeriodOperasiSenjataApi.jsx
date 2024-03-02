@@ -9,11 +9,11 @@ import dayjs from "dayjs";
 import React, { memo, useCallback, useEffect, useState } from "react";
 
 /**
- * Komponen filter periode untuk halaman sarana operasi alat telekomunikasi.
+ * Komponen filter periode untuk halaman sarana operasi senjata api.
  *
  * @returns {React.ReactElement}
  */
-const FormFilterPeriodOperasiAlatTelekomunikasi = memo(() => {
+const FormFilterPeriodOperasiSenjataApi = memo(() => {
   const { app } = usePage().props;
   const { params } = app.url;
   const startPeriod = params.start_period ?? null;
@@ -71,7 +71,7 @@ const FormFilterPeriodOperasiAlatTelekomunikasi = memo(() => {
    * Fungsi untuk menangani ketika form di submit
    */
   const handleSubmit = () => {
-    get(route("operasi-alat-telekomunikasi"), {
+    get(route("operasi-senjata-api"), {
       preserveScroll: true,
       preserveState: true,
     });
@@ -123,4 +123,4 @@ const FormFilterPeriodOperasiAlatTelekomunikasi = memo(() => {
   );
 });
 
-export default FormFilterPeriodOperasiAlatTelekomunikasi;
+export default FormFilterPeriodOperasiSenjataApi;

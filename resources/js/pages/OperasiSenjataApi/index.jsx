@@ -3,19 +3,19 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { Add } from "@mui/icons-material";
 import { Box, Button, CardContent, Grid } from "@mui/material";
 import React, { Fragment, useCallback, useState } from "react";
-import ModalFormOperasilAlatPemindai from "./Partials/ModalFormOperasiAlatPemindai";
+import ModalFormOperasilSenjataApi from "./Partials/ModalFormOperasiSenjataApi";
 import { useDispatch, useSelector } from "react-redux";
 import {
   closeDeleteConfirmation,
   closeRestoreConfirmation,
   openCreateForm,
   openFormlImport,
-} from "@/redux/reducers/operasiAlatPemindaiReducer";
-import FormFilterPeriodOperasilAlatPemindai from "./Partials/FormFilterPeriodOperasiAlatPemindai";
+} from "@/redux/reducers/operasiSenjataApiReducer";
+import FormFilterPeriodOperasilSenjataApi from "./Partials/FormFilterPeriodOperasiSenjataApi";
 import CardPaper from "@/components/CardPaper";
-import TableOperasilAlatPemindai from "./Partials/TableOperasiAlatPemindai";
-import FormSearchOperasilAlatPemindai from "./Partials/FormSearchOperasiAlatPemindai";
-import FormFilterStatusOperasilAlatPemindai from "./Partials/FormFilterStatusOperasiAlatPemindai";
+import TableOperasilSenjataApi from "./Partials/TableOperasiSenjataApi";
+import FormSearchOperasilSenjataApi from "./Partials/FormSearchOperasiSenjataApi";
+import FormFilterStatusOperasilSenjataApi from "./Partials/FormFilterStatusOperasiSenjataApi";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import RestoreConfirmation from "@/components/RestoreConfirmation";
 import { router } from "@inertiajs/react";
@@ -23,17 +23,17 @@ import TableActionButton from "@/components/Buttons/TableActionButton";
 import { closeLoading, openLoading } from "@/redux/reducers/loadingReducer";
 import { saveAs } from "file-saver";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import ModalFormImportOperasilAlatPemindai from "./Partials/ModalFormImportOperasiAlatPemindai";
+import ModalFormImportOperasilSenjataApi from "./Partials/ModalFormImportOperasiSenjataApi";
 
 /**
- * Halaman sarana oprasi alat pemindai
+ * Halaman sarana oprasi senjata api
  */
-const OperasilAlatPemindai = (props) => {
+const OperasilSenjataApi = (props) => {
   const { access, app } = props;
   const { params } = app.url;
   const { csrf } = app;
   const dispatch = useDispatch();
-  const operasiAlatPemindai = useSelector((state) => state.operasiAlatPemindai);
+  const operasiSenjataApi = useSelector((state) => state.operasiSenjataApi);
 
   /**
    * State
@@ -60,16 +60,13 @@ const OperasilAlatPemindai = (props) => {
   }, [processing, dispatch]);
 
   /**
-   * fungsi untuk mengapus data sarana operasi alat pemindai
+   * fungsi untuk mengapus data sarana operasi senjata api
    */
   const handleDelete = useCallback(() => {
-    const url = route(
-      `operasi-alat-pemindai.${operasiAlatPemindai.delete.type}`,
-      {
-        operasi: operasiAlatPemindai.delete.id,
-        _query: params,
-      }
-    );
+    const url = route(`operasi-senjata-api.${operasiSenjataApi.delete.type}`, {
+      operasi: operasiSenjataApi.delete.id,
+      _query: params,
+    });
 
     router.visit(url, {
       method: "delete",
@@ -91,7 +88,7 @@ const OperasilAlatPemindai = (props) => {
       },
     });
   }, [
-    operasiAlatPemindai,
+    operasiSenjataApi,
     params,
     csrf,
     setProcessing,
@@ -110,8 +107,8 @@ const OperasilAlatPemindai = (props) => {
    * fungsi untuk request restore
    */
   const handleRestore = useCallback(() => {
-    const url = route("operasi-alat-pemindai.restore", {
-      operasi: operasiAlatPemindai.restore.id,
+    const url = route("operasi-senjata-api.restore", {
+      operasi: operasiSenjataApi.restore.id,
       _query: params,
     });
 
@@ -135,7 +132,7 @@ const OperasilAlatPemindai = (props) => {
       },
     });
   }, [
-    operasiAlatPemindai,
+    operasiSenjataApi,
     setProcessing,
     params,
     csrf,
@@ -160,12 +157,12 @@ const OperasilAlatPemindai = (props) => {
       const response = await axios({
         method: "get",
         responseType: "blob",
-        url: route("operasi-alat-pemindai.export"),
+        url: route("operasi-senjata-api.export"),
         params,
       });
 
       if (response.status === 200) {
-        saveAs(response.data, "operasi_alat_pemindai_export.xlsx");
+        saveAs(response.data, "operasi_senjata-api_export.xlsx");
         dispatch(closeLoading());
         dispatch(
           openNotification({
@@ -195,7 +192,7 @@ const OperasilAlatPemindai = (props) => {
   return (
     <Fragment>
       <Header
-        title="Operasi Alat Pemindai"
+        title="Operasi Senjata Api"
         action={
           access.create ? (
             <Button
@@ -214,7 +211,7 @@ const OperasilAlatPemindai = (props) => {
       <Box component="main" sx={{ mt: 5 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <FormFilterPeriodOperasilAlatPemindai />
+            <FormFilterPeriodOperasilSenjataApi />
           </Grid>
 
           {/* Tabel */}
@@ -223,12 +220,12 @@ const OperasilAlatPemindai = (props) => {
               <CardContent>
                 <Grid container spacing={3} justifyContent="space-between">
                   <Grid item md={4.5} xs={12}>
-                    <FormSearchOperasilAlatPemindai />
+                    <FormSearchOperasilSenjataApi />
                   </Grid>
 
                   {access.destroy && (
                     <Grid item md={4.5} xs={12}>
-                      <FormFilterStatusOperasilAlatPemindai />
+                      <FormFilterStatusOperasilSenjataApi />
                     </Grid>
                   )}
 
@@ -244,7 +241,7 @@ const OperasilAlatPemindai = (props) => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <TableOperasilAlatPemindai />
+                    <TableOperasilSenjataApi />
                   </Grid>
                 </Grid>
               </CardContent>
@@ -254,12 +251,12 @@ const OperasilAlatPemindai = (props) => {
       </Box>
 
       {/* Modal form create & edit */}
-      <ModalFormOperasilAlatPemindai />
+      <ModalFormOperasilSenjataApi />
 
       {/* Modal konfirmasi delete */}
       <DeleteConfirmation
-        title={operasiAlatPemindai.delete.title}
-        open={operasiAlatPemindai.delete.open}
+        title={operasiSenjataApi.delete.title}
+        open={operasiSenjataApi.delete.open}
         onClose={handleCloseDeleteConfirmation}
         onDelete={handleDelete}
         loading={processing}
@@ -267,15 +264,15 @@ const OperasilAlatPemindai = (props) => {
 
       {/* Modal konfirmasi restore */}
       <RestoreConfirmation
-        open={operasiAlatPemindai.restore.open}
-        title={operasiAlatPemindai.restore.title}
+        open={operasiSenjataApi.restore.open}
+        title={operasiSenjataApi.restore.title}
         onClose={handleCloseRestoreConfirmation}
         onRestore={handleRestore}
         loading={processing}
       />
 
       {/* Modal form import excel */}
-      <ModalFormImportOperasilAlatPemindai />
+      <ModalFormImportOperasilSenjataApi />
     </Fragment>
   );
 };
@@ -283,8 +280,8 @@ const OperasilAlatPemindai = (props) => {
 /**
  * Layout
  */
-OperasilAlatPemindai.layout = (page) => (
-  <AuthLayout title="Operasi Alat Pemindai" children={page} />
+OperasilSenjataApi.layout = (page) => (
+  <AuthLayout title="Operasi Senjata Api" children={page} />
 );
 
-export default OperasilAlatPemindai;
+export default OperasilSenjataApi;
