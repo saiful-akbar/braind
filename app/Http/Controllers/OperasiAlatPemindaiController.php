@@ -39,7 +39,7 @@ class OperasiAlatPemindaiController extends Controller
             ]);
         }
 
-        $access = $this->getAccessByRoute('penerimaan');
+        $access = $this->getAccessByRoute('operasi-alat-telekomunikasi');
         $data = $request->paginate($access);
 
         return $this->renderPaginate(
@@ -154,7 +154,7 @@ class OperasiAlatPemindaiController extends Controller
      */
     public function downloadTemplate(): BinaryFileResponse
     {
-        $fileName = "template_import_oprasi_alat_pemindai.xlsx";
+        $fileName = "template_import_operasi_alat_pemindai.xlsx";
 
         return Excel::download(new OperasiAlatPemindaiTemplateExport, $fileName);
     }

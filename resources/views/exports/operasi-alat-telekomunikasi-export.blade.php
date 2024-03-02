@@ -11,20 +11,19 @@
             <tr>
                 <th>No</th>
                 <th>Nama Kantor</th>
-                <th>Pemindai</th>
-                <th>Nama Alat</th>
-                <th>Ukuran</th>
+                <th>Nama Barang</th>
+                <th>Kode Barang</th>
+                <th>NUP</th>
+                <th>Jenis Perangkat</th>
+                <th>Harga Perolehan</th>
+                <th>Tahun Perolehan</th>
                 <th>Merek</th>
                 <th>Tipe</th>
-                <th>Nomor Seri</th>
-                <th>Tampilan</th>
-                <th>Tahun Perolehan</th>
+                <th>Rentang Frekuensi</th>
+                <th>Teknologi Digital</th>
                 <th>Kondisi</th>
+                <th>Status</th>
                 <th>Lokasi Penempatan</th>
-                <th>Jam Oprasi</th>
-                <th>Jam Pemindaian</th>
-                <th>Jumlah Pemindaian</th>
-                <th>Hasil Keluaran</th>
                 <th>Catatan</th>
                 <th>Tanggal Input</th>
             </tr>
@@ -35,20 +34,19 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->kantor_nama }}</td>
-                    <td>{{ $item->pemindai }}</td>
-                    <td>{{ $item->nama_alat }}</td>
-                    <td>{{ $item->ukuran }}</td>
+                    <td>{{ $item->nama_barang }}</td>
+                    <td>{{ $item->kode_barang }}</td>
+                    <td>{{ $item->nup }}</td>
+                    <td>{{ $item->jenis_perangkat }}</td>
+                    <td>{{ $item->harga_perolehan }}</td>
+                    <td>{{ $item->tahun_perolehan }}</td>
                     <td>{{ $item->merek }}</td>
                     <td>{{ $item->tipe }}</td>
-                    <td>{{ $item->nomor_seri }}</td>
-                    <td>{{ $item->tampilan }}</td>
-                    <td>{{ $item->tahun_perolehan }}</td>
+                    <td>{{ $item->rentang_frekuensi }}</td>
+                    <td>{{ $item->teknologi_digital }}</td>
                     <td>{{ $item->kondisi }}</td>
+                    <td>{{ $item->status }}</td>
                     <td>{{ $item->lokasi_penempatan }}</td>
-                    <td>{{ $item->jam_operasi }}</td>
-                    <td>{{ $item->jam_pemindaian }}</td>
-                    <td>{{ $item->jumlah_pemindaian }}</td>
-                    <td>{{ $item->hasil_keluaran }}</td>
                     <td>{{ $item->catatan }}</td>
                     <td>{{ $item->tanggal_input }}</td>
                 </tr>

@@ -31,7 +31,7 @@ const tampilanOptions = [
  *
  * @returns {React.ReactElement}
  */
-const ModalFormPenindakan = memo(() => {
+const ModalFormOperasiAlatPemindai = memo(() => {
   const { open, type, title, data } = useSelector(
     (state) => state.operasiAlatPemindai.form
   );
@@ -496,4 +496,4 @@ const ModalFormPenindakan = memo(() => {
   );
 });
 
-export default ModalFormPenindakan;
+export default ModalFormOperasiAlatPemindai;

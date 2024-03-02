@@ -17,6 +17,7 @@ use App\Http\Controllers\PerusahaanExportController;
 use App\Http\Controllers\PerusahaanHtHptlController;
 use App\Http\Controllers\PerusahaanImportController;
 use App\Http\Controllers\OperasiAlatPemindaiController;
+use App\Http\Controllers\OperasiAlatTelekomunikasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -348,7 +349,7 @@ Route::middleware('auth')->group(function (): void {
         });
 
     /**
-     * Oprasi alat pemindai
+     * Sarana oprasi alat pemindai
      */
     Route::controller(OperasiAlatPemindaiController::class)
         ->name('operasi-alat-pemindai')
@@ -370,7 +371,29 @@ Route::middleware('auth')->group(function (): void {
                 });
         });
 
-    Route::get('/operasi-alat-telekomunikasi', fn () => redirect('/'))->name('operasi-alat-telekomunikasi');
+    /**
+     * Sarana oprasi alat telekomunikasi
+     */
+    Route::controller(OperasiAlatTelekomunikasiController::class)
+        ->name('operasi-alat-telekomunikasi')
+        ->prefix('/operasi-alat-telekomunikasi')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:operasi-alat-telekomunikasi,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:operasi-alat-telekomunikasi,create');
+            Route::patch('/{operasi}', 'update')->name('.update')->middleware('access:operasi-alat-telekomunikasi,update');
+            Route::delete('/{operasi}', 'remove')->name('.remove')->middleware('access:operasi-alat-telekomunikasi,remove');
+            Route::patch('/{operasi}/restore', 'restore')->name('.restore')->middleware('access:operasi-alat-telekomunikasi,destroy');
+            Route::delete('/{operasi}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-alat-telekomunikasi,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:operasi-alat-telekomunikasi,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:operasi-alat-telekomunikasi,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:operasi-alat-telekomunikasi,create');
+                });
+        });
+
     Route::get('/operasi-kapal-patroli', fn () => redirect('/'))->name('operasi-kapal-patroli');
     Route::get('/operasi-senjata-api', fn () => redirect('/'))->name('operasi-senjata-api');
     Route::get('/operasi-lainnya', fn () => redirect('/'))->name('operasi-lainnya');

@@ -3,19 +3,19 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { Add } from "@mui/icons-material";
 import { Box, Button, CardContent, Grid } from "@mui/material";
 import React, { Fragment, useCallback, useState } from "react";
-import ModalFormOperasilAlatPemindai from "./Partials/ModalFormOperasiAlatPemindai";
+import ModalFormOperasilAlatTelekomunikasi from "./Partials/ModalFormOperasiAlatTelekomunikasi";
 import { useDispatch, useSelector } from "react-redux";
 import {
   closeDeleteConfirmation,
   closeRestoreConfirmation,
   openCreateForm,
   openFormlImport,
-} from "@/redux/reducers/operasiAlatPemindaiReducer";
-import FormFilterPeriodOperasilAlatPemindai from "./Partials/FormFilterPeriodOperasiAlatPemindai";
+} from "@/redux/reducers/operasiAlatTelekomunikasiReducer";
+import FormFilterPeriodOperasilAlatTelekomunikasi from "./Partials/FormFilterPeriodOperasiAlatTelekomunikasi";
 import CardPaper from "@/components/CardPaper";
-import TableOperasilAlatPemindai from "./Partials/TableOperasiAlatPemindai";
-import FormSearchOperasilAlatPemindai from "./Partials/FormSearchOperasiAlatPemindai";
-import FormFilterStatusOperasilAlatPemindai from "./Partials/FormFilterStatusOperasiAlatPemindai";
+import TableOperasilAlatTelekomunikasi from "./Partials/TableOperasiAlatTelekomunikasi";
+import FormSearchOperasilAlatTelekomunikasi from "./Partials/FormSearchOperasiAlatTelekomunikasi";
+import FormFilterStatusOperasilAlatTelekomunikasi from "./Partials/FormFilterStatusOperasiAlatTelekomunikasi";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import RestoreConfirmation from "@/components/RestoreConfirmation";
 import { router } from "@inertiajs/react";
@@ -23,17 +23,19 @@ import TableActionButton from "@/components/Buttons/TableActionButton";
 import { closeLoading, openLoading } from "@/redux/reducers/loadingReducer";
 import { saveAs } from "file-saver";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import ModalFormImportOperasilAlatPemindai from "./Partials/ModalFormImportOperasiAlatPemindai";
+import ModalFormImportOperasilAlatTelekomunikasi from "./Partials/ModalFormImportOperasiAlatTelekomunikasi";
 
 /**
- * Halaman sarana oprasi alat pemindai
+ * Halaman sarana oprasi alat telekomunikasi
  */
-const OperasilAlatPemindai = (props) => {
+const OperasilAlatTelekomunikasi = (props) => {
   const { access, app } = props;
   const { params } = app.url;
   const { csrf } = app;
   const dispatch = useDispatch();
-  const operasiAlatPemindai = useSelector((state) => state.operasiAlatPemindai);
+  const operasiAlatTelekomunikasi = useSelector(
+    (state) => state.operasiAlatTelekomunikasi
+  );
 
   /**
    * State
@@ -60,13 +62,13 @@ const OperasilAlatPemindai = (props) => {
   }, [processing, dispatch]);
 
   /**
-   * fungsi untuk mengapus data sarana operasi alat pemindai
+   * fungsi untuk mengapus data sarana operasi alat telekomunikasi
    */
   const handleDelete = useCallback(() => {
     const url = route(
-      `operasi-alat-pemindai.${operasiAlatPemindai.delete.type}`,
+      `operasi-alat-telekomunikasi.${operasiAlatTelekomunikasi.delete.type}`,
       {
-        operasi: operasiAlatPemindai.delete.id,
+        operasi: operasiAlatTelekomunikasi.delete.id,
         _query: params,
       }
     );
@@ -91,7 +93,7 @@ const OperasilAlatPemindai = (props) => {
       },
     });
   }, [
-    operasiAlatPemindai,
+    operasiAlatTelekomunikasi,
     params,
     csrf,
     setProcessing,
@@ -110,8 +112,8 @@ const OperasilAlatPemindai = (props) => {
    * fungsi untuk request restore
    */
   const handleRestore = useCallback(() => {
-    const url = route("operasi-alat-pemindai.restore", {
-      operasi: operasiAlatPemindai.restore.id,
+    const url = route("operasi-alat-telekomunikasi.restore", {
+      operasi: operasiAlatTelekomunikasi.restore.id,
       _query: params,
     });
 
@@ -135,7 +137,7 @@ const OperasilAlatPemindai = (props) => {
       },
     });
   }, [
-    operasiAlatPemindai,
+    operasiAlatTelekomunikasi,
     setProcessing,
     params,
     csrf,
@@ -160,12 +162,12 @@ const OperasilAlatPemindai = (props) => {
       const response = await axios({
         method: "get",
         responseType: "blob",
-        url: route("operasi-alat-pemindai.export"),
+        url: route("operasi-alat-telekomunikasi.export"),
         params,
       });
 
       if (response.status === 200) {
-        saveAs(response.data, "operasi_alat_pemindai_export.xlsx");
+        saveAs(response.data, "operasi_alat_telekomunikasi_export.xlsx");
         dispatch(closeLoading());
         dispatch(
           openNotification({
@@ -195,7 +197,7 @@ const OperasilAlatPemindai = (props) => {
   return (
     <Fragment>
       <Header
-        title="Oprasi Alat Pemindai"
+        title="Oprasi Alat Telekomunikasi"
         action={
           access.create ? (
             <Button
@@ -214,7 +216,7 @@ const OperasilAlatPemindai = (props) => {
       <Box component="main" sx={{ mt: 5 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <FormFilterPeriodOperasilAlatPemindai />
+            <FormFilterPeriodOperasilAlatTelekomunikasi />
           </Grid>
 
           {/* Tabel */}
@@ -223,12 +225,12 @@ const OperasilAlatPemindai = (props) => {
               <CardContent>
                 <Grid container spacing={3} justifyContent="space-between">
                   <Grid item md={4.5} xs={12}>
-                    <FormSearchOperasilAlatPemindai />
+                    <FormSearchOperasilAlatTelekomunikasi />
                   </Grid>
 
                   {access.destroy && (
                     <Grid item md={4.5} xs={12}>
-                      <FormFilterStatusOperasilAlatPemindai />
+                      <FormFilterStatusOperasilAlatTelekomunikasi />
                     </Grid>
                   )}
 
@@ -244,7 +246,7 @@ const OperasilAlatPemindai = (props) => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <TableOperasilAlatPemindai />
+                    <TableOperasilAlatTelekomunikasi />
                   </Grid>
                 </Grid>
               </CardContent>
@@ -254,12 +256,12 @@ const OperasilAlatPemindai = (props) => {
       </Box>
 
       {/* Modal form create & edit */}
-      <ModalFormOperasilAlatPemindai />
+      <ModalFormOperasilAlatTelekomunikasi />
 
       {/* Modal konfirmasi delete */}
       <DeleteConfirmation
-        title={operasiAlatPemindai.delete.title}
-        open={operasiAlatPemindai.delete.open}
+        title={operasiAlatTelekomunikasi.delete.title}
+        open={operasiAlatTelekomunikasi.delete.open}
         onClose={handleCloseDeleteConfirmation}
         onDelete={handleDelete}
         loading={processing}
@@ -267,15 +269,15 @@ const OperasilAlatPemindai = (props) => {
 
       {/* Modal konfirmasi restore */}
       <RestoreConfirmation
-        open={operasiAlatPemindai.restore.open}
-        title={operasiAlatPemindai.restore.title}
+        open={operasiAlatTelekomunikasi.restore.open}
+        title={operasiAlatTelekomunikasi.restore.title}
         onClose={handleCloseRestoreConfirmation}
         onRestore={handleRestore}
         loading={processing}
       />
 
       {/* Modal form import excel */}
-      <ModalFormImportOperasilAlatPemindai />
+      <ModalFormImportOperasilAlatTelekomunikasi />
     </Fragment>
   );
 };
@@ -283,8 +285,8 @@ const OperasilAlatPemindai = (props) => {
 /**
  * Layout
  */
-OperasilAlatPemindai.layout = (page) => (
-  <AuthLayout title="Operasi Alat Pemindai" children={page} />
+OperasilAlatTelekomunikasi.layout = (page) => (
+  <AuthLayout title="Operasi Alat Telekomunikasi" children={page} />
 );
 
-export default OperasilAlatPemindai;
+export default OperasilAlatTelekomunikasi;

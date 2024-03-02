@@ -4,7 +4,6 @@ namespace App\Exports;
 
 use App\Models\MenuUser;
 use Illuminate\View\View;
-use App\Models\Penindakan;
 use Illuminate\Http\Request;
 use App\Models\OperasiAlatPemindai;
 use Maatwebsite\Excel\Concerns\FromView;
