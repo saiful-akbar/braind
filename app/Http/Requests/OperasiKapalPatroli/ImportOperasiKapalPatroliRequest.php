@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\OperasiKapalPatroli;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\OperasiKapalPatroliImport;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImportOperasiKapalPatroliRequest extends FormRequest
@@ -11,7 +13,7 @@ class ImportOperasiKapalPatroliRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,17 @@ class ImportOperasiKapalPatroliRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'file' => 'required|mimes:xlsx,xls|max:1024'
         ];
+    }
+
+    /**
+     * Import data dari excel ke database
+     *
+     * @return void
+     */
+    public function importExcel(): void
+    {
+        Excel::import(new OperasiKapalPatroliImport, $this->file('file'));
     }
 }

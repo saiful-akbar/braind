@@ -18,6 +18,7 @@ use App\Http\Controllers\PerusahaanHtHptlController;
 use App\Http\Controllers\PerusahaanImportController;
 use App\Http\Controllers\OperasiAlatPemindaiController;
 use App\Http\Controllers\OperasiAlatTelekomunikasiController;
+use App\Http\Controllers\OperasiKapalPatroliController;
 
 /*
 |--------------------------------------------------------------------------
@@ -394,7 +395,29 @@ Route::middleware('auth')->group(function (): void {
                 });
         });
 
-    Route::get('/operasi-kapal-patroli', fn () => redirect('/'))->name('operasi-kapal-patroli');
+    /**
+     * Sarana oprasi kapal patroli
+     */
+    Route::controller(OperasiKapalPatroliController::class)
+        ->name('operasi-kapal-patroli')
+        ->prefix('/operasi-kapal-patroli')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:operasi-kapal-patroli,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:operasi-kapal-patroli,create');
+            Route::patch('/{operasi}', 'update')->name('.update')->middleware('access:operasi-kapal-patroli,update');
+            Route::delete('/{operasi}', 'remove')->name('.remove')->middleware('access:operasi-kapal-patroli,remove');
+            Route::patch('/{operasi}/restore', 'restore')->name('.restore')->middleware('access:operasi-kapal-patroli,destroy');
+            Route::delete('/{operasi}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-kapal-patroli,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:operasi-kapal-patroli,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:operasi-kapal-patroli,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:operasi-kapal-patroli,create');
+                });
+        });
+
     Route::get('/operasi-senjata-api', fn () => redirect('/'))->name('operasi-senjata-api');
     Route::get('/operasi-lainnya', fn () => redirect('/'))->name('operasi-lainnya');
 });

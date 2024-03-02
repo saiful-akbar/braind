@@ -2,7 +2,7 @@
 <html lang="id">
 
 <head>
-    <title>Operasi Alat Pemindai</title>
+    <title>Operasi Alat Telekomunikasi</title>
 </head>
 
 <body>

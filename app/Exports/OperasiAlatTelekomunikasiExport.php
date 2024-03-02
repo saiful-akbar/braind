@@ -5,7 +5,6 @@ namespace App\Exports;
 use App\Models\MenuUser;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Models\OperasiAlatPemindai;
 use Maatwebsite\Excel\Concerns\FromView;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use App\Models\OperasiAlatTelekomunikasi;

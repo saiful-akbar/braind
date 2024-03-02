@@ -16,6 +16,7 @@ import pengawasanReducer from "./reducers/pengawasanReducer";
 import penindakanReducer from "./reducers/penindakanReducer";
 import operasiAlatPemindaiReducer from "./reducers/operasiAlatPemindaiReducer";
 import operasiAlatTelekomunikasiReducer from "./reducers/operasiAlatTelekomunikasiReducer";
+import operasiKapalPatroliReducer from "./reducers/operasiKapalPatroliReducer";
 
 const store = configureStore({
   reducer: {
@@ -36,6 +37,7 @@ const store = configureStore({
     penindakan: penindakanReducer,
     operasiAlatPemindai: operasiAlatPemindaiReducer,
     operasiAlatTelekomunikasi: operasiAlatTelekomunikasiReducer,
+    operasiKapalPatroli: operasiKapalPatroliReducer,
   },
 });
 

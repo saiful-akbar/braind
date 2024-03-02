@@ -36,7 +36,7 @@
 
 - **Masuk (Login)**
 
-  - Login dengan menggunakan email dan kata sandi yang sudah terdaftar.
+  - Login dengan menggunakan username dan kata sandi yang sudah terdaftar.
 
 - **Navigasi**
 
@@ -50,6 +50,13 @@
       - SBP
       - User
 
+    - **Perusahaan**
+
+      - Cukai MMEA
+      - Cukai HT + HPTL
+      - Ekspor
+      - Impor
+
     - **Kantor**
 
       - Profil
@@ -59,19 +66,9 @@
 
       - Penerimaan
 
-    - **Perusahaan**
-
-      - Cukai MMEA
-      - Cukai HT + HPTL
-      - Ekspor
-      - Impor
-
     - **Data Pengawasan**
 
       - Pengawasan
-
-    - **Data Penindakan**
-
       - Penindakan
 
     - **Sarana Operasi**
