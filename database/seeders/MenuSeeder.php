@@ -116,7 +116,7 @@ class MenuSeeder extends Seeder
                     'route' => 'operasi-senjata-api',
                 ],
                 [
-                    'nama' => 'Sarana Operasi Lainnya',
+                    'nama' => 'Operasi Lainnya',
                     'url' => '/operasi-lainnya',
                     'route' => 'operasi-lainnya',
                 ],

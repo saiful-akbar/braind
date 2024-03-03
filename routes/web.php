@@ -11,6 +11,7 @@ use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\PengawasanController;
 use App\Http\Controllers\PenindakanController;
 use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\OperasiLainnyaController;
 use App\Http\Controllers\PerusahaanMmeaController;
 use App\Http\Controllers\PerusahaanExportController;
 use App\Http\Controllers\PerusahaanHtHptlController;
@@ -441,5 +442,26 @@ Route::middleware('auth')->group(function (): void {
                 });
         });
 
-    Route::get('/operasi-lainnya', fn () => redirect('/'))->name('operasi-lainnya');
+    /**
+     * Sarana oprasi lainnya
+     */
+    Route::controller(OperasiLainnyaController::class)
+        ->name('operasi-lainnya')
+        ->prefix('/operasi-lainnya')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:operasi-lainnya,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:operasi-lainnya,create');
+            Route::patch('/{operasi}', 'update')->name('.update')->middleware('access:operasi-lainnya,update');
+            Route::delete('/{operasi}', 'remove')->name('.remove')->middleware('access:operasi-lainnya,remove');
+            Route::patch('/{operasi}/restore', 'restore')->name('.restore')->middleware('access:operasi-lainnya,destroy');
+            Route::delete('/{operasi}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-lainnya,destroy');
+            Route::get('/export', 'export')->name('.export')->middleware('access:operasi-lainnya,read');
+
+            Route::name('.import')
+                ->prefix('/import')
+                ->group(function (): void {
+                    Route::post('/', 'import')->middleware('access:operasi-lainnya,create');
+                    Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:operasi-lainnya,create');
+                });
+        });
 });

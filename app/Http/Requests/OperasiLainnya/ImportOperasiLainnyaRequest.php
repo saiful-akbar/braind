@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\OperasiLainnya;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\OperasiLainnyaImport;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImportOperasiLainnyaRequest extends FormRequest
@@ -11,7 +13,7 @@ class ImportOperasiLainnyaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,17 @@ class ImportOperasiLainnyaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'file' => 'required|mimes:xlsx,xls|max:1024'
         ];
+    }
+
+    /**
+     * Import data dari excel ke database
+     *
+     * @return void
+     */
+    public function importExcel(): void
+    {
+        Excel::import(new OperasiLainnyaImport, $this->file('file'));
     }
 }

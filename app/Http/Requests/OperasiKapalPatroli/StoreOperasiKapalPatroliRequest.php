@@ -36,7 +36,7 @@ class StoreOperasiKapalPatroliRequest extends FormRequest
     }
 
     /**
-     * Simpan data perusahaan export ke database
+     * Simpan data operasi kapal patroli ke database
      *
      * @return void
      */
