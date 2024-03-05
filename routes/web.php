@@ -182,11 +182,17 @@ Route::middleware('auth')->group(function (): void {
             Route::patch('/{sbp}/restore', 'restore')->name('.restore')->middleware('access:sbp,destroy');
             Route::delete('/{sbp}/destroy', 'destroy')->name('.destroy')->middleware('access:sbp,destroy');
 
-            Route::prefix('/import')
-                ->name('.import')
+            Route::name('.import')
+                ->prefix('/import')
                 ->group(function (): void {
                     Route::post('/', 'import')->middleware('access:sbp,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:sbp,create');
+                });
+
+            Route::name('.chart')
+                ->prefix('/chart')
+                ->group(function (): void {
+                    Route::get('/', 'chart');
                 });
         });
 

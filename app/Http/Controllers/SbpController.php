@@ -6,6 +6,7 @@ use App\Models\Sbp;
 use Inertia\Response;
 use App\Exports\SbpExport;
 use App\Exports\Templates\SbpTemplateExport;
+use App\Http\Requests\Sbp\ChartSbpRequest;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Sbp\SbpRequest;
@@ -13,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Sbp\StoreSbpRequest;
 use App\Http\Requests\Sbp\UpdateSbpRequest;
 use App\Imports\SbpImport;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SbpController extends Controller
@@ -31,7 +33,7 @@ class SbpController extends Controller
         // Jika pada request tidak ada query string "start_period" dan "end_period
         // reqdirect ke halaman ini dengan menambahan query string
         // start_period = tanggal 01 pada bulan saat ini
-        // end_period = tanggal saat ini. 
+        // end_period = tanggal saat ini.
         if (is_null($startPeriod) || is_null($endPeriod)) {
             return to_route('sbp', [
                 'start_period' => $request->query('start_period', date('Y-m-01')),
@@ -175,5 +177,21 @@ class SbpController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Mengambil data chart sbp berdasarkan total jumlah, tindak lanjut
+     * dan id kantor yang dimiliki user yang sedang login.
+     *
+     * @param ChartSbpRequest $request
+     * @return JsonResponse
+     */
+    public function chart(ChartSbpRequest $request): JsonResponse
+    {
+        $data = $request->getChart();
+
+        return $this->jsonResponse(
+            data: $data,
+        );
     }
 }

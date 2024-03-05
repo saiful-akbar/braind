@@ -37,14 +37,6 @@ const Sbp = (props) => {
       show: true,
     },
     {
-      field: "id",
-      label: "ID SBP",
-      align: "left",
-      format: "none",
-      sort: true,
-      show: true,
-    },
-    {
       field: "jumlah",
       label: "Jumlah",
       align: "right",
