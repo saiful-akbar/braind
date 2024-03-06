@@ -16,21 +16,50 @@ class ChartSbpRequest extends FormRequest
         return true;
     }
 
-    public function getChart(): mixed
+    /**
+     * ambil data untuk chart
+     *
+     * @return array
+     */
+    public function getData(): array
     {
         $currentYear = date('Y');
         $kantorId = user()->kantor_id;
 
-        $result = Sbp::select(
+        // Ambil jumlah data pada kolom "jumlah", "tindak_lanjut" dan bulan
+        // dari "tanggal_input" berdasarkan tanggal input yang sesuai dengan tahun saat ini.
+        $query = Sbp::select(
             DB::raw('SUM(jumlah) AS jumlah'),
             DB::raw('SUM(tindak_lanjut) AS tindak_lanjut'),
-            DB::raw('DATE_FORMAT(tanggal_input, "%b") AS bulan'),
+            DB::raw('DATE_FORMAT(tanggal_input, "%c") AS bulan')
         )
             ->where('kantor_id', '=', $kantorId)
-            ->where('tanggal_input', 'like', "%$currentYear%")
-            ->groupBy('tanggal_input')
-            ->orderBy('tanggal_input', 'asc')
+            ->where('tanggal_input', 'like', "$currentYear%")
+            ->groupBy(DB::raw('DATE_FORMAT(tanggal_input, "%c")'))
             ->get();
+
+        // Buat variable $result dengan nilai jumlah dan tindak lanjut
+        // yang berisi data array kosong.
+        $result = [
+            'tahun' => (int) $currentYear,
+            'jumlah' => [],
+            'tindak_lanjut' => [],
+        ];
+
+        // isikan data jumlah dan tindak lanjut pada variable $result
+        // dengan nilai 0 sebanyak 12 index.
+        for ($i = 1; $i <= 12; $i++) {
+            $result['jumlah'][] = 0;
+            $result['tindak_lanjut'][] = 0;
+        }
+
+        // timpa data jumlah dan tindak_lanjut pada variable $result
+        // dengan nilai hasil query sesuai dengan index yang sama dengan
+        // bulan yang dihasilkan dari query.
+        foreach ($query as $data) {
+            $result['jumlah'][(int) $data->bulan - 1] = (float) $data->jumlah;
+            $result['tindak_lanjut'][(int) $data->bulan - 1] = (float) $data->tindak_lanjut;
+        }
 
         return $result;
     }

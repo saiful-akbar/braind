@@ -2,9 +2,7 @@ import CardPaper from "@/components/CardPaper";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { CardContent } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 /**
@@ -14,23 +12,34 @@ const ChartSbp = () => {
   const dispatch = useDispatch();
   const date = new Date();
   const currentYear = date.getFullYear();
+  const xLabels = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Okc",
+    "Nov",
+    "Dec",
+  ];
 
   /**
    * state
    */
-  const [dataset, setData] = useState([
-    {
-      jumlah: 0,
-      tindak_lanjut: 0,
-      bulan: "Jan",
-    },
-  ]);
+  const [series, setSeries] = useState({
+    jumlah: [...new Array(12)].map(() => 0),
+    tindakLanjut: [...new Array(12)].map(() => 0),
+  });
 
   /**
    * fetch data sbp
    */
   useEffect(() => {
-    const getData = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios({
           method: "get",
@@ -38,61 +47,47 @@ const ChartSbp = () => {
           responseType: "json",
         });
 
-        const { data: result, status } = response;
+        if (response.status === 200) {
+          const { data } = response.data;
 
-        if (status === 200 && result.data !== null) {
-          setData(
-            result.data.map((result) => ({
-              jumlah: parseFloat(result.jumlah),
-              tindak_lanjut: parseFloat(result.tindak_lanjut),
-              bulan: result.bulan,
-            }))
-          );
+          setSeries({
+            jumlah: data.jumlah,
+            tindakLanjut: data.tindak_lanjut,
+          });
         }
       } catch (error) {
         dispatch(
           openNotification({
             status: "error",
-            message: "Gagal mengambil data chart SBP.",
+            message: `${error.response.status} - Gagal mengambil data SBP.`,
           })
         );
       }
     };
 
-    getData();
+    fetchData();
   }, []);
-
-  /**
-   * fungsi untuk memformat string decimal.
-   *
-   * @param {string} value
-   * @returns number
-   */
-  const valueFormatter = (value) => {
-    return parseFloat(value);
-  };
 
   return (
     <CardPaper title={`Grafik SBP ${currentYear}`}>
       <CardContent>
         <BarChart
           height={300}
-          dataset={dataset}
           series={[
             {
-              dataKey: "jumlah",
+              data: series.jumlah,
               label: "Jumlah",
-              valueFormatter,
+              id: "jumlah",
             },
             {
-              dataKey: "tindak_lanjut",
+              data: series.tindakLanjut,
               label: "Tindak Lanjut",
-              valueFormatter,
+              id: "tindakLanjut",
             },
           ]}
           xAxis={[
             {
-              dataKey: "bulan",
+              data: xLabels,
               scaleType: "band",
             },
           ]}
