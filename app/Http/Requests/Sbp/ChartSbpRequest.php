@@ -21,10 +21,8 @@ class ChartSbpRequest extends FormRequest
      *
      * @return array
      */
-    public function getData(): array
+    public function getData(): mixed
     {
-        $currentYear = date('Y');
-        $kantorId = user()->kantor_id;
 
         // Ambil jumlah data pada kolom "jumlah", "tindak_lanjut" dan bulan
         // dari "tanggal_input" berdasarkan tanggal input yang sesuai dengan tahun saat ini.
@@ -32,11 +30,19 @@ class ChartSbpRequest extends FormRequest
             DB::raw('SUM(jumlah) AS jumlah'),
             DB::raw('SUM(tindak_lanjut) AS tindak_lanjut'),
             DB::raw('DATE_FORMAT(tanggal_input, "%c") AS bulan')
-        )
-            ->where('kantor_id', '=', $kantorId)
-            ->where('tanggal_input', 'like', "$currentYear%")
-            ->groupBy(DB::raw('DATE_FORMAT(tanggal_input, "%c")'))
-            ->get();
+        );
+
+        // Perikasa jika user bukan sebagai admin
+        // ambil hanya data dengan "kantor_id" yang sesuai
+        // yang dimiliki oleh user yang sedang login.
+        if (!user()->admin) {
+            $query->where('kantor_id', '=', user()->kantor_id);
+        }
+
+        // filter data berdasarkan tahun saat ini.
+        $currentYear = date('Y');
+        $query->where('tanggal_input', 'like', "$currentYear%")
+            ->groupBy(DB::raw('DATE_FORMAT(tanggal_input, "%c")'));
 
         // Buat variable $result dengan nilai jumlah dan tindak lanjut
         // yang berisi data array kosong.
@@ -56,7 +62,7 @@ class ChartSbpRequest extends FormRequest
         // timpa data jumlah dan tindak_lanjut pada variable $result
         // dengan nilai hasil query sesuai dengan index yang sama dengan
         // bulan yang dihasilkan dari query.
-        foreach ($query as $data) {
+        foreach ($query->get() as $data) {
             $result['jumlah'][(int) $data->bulan - 1] = (float) $data->jumlah;
             $result['tindak_lanjut'][(int) $data->bulan - 1] = (float) $data->tindak_lanjut;
         }

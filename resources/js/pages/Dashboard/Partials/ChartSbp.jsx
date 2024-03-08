@@ -56,6 +56,7 @@ const ChartSbp = () => {
           });
         }
       } catch (error) {
+        console.log(error);
         dispatch(
           openNotification({
             status: "error",

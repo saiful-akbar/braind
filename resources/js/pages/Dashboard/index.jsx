@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import AuthLayout from "@/layouts/AuthLayout";
 import { Box, Grid } from "@mui/material";
 import ChartSbp from "./Partials/ChartSbp";
+import TopPerusahaanExport from "./Partials/TopPerusahaanExport";
 
 /**
  * Halaman dashboard.
@@ -15,6 +16,10 @@ const Dashboard = (props) => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <ChartSbp />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TopPerusahaanExport />
           </Grid>
         </Grid>
       </Box>

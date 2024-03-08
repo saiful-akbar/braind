@@ -262,6 +262,8 @@ Route::middleware('auth')->group(function (): void {
                     Route::post('/', 'import')->middleware('access:perusahaan-export,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan-export,create');
                 });
+
+            Route::get('top-five', 'topFive')->name('.top-five');
         });
 
     /**

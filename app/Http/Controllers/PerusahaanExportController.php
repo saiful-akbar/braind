@@ -13,7 +13,9 @@ use App\Exports\Templates\PerusahaanExportTemplateExport;
 use App\Http\Requests\PerusahaanExport\PerusahaanExportRequest;
 use App\Http\Requests\PerusahaanExport\StorePerusahaanExportRequest;
 use App\Http\Requests\PerusahaanExport\ImportPerusahaanExportRequest;
+use App\Http\Requests\PerusahaanExport\TopFivePerusahaanExportRequest;
 use App\Http\Requests\PerusahaanExport\UpdatePerusahaanExportRequest;
+use Illuminate\Http\JsonResponse;
 
 class PerusahaanExportController extends Controller
 {
@@ -31,7 +33,7 @@ class PerusahaanExportController extends Controller
         // Jika pada request tidak ada query string "start_period" dan "end_period"
         // redirect ke halaman ini dengan menambahan query string
         // start_period = tanggal 01 pada bulan saat ini
-        // end_period = tanggal saat ini. 
+        // end_period = tanggal saat ini.
         if (is_null($startPeriod) || is_null($endPeriod)) {
             return to_route('perusahaan-export', [
                 'start_period' => $request->query('start_period', date('Y-m-01')),
@@ -50,7 +52,7 @@ class PerusahaanExportController extends Controller
     }
 
     /**
-     * Menambah data perusahaan export baru ke database. 
+     * Menambah data perusahaan export baru ke database.
      *
      * @param StorePerusahaanExportRequest $request
      * @return RedirectResponse
@@ -173,5 +175,16 @@ class PerusahaanExportController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Ambil data 5 besar perusahaan export.
+     *
+     * @param TopFivePerusahaanExportRequest $request
+     * @return JsonResponse
+     */
+    public function topFive(TopFivePerusahaanExportRequest $request): JsonResponse
+    {
+        return $this->jsonResponse(data: $request->read());
     }
 }

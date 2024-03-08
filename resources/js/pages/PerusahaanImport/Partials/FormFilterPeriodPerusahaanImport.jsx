@@ -53,7 +53,7 @@ const FormFilterPeriodPerusahaanImport = memo(() => {
    * Fungsi untuk menangani ketika form di submit
    */
   const handleSubmit = () => {
-    form.get(route("perusahaan-export"), {
+    form.get(route("perusahaan-import"), {
       preserveScroll: true,
       preserveState: true,
     });
