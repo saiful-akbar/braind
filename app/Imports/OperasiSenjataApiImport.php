@@ -23,25 +23,19 @@ class OperasiSenjataApiImport implements ToModel, WithHeadingRow, WithValidation
     public function prepareForValidation(array $data, int $index): array
     {
         $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+        $data['masa_berlaku'] = Date::excelToDateTimeObject($data['masa_berlaku'])->format('Y-m-d');
+        $data['nomor_senjata'] = (string) $data['nomor_senjata'];
 
         return $data;
     }
 
     /**
      * Aturan validasi
-     * 
+     *
      * @return array
      */
     public function rules(): array
     {
-        $masaBerlakuRules = ['required'];
-
-        if (gettype(request('masa_berlaku')) === 'string') {
-            array_push($masaBerlakuRules, ['string', 'max:30']);
-        } else {
-            array_push($masaBerlakuRules, ['integer']);
-        }
-
         return [
             'kantor_id'                => 'nullable|exists:kantor,id',
             'jenis_kaliber'            => 'required|string|max:30',
@@ -50,9 +44,9 @@ class OperasiSenjataApiImport implements ToModel, WithHeadingRow, WithValidation
             'pangkat_pemegang_senjata' => 'required|string|max:50',
             'jabatan_pemegang_senjata' => 'required|string|max:50',
             'nomor_buku_pas'           => 'required|string|max:30',
-            'masa_berlaku'             => $masaBerlakuRules,
+            'masa_berlaku'             => 'required|date',
             'kondisi'                  => 'required|string|max:30',
-            'jumlah_amunisi'           => 'required|integer|max:1000',
+            'jumlah_amunisi'           => 'required|integer|max:1000000',
             'catatan'                  => 'required|string|max:250',
             'tanggal_input'            => 'nullable|date',
         ];

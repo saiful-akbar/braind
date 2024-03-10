@@ -287,6 +287,8 @@ Route::middleware('auth')->group(function (): void {
                     Route::post('/', 'import')->middleware('access:perusahaan-import,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan-import,create');
                 });
+
+            Route::get('top-five', 'topFive')->name('.top-five');
         });
 
     /**

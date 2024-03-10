@@ -114,7 +114,7 @@ const ModalFormImportSbp = () => {
         dispatch(
           openNotification({
             status: "error",
-            message: "Terjadi kesalahan, import data kantor gagal.",
+            message: "Terjadi kesalahan, import gagal.",
           })
         );
       },

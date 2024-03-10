@@ -38,8 +38,8 @@ class UpdatePengawasanRequest extends FormRequest
             'sbp'              => 'required|string|max:30',
             'kantor'           => 'required|string|max:50',
             'nilai_barang'     => 'required|numeric|min:0',
-            'total_kerugian'   => 'required|numeric|min:0',
-            'potensi_kerugian' => 'required|numeric|min:0',
+            'total_kerugian'   => 'required|numeric',
+            'potensi_kerugian' => 'required|numeric',
             'tindak_lanjut'    => 'required|string|max:100',
             'tanggal_input'    => 'nullable|date',
         ];

@@ -10,10 +10,12 @@ use Illuminate\Http\RedirectResponse;
 use App\Exports\PerusahaanImportExport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Exports\Templates\PerusahaanImportTemplateExport;
+use App\Http\Requests\PerusahaanImport\TopFivePerusahaanImportRequest;
 use App\Http\Requests\PerusahaanImports\PerusahaanImportRequest;
 use App\Http\Requests\PerusahaanImports\StorePerusahaanImportRequest;
 use App\Http\Requests\PerusahaanImports\ImportPerusahaanImportRequest;
 use App\Http\Requests\PerusahaanImports\UpdatePerusahaanImportRequest;
+use Illuminate\Http\JsonResponse;
 
 class PerusahaanImportController extends Controller
 {
@@ -31,7 +33,7 @@ class PerusahaanImportController extends Controller
         // Jika pada request tidak ada query string "start_period" dan "end_period"
         // redirect ke halaman ini dengan menambahan query string
         // start_period = tanggal 01 pada bulan saat ini
-        // end_period = tanggal saat ini. 
+        // end_period = tanggal saat ini.
         if (is_null($startPeriod) || is_null($endPeriod)) {
             return to_route('perusahaan-import', [
                 'start_period' => $request->query('start_period', date('Y-m-01')),
@@ -50,7 +52,7 @@ class PerusahaanImportController extends Controller
     }
 
     /**
-     * Menambah data perusahaan export baru ke database. 
+     * Menambah data perusahaan export baru ke database.
      *
      * @param StorePerusahaanImportRequest $request
      * @return RedirectResponse
@@ -173,5 +175,18 @@ class PerusahaanImportController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Ambil data 5 besar perusahaan import
+     *
+     * @param TopFivePerusahaanImportRequest $request
+     * @return JsonResponse
+     */
+    public function topFive(TopFivePerusahaanImportRequest $request): JsonResponse
+    {
+        return $this->jsonResponse(
+            data: $request->read(),
+        );
     }
 }

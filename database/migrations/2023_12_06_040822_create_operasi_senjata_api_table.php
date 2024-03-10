@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('pangkat_pemegang_senjata', 50);
             $table->string('jabatan_pemegang_senjata', 50);
             $table->string('nomor_buku_pas', 30);
-            $table->string('masa_berlaku', 30);
+            $table->date('masa_berlaku');
             $table->string('kondisi', 50);
             $table->integer('jumlah_amunisi');
             $table->string('catatan')->nullable();

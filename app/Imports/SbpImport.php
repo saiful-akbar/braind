@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Sbp;
 use Maatwebsite\Excel\Concerns\ToModel;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -11,6 +12,20 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 class SbpImport implements ToModel, WithHeadingRow, WithValidation
 {
     use Importable;
+
+    /**
+     * Persiapan sebelum data divalidasi.
+     *
+     * @param array $data
+     * @param int $index
+     * @return array
+     */
+    public function prepareForValidation(array $data, int $index): array
+    {
+        $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+
+        return $data;
+    }
 
     /**
      * Aturan validasi
@@ -33,7 +48,7 @@ class SbpImport implements ToModel, WithHeadingRow, WithValidation
     public function customValidationAttributes(): array
     {
         return [
-            'kantor_id'     => 'ID kantor',
+            'kantor_id'     => 'kantor ID',
             'jumlah'        => 'jumlah',
             'tindak_lanjut' => 'tindak lanjut',
             'tanggal_input' => 'tanggal input',

@@ -302,18 +302,14 @@ const ModalFormOperasiSenjataApi = memo(() => {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <TextInput
+            <DateInput
               fullWidth
-              required
-              type="text"
               label="Masa Berlaku"
-              name="masa_berlaku"
-              id="masa_berlaku"
-              value={formData.masa_berlaku}
-              onChange={handleInputChange}
+              value={dayjs(data.masa_berlaku)}
               disabled={processing}
               error={Boolean(errors.masa_berlaku)}
               helperText={errors.masa_berlaku}
+              onChange={(value) => handleDateInputChange("masa_berlaku", value)}
             />
           </Grid>
 

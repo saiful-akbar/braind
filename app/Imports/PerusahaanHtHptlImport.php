@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\PerusahaanHtHptl;
 use Maatwebsite\Excel\Concerns\ToModel;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -11,6 +12,20 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 class PerusahaanHtHptlImport implements ToModel, WithHeadingRow, WithValidation
 {
     use Importable;
+
+    /**
+     * Persiapan untuk validasi.
+     *
+     * @param array $data
+     * @param integer $index
+     * @return array
+     */
+    public function prepareForValidation(array $data, int $index): array
+    {
+        $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+
+        return $data;
+    }
 
     /**
      * Aturan validasi

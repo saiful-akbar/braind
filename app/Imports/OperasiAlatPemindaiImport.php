@@ -31,7 +31,7 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
 
     /**
      * Aturan validasi
-     * 
+     *
      * @return array
      */
     public function rules(): array
@@ -43,18 +43,18 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
             'kantor_id'         => 'nullable|exists:kantor,id',
             'pemindai'          => 'required|string|max:30',
             'nama_alat'         => 'required|string|max:50',
-            'ukuran'            => 'required|string|max:50',
+            'ukuran'            => 'required|string|numeric|max:50',
             'merek'             => 'required|string|max:30',
             'tipe'              => 'required|string|max:20',
-            'nomor_seri'        => 'required|string|max:30',
+            'nomor_seri'        => 'required|string|numeric|max:30',
             'tampilan'          => 'required|string|in:tunggal,Tunggal,TUNGGAL,ganda,Ganda,GANDA',
             'tahun_perolehan'   => "required|integer|digits:4|min:$minYear|max:$maxYear",
             'kondisi'           => 'required|string|max:50',
             'lokasi_penempatan' => 'required|string|max:50',
             'jam_operasi'       => 'required|date_format:H:i:s',
             'jam_pemindaian'    => 'required|date_format:H:i:s',
-            'jumlah_pemindaian' => 'required|numeric|min:0|max:1000',
-            'hasil_keluaran'    => 'required|string|max:250',
+            'jumlah_pemindaian' => 'required|numeric|min:0|max1000000',
+            'hasil_keluaran'    => 'required|string|numeric|max:250',
             'catatan'           => 'required|string|max:250',
             'tanggal_input'     => 'nullable|date',
         ];

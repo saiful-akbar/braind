@@ -130,10 +130,8 @@ class MenuSeeder extends Seeder
     public function run(): void
     {
         $admin = User::where('username', 'Admin')->first();
-        $guest = User::where('username', 'guest')->first();
 
-
-        DB::transaction(function () use ($admin, $guest): void {
+        DB::transaction(function () use ($admin): void {
             foreach ($this->data as $menuGroup) {
                 MenuGroup::create(['nama' => $menuGroup['nama']])
                     ->subMenu()
@@ -147,16 +145,6 @@ class MenuSeeder extends Seeder
                     'update' => true,
                     'remove' => true,
                     'destroy' => true,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-
-                $guest->menu()->attach($menu->id, [
-                    'create' => false,
-                    'read' => true,
-                    'update' => false,
-                    'remove' => false,
-                    'destroy' => false,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

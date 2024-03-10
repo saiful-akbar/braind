@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\PerusahaanExport;
+namespace App\Http\Requests\PerusahaanImport;
 
-use App\Models\PerusahaanExport;
+use App\Models\PerusahaanImport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Database\Eloquent\Collection;
 
-class TopFivePerusahaanExportRequest extends FormRequest
+class TopFivePerusahaanImportRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,26 +25,26 @@ class TopFivePerusahaanExportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'by' => 'nullable|in:peb,devisa,netto,bea_keluar'
+            'by' => 'required|in:pib,total_pembayaran,bea_masuk',
         ];
     }
 
     public function read(): Collection
     {
-        // jiak request "by" pada query string kosong buat nilai defaul
-        // sebagai "peb". Jika request "by" ada dan validasi berhasil ambil data dari
+        // jiak request "by" pada query string kosong buat nilai default
+        // sebagai "pib". Jika request "by" ada dan validasi berhasil ambil data dari
         // request query string.
         $by = empty($this->query('by')) ? 'peb' : $this->query('by');
 
         // Ambil data 5 besar perusahaan export
-        $query = PerusahaanExport::select(
+        $query = PerusahaanImport::select(
             'nama_perusahaan',
             DB::raw("SUM($by) AS value"),
         );
 
         // Periksa jika user bukan sebagai admin
         // ambil data berdasarkan "kantor_id" yang sesuai
-        // dengan "kantor_id" yang dimiliki user yang sedang login.
+        // dengan "kantor_id" yang dimiliki oleh user yang sedang login.
         if (!user()->admin) {
             $query->where('kantor_id', user()->kantor_id);
         }

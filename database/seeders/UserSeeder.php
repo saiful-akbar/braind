@@ -18,15 +18,7 @@ class UserSeeder extends Seeder
                 'admin' => true,
                 'nama_lengkap' => 'Admin',
                 'email' => 'admin@gmail.com',
-            ],
-            [
-                'kantor' => 'Pusat',
-                'username' => 'guest',
-                'password' => bcrypt('guest123'),
-                'admin' => false,
-                'nama_lengkap' => 'Guest',
-                'email' => 'guest@gmail.com',
-            ],
+            ]
         ];
     }
 

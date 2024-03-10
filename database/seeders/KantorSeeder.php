@@ -14,6 +14,5 @@ class KantorSeeder extends Seeder
     public function run(): void
     {
         Kantor::create(['nama' => 'Pusat']);
-        Kantor::create(['nama' => 'Cabang']);
     }
 }
