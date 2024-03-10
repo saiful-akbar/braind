@@ -1,7 +1,6 @@
 import DateInput from "@/components/Input/DateInput";
 import SelectInput from "@/components/Input/SelectInput";
 import TextInput from "@/components/Input/TextInput";
-import TimeInput from "@/components/Input/TimeInput";
 import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { closeForm } from "@/redux/reducers/operasiAlatPemindaiReducer";
@@ -127,16 +126,6 @@ const ModalFormOperasiAlatPemindai = memo(() => {
   const handleDateInputChange = useCallback(
     (name, value) => {
       setData(name, dateFormat(value));
-    },
-    [setData]
-  );
-
-  /**
-   * fungsi untuk mengatasi ketika form time diisi
-   */
-  const handleTimeInputChange = useCallback(
-    (name, value) => {
-      setData(name, timeFormat(value));
     },
     [setData]
   );
@@ -377,28 +366,34 @@ const ModalFormOperasiAlatPemindai = memo(() => {
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <TimeInput
+            <TextInput
               fullWidth
-              label="Jam Oprasi"
-              value={dayjs(data.jam_operasi, "HH:mm:ss")}
+              required
+              type="text"
+              label="Jam Operasi"
+              name="jam_operasi"
+              id="jam_operasi"
+              value={formData.jam_operasi}
+              onChange={handleInputChange}
               disabled={processing}
               error={Boolean(errors.jam_operasi)}
               helperText={errors.jam_operasi}
-              onChange={(value) => handleTimeInputChange("jam_operasi", value)}
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <TimeInput
+            <TextInput
               fullWidth
+              required
+              type="text"
               label="Jam Pemindaian"
-              value={dayjs(data.jam_pemindaian, "HH:mm:ss")}
+              name="jam_pemindaian"
+              id="jam_pemindaian"
+              value={formData.jam_pemindaian}
+              onChange={handleInputChange}
               disabled={processing}
               error={Boolean(errors.jam_pemindaian)}
               helperText={errors.jam_pemindaian}
-              onChange={(value) =>
-                handleTimeInputChange("jam_pemindaian", value)
-              }
             />
           </Grid>
 

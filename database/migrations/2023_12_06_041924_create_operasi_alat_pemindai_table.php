@@ -37,8 +37,8 @@ return new class extends Migration
             $table->year('tahun_perolehan');
             $table->string('kondisi', 50);
             $table->string('lokasi_penempatan', 50);
-            $table->time('jam_operasi');
-            $table->time('jam_pemindaian');
+            $table->decimal('jam_operasi', 8, 2);
+            $table->decimal('jam_pemindaian', 8, 2);
             $table->smallInteger('jumlah_pemindaian')->unsigned();
             $table->string('hasil_keluaran')->nullable();
             $table->string('catatan')->nullable();

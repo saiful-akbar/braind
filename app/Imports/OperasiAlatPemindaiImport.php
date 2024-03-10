@@ -22,9 +22,11 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
      */
     public function prepareForValidation(array $data, int $index): array
     {
-        $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
-        $data['jam_operasi'] = Date::excelToDateTimeObject($data['jam_operasi'])->format('H:i:s');
-        $data['jam_pemindaian'] = Date::excelToDateTimeObject($data['jam_pemindaian'])->format('H:i:s');
+        $data['tanggal_input']  = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+        $data['ukuran']         = (string) $data['ukuran'];
+        $data['nomor_seri']     = (string) $data['nomor_seri'];
+        $data['hasil_keluaran'] = (string) $data['hasil_keluaran'];
+        $data['tampilan']       = ucfirst($data['tampilan']);
 
         return $data;
     }
@@ -43,18 +45,18 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
             'kantor_id'         => 'nullable|exists:kantor,id',
             'pemindai'          => 'required|string|max:30',
             'nama_alat'         => 'required|string|max:50',
-            'ukuran'            => 'required|string|numeric|max:50',
+            'ukuran'            => 'required|string|max:10',
             'merek'             => 'required|string|max:30',
             'tipe'              => 'required|string|max:20',
-            'nomor_seri'        => 'required|string|numeric|max:30',
-            'tampilan'          => 'required|string|in:tunggal,Tunggal,TUNGGAL,ganda,Ganda,GANDA',
+            'nomor_seri'        => 'required|string|max:30',
+            'tampilan'          => 'required|string|in:Tunggal,Ganda',
             'tahun_perolehan'   => "required|integer|digits:4|min:$minYear|max:$maxYear",
             'kondisi'           => 'required|string|max:50',
             'lokasi_penempatan' => 'required|string|max:50',
-            'jam_operasi'       => 'required|date_format:H:i:s',
-            'jam_pemindaian'    => 'required|date_format:H:i:s',
-            'jumlah_pemindaian' => 'required|numeric|min:0|max1000000',
-            'hasil_keluaran'    => 'required|string|numeric|max:250',
+            'jam_operasi'       => 'required|numeric|max:1000',
+            'jam_pemindaian'    => 'required|numeric|max:1000',
+            'jumlah_pemindaian' => 'required|numeric|min:0|max:1000000',
+            'hasil_keluaran'    => 'required|string|max:250',
             'catatan'           => 'required|string|max:250',
             'tanggal_input'     => 'nullable|date',
         ];
