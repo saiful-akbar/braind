@@ -12,8 +12,10 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Exports\Templates\PerusahaanHtHptlTemplateExport;
 use App\Http\Requests\PerusahaanHtHptl\PerusahaanHtHptlRequest;
 use App\Http\Requests\PerusahaanHtHptl\StorePerusahaanHtHptlRequest;
+use App\Http\Requests\PerusahaanHtHptl\TopFivePerusahaanHtHptlRequest;
 use App\Http\Requests\PerusahaanHtHptl\UpdatePerusahaanHtHptlRequest;
 use App\Models\PerusahaanHtHptl;
+use Illuminate\Http\JsonResponse;
 
 class PerusahaanHtHptlController extends Controller
 {
@@ -28,7 +30,7 @@ class PerusahaanHtHptlController extends Controller
         // Jika pada request tidak ada query string "start_period" dan "end_period
         // reqdirect ke halaman ini dengan menambahan query string
         // start_period = tanggal 01 pada bulan saat ini
-        // end_period = tanggal saat ini. 
+        // end_period = tanggal saat ini.
         if (is_null($startPeriod) || is_null($endPeriod)) {
             return to_route('perusahaan-hthptl', [
                 'start_period' => $request->query('start_period', date('Y-m-01')),
@@ -153,5 +155,18 @@ class PerusahaanHtHptlController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Perusahaan berhasil dipulihkan.'
         ]);
+    }
+
+    /**
+     * Ambil data 5 besar perusahaan HT HPTL
+     *
+     * @param TopFivePerusahaanHtHptlRequest $request
+     * @return JsonResponse
+     */
+    public function topFive(TopFivePerusahaanHtHptlRequest $request): JsonResponse
+    {
+        return $this->jsonResponse(
+            data: $request->read(),
+        );
     }
 }

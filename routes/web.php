@@ -216,6 +216,8 @@ Route::middleware('auth')->group(function (): void {
                 Route::post('/', 'import')->middleware('access:perusahaan-hthptl,create');
                 Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan-hthptl,create');
             });
+
+            Route::get('top-five', 'topFive')->name('.top-five');
         });
 
     /**
@@ -239,6 +241,8 @@ Route::middleware('auth')->group(function (): void {
                     Route::post('/', 'import')->middleware('access:perusahaan-mmea,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:perusahaan-mmea,create');
                 });
+
+            Route::get('top-five', 'topFive')->name('.top-five');
         });
 
     /**
@@ -312,6 +316,8 @@ Route::middleware('auth')->group(function (): void {
                     Route::post('/', 'import')->middleware('access:penerimaan,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:penerimaan,create');
                 });
+
+            Route::get('chart', 'chart')->name('.chart');
         });
 
     /**

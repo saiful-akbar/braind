@@ -9,11 +9,13 @@ use App\Exports\PenerimaanExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
 use App\Exports\Templates\PenerimaanTemplateExport;
+use App\Http\Requests\Penerimaan\ChartPenerimaanRequest;
 use App\Http\Requests\Penerimaan\PenerimaanRequest;
 use App\Http\Requests\Penerimaan\StorePenerimaanRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\Penerimaan\ImportPenerimaanRequest;
 use App\Http\Requests\Penerimaan\UpdatePenerimaanRequest;
+use Illuminate\Http\JsonResponse;
 
 class PenerimaanController extends Controller
 {
@@ -31,7 +33,7 @@ class PenerimaanController extends Controller
         // Jika pada request tidak ada query string "start_period" dan "end_period"
         // redirect ke halaman ini dengan menambahan query string
         // start_period = tanggal 01 pada bulan saat ini
-        // end_period = tanggal saat ini. 
+        // end_period = tanggal saat ini.
         if (is_null($startPeriod) || is_null($endPeriod)) {
             return to_route('penerimaan', [
                 'start_period' => $request->query('start_period', date('Y-m-01')),
@@ -50,7 +52,7 @@ class PenerimaanController extends Controller
     }
 
     /**
-     * Menambah data penerimaan baru ke database. 
+     * Menambah data penerimaan baru ke database.
      *
      * @param StorePenerimaanRequest $request
      * @return RedirectResponse
@@ -173,5 +175,18 @@ class PenerimaanController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Ambil data untuk chart penerimaan.
+     *
+     * @param ChartPenerimaanRequest $request
+     * @return JsonResponse
+     */
+    public function chart(ChartPenerimaanRequest $request)
+    {
+        return $this->jsonResponse(
+            data: $request->read()
+        );
     }
 }

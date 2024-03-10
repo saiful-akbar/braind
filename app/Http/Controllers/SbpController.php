@@ -188,6 +188,6 @@ class SbpController extends Controller
      */
     public function chart(ChartSbpRequest $request): JsonResponse
     {
-        return $this->jsonResponse(data: $request->getData());
+        return $this->jsonResponse(data: $request->read());
     }
 }

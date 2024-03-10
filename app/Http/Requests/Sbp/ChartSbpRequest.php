@@ -21,7 +21,7 @@ class ChartSbpRequest extends FormRequest
      *
      * @return array
      */
-    public function getData(): mixed
+    public function read(): mixed
     {
 
         // Ambil jumlah data pada kolom "jumlah", "tindak_lanjut" dan bulan

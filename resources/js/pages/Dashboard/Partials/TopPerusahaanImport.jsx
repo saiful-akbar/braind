@@ -16,28 +16,28 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 /**
- * Komponen untuk menampilkan 5 data perusahaan export terbesar.
+ * Komponen untuk menampilkan 5 data perusahaan import terbesar.
  *
  * @returns {React.ReactElement}
  */
-const TopPerusahaanExport = () => {
+const TopPerusahaanImport = () => {
   const dispatch = useDispatch();
 
   /**
    * state
    */
-  const [tabValue, setTabValue] = useState("peb");
+  const [tabValue, setTabValue] = useState("pib");
   const [data, setData] = useState([]);
 
   /**
-   * fungsi untuk request data 5 besar perusahaan export.
+   * fungsi untuk request data 5 besar perusahaan import.
    */
   const fetchData = useCallback(
-    async (by = "peb") => {
+    async (by = "pib") => {
       try {
         const response = await axios({
           method: "get",
-          url: route("perusahaan-export.top-five"),
+          url: route("perusahaan-import.top-five"),
           params: {
             by,
           },
@@ -53,12 +53,12 @@ const TopPerusahaanExport = () => {
         dispatch(
           openNotification({
             status: "error",
-            message: `${status} - Gagal mengambil data perusahaan export.`,
+            message: `${status} - Gagal mengambil data perusahaan import.`,
           })
         );
       }
     },
-    [dispatch]
+    [dispatch, setData]
   );
 
   /**
@@ -80,7 +80,7 @@ const TopPerusahaanExport = () => {
   );
 
   return (
-    <CardPaper title="5 Besar perusahaan export">
+    <CardPaper title="5 Besar perusahaan import">
       <CardContent>
         <TabContext value={tabValue}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -89,10 +89,9 @@ const TopPerusahaanExport = () => {
               variant="scrollable"
               indicatorColor="secondary"
             >
-              <Tab label="PEB" value="peb" />
-              <Tab label="Netto" value="netto" />
-              <Tab label="Devisa" value="devisa" />
-              <Tab label="Bea Keluar" value="bea_keluar" />
+              <Tab label="PIB" value="pib" />
+              <Tab label="Pembayaran" value="total_pembayaran" />
+              <Tab label="Bea Masuk" value="bea_masuk" />
             </TabList>
           </Box>
         </TabContext>
@@ -103,7 +102,7 @@ const TopPerusahaanExport = () => {
               {data.length <= 0 ? (
                 <TableRow>
                   <TableCell colSpan={3} align="center">
-                    Tidak ada data perusahaan export.
+                    Tidak ada data perusahaan import.
                   </TableCell>
                 </TableRow>
               ) : (
@@ -132,4 +131,4 @@ const TopPerusahaanExport = () => {
   );
 };
 
-export default TopPerusahaanExport;
+export default TopPerusahaanImport;

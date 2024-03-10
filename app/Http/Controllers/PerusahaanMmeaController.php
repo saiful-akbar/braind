@@ -10,8 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\PerusahaanMmea\PerusahaanMmeaRequest;
 use App\Http\Requests\PerusahaanMmea\StorePerusahaanMmeaRequest;
+use App\Http\Requests\PerusahaanMmea\TopFivePerusahaanMmeaRequest;
 use App\Http\Requests\PerusahaanMmea\UpdatePerusahaanMmeaRequest;
 use App\Models\PerusahaanMmea;
+use Illuminate\Http\JsonResponse;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -31,7 +33,7 @@ class PerusahaanMmeaController extends Controller
         // Jika pada request tidak ada query string "start_period" dan "end_period
         // reqdirect ke halaman ini dengan menambahan query string
         // start_period = tanggal 01 pada bulan saat ini
-        // end_period = tanggal saat ini. 
+        // end_period = tanggal saat ini.
         if (is_null($startPeriod) || is_null($endPeriod)) {
             return to_route('perusahaan-mmea', [
                 'start_period' => $request->query('start_period', date('Y-m-01')),
@@ -177,5 +179,18 @@ class PerusahaanMmeaController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Ambil data 5 besar perusahaan cukai MMEA.
+     *
+     * @param TopFivePerusahaanMmeaRequest $request
+     * @return JsonResponse
+     */
+    public function topFive(TopFivePerusahaanMmeaRequest $request): JsonResponse
+    {
+        return $this->jsonResponse(
+            data: $request->read()
+        );
     }
 }
