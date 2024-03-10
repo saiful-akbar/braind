@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
  */
 const TopPerusahaanImport = () => {
   const dispatch = useDispatch();
+  const currentYear = new Date().getFullYear();
 
   /**
    * state
@@ -80,7 +81,10 @@ const TopPerusahaanImport = () => {
   );
 
   return (
-    <CardPaper title="5 Besar perusahaan import">
+    <CardPaper
+      title="Perusahaan Import"
+      subheader={`Daftar 5 besar perusahaan import tahun ${currentYear}`}
+    >
       <CardContent>
         <TabContext value={tabValue}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

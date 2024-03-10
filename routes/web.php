@@ -20,6 +20,7 @@ use App\Http\Controllers\OperasiSenjataApiController;
 use App\Http\Controllers\OperasiAlatPemindaiController;
 use App\Http\Controllers\OperasiKapalPatroliController;
 use App\Http\Controllers\OperasiAlatTelekomunikasiController;
+use App\Http\Controllers\ProfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -479,5 +480,20 @@ Route::middleware('auth')->group(function (): void {
                     Route::post('/', 'import')->middleware('access:operasi-lainnya,create');
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:operasi-lainnya,create');
                 });
+        });
+
+    /**
+     * Profil
+     */
+    Route::controller(ProfilController::class)
+        ->name('profil')
+        ->prefix('/profil')
+        ->group(function (): void {
+            Route::get('/', 'index');
+            Route::patch('/', 'updateProfil')->name('.update-profil');
+            Route::patch('/alamat', 'updateAlamat')->name('.update-alamat');
+            Route::patch('/kontak', 'updateKontak')->name('.update-kontak');
+            Route::patch('/akun', 'updateAkun')->name('.update-akun');
+            Route::patch('/password', 'updatePassword')->name('.update-password');
         });
 });

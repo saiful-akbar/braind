@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
  */
 const TopPerusahaanHtHptl = () => {
   const dispatch = useDispatch();
+  const currentYear = new Date().getFullYear();
 
   /**
    * state
@@ -63,7 +64,10 @@ const TopPerusahaanHtHptl = () => {
   }, []);
 
   return (
-    <CardPaper title="5 Besar perusahaan MMEA">
+    <CardPaper
+      title="Perusahaan MMEA"
+      subheader={`Daftar 5 besar perusahaan MMEA tahun ${currentYear}`}
+    >
       <CardContent>
         <TableContainer>
           <Table size="small" className="nowrap">
@@ -80,7 +84,7 @@ const TopPerusahaanHtHptl = () => {
             <TableBody>
               {data.length <= 0 ? (
                 <TableRow>
-                  <TableCell colSpan={3} align="center">
+                  <TableCell colSpan={5} align="center">
                     Tidak ada data perusahaan HT HPTL.
                   </TableCell>
                 </TableRow>

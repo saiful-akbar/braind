@@ -1,6 +1,6 @@
 import { openSettings } from "@/redux/reducers/settingsReducer";
 import { openMobileSidebar } from "@/redux/reducers/sidebarReducer";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PersonIcon from "@mui/icons-material/Person";
@@ -56,6 +56,13 @@ const SidebarAccount = forwardRef((props, ref) => {
     dispatch(openSettings(true));
   };
 
+  // fungsi untuk membuka dialog settings
+  const goToProfile = () => {
+    setAnchorEl(null);
+    dispatch(openMobileSidebar(false));
+    router.get(route("profil"));
+  };
+
   return (
     <Box
       {...rest}
@@ -98,7 +105,7 @@ const SidebarAccount = forwardRef((props, ref) => {
             }}
           />
 
-          <Typography variant="h6" component="div" noWrap>
+          <Typography variant="subtitle1" component="div" noWrap>
             {user.nama_lengkap}
           </Typography>
         </Box>
@@ -132,7 +139,7 @@ const SidebarAccount = forwardRef((props, ref) => {
         }}
       >
         <MenuList dense>
-          <MenuItem>
+          <MenuItem onClick={goToProfile}>
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
