@@ -23,8 +23,13 @@ class OperasiSenjataApiImport implements ToModel, WithHeadingRow, WithValidation
     public function prepareForValidation(array $data, int $index): array
     {
         $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
-        $data['masa_berlaku'] = Date::excelToDateTimeObject($data['masa_berlaku'])->format('Y-m-d');
         $data['nomor_senjata'] = (string) $data['nomor_senjata'];
+
+        $types = ['integer', 'double', 'decimal', 'float'];
+
+        if (in_array(gettype($data['masa_berlaku']), $types)) {
+            $data['masa_berlaku'] = Date::excelToDateTimeObject($data['masa_berlaku'])->format('Y-m-d');
+        }
 
         return $data;
     }
