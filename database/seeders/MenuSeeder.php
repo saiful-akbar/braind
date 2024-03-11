@@ -129,7 +129,7 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::where('username', 'Admin')->first();
+        $admin = User::where('username', 'Kanwil')->first();
 
         DB::transaction(function () use ($admin): void {
             foreach ($this->data as $menuGroup) {

@@ -10,7 +10,6 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>ID Kantor</th>
                 <th>Nama Kantor</th>
                 <th>User ID</th>
                 <th>Username</th>
@@ -19,12 +18,12 @@
                 <th>Jenis Kelamin</th>
                 <th>Tanggal Lahir</th>
                 <th>Tempat Lahir</th>
-                <th>Telepon</th>
-                <th>Email</th>
                 <th>Negara</th>
                 <th>Kota</th>
                 <th>Kode Pos</th>
                 <th>Alamat</th>
+                <th>Telepon</th>
+                <th>Email</th>
             </tr>
         </thead>
 
@@ -32,7 +31,6 @@
             @foreach ($users as $user)
                 <tr>
                     <th>{{ $loop->iteration }}</th>
-                    <th>{{ $user->kantor_id }}</th>
                     <th>{{ $user->kantor_nama }}</th>
                     <th>{{ $user->id }}</th>
                     <th>{{ $user->username }}</th>
