@@ -83,11 +83,14 @@
 
 ## 3. Note
 
-1. Buat seeder untuk kantor dan user berdasarkan data dari excel.
-2. Peta kerawanan kantor merupakan galeri foto dan video dari kantor.
-3. video yang di upload merupakan link dari youtube.
-4. tambahan fitu report: laporan dalam bentuk pdf untuk setiap data atau menu.
-5. tambahkan select option tahun pada chart dan 5 besar perusahaan di halaman dashboard
+- Buat seeder untuk kantor dan user berdasarkan data dari excel.
+- Peta kerawanan kantor merupakan galeri foto dan video dari kantor.
+- video yang di upload merupakan link dari youtube.
+- tambahan fitu report: laporan dalam bentuk pdf untuk setiap data atau menu.
+- tambahkan select option tahun pada chart dan data 5 besar perusahaan di halaman dashboard
+- Tambahkan tab pada graph SBP di halaman dashboard
+  - Tab 1: Menampilkan data SBP setiap bulannya dalam setahun (total semua kantor).
+  - Tab 2: Menampilkan data SBP setiap kantor dalam setahun.
 
 # 4. Perbaikan
 
