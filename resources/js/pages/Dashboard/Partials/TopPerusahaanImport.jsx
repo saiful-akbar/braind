@@ -84,6 +84,9 @@ const TopPerusahaanImport = () => {
     <CardPaper
       title="Perusahaan Import"
       subheader={`Daftar 5 besar perusahaan import tahun ${currentYear}`}
+      sx={{
+        minHeight: 250,
+      }}
     >
       <CardContent>
         <TabContext value={tabValue}>

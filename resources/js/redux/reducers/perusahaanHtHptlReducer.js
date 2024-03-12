@@ -15,7 +15,7 @@ const perusahaanHtHptlSlice = createSlice({
       jenis_bkc: "",
       jumlah: "",
       jumlah_cukai: "",
-      tanggal_input: "",
+      tanggal_input: null,
     },
   },
 
@@ -32,7 +32,7 @@ const perusahaanHtHptlSlice = createSlice({
         jenis_bkc: "",
         jumlah: "",
         jumlah_cukai: "",
-        tanggal_input: "",
+        tanggal_input: null,
       };
     },
 

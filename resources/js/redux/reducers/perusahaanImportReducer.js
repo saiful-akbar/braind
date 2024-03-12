@@ -19,7 +19,7 @@ export const perusahaanImportSlice = createSlice({
         bruto: "",
         total_pembayaran: "",
         bea_masuk: "",
-        tanggal_input: "",
+        tanggal_input: null,
       },
     },
 
@@ -57,7 +57,7 @@ export const perusahaanImportSlice = createSlice({
         bruto: "",
         total_pembayaran: "",
         bea_masuk: "",
-        tanggal_input: "",
+        tanggal_input: null,
       };
     },
 

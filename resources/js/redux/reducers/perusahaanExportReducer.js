@@ -20,7 +20,7 @@ export const perusahaanExportSlice = createSlice({
         bea_keluar: "",
         jumlah_liter: "",
         jumlah_cukai: "",
-        tanggal_input: "",
+        tanggal_input: null,
       },
     },
 
@@ -59,7 +59,7 @@ export const perusahaanExportSlice = createSlice({
         bea_keluar: "",
         jumlah_liter: "",
         jumlah_cukai: "",
-        tanggal_input: "",
+        tanggal_input: null,
       };
     },
 

@@ -18,7 +18,7 @@ export const pengawasanSlice = createSlice({
         total_kerugian: "",
         potensi_kerugian: "",
         tindak_lanjut: "",
-        tanggal_input: "",
+        tanggal_input: null,
       },
     },
 
@@ -57,7 +57,7 @@ export const pengawasanSlice = createSlice({
         total_kerugian: "",
         potensi_kerugian: "",
         tindak_lanjut: "",
-        tanggal_input: "",
+        tanggal_input: null,
       };
     },
 

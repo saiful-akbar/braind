@@ -26,7 +26,7 @@ export const operasiAlatPemindaiSlice = createSlice({
         jumlah_pemindaian: "",
         hasil_keluaran: "",
         catatan: "",
-        tanggal_input: "",
+        tanggal_input: null,
       },
     },
 
@@ -71,7 +71,7 @@ export const operasiAlatPemindaiSlice = createSlice({
         jumlah_pemindaian: "",
         hasil_keluaran: "",
         catatan: "",
-        tanggal_input: "",
+        tanggal_input: null,
       };
     },
 

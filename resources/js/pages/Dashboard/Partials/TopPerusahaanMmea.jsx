@@ -67,6 +67,9 @@ const TopPerusahaanHtHptl = () => {
     <CardPaper
       title="Perusahaan MMEA"
       subheader={`Daftar 5 besar perusahaan MMEA tahun ${currentYear}`}
+      sx={{
+        minHeight: 250,
+      }}
     >
       <CardContent>
         <TableContainer>

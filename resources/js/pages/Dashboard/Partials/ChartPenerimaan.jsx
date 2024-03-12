@@ -93,7 +93,7 @@ export default function ChartPenerimaan() {
       <CardContent>
         <LineChart
           height={500}
-          margin={{ left: 100, top: 100 }}
+          margin={{ left: 100, top: 200 }}
           series={series}
           xAxis={[{ scaleType: "point", data: xLabels }]}
         />

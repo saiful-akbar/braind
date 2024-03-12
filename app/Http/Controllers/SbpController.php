@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Sbp;
 use Inertia\Response;
 use App\Exports\SbpExport;
-use App\Exports\Templates\SbpTemplateExport;
-use App\Http\Requests\Sbp\ChartSbpRequest;
+use App\Imports\SbpImport;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Sbp\SbpRequest;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Sbp\ChartSbpRequest;
 use App\Http\Requests\Sbp\StoreSbpRequest;
 use App\Http\Requests\Sbp\UpdateSbpRequest;
-use App\Imports\SbpImport;
-use Illuminate\Http\JsonResponse;
+use App\Exports\Templates\SbpTemplateExport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SbpController extends Controller
@@ -189,5 +190,21 @@ class SbpController extends Controller
     public function chart(ChartSbpRequest $request): JsonResponse
     {
         return $this->jsonResponse(data: $request->read());
+    }
+
+    /**
+     * Mengambil tahun untuk chart dashboard.
+     *
+     * @return JsonResponse
+     */
+    public function yearsForChart(): JsonResponse
+    {
+        $years = Sbp::select(
+            DB::raw('date_format(tanggal_input, "%Y") AS tahun')
+        )
+            ->groupBy(DB::raw('date_format(tanggal_input, "%Y")'))
+            ->get();
+
+        return $this->jsonResponse(data: $years);
     }
 }

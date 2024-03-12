@@ -17,12 +17,30 @@ class ChartSbpRequest extends FormRequest
     }
 
     /**
+     * Aturan validasi
+     *
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            'tahun' => 'nullable|date_format:Y'
+        ];
+    }
+
+    /**
      * ambil data untuk chart
      *
      * @return array
      */
     public function read(): mixed
     {
+        // Ambil data tahun yang di-request
+        if (!empty($this->tahun)) {
+            $year = $this->tahun;
+        } else {
+            $year = date('Y');
+        }
 
         // Ambil jumlah data pada kolom "jumlah", "tindak_lanjut" dan bulan
         // dari "tanggal_input" berdasarkan tanggal input yang sesuai dengan tahun saat ini.
@@ -39,15 +57,14 @@ class ChartSbpRequest extends FormRequest
             $query->where('kantor_id', '=', user()->kantor_id);
         }
 
-        // filter data berdasarkan tahun saat ini.
-        $currentYear = date('Y');
-        $query->where('tanggal_input', 'like', "$currentYear%")
+        // filter data berdasarkan tahun yang di request.
+        $query->where('tanggal_input', 'like', "$year%")
             ->groupBy(DB::raw('DATE_FORMAT(tanggal_input, "%c")'));
 
         // Buat variable $result dengan nilai jumlah dan tindak lanjut
         // yang berisi data array kosong.
         $result = [
-            'tahun' => (int) $currentYear,
+            'tahun' => (int) $year,
             'jumlah' => [],
             'tindak_lanjut' => [],
         ];

@@ -17,7 +17,7 @@ export const penerimaanSlice = createSlice({
         realisasi_bea_keluar: "",
         target_cukai: "",
         realisasi_cukai: "",
-        tanggal_input: "",
+        tanggal_input: null,
       },
     },
 
@@ -53,7 +53,7 @@ export const penerimaanSlice = createSlice({
         realisasi_bea_keluar: "",
         target_cukai: "",
         realisasi_cukai: "",
-        tanggal_input: "",
+        tanggal_input: null,
       };
     },
 

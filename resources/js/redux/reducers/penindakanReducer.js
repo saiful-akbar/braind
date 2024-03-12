@@ -20,7 +20,7 @@ export const penindakanSlice = createSlice({
         perkiraan_nilai_barang: "",
         potensi_kurang_bayar: "",
         tindak_lanjut: "",
-        tanggal_input: "",
+        tanggal_input: null,
       },
     },
 
@@ -59,7 +59,7 @@ export const penindakanSlice = createSlice({
         perkiraan_nilai_barang: "",
         potensi_kurang_bayar: "",
         tindak_lanjut: "",
-        tanggal_input: "",
+        tanggal_input: null,
       };
     },
 

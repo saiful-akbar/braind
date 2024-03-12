@@ -18,7 +18,7 @@ export const operasiKapalPatroliSlice = createSlice({
         penerbit_spb: "",
         jumlah_hari: "",
         catatan: "",
-        tanggal_input: "",
+        tanggal_input: null,
       },
     },
 
@@ -55,7 +55,7 @@ export const operasiKapalPatroliSlice = createSlice({
         penerbit_spb: "",
         jumlah_hari: "",
         catatan: "",
-        tanggal_input: "",
+        tanggal_input: null,
       };
     },
 

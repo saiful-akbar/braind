@@ -21,7 +21,7 @@ export const operasiSenjataApiSlice = createSlice({
         kondisi: "",
         jumlah_amunisi: "",
         catatan: "",
-        tanggal_input: "",
+        tanggal_input: null,
       },
     },
 
@@ -61,7 +61,7 @@ export const operasiSenjataApiSlice = createSlice({
         kondisi: "",
         jumlah_amunisi: "",
         catatan: "",
-        tanggal_input: "",
+        tanggal_input: null,
       };
     },
 

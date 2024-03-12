@@ -16,7 +16,7 @@ export const perusahaanMmeaSlice = createSlice({
         jumlah_dokumen: "",
         jumlah_liter: "",
         jumlah_cukai: "",
-        tanggal_input: "",
+        tanggal_input: null,
       },
     },
 

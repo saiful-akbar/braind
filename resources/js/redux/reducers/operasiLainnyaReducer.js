@@ -17,7 +17,7 @@ export const operasiLainnyaSlice = createSlice({
         lokasi_penempatan: "",
         kondisi: "",
         catatan: "",
-        tanggal_input: "",
+        tanggal_input: null,
       },
     },
 
@@ -53,7 +53,7 @@ export const operasiLainnyaSlice = createSlice({
         lokasi_penempatan: "",
         kondisi: "",
         catatan: "",
-        tanggal_input: "",
+        tanggal_input: null,
       };
     },
 

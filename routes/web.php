@@ -194,6 +194,7 @@ Route::middleware('auth')->group(function (): void {
                 ->prefix('/chart')
                 ->group(function (): void {
                     Route::get('/', 'chart');
+                    Route::get('/years', 'yearsForChart')->name('.years');
                 });
         });
 
