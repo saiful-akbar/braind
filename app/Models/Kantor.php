@@ -36,4 +36,14 @@ class Kantor extends Model
     {
         return $this->hasMany(GaleriKantor::class, 'kantor_id', 'id');
     }
+
+    /**
+     * Get all of the sbp for the Kantor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sbp(): HasMany
+    {
+        return $this->hasMany(Sbp::class, 'kantor_id', 'id');
+    }
 }

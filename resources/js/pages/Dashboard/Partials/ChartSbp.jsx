@@ -1,7 +1,15 @@
 import CardPaper from "@/components/CardPaper";
 import SelectInput from "@/components/Input/SelectInput";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import { CardContent, Divider, Grid, Typography } from "@mui/material";
+import { TabContext, TabList } from "@mui/lab";
+import {
+  Box,
+  CardContent,
+  Divider,
+  Grid,
+  Tab,
+  Typography,
+} from "@mui/material";
 import { BarChart } from "@mui/x-charts";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -13,66 +21,41 @@ const ChartSbp = () => {
   const dispatch = useDispatch();
   const date = new Date();
   const currentYear = date.getFullYear();
-  const xLabels = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Okc",
-    "Nov",
-    "Dec",
-  ];
 
   /**
    * state
    */
-
-  /**
-   * state
-   */
+  const [xLabels, setXLabels] = useState([]);
+  const [series, setSeries] = useState([]);
+  const [tabValue, setTabValue] = useState("month");
   const [year, setYear] = useState(currentYear);
   const [yearOptions, setYearOptions] = useState([
-    {
-      label: currentYear,
-      value: currentYear,
-    },
+    { label: currentYear, value: currentYear },
   ]);
-
-  const [series, setSeries] = useState({
-    jumlah: [...new Array(12)].map(() => 0),
-    tindakLanjut: [...new Array(12)].map(() => 0),
-  });
 
   /**
    * fungsi untuk request data chart sbp
    */
   const fetchData = useCallback(
-    async (tahun) => {
+    async (year = currentYear, by = tabValue) => {
       try {
         const response = await axios({
           method: "get",
           url: route("sbp.chart"),
           responseType: "json",
           params: {
-            tahun,
+            by,
+            year,
           },
         });
 
         if (response.status === 200) {
           const { data } = response.data;
 
-          setSeries({
-            jumlah: data.jumlah,
-            tindakLanjut: data.tindak_lanjut,
-          });
+          setSeries(data.series);
+          setXLabels(data.x_labels);
         }
       } catch (error) {
-        console.log(error);
         dispatch(
           openNotification({
             status: "error",
@@ -81,14 +64,14 @@ const ChartSbp = () => {
         );
       }
     },
-    [setSeries, dispatch]
+    [setSeries, setXLabels, dispatch]
   );
 
   /**
    * fetch data sbp
    */
   useEffect(() => {
-    fetchData(currentYear);
+    fetchData(currentYear, tabValue);
   }, []);
 
   /**
@@ -133,9 +116,20 @@ const ChartSbp = () => {
   const handleInputChange = useCallback(
     (e) => {
       setYear(e.target.value);
-      fetchData(e.target.value);
+      fetchData(e.target.value, tabValue);
     },
-    [fetchData, setYear]
+    [fetchData, setYear, tabValue]
+  );
+
+  /**
+   * fungsi untuk menangani kerika tab ditubah
+   */
+  const handleTabChange = useCallback(
+    (event, newTabValue) => {
+      setTabValue(newTabValue);
+      fetchData(year, newTabValue);
+    },
+    [setTabValue, year, fetchData]
   );
 
   return (
@@ -158,31 +152,26 @@ const ChartSbp = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <Divider />
-          </Grid>
+            <TabContext value={tabValue}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <TabList
+                  variant="fullWidth"
+                  onChange={handleTabChange}
+                  indicatorColor="secondary"
+                >
+                  <Tab label="By Month" value="month" />
+                  <Tab label="By Kantor" value="kantor" />
+                </TabList>
+              </Box>
+            </TabContext>
 
-          <Grid item xs={12}>
-            <BarChart
-              height={300}
-              series={[
-                {
-                  data: series.jumlah,
-                  label: "Jumlah",
-                  id: "jumlah",
-                },
-                {
-                  data: series.tindakLanjut,
-                  label: "Tindak Lanjut",
-                  id: "tindakLanjut",
-                },
-              ]}
-              xAxis={[
-                {
-                  data: xLabels,
-                  scaleType: "band",
-                },
-              ]}
-            />
+            <Box sx={{ mt: 3 }}>
+              <BarChart
+                height={300}
+                series={series}
+                xAxis={[{ data: xLabels, scaleType: "band" }]}
+              />
+            </Box>
           </Grid>
         </Grid>
       </CardContent>

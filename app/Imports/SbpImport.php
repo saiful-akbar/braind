@@ -22,7 +22,9 @@ class SbpImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function prepareForValidation(array $data, int $index): array
     {
-        $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+        if (gettype($data['tanggal_input']) == 'integer') {
+            $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+        }
 
         return $data;
     }
