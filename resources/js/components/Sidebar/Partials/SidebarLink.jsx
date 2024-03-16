@@ -1,9 +1,7 @@
 import { openMobileSidebar } from "@/redux/reducers/sidebarReducer";
 import { Link } from "@inertiajs/react";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CircleIcon from "@mui/icons-material/Circle";
 import {
-  Icon,
   ListItem,
   ListItemButton,
   ListItemIcon,
@@ -24,12 +22,19 @@ const SidebarLink = (props) => {
   const { name, icon, url, route: routeName, ...rest } = props;
   const dispatch = useDispatch();
 
-  // fungsi untuk menutup mobile sidebar
+  /**
+   * fungsi untuk menutup mobile sidebar
+   */
   const handleCloseMobileSidebar = () => {
     dispatch(openMobileSidebar(false));
   };
 
-  // fungsi untuk menandakan apakah link aktif atau tidak.
+  /**
+   * fungsi untuk menandakan apakah link aktif atau tidak.
+   *
+   * @param {string} routeName
+   * @returns {string}
+   */
   const isActive = (routeName) => route().current(`${routeName}*`);
 
   return (
@@ -61,8 +66,8 @@ const SidebarLink = (props) => {
           >
             <CircleIcon
               sx={{
-                fontSize: isActive(routeName) ? 15 : 5,
-                ml: isActive(routeName) ? -0.6 : 0,
+                fontSize: isActive(routeName) ? 10 : 5,
+                ml: isActive(routeName) ? -0.3 : 0,
               }}
             />
           </ListItemIcon>
