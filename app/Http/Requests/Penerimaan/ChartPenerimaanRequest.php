@@ -17,13 +17,28 @@ class ChartPenerimaanRequest extends FormRequest
     }
 
     /**
+     * Aturan validasi
+     *
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            'year' => 'nullable|date_format:Y',
+            'month' => 'nullable|date_format:m',
+        ];
+    }
+
+    /**
      * ambil data penerimaan untuk chart pada dashboard.
      *
      * @return array
      */
     public function read(): array
     {
-        $currentYear = date('Y');
+        $year = !empty($this->year) ? $this->year : date('Y');
+        $month = !empty($this->month) ? $this->month : date('m');
+        $date = "{$year}-{$month}";
 
         // select data peenrimaan berdasarkan tahun saat ini.
         $query = Penerimaan::select(
@@ -33,92 +48,76 @@ class ChartPenerimaanRequest extends FormRequest
             DB::raw('sum(realisasi_bea_masuk) as realisasi_bea_masuk'),
             DB::raw('sum(realisasi_bea_keluar) as realisasi_bea_keluar'),
             DB::raw('sum(realisasi_cukai) as realisasi_cukai'),
-            DB::raw('date_format(tanggal_input, "%c") AS bulan')
-        )->where('tanggal_input', 'like', "$currentYear%");
+        );
 
-        // periksa jika user bukan sebagai admin, ambil data
-        // berdasarkan "kantor_id" yang sesuai dengan "kantor_id"
-        // yang dimiliki user.
+        // Jika user bukan sebagai admin, tampilkan hanya data
+        // adengan "kantor_id" yang sama yang dimiliki user.
         if (!user()->admin) {
             $query->where('kantor_id', user()->kantor_id);
         }
 
-        // simpan hasil query.
-        $data = $query->groupBy(DB::raw('date_format(tanggal_input, "%c")'))->get();
+        // filter data berdasarkan tahun dan bulan yang di request
+        $query->where('tanggal_input', 'like', "{$date}%");
 
         // buat blueprint untuk dataset grafik
-        $dataset = [
-            [
-                'column' => 'target_bea_masuk',
-                'label' => 'Target Bea Masuk',
-                'data' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ],
-            [
-                'column' => 'target_bea_keluar',
-                'label' => 'Target Bea Keluar',
-                'data' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ],
-            [
-                'column' => 'target_cukai',
-                'label' => 'Target Cukai',
-                'data' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ],
-            [
-                'column' => 'realisasi_bea_masuk',
-                'label' => 'Realisasi Bea Masuk',
-                'data' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ],
-            [
-                'column' => 'realisasi_bea_keluar',
-                'label' => 'Realisasi Bea Keluar',
-                'data' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ],
-            [
-                'column' => 'realisasi_cukai',
-                'label' => 'Realisasi Cukai',
-                'data' => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ],
+        $data = [
+            'series' => [],
+            'x_labels' => [
+                'Target Bea Masuk',
+                'Target Bea Keluar',
+                'Target Cukai',
+                'Realisasi Bea Masuk',
+                'Realisasi Bea Keluar',
+                'Realisasi Cukai',
+            ]
         ];
 
-        $result = $dataset;
-
-        // isikan $result dengan data hasil query sesuai dengan posisi bulannya.
-        foreach ($data as $penerimaan) {
-            foreach ($dataset as $key => $value) {
-                switch ($value['column']) {
-                    case 'target_bea_masuk':
-                        $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->target_bea_masuk;
-                        break;
-
-                    case 'target_bea_keluar':
-                        $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->target_bea_keluar;
-                        break;
-
-                    case 'target_cukai':
-                        $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->target_cukai;
-                        break;
-
-                    case 'realisasi_bea_masuk':
-                        $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->realisasi_bea_masuk;
-                        break;
-
-                    case 'realisasi_bea_keluar':
-                        $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->realisasi_bea_keluar;
-                        break;
-
-                    case 'realisasi_cukai':
-                        $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->realisasi_cukai;
-                        break;
-
-                    default:
-                        $result[$key]['data'][(int) $penerimaan->bulan - 1] = 0;
-                        break;
-                }
-
-                unset($result[$key]['column']);
-            }
+        foreach ($query->get() as $key => $value) {
+            $data['series'][0]['data'][0] = (float) $value->target_bea_masuk;
+            $data['series'][0]['data'][1] = (float) $value->target_bea_keluar;
+            $data['series'][0]['data'][2] = (float) $value->target_cukai;
+            $data['series'][0]['data'][3] = (float) $value->realisasi_bea_masuk;
+            $data['series'][0]['data'][4] = (float) $value->realisasi_bea_keluar;
+            $data['series'][0]['data'][5] = (float) $value->realisasi_cukai;
         }
 
-        return $result;
+        return $data;
+
+        // isikan $result dengan data hasil query sesuai dengan posisi bulannya.
+        // foreach ($data as $penerimaan) {
+        //     foreach ($dataset as $key => $value) {
+        //         switch ($value['column']) {
+        //             case 'target_bea_masuk':
+        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->target_bea_masuk;
+        //                 break;
+
+        //             case 'target_bea_keluar':
+        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->target_bea_keluar;
+        //                 break;
+
+        //             case 'target_cukai':
+        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->target_cukai;
+        //                 break;
+
+        //             case 'realisasi_bea_masuk':
+        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->realisasi_bea_masuk;
+        //                 break;
+
+        //             case 'realisasi_bea_keluar':
+        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->realisasi_bea_keluar;
+        //                 break;
+
+        //             case 'realisasi_cukai':
+        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->realisasi_cukai;
+        //                 break;
+
+        //             default:
+        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = 0;
+        //                 break;
+        //         }
+
+        //         unset($result[$key]['column']);
+        //     }
+        // }
     }
 }

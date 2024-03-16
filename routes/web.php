@@ -71,6 +71,19 @@ Route::middleware('auth')->group(function (): void {
         });
 
     /**
+     * Profil kantor
+     */
+    Route::get('/profil-kantor', [DashboardController::class, 'index'])
+        ->name('profil-kantor')
+        ->middleware('access:profil-kantor,read');
+
+    /**
+     * Galeri kantor
+     */
+    Route::get('/galeri-kantor', [DashboardController::class, 'index'])
+        ->name('galeri-kantor')
+        ->middleware('access:galeri-kantor,read');
+    /**
      * Master division (kanwil)
      */
     Route::controller(KantorController::class)
@@ -319,7 +332,12 @@ Route::middleware('auth')->group(function (): void {
                     Route::get('/template', 'downloadTemplate')->name('.template')->middleware('access:penerimaan,create');
                 });
 
-            Route::get('chart', 'chart')->name('.chart');
+            Route::name('.chart')
+                ->prefix('/chart')
+                ->group(function (): void {
+                    Route::get('/', 'chart');
+                    Route::get('/years', 'yearsForChart')->name('.years');
+                });
         });
 
     /**

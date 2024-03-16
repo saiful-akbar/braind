@@ -66,10 +66,10 @@ function Sidebar() {
         PaperProps={{
           sx: {
             boxSizing: "border-box",
-            backgroundColor: "background.default",
             width: sidebar.width,
             border: 0,
             borderRadius: 0,
+            backgroundColor: "background.default",
           },
         }}
         sx={{

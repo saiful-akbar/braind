@@ -13,6 +13,21 @@ class MenuSeeder extends Seeder
 {
     private array $data = [
         [
+            'nama' => 'Kantor',
+            'sub_menu' => [
+                [
+                    'nama' => 'Profil',
+                    'url' => '/profil-kantor',
+                    'route' => 'profil-kantor',
+                ],
+                [
+                    'nama' => 'Galeri',
+                    'url' => '/galeri-kantor',
+                    'route' => 'galeri-kantor',
+                ],
+            ]
+        ],
+        [
             'nama' => 'Data Master',
             'sub_menu' => [
                 [

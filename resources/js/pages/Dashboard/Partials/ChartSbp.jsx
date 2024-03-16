@@ -15,6 +15,60 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 /**
+ * month options
+ */
+const monthOptions = [
+  {
+    label: "Januari",
+    value: "01",
+  },
+  {
+    label: "Februari",
+    value: "02",
+  },
+  {
+    label: "Maret",
+    value: "03",
+  },
+  {
+    label: "April",
+    value: "04",
+  },
+  {
+    label: "Mei",
+    value: "05",
+  },
+  {
+    label: "Juni",
+    value: "06",
+  },
+  {
+    label: "Juli",
+    value: "07",
+  },
+  {
+    label: "Agustus",
+    value: "08",
+  },
+  {
+    label: "September",
+    value: "09",
+  },
+  {
+    label: "Oktober",
+    value: "10",
+  },
+  {
+    label: "November",
+    value: "11",
+  },
+  {
+    label: "Desember",
+    value: "12",
+  },
+];
+
+/**
  * Chart SBP
  */
 const ChartSbp = () => {
@@ -23,30 +77,47 @@ const ChartSbp = () => {
   const currentYear = date.getFullYear();
 
   /**
+   * fungsi untuk mengambil bulan saat ini.
+   */
+  const currentMonth = useCallback(() => {
+    const month = date.getMonth() + 1;
+
+    if (month < 10) {
+      return `0${month}`;
+    }
+
+    return month;
+  }, [date]);
+
+  /**
    * state
    */
   const [xLabels, setXLabels] = useState([]);
   const [series, setSeries] = useState([]);
-  const [tabValue, setTabValue] = useState("month");
-  const [year, setYear] = useState(currentYear);
   const [yearOptions, setYearOptions] = useState([
-    { label: currentYear, value: currentYear },
+    {
+      label: currentYear,
+      value: currentYear,
+    },
   ]);
+
+  const [query, setQuery] = useState({
+    tab: "kantor",
+    year: currentYear,
+    month: currentMonth(),
+  });
 
   /**
    * fungsi untuk request data chart sbp
    */
   const fetchData = useCallback(
-    async (year = currentYear, by = tabValue) => {
+    async (parameters) => {
       try {
         const response = await axios({
           method: "get",
           url: route("sbp.chart"),
           responseType: "json",
-          params: {
-            by,
-            year,
-          },
+          params: parameters,
         });
 
         if (response.status === 200) {
@@ -71,7 +142,7 @@ const ChartSbp = () => {
    * fetch data sbp
    */
   useEffect(() => {
-    fetchData(currentYear, tabValue);
+    fetchData(query);
   }, []);
 
   /**
@@ -86,8 +157,10 @@ const ChartSbp = () => {
           responseType: "json",
         });
 
-        if (response.status === 200) {
-          const { data } = response.data;
+        const { status } = response;
+        const { data } = response.data;
+
+        if (status === 200 && data.length > 0) {
           setYearOptions(
             data.map((d) => ({
               label: d.tahun,
@@ -115,10 +188,19 @@ const ChartSbp = () => {
    */
   const handleInputChange = useCallback(
     (e) => {
-      setYear(e.target.value);
-      fetchData(e.target.value, tabValue);
+      const { name, value } = e.target;
+
+      setQuery((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+
+      fetchData({
+        ...query,
+        [name]: value,
+      });
     },
-    [fetchData, setYear, tabValue]
+    [fetchData, setQuery, query]
   );
 
   /**
@@ -126,52 +208,83 @@ const ChartSbp = () => {
    */
   const handleTabChange = useCallback(
     (event, newTabValue) => {
-      setTabValue(newTabValue);
-      fetchData(year, newTabValue);
+      setQuery((prevState) => ({
+        ...prevState,
+        tab: newTabValue,
+      }));
+
+      fetchData({
+        ...query,
+        tab: newTabValue,
+      });
     },
-    [setTabValue, year, fetchData]
+    [setQuery, fetchData, query]
   );
 
   return (
     <CardPaper>
       <CardContent>
-        <Grid container spacing={3} justifyContent="space-between">
+        <Grid
+          container
+          spacing={3}
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Grid item xs={12} md={6}>
-            <Typography variant="h6">Grafik SPB</Typography>
+            <Typography variant="h6" component="div">
+              Grafik SBP
+            </Typography>
           </Grid>
 
-          <Grid item xs={12} md={4}>
-            <SelectInput
-              fullWidth
-              size="small"
-              label="Tahun"
-              items={yearOptions}
-              value={year}
-              onChange={(e) => handleInputChange(e)}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TabContext value={tabValue}>
+          <Grid item xs={12} md={6}>
+            <TabContext value={query.tab}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList
                   variant="fullWidth"
-                  onChange={handleTabChange}
                   indicatorColor="secondary"
+                  onChange={handleTabChange}
                 >
-                  <Tab label="By Month" value="month" />
-                  <Tab label="By Kantor" value="kantor" />
+                  <Tab label="Kantor" value="kantor" />
+                  <Tab label="Bulanan" value="monthly" />
                 </TabList>
               </Box>
             </TabContext>
+          </Grid>
 
-            <Box sx={{ mt: 3 }}>
+          <Grid item xs={12} container spacing={3} justifyContent="flex-end">
+            <Grid item md={6} xs={12}>
+              <SelectInput
+                fullWidth
+                size="small"
+                label="Tahun"
+                name="year"
+                items={yearOptions}
+                value={query.year}
+                onChange={(e) => handleInputChange(e)}
+              />
+            </Grid>
+
+            {query.tab === "kantor" && (
+              <Grid item md={6} xs={12}>
+                <SelectInput
+                  fullWidth
+                  size="small"
+                  label="Bulan"
+                  name="month"
+                  items={monthOptions}
+                  value={query.month}
+                  onChange={(e) => handleInputChange(e)}
+                />
+              </Grid>
+            )}
+
+            <Grid item xs={12}>
               <BarChart
-                height={300}
+                height={350}
                 series={series}
                 xAxis={[{ data: xLabels, scaleType: "band" }]}
               />
-            </Box>
+            </Grid>
           </Grid>
         </Grid>
       </CardContent>

@@ -2,7 +2,7 @@ import React from "react";
 import GuestLayout from "@/layouts/GuestLayout";
 import { Grid } from "@mui/material";
 import FormLogin from "./Partials/FormLogin";
-import bgLogin from "@/assets/images/login.webp";
+import loginCover from "@/assets/images/login_cover.jpg";
 
 /**
  * Halaman login
@@ -15,7 +15,7 @@ const Login = () => {
       sx={{
         minHeight: "100vh",
         width: "100%",
-        backgroundImage: `url(${bgLogin})`,
+        backgroundImage: `url(${loginCover})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -23,6 +23,7 @@ const Login = () => {
     >
       <Grid
         item
+        order={{ md: 2, xs: 1 }}
         lg={5}
         md={6}
         xs={12}
@@ -42,8 +43,8 @@ const Login = () => {
             md: "none",
             xs:
               theme.palette.mode === "dark"
-                ? "linear-gradient(to right bottom, rgba(22, 28, 36, 0.8), rgba(22, 28, 36, 1))"
-                : "linear-gradient(to right bottom, rgba(244, 246, 248, 0.8), rgba(244, 246, 248, 1))",
+                ? "linear-gradient(to right bottom, rgba(22, 28, 36, 0.9), rgba(22, 28, 36, 1))"
+                : "linear-gradient(to right bottom, rgba(244, 246, 248, 0.9), rgba(244, 246, 248, 1))",
           },
         })}
       >
@@ -52,6 +53,7 @@ const Login = () => {
 
       <Grid
         item
+        order={{ md: 1, xs: 2 }}
         lg={7}
         md={6}
         xs={0}
@@ -64,8 +66,8 @@ const Login = () => {
             height: "100%",
             backgroundImage: (theme) => {
               return theme.palette.mode === "dark"
-                ? "linear-gradient(to left, rgba(22, 28, 36, 0.6), rgba(22, 28, 36, 1))"
-                : "linear-gradient(to left, rgba(244, 246, 248, 0.6), rgba(244, 246, 248, 1))";
+                ? "linear-gradient(to right, rgba(22, 28, 36, 0.6), rgba(22, 28, 36, 1))"
+                : "linear-gradient(to right, rgba(244, 246, 248, 0.6), rgba(244, 246, 248, 1))";
             },
           },
         }}

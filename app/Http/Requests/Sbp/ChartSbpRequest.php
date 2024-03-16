@@ -4,8 +4,6 @@ namespace App\Http\Requests\Sbp;
 
 use App\Models\Kantor;
 use App\Models\Sbp;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,8 +25,9 @@ class ChartSbpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'year' => 'nullable|date_format:Y',
-            'by' => 'nullable|in:month,kantor'
+            'tab'   => 'nullable|in:monthly,kantor',
+            'year'  => 'nullable|date_format:Y',
+            'month' => 'nullable|date_format:m',
         ];
     }
 
@@ -37,9 +36,20 @@ class ChartSbpRequest extends FormRequest
      *
      * @return string|integer
      */
-    public function getYear(): string|int
+    public function getDate(): string|int
     {
-        return !empty($this->year) ? $this->year : date('Y');
+        $year = date('Y');
+        $month = date('m');
+
+        if (!empty($this->year)) {
+            $year = $this->year;
+        }
+
+        if (!empty($this->month)) {
+            $month = $this->month;
+        }
+
+        return "{$year}-{$month}";
     }
 
     /**
@@ -65,8 +75,11 @@ class ChartSbpRequest extends FormRequest
         }
 
         // filter data berdasarkan tahun yang di request.
-        $query->where('tanggal_input', 'like', $this->getYear() . '%')
-            ->groupBy(DB::raw('DATE_FORMAT(tanggal_input, "%c")'));
+        $year = !empty($this->year) ? $this->year : date('Y');
+        $query->where('tanggal_input', 'like', "{$year}%");
+
+        // Grouping data berdasarkan bulan dari tanggal_input.
+        $query->groupBy(DB::raw('DATE_FORMAT(tanggal_input, "%c")'));
 
         // Buat variable $result dengan nilai jumlah dan tindak lanjut
         // yang berisi data array kosong.
@@ -126,7 +139,7 @@ class ChartSbpRequest extends FormRequest
             DB::raw('sum(sbp.tindak_lanjut) as sbp_tindak_lanjut'),
         )
             ->join('kantor', 'kantor.id', '=', 'sbp.kantor_id')
-            ->where('sbp.tanggal_input', 'like', $this->getYear() . '%')
+            ->where('sbp.tanggal_input', 'like', $this->getDate() . '%')
             ->groupBy('kantor.nama');
 
         // periksa jika user bukan sebagai admin, ambil hanya data
@@ -159,7 +172,7 @@ class ChartSbpRequest extends FormRequest
 
     public function read(): mixed
     {
-        if ($this->by == 'kantor') {
+        if ($this->tab == 'kantor') {
             return $this->getChartByKantor();
         }
 

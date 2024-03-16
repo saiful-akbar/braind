@@ -1,6 +1,7 @@
 import { openMobileSidebar } from "@/redux/reducers/sidebarReducer";
 import { Link } from "@inertiajs/react";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import CircleIcon from "@mui/icons-material/Circle";
 import {
   Icon,
   ListItem,
@@ -36,19 +37,20 @@ const SidebarLink = (props) => {
       <Tooltip title={name} placement="right" disableInteractive>
         <ListItemButton
           dense
-          selected={isActive(routeName)}
           component={Link}
           href={url}
           preserveScroll
           onClick={handleCloseMobileSidebar}
           sx={{
             borderRadius: 2,
-            px: 1,
+            backgroundColor: isActive(routeName)
+              ? "rgba(0, 167, 111, 0.08)"
+              : "none",
           }}
         >
           <ListItemIcon
             sx={{
-              minWidth: 30,
+              minWidth: 25,
               color: (theme) => {
                 if (!isActive(routeName)) return "text.secondary";
                 return theme.palette.mode === "light"
@@ -57,11 +59,12 @@ const SidebarLink = (props) => {
               },
             }}
           >
-            {icon === null ? (
-              <KeyboardArrowRightIcon fontSize="small" />
-            ) : (
-              <Icon fontSize="small">{icon}</Icon>
-            )}
+            <CircleIcon
+              sx={{
+                fontSize: isActive(routeName) ? 15 : 5,
+                ml: isActive(routeName) ? -0.6 : 0,
+              }}
+            />
           </ListItemIcon>
 
           <ListItemText

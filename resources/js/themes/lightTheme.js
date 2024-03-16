@@ -10,7 +10,7 @@ export default createTheme({
   palette: {
     mode: "light",
     background: {
-      default: "#F4F6F8",
+      default: "#F9FAFB",
       paper: "#FFFFFF",
       tooltip: "rgba(69, 79, 91, 0.8)",
     },

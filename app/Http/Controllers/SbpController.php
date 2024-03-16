@@ -199,9 +199,8 @@ class SbpController extends Controller
      */
     public function yearsForChart(): JsonResponse
     {
-        $years = Sbp::select(
-            DB::raw('date_format(tanggal_input, "%Y") AS tahun')
-        )
+        $years = Sbp::select(DB::raw('date_format(tanggal_input, "%Y") AS tahun'))
+            ->orderBy(DB::raw('date_format(tanggal_input, "%Y")'), 'desc')
             ->groupBy(DB::raw('date_format(tanggal_input, "%Y")'))
             ->get();
 

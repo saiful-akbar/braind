@@ -50,13 +50,17 @@ const tabs = [
 const Profil = (props) => {
   const { params } = props.app.url;
   const tabParams = params.tab ?? "profil";
-  const [tabValue, setTabValue] = useState(tabParams);
+  const [tabValue, setTabValue] = useState("profil");
 
   /**
    * Update tab
    */
   useEffect(() => {
-    setTabValue(tabParams);
+    const result = tabs.find((tab) => tab.value === tabParams);
+
+    if (typeof result !== "undefined") {
+      setTabValue(result.value);
+    }
   }, [tabParams]);
 
   /**

@@ -6,16 +6,17 @@ use Inertia\Response;
 use App\Models\Penerimaan;
 use Illuminate\Http\Request;
 use App\Exports\PenerimaanExport;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
 use App\Exports\Templates\PenerimaanTemplateExport;
-use App\Http\Requests\Penerimaan\ChartPenerimaanRequest;
 use App\Http\Requests\Penerimaan\PenerimaanRequest;
+use App\Http\Requests\Penerimaan\ChartPenerimaanRequest;
 use App\Http\Requests\Penerimaan\StorePenerimaanRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\Penerimaan\ImportPenerimaanRequest;
 use App\Http\Requests\Penerimaan\UpdatePenerimaanRequest;
-use Illuminate\Http\JsonResponse;
 
 class PenerimaanController extends Controller
 {
@@ -188,5 +189,20 @@ class PenerimaanController extends Controller
         return $this->jsonResponse(
             data: $request->read()
         );
+    }
+
+    /**
+     * Mengambil tahun untuk chart dashboard.
+     *
+     * @return JsonResponse
+     */
+    public function yearsForChart(): JsonResponse
+    {
+        $years = Penerimaan::select(DB::raw('date_format(tanggal_input, "%Y") AS tahun'))
+            ->orderBy(DB::raw('date_format(tanggal_input, "%Y")'), 'desc')
+            ->groupBy(DB::raw('date_format(tanggal_input, "%Y")'))
+            ->get();
+
+        return $this->jsonResponse(data: $years);
     }
 }
