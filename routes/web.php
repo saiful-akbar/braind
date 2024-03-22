@@ -21,6 +21,7 @@ use App\Http\Controllers\OperasiAlatPemindaiController;
 use App\Http\Controllers\OperasiKapalPatroliController;
 use App\Http\Controllers\OperasiAlatTelekomunikasiController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ProfilKantorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,16 +74,13 @@ Route::middleware('auth')->group(function (): void {
     /**
      * Profil kantor
      */
-    Route::get('/profil-kantor', [DashboardController::class, 'index'])
+    Route::controller(ProfilKantorController::class)
         ->name('profil-kantor')
-        ->middleware('access:profil-kantor,read');
+        ->prefix('/profil-kantor')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:profil-kantor,read');
+        });
 
-    /**
-     * Galeri kantor
-     */
-    Route::get('/galeri-kantor', [DashboardController::class, 'index'])
-        ->name('galeri-kantor')
-        ->middleware('access:galeri-kantor,read');
     /**
      * Master division (kanwil)
      */

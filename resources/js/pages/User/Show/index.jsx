@@ -28,7 +28,7 @@ const ShowUser = ({ data, access }) => {
                   type="text"
                   label="kantor"
                   name="kantor"
-                  defaultValue={data.kantor.nama}
+                  value={data.kantor.nama ?? ""}
                 />
 
                 <TextInput
@@ -37,7 +37,7 @@ const ShowUser = ({ data, access }) => {
                   type="text"
                   label="Username"
                   name="username"
-                  defaultValue={data.username}
+                  value={data.username ?? ""}
                 />
 
                 <SwitchInput
@@ -80,7 +80,7 @@ const ShowUser = ({ data, access }) => {
                   type="text"
                   label="Nama lengkap"
                   name="nama_lengkap"
-                  defaultValue={data.nama_lengkap}
+                  value={data.nama_lengkap ?? ""}
                 />
 
                 <TextInput
@@ -89,9 +89,7 @@ const ShowUser = ({ data, access }) => {
                   type="text"
                   label="Jenis kelamin"
                   name="jenis_kelamin"
-                  defaultValue={
-                    data.jenis_kelamin === "l" ? "Laki-Laki" : "Perempuan"
-                  }
+                  value={data.jenis_kelamin === "l" ? "Laki-Laki" : "Perempuan"}
                 />
 
                 <TextInput
@@ -100,7 +98,7 @@ const ShowUser = ({ data, access }) => {
                   type="text"
                   label="Tempat lahir"
                   name="tempat_lahir"
-                  defaultValue={data.tempat_lahir}
+                  value={data.tempat_lahir ?? ""}
                 />
 
                 <Box sx={{ width: "100%" }}>
@@ -129,7 +127,7 @@ const ShowUser = ({ data, access }) => {
                   type="text"
                   label="Negara"
                   name="negara"
-                  defaultValue={data.negara}
+                  value={data.negara ?? ""}
                 />
 
                 <TextInput
@@ -138,7 +136,7 @@ const ShowUser = ({ data, access }) => {
                   type="text"
                   label="Kota"
                   name="kota"
-                  defaultValue={data.kota}
+                  value={data.kota ?? ""}
                 />
 
                 <TextInput
@@ -147,7 +145,7 @@ const ShowUser = ({ data, access }) => {
                   type="text"
                   label="Kode Pos"
                   name="kode_pos"
-                  defaultValue={data.kode_pos}
+                  value={data.kode_pos ?? ""}
                 />
 
                 <TextInput
@@ -159,7 +157,7 @@ const ShowUser = ({ data, access }) => {
                   type="text"
                   label="Alamat lengkap"
                   name="alamat"
-                  defaultValue={data.alamat}
+                  value={data.alamat ?? ""}
                 />
               </Stack>
             </CardContent>
@@ -179,7 +177,7 @@ const ShowUser = ({ data, access }) => {
                   type="number"
                   label="Telepon"
                   name="telepon"
-                  defaultValue={data.telepon}
+                  value={data.telepon ?? ""}
                 />
 
                 <TextInput
@@ -188,7 +186,7 @@ const ShowUser = ({ data, access }) => {
                   type="email"
                   label="Email"
                   name="email"
-                  defaultValue={data.email}
+                  value={data.email ?? ""}
                 />
               </Stack>
             </CardContent>

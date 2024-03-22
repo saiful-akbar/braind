@@ -9,6 +9,13 @@ import TabAlamat from "./Partials/TabAlamat";
 import TabKontak from "./Partials/TabKontak";
 import TabAkun from "./Partials/TabAkun";
 import TabPassword from "./Partials/TabPassword";
+import {
+  AccountBox,
+  AccountCircle,
+  Contacts,
+  Key,
+  Map,
+} from "@mui/icons-material";
 
 /**
  * Daftar tab
@@ -18,26 +25,31 @@ const tabs = [
     label: "Profil",
     value: "profil",
     component: <TabProfil />,
+    icon: <AccountBox />,
   },
   {
     label: "Alamat",
     value: "alamat",
     component: <TabAlamat />,
+    icon: <Map />,
   },
   {
     label: "Kontak",
     value: "kontak",
     component: <TabKontak />,
+    icon: <Contacts />,
   },
   {
     label: "Akun",
     value: "akun",
     component: <TabAkun />,
+    icon: <AccountCircle />,
   },
   {
     label: "Password",
     value: "password",
     component: <TabPassword />,
+    icon: <Key />,
   },
 ];
 
@@ -79,13 +91,24 @@ const Profil = (props) => {
     <Box component="main" sx={{ mt: 5 }}>
       <TabContext value={tabValue}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList
-            onChange={handleTabChange}
-            variant="scrollable"
-            indicatorColor="secondary"
-          >
+          <TabList onChange={handleTabChange} variant="scrollable">
             {tabs.map((tab) => (
-              <Tab key={tab.value} label={tab.label} value={tab.value} />
+              <Tab
+                key={tab.value}
+                label={tab.label}
+                value={tab.value}
+                icon={tab.icon}
+                iconPosition="start"
+                disableRipple
+                sx={{
+                  p: 0,
+                  minWidth: 0,
+                  marginLeft: 5,
+                  ":first-of-type": {
+                    marginLeft: 0,
+                  },
+                }}
+              />
             ))}
           </TabList>
         </Box>
