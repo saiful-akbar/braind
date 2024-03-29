@@ -19,9 +19,9 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->text('keterangan');
-            $table->text('aktifitas');
-            $table->text('area_pengawasan');
+            $table->text('keterangan')->nullable();
+            $table->text('aktifitas')->nullable();
+            $table->text('area_pengawasan')->nullable();
             $table->timestamps();
         });
     }

@@ -1,16 +1,19 @@
 <?php
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SbpController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KantorController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\PengawasanController;
 use App\Http\Controllers\PenindakanController;
 use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\ProfilKantorController;
 use App\Http\Controllers\OperasiLainnyaController;
 use App\Http\Controllers\PerusahaanMmeaController;
 use App\Http\Controllers\PerusahaanExportController;
@@ -20,8 +23,6 @@ use App\Http\Controllers\OperasiSenjataApiController;
 use App\Http\Controllers\OperasiAlatPemindaiController;
 use App\Http\Controllers\OperasiKapalPatroliController;
 use App\Http\Controllers\OperasiAlatTelekomunikasiController;
-use App\Http\Controllers\ProfilController;
-use App\Http\Controllers\ProfilKantorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,9 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/profil-kantor')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:profil-kantor,read');
+            Route::name('.update')->group(function (): void {
+                Route::patch('/keterangan', 'updateKeterangan')->name('.keterangan');
+            });
         });
 
     /**

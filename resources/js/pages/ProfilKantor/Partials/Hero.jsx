@@ -72,7 +72,6 @@ const Hero = () => {
         position: "relative",
         borderRadius: "16px",
         zIndex: 0,
-        marginBottom: "24px",
         height: "290px",
       }}
     >

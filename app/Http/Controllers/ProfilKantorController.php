@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfilKantor\UpdateKeteranganProfilKantorRequest;
 use Inertia\Response;
 use App\Models\Kantor;
-use App\Models\ProfilKantor;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class ProfilKantorController extends Controller
 {
@@ -27,5 +27,21 @@ class ProfilKantorController extends Controller
             data: $data,
             access: $access
         );
+    }
+
+    /**
+     * Update keterangan profil kantor.
+     *
+     * @param UpdateKeteranganProfilKantorRequest $request
+     * @return RedirectResponse
+     */
+    public function updateKeterangan(UpdateKeteranganProfilKantorRequest $request): RedirectResponse
+    {
+        $request->update();
+
+        return to_route('profil-kantor', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Keterangan berhasil diperbarui.'
+        ]);
     }
 }

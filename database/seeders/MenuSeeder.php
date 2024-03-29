@@ -139,25 +139,30 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::where('username', 'Kanwil')->first();
+        $users = User::all();
 
-        DB::transaction(function () use ($admin): void {
+        DB::transaction(function () use ($users): void {
+
+            // insert data menu.
             foreach ($this->data as $menuGroup) {
                 MenuGroup::create(['nama' => $menuGroup['nama']])
                     ->subMenu()
                     ->createMany($menuGroup['sub_menu']);
             }
 
-            foreach (Menu::all() as $menu) {
-                $admin->menu()->attach($menu->id, [
-                    'create' => true,
-                    'read' => true,
-                    'update' => true,
-                    'remove' => true,
-                    'destroy' => true,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+            // Tambahkan hak akses menu pada user.
+            foreach ($users as $user) {
+                foreach (Menu::all() as $menu) {
+                    $user->menu()->attach($menu->id, [
+                        'create' => $user->username === "Kanwil",
+                        'read' => $user->username === "Kanwil",
+                        'update' => $user->username === "Kanwil",
+                        'remove' => $user->username === "Kanwil",
+                        'destroy' => $user->username === "Kanwil",
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
             }
         });
     }

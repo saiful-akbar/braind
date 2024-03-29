@@ -68,7 +68,7 @@ const TabPassword = memo(() => {
     <Grid container justifyContent="center">
       <Grid item md={8} xs={12}>
         <CardPaper
-          title="Password"
+          title="Ubah Password"
           subheader="Data password ini digunakan untuk login aplikasi. Pastikan untuk menggunakan kombinasi angka, huruf dan simbol untuk memperkuat keamanan password anda."
           component="form"
           autoComplete="off"
