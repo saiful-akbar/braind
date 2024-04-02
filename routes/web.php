@@ -80,9 +80,8 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/profil-kantor')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:profil-kantor,read');
-            Route::name('.update')->group(function (): void {
-                Route::patch('/keterangan', 'updateKeterangan')->name('.keterangan');
-            });
+            Route::patch('/', 'updateProfil')->name('.update')->middleware('access:profil-kantor,update');
+            Route::post('/galeri', 'addImageToGallery')->name('.galeri.store')->middleware('access:profil-kantor,create');
         });
 
     /**

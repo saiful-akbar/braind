@@ -5,6 +5,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@fontsource/roboto/900.css";
 import "material-icons/iconfont/filled.css";
+import "yet-another-react-lightbox/styles.css";
 import "./styles/globals.scss";
 
 import "./bootstrap";

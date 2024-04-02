@@ -5,7 +5,7 @@ namespace App\Http\Requests\ProfilKantor;
 use App\Models\ProfilKantor;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateKeteranganProfilKantorRequest extends FormRequest
+class UpdateProfilKantorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,9 @@ class UpdateKeteranganProfilKantorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'keterangan' => 'nullable|string|max:300'
+            'keterangan' => 'nullable|string',
+            'aktifitas' => 'nullable|string',
+            'area_pengawasan' => 'nullable|string',
         ];
     }
 
@@ -38,15 +40,18 @@ class UpdateKeteranganProfilKantorRequest extends FormRequest
         $kantorId = user()->kantor_id;
         $profil = ProfilKantor::where('kantor_id', $kantorId)->first();
 
-        // Periksa jika profil kosong tambahkan data baru.
-        // Jika profil sudah ada sebelumnya update datanya.
+        // Jika profil kantor kosong buat profil kantor baru, Jika sudah ada update datanya.
         if (empty($profil)) {
             ProfilKantor::create([
                 'kantor_id' => $kantorId,
                 'keterangan' => $this->keterangan,
+                'aktifitas' => $this->aktifitas,
+                'area_pengawasan' => $this->area_pengawasan,
             ]);
         } else {
             $profil->keterangan = $this->keterangan;
+            $profil->aktifitas = $this->aktifitas;
+            $profil->area_pengawasan = $this->area_pengawasan;
             $profil->save();
         }
     }

@@ -19,10 +19,10 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->string('url');
-            $table->string('path');
-            $table->string('mime_type', 50);
-            $table->string('tipe', 2);
+            $table->string('url')->nullable();
+            $table->string('uri')->nullable();
+            $table->string('mime_type', 50)->nullable();
+            $table->enum('tipe', ['gambar', 'video'])->nullable();
             $table->string('judul', 50)->nullable();
             $table->string('keterangan')->nullable();
             $table->timestamps();

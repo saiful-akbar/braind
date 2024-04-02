@@ -25,7 +25,7 @@ const CardPaper = memo(
           <CardHeader
             title={title}
             titleTypographyProps={{
-              variant: "h6",
+              variant: "subtitle1",
             }}
             subheader={subheader}
             subheaderTypographyProps={{

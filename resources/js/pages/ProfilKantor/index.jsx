@@ -2,8 +2,9 @@ import Header from "@/components/Header";
 import AuthLayout from "@/layouts/AuthLayout";
 import { Box, Grid } from "@mui/material";
 import React, { Fragment } from "react";
-import About from "./Partials/About";
 import Hero from "./Partials/Hero";
+import TabProfil from "./Partials/TabProfil";
+import TabGaleri from "./Partials/TabGaleri";
 
 /**
  * list content
@@ -11,7 +12,11 @@ import Hero from "./Partials/Hero";
 const contents = [
   {
     key: "profil",
-    component: <About />,
+    component: <TabProfil />,
+  },
+  {
+    key: "galeri",
+    component: <TabGaleri />,
   },
 ];
 
@@ -28,19 +33,16 @@ const ProfilKantor = () => {
     <Fragment>
       <Header title="Profil Kantor" />
 
-      <Box component="main" sx={{ mt: 5 }}>
+      <Box component="main" sx={{ mt: 5, mb: 5 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Hero />
           </Grid>
 
-          <Grid item md={4} sm={6} xs={12}>
-            {contents.map((content) =>
-              tab === content.key ? (
-                <Box key={content.key}>{content.component}</Box>
-              ) : (
-                <About key={content.key} />
-              )
+          <Grid item xs={12}>
+            {contents.map(
+              ({ key, component }) =>
+                tab === key && <div key={key}>{component}</div>
             )}
           </Grid>
         </Grid>

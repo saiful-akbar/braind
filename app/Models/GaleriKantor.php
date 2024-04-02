@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Kantor;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -20,12 +21,24 @@ class GaleriKantor extends Model
     protected $fillable = [
         'kantor_id',
         'url',
-        'path',
+        'uri',
         'mime_type',
         'tipe',
         'judul',
         'keterangan',
     ];
+
+    /**
+     * Merubah value uri ketika di ambil.
+     *
+     * @return Attribute
+     */
+    public function uri(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => asset("/storage/{$value}"),
+        );
+    }
 
     /**
      * Ambil Kantor yang memiliki galeri.

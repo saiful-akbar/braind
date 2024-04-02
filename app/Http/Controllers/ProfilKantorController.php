@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfilKantor\UpdateKeteranganProfilKantorRequest;
 use Inertia\Response;
 use App\Models\Kantor;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\ProfilKantor\UpdateProfilKantorRequest;
+use App\Http\Requests\ProfilKantor\StoreGaleriProfilKantorRequest;
 
 class ProfilKantorController extends Controller
 {
@@ -32,16 +33,32 @@ class ProfilKantorController extends Controller
     /**
      * Update keterangan profil kantor.
      *
-     * @param UpdateKeteranganProfilKantorRequest $request
+     * @param UpdateProfilKantorRequest $request
      * @return RedirectResponse
      */
-    public function updateKeterangan(UpdateKeteranganProfilKantorRequest $request): RedirectResponse
+    public function updateProfil(UpdateProfilKantorRequest $request): RedirectResponse
     {
         $request->update();
 
         return to_route('profil-kantor', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Keterangan berhasil diperbarui.'
+        ]);
+    }
+
+    /**
+     * Menmabahkan gambar ke galeri kantor.
+     *
+     * @param StoreGaleriProfilKantorRequest $request
+     * @return RedirectResponse
+     */
+    public function addImageToGallery(StoreGaleriProfilKantorRequest $request): RedirectResponse
+    {
+        $request->insert();
+
+        return to_route('profil-kantor', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Galeri berhasil ditambahkan.',
         ]);
     }
 }
