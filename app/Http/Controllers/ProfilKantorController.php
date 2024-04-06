@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Inertia\Response;
 use App\Models\Kantor;
+use App\Models\GaleriKantor;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\ProfilKantor\UpdateProfilKantorRequest;
 use App\Http\Requests\ProfilKantor\StoreGaleriProfilKantorRequest;
+use App\Http\Requests\ProfilKantor\DestroyGaleriProfilKantorRequest;
 
 class ProfilKantorController extends Controller
 {
@@ -58,7 +60,24 @@ class ProfilKantorController extends Controller
 
         return to_route('profil-kantor', $request->query())->with([
             'flash.status' => 'success',
-            'flash.message' => 'Galeri berhasil ditambahkan.',
+            'flash.message' => 'Gambar berhasil ditambahkan.',
+        ]);
+    }
+
+    /**
+     * Hapus gambar pada galeri kantor.
+     *
+     * @param DestroyGaleriProfilKantorRequest $request
+     * @param GaleriKantor $galeri
+     * @return RedirectResponse
+     */
+    public function destroyGallery(DestroyGaleriProfilKantorRequest $request, GaleriKantor $galeri): RedirectResponse
+    {
+        $request->destroy();
+
+        return to_route('profil-kantor', $request->query())->with([
+            'flash.status' => 'success',
+            'flash.message' => 'Gambar berhasil dihapus',
         ]);
     }
 }

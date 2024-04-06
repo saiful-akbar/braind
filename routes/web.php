@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function (): void {
             Route::get('/', 'index')->middleware('access:profil-kantor,read');
             Route::patch('/', 'updateProfil')->name('.update')->middleware('access:profil-kantor,update');
             Route::post('/galeri', 'addImageToGallery')->name('.galeri.store')->middleware('access:profil-kantor,create');
+            Route::delete('/galeri/{galeri}', 'destroyGallery')->name('.galeri.destroy')->middleware('access:profil-kantor,destroy');
         });
 
     /**
