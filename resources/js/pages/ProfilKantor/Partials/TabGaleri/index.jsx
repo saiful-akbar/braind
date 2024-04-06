@@ -16,9 +16,9 @@ import { openNotification } from "@/redux/reducers/notificationReducer";
  */
 const TabGaleri = () => {
   const { data, app, access } = usePage().props;
-  const galleries = data.galeri;
   const { csrf } = app;
   const { params } = app.url;
+  const galleries = data.galeri.filter((galeri) => galeri.tipe === "gambar");
   const dispatch = useDispatch();
 
   /**

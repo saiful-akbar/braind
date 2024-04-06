@@ -20,8 +20,8 @@ class GaleriKantor extends Model
 
     protected $fillable = [
         'kantor_id',
-        'url',
-        'uri',
+        'video_url',
+        'gambar_url',
         'mime_type',
         'tipe',
         'judul',
@@ -29,14 +29,26 @@ class GaleriKantor extends Model
     ];
 
     /**
-     * Merubah value uri ketika di ambil.
+     * Merubah value gambar_url ketika di ambil.
      *
      * @return Attribute
      */
-    public function uri(): Attribute
+    public function gambar_url(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => asset("/storage/{$value}"),
+            get: fn ($value) => is_null($value) ? null : asset("/storage/{$value}"),
+        );
+    }
+
+    /**
+     * Merubah value video_url ketika di ambil.
+     *
+     * @return Attribute
+     */
+    public function video_url(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => is_null($value) ? null : "https://www.youtube.com/embed/{$value}",
         );
     }
 

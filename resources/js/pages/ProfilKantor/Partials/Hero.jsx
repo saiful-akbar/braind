@@ -18,7 +18,7 @@ const tabLists = [
     icon: <Collections />,
   },
   {
-    label: "Video",
+    label: "Peta Kerawanan",
     value: "video",
     icon: <VideoLibrary />,
   },

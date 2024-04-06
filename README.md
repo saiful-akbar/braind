@@ -40,7 +40,14 @@
 
 - **Navigasi**
 
-  - **Master**
+  - **DAshboard**
+
+  - **Kantor**
+
+    - Profil
+    - Peta Kerawanan
+
+  - **Data Master**
 
     - Kantor
     - Kode Komoditi
@@ -50,60 +57,39 @@
 
   - **Perusahaan**
 
-    - Cukai MMEA
     - Cukai HT + HPTL
+    - Cukai MMEA
     - Ekspor
     - Impor
 
-  - **Kantor**
-
-    - Profil
-    - Peta Kerawanan
-
-  - **Data Penerimaan**
+  - **Penerimaan**
 
     - Penerimaan
 
-  - **Data Pengawasan**
+  - **Pengawasan**
 
     - Pengawasan
     - Penindakan
 
   - **Sarana Operasi**
 
-    - Alat Telekomunikasi
     - Alat Pemindai dan Pendeteksi
+    - Alat Telekomunikasi
     - Kapal Patroli
-    - Sarana Operasi Lainnya
     - Senjata Api
+    - Sarana Operasi Lainnya
 
 - **Pengaturan Akun**
-  - Klik foto profil pada bagian bilah kiri aplikasi
+  - Klik foto profil pada bagian bilah kiri aplikasi.
   - Pilih profil untuk melihat atau memperbarui data akun pengguna yang sedang login.
+  - Pilih pengaturan untuk merubah tema aplikasi.
 
 ## 3. Note
 
-- Buat seeder untuk kantor dan user berdasarkan data dari excel.
-- Peta kerawanan kantor merupakan galeri foto dan video dari kantor.
-- video yang di upload merupakan link dari youtube.
-- tambahan fitu report: laporan dalam bentuk pdf untuk setiap data atau menu.
-- tambahkan select option tahun pada chart dan data 5 besar perusahaan di halaman dashboard
-- Tambahkan tab pada graph SBP di halaman dashboard
-  - Tab 1: Menampilkan data SBP setiap bulannya dalam setahun (total semua kantor).
-  - Tab 2: Menampilkan data SBP setiap kantor dalam setahun.
-
-# 4. Perbaikan
-
-- [x] Nilai Minus Cukai (kerugian) pada tabel pengawasan diperbolehkan.
-- [x] Data Perusahaan/Export : klik filter > lari ke Data Perusahaan/Import
-- [x] Data Perusahaan/Import : klik filter > lari ke Data Perusahaan/Export
-- [x] Import data tanggal input lama bagaimana implemntasinya, blm dicoba sih br pake tgl input periode 2024?
-- [x] Tabel Pemindai (cek menu import) tuk yg ini gw blm bisa lanjut isi yh
-  - [x] Jam operasi > bnyknya jam yh
-  - [x] Jumlah Pemindaian > bisa lebih dr 1000
-  - [x] There was an error on row 2. Bidang ukuran harus berupa string.
-  - [x] There was an error on row 2. Bidang nomor seri harus berupa string.
-  - [x] There was an error on row 2. Bidang hasil keluaran harus berupa string.
-- [x] Senjata Api
-  - [x] There was an error on row 2. Bidang masa berlaku harus merupakan bilangan bulat. (seharusnya isian tanggal)
-  - [x] Jumlah amunisi boleh lebih dr 1000
+- Menu profil kantor mencakup 3 komponen yakni:
+  - Profil
+  - Gambar
+  - Video
+- Menu peta kerawanan mencakup 2 komponen yakni
+  - Gambar
+  - Video
