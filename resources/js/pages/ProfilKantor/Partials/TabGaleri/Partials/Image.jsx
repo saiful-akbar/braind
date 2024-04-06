@@ -60,7 +60,6 @@ const Image = memo((props) => {
           color="text.secondary"
           component="div"
           sx={{
-            display: "inline",
             WebkitLineClamp: 4,
             textOverflow: "ellipsis",
             overflow: "hidden",

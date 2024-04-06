@@ -5,6 +5,7 @@ import React, { Fragment } from "react";
 import Hero from "./Partials/Hero";
 import TabProfil from "./Partials/TabProfil";
 import TabGaleri from "./Partials/TabGaleri";
+import TabVideo from "./Partials/TabVideo";
 
 /**
  * list content
@@ -17,6 +18,10 @@ const contents = [
   {
     key: "galeri",
     component: <TabGaleri />,
+  },
+  {
+    key: "video",
+    component: <TabVideo />,
   },
 ];
 

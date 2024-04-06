@@ -15,7 +15,7 @@ import { openNotification } from "@/redux/reducers/notificationReducer";
  * @returns {React.ReactElement}
  */
 const TabGaleri = () => {
-  const { data, app } = usePage().props;
+  const { data, app, access } = usePage().props;
   const galleries = data.galeri;
   const { csrf } = app;
   const { params } = app.url;
@@ -93,24 +93,26 @@ const TabGaleri = () => {
         ))}
       </Grid>
 
-      <Tooltip title="Unggah Gambar" disableInteractive placement="left">
-        <Fab
-          color="primary"
-          size="medium"
-          onClick={toggleModalCreate}
-          sx={{
-            position: "fixed",
-            zIndex: 1,
-            bottom: 20,
-            right: 20,
-          }}
-        >
-          <Add />
-        </Fab>
-      </Tooltip>
+      {access.create && (
+        <Tooltip title="Unggah Gambar" disableInteractive placement="left">
+          <Fab
+            color="primary"
+            size="medium"
+            onClick={toggleModalCreate}
+            sx={{
+              position: "fixed",
+              zIndex: 1,
+              bottom: 20,
+              right: 20,
+            }}
+          >
+            <Add />
+          </Fab>
+        </Tooltip>
+      )}
 
       {/* Form upload gambar ke galeri */}
-      <FormUpload open={open} onClose={toggleModalCreate} />
+      {access.create && <FormUpload open={open} onClose={toggleModalCreate} />}
 
       {/* Modal delete */}
       <DeleteConfirmation
