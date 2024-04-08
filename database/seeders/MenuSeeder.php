@@ -20,6 +20,16 @@ class MenuSeeder extends Seeder
                     'url' => '/profil-kantor',
                     'route' => 'profil-kantor',
                 ],
+                [
+                    'nama' => 'Galeri',
+                    'url' => '/galeri',
+                    'route' => 'galeri',
+                ],
+                [
+                    'nama' => 'Peta Kerawanan',
+                    'url' => '/peta-kerawanan',
+                    'route' => 'peta-kerawanan',
+                ],
             ]
         ],
         [

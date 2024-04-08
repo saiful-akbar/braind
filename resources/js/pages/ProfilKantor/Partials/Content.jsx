@@ -1,16 +1,14 @@
 import CardPaper from "@/components/CardPaper";
 import Modal from "@/components/Modal";
 import { useForm, usePage } from "@inertiajs/react";
-import { Close, Edit, Save } from "@mui/icons-material";
+import { Edit, Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
-  Button,
   CardContent,
   DialogActions,
   DialogContent,
   Fab,
   Grid,
-  IconButton,
   Stack,
   TextField,
   Tooltip,
@@ -21,7 +19,7 @@ import { memo, useCallback, useState } from "react";
 /**
  * Komponen about kantor untuk halaman profil kantor
  */
-const TabProfil = memo(() => {
+const Content = memo(() => {
   const { access, data, app } = usePage().props;
   const { params } = app.url;
   const { csrf } = app;
@@ -234,4 +232,4 @@ const TabProfil = memo(() => {
   );
 });
 
-export default TabProfil;
+export default Content;

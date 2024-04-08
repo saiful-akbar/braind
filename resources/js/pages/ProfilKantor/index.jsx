@@ -3,27 +3,7 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { Box, Grid } from "@mui/material";
 import React, { Fragment } from "react";
 import Hero from "./Partials/Hero";
-import TabProfil from "./Partials/TabProfil";
-import TabGaleri from "./Partials/TabGaleri";
-import TabVideo from "./Partials/TabVideo";
-
-/**
- * list content
- */
-const contents = [
-  {
-    key: "profil",
-    component: <TabProfil />,
-  },
-  {
-    key: "galeri",
-    component: <TabGaleri />,
-  },
-  {
-    key: "video",
-    component: <TabVideo />,
-  },
-];
+import ProfilContent from "./Partials/Content";
 
 /**
  * Komponen halaman profil kantor
@@ -31,9 +11,6 @@ const contents = [
  * @returns {React.ReactElement}
  */
 const ProfilKantor = () => {
-  const params = new URLSearchParams(window.location.search);
-  const tab = params.get("tab") ?? "profil";
-
   return (
     <Fragment>
       <Header title="Profil Kantor" />
@@ -45,10 +22,7 @@ const ProfilKantor = () => {
           </Grid>
 
           <Grid item xs={12}>
-            {contents.map(
-              ({ key, component }) =>
-                tab === key && <div key={key}>{component}</div>
-            )}
+            <ProfilContent />
           </Grid>
         </Grid>
       </Box>

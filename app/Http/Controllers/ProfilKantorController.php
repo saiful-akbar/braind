@@ -21,7 +21,7 @@ class ProfilKantorController extends Controller
     {
         $access = $this->getAccessByRoute('profil-kantor');
 
-        $data = Kantor::with(['profil', 'galeri'])
+        $data = Kantor::with(['profil'])
             ->where('id', user()->kantor_id)
             ->first();
 
@@ -38,46 +38,13 @@ class ProfilKantorController extends Controller
      * @param UpdateProfilKantorRequest $request
      * @return RedirectResponse
      */
-    public function updateProfil(UpdateProfilKantorRequest $request): RedirectResponse
+    public function update(UpdateProfilKantorRequest $request): RedirectResponse
     {
         $request->update();
 
         return to_route('profil-kantor', $request->query())->with([
             'flash.status' => 'success',
             'flash.message' => 'Keterangan berhasil diperbarui.'
-        ]);
-    }
-
-    /**
-     * Menmabahkan gambar ke galeri kantor.
-     *
-     * @param StoreGaleriProfilKantorRequest $request
-     * @return RedirectResponse
-     */
-    public function addImageToGallery(StoreGaleriProfilKantorRequest $request): RedirectResponse
-    {
-        $request->insert();
-
-        return to_route('profil-kantor', $request->query())->with([
-            'flash.status' => 'success',
-            'flash.message' => 'Gambar berhasil ditambahkan.',
-        ]);
-    }
-
-    /**
-     * Hapus gambar pada galeri kantor.
-     *
-     * @param DestroyGaleriProfilKantorRequest $request
-     * @param GaleriKantor $galeri
-     * @return RedirectResponse
-     */
-    public function destroyGallery(DestroyGaleriProfilKantorRequest $request, GaleriKantor $galeri): RedirectResponse
-    {
-        $request->destroy();
-
-        return to_route('profil-kantor', $request->query())->with([
-            'flash.status' => 'success',
-            'flash.message' => 'Gambar berhasil dihapus',
         ]);
     }
 }

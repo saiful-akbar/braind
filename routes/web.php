@@ -9,6 +9,7 @@ use App\Http\Controllers\KantorController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\PengawasanController;
 use App\Http\Controllers\PenindakanController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\OperasiSenjataApiController;
 use App\Http\Controllers\OperasiAlatPemindaiController;
 use App\Http\Controllers\OperasiKapalPatroliController;
 use App\Http\Controllers\OperasiAlatTelekomunikasiController;
+use App\Http\Controllers\PetaKerawananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,9 +82,27 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/profil-kantor')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:profil-kantor,read');
-            Route::patch('/', 'updateProfil')->name('.update')->middleware('access:profil-kantor,update');
-            Route::post('/galeri', 'addImageToGallery')->name('.galeri.store')->middleware('access:profil-kantor,create');
-            Route::delete('/galeri/{galeri}', 'destroyGallery')->name('.galeri.destroy')->middleware('access:profil-kantor,destroy');
+            Route::patch('/', 'update')->name('.update')->middleware('access:profil-kantor,update');
+        });
+
+    /**
+     * Galeri
+     */
+    Route::controller(GaleriController::class)
+        ->name('galeri')
+        ->prefix('/galeri')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:galeri,read');
+        });
+
+    /**
+     * Peta Kerawanan
+     */
+    Route::controller(PetaKerawananController::class)
+        ->name('peta-kerawanan')
+        ->prefix('/peta-kerawanan')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:peta-kerawanan,read');
         });
 
     /**
