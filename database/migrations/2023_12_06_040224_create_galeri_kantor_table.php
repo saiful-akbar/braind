@@ -19,12 +19,12 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->string('video_url')->nullable();
-            $table->string('gambar_url')->nullable();
+            $table->string('video_url', 100)->nullable();
+            $table->string('gambar_url', 100)->nullable();
             $table->string('mime_type', 50)->nullable();
             $table->enum('tipe', ['galeri', 'peta'])->nullable();
             $table->string('judul', 50)->nullable();
-            $table->string('keterangan')->nullable();
+            $table->string('keterangan', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

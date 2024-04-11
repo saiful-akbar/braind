@@ -6,7 +6,31 @@
  */
 export function utcToLocale(utc) {
   if (utc === null) return utc;
-  return new Date(utc).toLocaleString("id-ID");
+
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Agu",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Des",
+  ];
+
+  const date = new Date(utc);
+  const year = date.getFullYear().toLocaleString();
+  const month = months[date.getMonth().toLocaleString()];
+  const day = date.getDay().toLocaleString();
+  const hours = date.getHours().toLocaleString();
+  const minutes = date.getMinutes().toLocaleString();
+  const seconds = date.getSeconds().toLocaleString();
+
+  return `${day} ${month} ${year} ${hours}:${minutes}`;
 }
 
 /**

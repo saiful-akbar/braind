@@ -33,10 +33,10 @@ class GaleriKantor extends Model
      *
      * @return Attribute
      */
-    public function gambar_url(): Attribute
+    public function gambarUrl(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => is_null($value) ? null : asset("/storage/{$value}"),
+            get: fn ($value) => is_null($value) ? null : storage_url($value),
         );
     }
 
@@ -45,7 +45,7 @@ class GaleriKantor extends Model
      *
      * @return Attribute
      */
-    public function video_url(): Attribute
+    public function videoUrl(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => is_null($value) ? null : "https://www.youtube.com/embed/{$value}",

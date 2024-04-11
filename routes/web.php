@@ -93,6 +93,8 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/galeri')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:galeri,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:galeri,create');
+            Route::delete('/{galeri}', 'destroy')->name('.destroy')->middleware('access:galeri,destroy');
         });
 
     /**

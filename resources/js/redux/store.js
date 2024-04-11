@@ -19,6 +19,7 @@ import operasiAlatTelekomunikasiReducer from "./reducers/operasiAlatTelekomunika
 import operasiKapalPatroliReducer from "./reducers/operasiKapalPatroliReducer";
 import operasiSenjataApiReducer from "./reducers/operasiSenjataApiReducer";
 import operasiLainnyaReducer from "./reducers/operasiLainnyaReducer";
+import galeriReducer from "./reducers/galeriReducer";
 
 const store = configureStore({
   reducer: {
@@ -42,6 +43,7 @@ const store = configureStore({
     operasiKapalPatroli: operasiKapalPatroliReducer,
     operasiSenjataApi: operasiSenjataApiReducer,
     operasiLainnya: operasiLainnyaReducer,
+    galeri: galeriReducer,
   },
 });
 

@@ -8,4 +8,4 @@ php artisan optimize:clear
 
 cp FixInertiaResponse.php ./vendor/inertiajs/inertia-laravel/src/Response.php
 
-npm ci
+npm install

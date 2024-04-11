@@ -36,3 +36,18 @@ if (!function_exists('access')) {
         return collect(session('access'));
     }
 }
+
+if (!function_exists('storage_url')) {
+
+    /**
+     * Helper untuk membuat storage url
+     *
+     * @param string $path
+     * @param boolean|null $secure
+     * @return string
+     */
+    function storage_url(string $path = '/', ?bool $secure = null): string
+    {
+        return asset("storage/" . ltrim($path, '/'), $secure);
+    }
+}

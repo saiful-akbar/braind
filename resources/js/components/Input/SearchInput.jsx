@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
  * Komponen search input
  */
 const SearchInput = React.memo((props) => {
-  const { value, onClear, inputProps, disabled, ...rest } = props;
+  const { value, onClear, InputProps, disabled, ...rest } = props;
   const { app } = usePage().props;
   const { params } = app.url;
 
@@ -47,7 +47,7 @@ const SearchInput = React.memo((props) => {
             </IconButton>
           </InputAdornment>
         ),
-        ...inputProps,
+        ...InputProps,
       }}
     />
   );
@@ -59,7 +59,7 @@ const SearchInput = React.memo((props) => {
 SearchInput.propTypes = {
   onClear: PropTypes.func.isRequired,
   value: PropTypes.string,
-  inputProps: PropTypes.object,
+  InputProps: PropTypes.object,
   disabled: PropTypes.bool,
 };
 

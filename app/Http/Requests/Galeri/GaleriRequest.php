@@ -10,36 +10,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class GaleriRequest extends FormRequest
 {
     /**
-     * Daftar kolom yang akan dikirim
-     */
-    private array $columns = [
-        'id',
-        'video_url',
-        'gambar_url',
-        'mime_type',
-        'tipe',
-        'judul',
-        'keterangan',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
-
-    /**
-     * Jumlah baris per halaman
-     */
-    private array $rowsPerPage = [10, 25, 50, 100, 200];
-
-    /**
      * Default baris per halaman
      */
-    private int $perPage = 10;
-
-    /**
-     * Default kolom yang diorder
-     */
-    private string $orderBy = 'updated_at';
-    private string $order = 'asc';
+    private int $perPage = 12;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -50,40 +23,54 @@ class GaleriRequest extends FormRequest
     }
 
     /**
+     * Aturan validasi
+     *
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            'kantor' => ['nullable', 'exists:kantor,id']
+        ];
+    }
+
+    /**
      * Ambil data galeri kantor
      *
      * @return LengthAwarePaginator
      */
     public function paginate(): LengthAwarePaginator
     {
-        $galeri = GaleriKantor::select($this->columns)->where('kantor_id', user()->kantor_id);
+        $galeri = GaleriKantor::with('kantor')->where('tipe', 'galeri');
 
-        // periksa jika ada request untuk merubah jumlah baris perhalaman.
-        if (in_array($this->query('per_page'), $this->rowsPerPage)) {
-            $this->perPage = $this->query('per_page');
+        // Periksa jika ada request "kantor" dan user sebagai admin, filter data
+        // hanya berdasarkan kolom "kantor_id"
+        if (!empty($this->query('kantor')) && user()->admin) {
+            $galeri->where('kantor_id', $this->query('kantor'));
         }
 
-        // Periksa jika ada request untuk merubah kolom yang disortir.
-        if (in_array($this->query('order_by'), $this->columns)) {
-            $this->orderBy = $this->query('order_by');
+        // periksa jika ada request "type" dengan nilai "gambar"
+        // tampilkan hanya data yang berupa gambar
+        if ($this->query('type') == 'gambar') {
+            $galeri->whereNull('video_url');
         }
 
-        // Periksa jika ada request untuk merubah jenis sortir pada kolom.
-        if ($this->query('order') == 'desc') {
-            $this->order = 'desc';
+        // periksa jika ada request "type" dengan nilai "video"
+        // tampilkan hanya data yang berupa "video"
+        if ($this->query('type') == 'video') {
+            $galeri->whereNotNull('video_url');
         }
-
 
         // Periksa jika ada request pencarian
         if (!empty($this->query('search'))) {
-            $galeri->where(function (Builder $query): void {
-                $search = $this->query('search');
+            $search = $this->query('search');
 
+            $galeri->where(function (Builder $query) use ($search): void {
                 $query->where('judul', 'like', "%$search%")
                     ->orWhere('keterangan', 'like', "%$search%");
             });
         }
 
-        return $galeri->orderBy($this->orderBy, $this->order)->paginate($this->perPage);
+        return $galeri->orderBy('created_at', 'desc')->paginate($this->perPage);
     }
 }

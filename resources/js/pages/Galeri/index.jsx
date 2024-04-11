@@ -1,18 +1,22 @@
 import Header from "@/components/Header";
 import AuthLayout from "@/layouts/AuthLayout";
-import React, { Fragment, useEffect, useState } from "react";
 import {
-  Box,
-  Grid,
-  ToggleButtonGroup,
-  ToggleButton,
-  Tooltip,
-  Button,
-} from "@mui/material";
-import TableRowsIcon from "@mui/icons-material/TableRows";
-import GridViewIcon from "@mui/icons-material/GridView";
+  closeDeleteConfirmation,
+  openCreateForm,
+} from "@/redux/reducers/galeriReducer";
 import { router } from "@inertiajs/react";
 import { Add } from "@mui/icons-material";
+import { Box, Button, Divider, Grid } from "@mui/material";
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ContentGaleri from "./Partials/ContentGaleri";
+import ModalFormGaleri from "./Partials/ModalFormGaleri";
+import FormFilterGaleri from "./Partials/FormFilterGaleri";
+import FormSearchGaleri from "./Partials/FormSearchGaleri";
+import FormFilterKantorGaleri from "./Partials/FormFilterKantorGaleri";
+import { openNotification } from "@/redux/reducers/notificationReducer";
+import DeleteConfirmation from "@/components/DeleteConfirmation";
+import PaginationGaleri from "./Partials/PaginationGaleri";
 
 /**
  * Halaman galeri kantor.
@@ -20,32 +24,57 @@ import { Add } from "@mui/icons-material";
  * @returns {React.ReactElement}
  */
 const Galeri = (props) => {
-  const { access } = props;
-  const [layout, setLayout] = useState("daftar");
+  const { access, auth, app, data } = props;
+  console.log(data);
+  const { user } = auth;
+  const { params } = app.url;
+  const dispatch = useDispatch();
+  const galeri = useSelector((state) => state.galeri);
 
   /**
-   * update layout
+   * state
    */
-  useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    const queryLayout = query.get("layout");
-
-    if (queryLayout === "daftar" || queryLayout === "petak") {
-      setLayout(queryLayout);
-    }
-  }, []);
+  const [deleteting, setDeleting] = React.useState(false);
 
   /**
-   * fungsi untuk merubah layout
+   * fungsi untuk membuka modal form
    */
-  const handleLayoutChange = (event, value) => {
-    if (value !== null) {
-      setLayout(value);
+  const openModalForm = () => {
+    dispatch(openCreateForm());
+  };
 
-      router.visit(route("galeri"), {
-        method: "get",
-        data: {
-          layout: value,
+  /**
+   * fungsi untuk menutup modal delete confirmation
+   */
+  const handleCloseDeleteConfirmation = () => {
+    dispatch(closeDeleteConfirmation());
+  };
+
+  /**
+   * fungsi untuk hapus data galeri
+   */
+  const handleDelete = () => {
+    const url = route(`galeri.${galeri.delete.type}`, {
+      galeri: galeri.delete.id,
+      _query: params,
+    });
+
+    if (access.destroy) {
+      router.delete(url, {
+        preserveScroll: true,
+        preserveState: true,
+        onStart: () => setDeleting(true),
+        onFinish: () => {
+          setDeleting(false);
+          handleCloseDeleteConfirmation();
+        },
+        onError: () => {
+          dispatch(
+            openNotification({
+              status: "error",
+              message: "Terjadi kesalahan. Gagal menghapus galeri.",
+            })
+          );
         },
       });
     }
@@ -57,7 +86,12 @@ const Galeri = (props) => {
         title="Galeri"
         action={
           access.create && (
-            <Button variant="contained" color="primary" startIcon={<Add />}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Add />}
+              onClick={openModalForm}
+            >
               Tambah
             </Button>
           )
@@ -66,35 +100,47 @@ const Galeri = (props) => {
 
       <Box component="main" sx={{ mt: 5 }}>
         <Grid container spacing={3}>
-          <Grid
-            item
-            xs={12}
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            <ToggleButtonGroup
-              value={layout}
-              exclusive
-              onChange={handleLayoutChange}
-              aria-label="Layout"
-            >
-              <ToggleButton size="small" value="daftar">
-                <Tooltip title="Tatal letak daftar" disableInteractive>
-                  <TableRowsIcon />
-                </Tooltip>
-              </ToggleButton>
+          <Grid item xs={12} container spacing={2}>
+            {user.admin && (
+              <Grid item xs={12} sm={6} md={4}>
+                <FormFilterKantorGaleri />
+              </Grid>
+            )}
 
-              <ToggleButton size="small" value="petak">
-                <Tooltip title="Tata letak petak" disableInteractive>
-                  <GridViewIcon />
-                </Tooltip>
-              </ToggleButton>
-            </ToggleButtonGroup>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormFilterGaleri />
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+              <FormSearchGaleri />
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+
+          <Grid item xs={12}>
+            <ContentGaleri />
+          </Grid>
+
+          <Grid item xs={12}>
+            <PaginationGaleri />
           </Grid>
         </Grid>
       </Box>
+
+      {access.create && <ModalFormGaleri />}
+
+      {access.destroy && (
+        <DeleteConfirmation
+          open={galeri.delete.open}
+          title={galeri.delete.title}
+          onDelete={handleDelete}
+          onClose={handleCloseDeleteConfirmation}
+          loading={deleteting}
+        />
+      )}
     </Fragment>
   );
 };
