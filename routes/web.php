@@ -129,6 +129,7 @@ Route::middleware('auth')->group(function (): void {
             Route::get('/', 'index')->middleware('access:kantor,read');
             Route::get('/json', 'json')->name('.json');
             Route::get('/export', 'export')->name('.export')->middleware('access:kantor,read');
+            Route::get('/report', 'report')->name('.report')->middleware('access:kantor,read');
             Route::post('/', 'store')->name('.store')->middleware('access:kantor,create');
             Route::patch('/{kantor}', 'update')->name('.update')->middleware('access:kantor,update');
             Route::patch('/{kantor}/restore', 'restore')->name('.restore')->middleware('access:kantor,destroy');

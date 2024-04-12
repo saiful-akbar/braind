@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use Inertia\Response;
 use App\Models\Kantor;
-use App\Exports\KantorExport;
-use App\Exports\Templates\KantorTemplateExport;
-use App\Http\Requests\Kantor\KantorRequest;
-use App\Http\Requests\Kantor\StoreKantorRequest;
-use App\Http\Requests\Kantor\UpdateKantorRequest;
-use App\Imports\KantorImport;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
+use App\Exports\KantorExport;
+use App\Imports\KantorImport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Kantor\KantorRequest;
+use App\Exports\Templates\KantorTemplateExport;
+use App\Http\Requests\Kantor\PdfKantorRequest;
+use App\Http\Requests\Kantor\StoreKantorRequest;
+use App\Http\Requests\Kantor\UpdateKantorRequest;
+use Illuminate\Http\Response as HttpResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class KantorController extends Controller
@@ -150,5 +153,16 @@ class KantorController extends Controller
         $kantor = Kantor::orderBy('nama', 'asc')->get();
 
         return $this->jsonResponse(data: $kantor);
+    }
+
+    /**
+     * Report PDF
+     *
+     * @param Request $request
+     * @return HttpResponse
+     */
+    public function report(PdfKantorRequest $request): HttpResponse
+    {
+        return $request->pdf(access: $this->getAccessByRoute('kantor'));
     }
 }

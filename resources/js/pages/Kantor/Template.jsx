@@ -93,6 +93,17 @@ const Template = ({ children }) => {
     dispatch(openModalImportKantor());
   };
 
+  /**
+   * fungsi untuk menangani print PDF
+   */
+  const handlePrint = () => {
+    window.open(
+      route("kantor.report", {
+        _query: params,
+      })
+    );
+  };
+
   return (
     <Fragment>
       <Header
@@ -120,24 +131,26 @@ const Template = ({ children }) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Grid item xs={12} md={4.5}>
+              <Grid item xs={12} md={4}>
                 <SearchKantor />
               </Grid>
 
               {access.destroy && (
-                <Grid item xs={12} md={4.5}>
+                <Grid item xs={12} md={4}>
                   <FilterStatusKantor />
                 </Grid>
               )}
 
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={4}>
                 <TableActionButton
+                  print
                   reload
                   export
                   import={access.create}
                   onReload={handleReload}
                   onExport={handleExport}
                   onImport={handleOpenModalImport}
+                  onPrint={handlePrint}
                 />
               </Grid>
             </Grid>

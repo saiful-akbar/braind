@@ -12,9 +12,11 @@ const TableActionButton = (props) => {
     export: exportExcel,
     import: importExcel,
     reload,
+    print,
     onExport,
     onImport,
     onReload,
+    onPrint,
   } = props;
 
   return (
@@ -22,6 +24,12 @@ const TableActionButton = (props) => {
       {reload && (
         <Button type="button" onClick={onReload}>
           Reload
+        </Button>
+      )}
+
+      {print && (
+        <Button type="button" onClick={onPrint}>
+          Print
         </Button>
       )}
 
@@ -44,18 +52,22 @@ TableActionButton.propTypes = {
   export: PropTypes.bool,
   import: PropTypes.bool,
   reload: PropTypes.bool,
+  print: PropTypes.bool,
   onExport: PropTypes.func,
   onImport: PropTypes.func,
   onReload: PropTypes.func,
+  onPrint: PropTypes.func,
 };
 
 TableActionButton.defaultProps = {
   export: false,
   import: false,
   reload: false,
+  print: false,
   onExport: () => {},
   onImport: () => {},
   onReload: () => {},
+  onPrint: () => {},
 };
 
 export default TableActionButton;
