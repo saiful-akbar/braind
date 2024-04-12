@@ -3,9 +3,9 @@ import { router, usePage } from "@inertiajs/react";
 import React, { memo } from "react";
 
 /**
- * Komponen form search untuk galeri
+ * Komponen form search untuk peta kerawanan
  */
-const FormSearchGaleri = memo(() => {
+const FormSearchPetaKerawanan = memo(() => {
   const { app } = usePage().props;
   const { params } = app.url;
   const searchValue = params.search ?? "";
@@ -26,7 +26,7 @@ const FormSearchGaleri = memo(() => {
    * fungsi untuk request data
    */
   const fetchData = (parameters) => {
-    router.visit(route("galeri"), {
+    router.visit(route("peta-kerawanan"), {
       method: "get",
       data: parameters,
       preserveScroll: true,
@@ -53,6 +53,7 @@ const FormSearchGaleri = memo(() => {
   const handleInputClear = () => {
     if (searchValue !== "") {
       setValue("");
+
       fetchData({
         ...params,
         page: 1,
@@ -66,6 +67,7 @@ const FormSearchGaleri = memo(() => {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
+
     fetchData({
       ...params,
       page: 1,
@@ -94,4 +96,4 @@ const FormSearchGaleri = memo(() => {
   );
 });
 
-export default FormSearchGaleri;
+export default FormSearchPetaKerawanan;

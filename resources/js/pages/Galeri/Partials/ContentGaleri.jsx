@@ -4,10 +4,10 @@ import { memo } from "react";
 import CardGaleri from "./CardGaleri";
 
 /**
- * Komponen image petak
+ * Komponen content galeri
  */
 const ContentGaleri = memo(() => {
-  const { data, pagination, access } = usePage().props;
+  const { data } = usePage().props;
 
   return (
     <Grid container spacing={3}>

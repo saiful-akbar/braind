@@ -45,6 +45,7 @@
   - **Kantor**
 
     - Profil
+    - Galeri
     - Peta Kerawanan
 
   - **Data Master**
@@ -83,13 +84,3 @@
   - Klik foto profil pada bagian bilah kiri aplikasi.
   - Pilih profil untuk melihat atau memperbarui data akun pengguna yang sedang login.
   - Pilih pengaturan untuk merubah tema aplikasi.
-
-## 3. Note
-
-- Menu profil kantor mencakup 3 komponen yakni:
-  - Profil
-  - Gambar
-  - Video
-- Menu peta kerawanan mencakup 2 komponen yakni
-  - Gambar
-  - Video

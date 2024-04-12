@@ -105,6 +105,18 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/peta-kerawanan')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:peta-kerawanan,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:peta-kerawanan,create');
+            Route::delete('/{petaKerawanan}', 'destroy')->name('.destroy')->middleware('access:peta-kerawanan,destroy');
+        });
+
+    /**
+     * Peta Kerawanan
+     */
+    Route::controller(PetaKerawananController::class)
+        ->name('peta-kerawanan')
+        ->prefix('/peta-kerawanan')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:peta-kerawanan,read');
         });
 
     /**

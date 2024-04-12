@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Galeri;
+namespace App\Http\Requests\PetaKerawanan;
 
 use App\Models\GaleriKantor;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Storage;
 
-class StoreGaleriRequest extends FormRequest
+class StorePetaKerawananRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -45,7 +44,7 @@ class StoreGaleriRequest extends FormRequest
         if ($this->hasFile('gambar')) {
             $gambar    = $this->file('gambar');
             $mimeType  = $gambar->getMimeType();
-            $gambarUrl = $gambar->store('galeri', ['disk' => 'public']);
+            $gambarUrl = $gambar->store('peta-kerawanan', ['disk' => 'public']);
         }
 
         GaleriKantor::create([
@@ -53,7 +52,7 @@ class StoreGaleriRequest extends FormRequest
             'video_url'  => $this->id_youtube,
             'gambar_url' => $gambarUrl,
             'mime_type'  => $mimeType,
-            'tipe'       => 'galeri',
+            'tipe'       => 'peta',
             'judul'      => $this->judul,
             'keterangan' => $this->keterangan,
         ]);

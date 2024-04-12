@@ -43,6 +43,12 @@ class GaleriRequest extends FormRequest
     {
         $galeri = GaleriKantor::with('kantor')->where('tipe', 'galeri');
 
+        // Periksa jika user bukan sebagai admin, tampilkan hanya data yang
+        // sesuai dengan kantor_id yang dimiliki user.
+        if (!user()->admin) {
+            $galeri->where('kantor_id', user()->kantor_id);
+        }
+
         // Periksa jika ada request "kantor" dan user sebagai admin, filter data
         // hanya berdasarkan kolom "kantor_id"
         if (!empty($this->query('kantor')) && user()->admin) {

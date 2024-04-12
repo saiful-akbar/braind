@@ -4,31 +4,31 @@ import AuthLayout from "@/layouts/AuthLayout";
 import {
   closeDeleteConfirmation,
   openCreateForm,
-} from "@/redux/reducers/galeriReducer";
+} from "@/redux/reducers/petaKerawananReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { router } from "@inertiajs/react";
 import { Add } from "@mui/icons-material";
 import { Box, Button, Divider, Grid } from "@mui/material";
 import React, { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ContentGaleri from "./Partials/ContentGaleri";
-import FormFilterGaleri from "./Partials/FormFilterGaleri";
-import FormFilterKantorGaleri from "./Partials/FormFilterKantorGaleri";
-import FormSearchGaleri from "./Partials/FormSearchGaleri";
-import ModalFormGaleri from "./Partials/ModalFormGaleri";
-import PaginationGaleri from "./Partials/PaginationGaleri";
+import ContentPetaKerawanan from "./Partials/ContentPetaKerawanan";
+import FormFilterKantorPetaKerawanan from "./Partials/FormFilterKantorPetaKerawanan";
+import FormFilterPetaKerawanan from "./Partials/FormFilterPetaKerawanan";
+import FormSearchPetaKerawanan from "./Partials/FormSearchPetaKerawanan";
+import ModalFormPetaKerawanan from "./Partials/ModalFormPetaKerawanan";
+import PaginationPetaKerawanan from "./Partials/PaginationPetaKerawanan";
 
 /**
- * Halaman galeri kantor.
+ * Halaman peta kerawanan kantor.
  *
  * @returns {React.ReactElement}
  */
-const Galeri = (props) => {
+const PetaKerawanan = (props) => {
   const { access, auth, app } = props;
   const { user } = auth;
   const { params } = app.url;
   const dispatch = useDispatch();
-  const galeri = useSelector((state) => state.galeri);
+  const petaKerawanan = useSelector((state) => state.petaKerawanan);
 
   /**
    * state
@@ -50,11 +50,11 @@ const Galeri = (props) => {
   };
 
   /**
-   * fungsi untuk hapus data galeri
+   * fungsi untuk hapus data peta kerawanan
    */
   const handleDelete = () => {
-    const url = route(`galeri.${galeri.delete.type}`, {
-      galeri: galeri.delete.id,
+    const url = route(`peta-kerawanan.${petaKerawanan.delete.type}`, {
+      petaKerawanan: petaKerawanan.delete.id,
       _query: params,
     });
 
@@ -71,7 +71,7 @@ const Galeri = (props) => {
           dispatch(
             openNotification({
               status: "error",
-              message: "Terjadi kesalahan. Gagal menghapus galeri.",
+              message: "Terjadi kesalahan. Gagal menghapus peta kerawanan.",
             })
           );
         },
@@ -82,7 +82,7 @@ const Galeri = (props) => {
   return (
     <Fragment>
       <Header
-        title="Galeri"
+        title="Peta Kerawanan"
         action={
           access.create && (
             <Button
@@ -102,16 +102,16 @@ const Galeri = (props) => {
           <Grid item xs={12} container spacing={2}>
             {user.admin && (
               <Grid item xs={12} sm={6} md={4}>
-                <FormFilterKantorGaleri />
+                <FormFilterKantorPetaKerawanan />
               </Grid>
             )}
 
             <Grid item xs={12} sm={6} md={4}>
-              <FormFilterGaleri />
+              <FormFilterPetaKerawanan />
             </Grid>
 
             <Grid item xs={12} sm={6} md={4}>
-              <FormSearchGaleri />
+              <FormSearchPetaKerawanan />
             </Grid>
           </Grid>
 
@@ -120,21 +120,21 @@ const Galeri = (props) => {
           </Grid>
 
           <Grid item xs={12}>
-            <ContentGaleri />
+            <ContentPetaKerawanan />
           </Grid>
 
           <Grid item xs={12}>
-            <PaginationGaleri />
+            <PaginationPetaKerawanan />
           </Grid>
         </Grid>
       </Box>
 
-      {access.create && <ModalFormGaleri />}
+      {access.create && <ModalFormPetaKerawanan />}
 
       {access.destroy && (
         <DeleteConfirmation
-          open={galeri.delete.open}
-          title={galeri.delete.title}
+          open={petaKerawanan.delete.open}
+          title={petaKerawanan.delete.title}
           onDelete={handleDelete}
           onClose={handleCloseDeleteConfirmation}
           loading={deleteting}
@@ -147,6 +147,8 @@ const Galeri = (props) => {
 /**
  * Layout
  */
-Galeri.layout = (page) => <AuthLayout title="Galeri" children={page} />;
+PetaKerawanan.layout = (page) => (
+  <AuthLayout title="PetaKerawanan" children={page} />
+);
 
-export default Galeri;
+export default PetaKerawanan;

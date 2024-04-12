@@ -6,9 +6,9 @@ import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 
 /**
- * Komponen filter kantor untuk halaman galeri
+ * Komponen filter kantor untuk halaman peta kerawanan
  */
-const FormFilterKantorGaleri = memo(() => {
+const FormFilterKantorPetaKerawanan = memo(() => {
   const dispatch = useDispatch();
   const { app } = usePage().props;
   const { params } = app.url;
@@ -61,7 +61,7 @@ const FormFilterKantorGaleri = memo(() => {
   const handleInputChange = (e) => {
     setValue(e.target.value);
 
-    router.visit(route("galeri"), {
+    router.visit(route("peta-kerawanan"), {
       method: "get",
       data: {
         ...params,
@@ -91,4 +91,4 @@ const FormFilterKantorGaleri = memo(() => {
   );
 });
 
-export default FormFilterKantorGaleri;
+export default FormFilterKantorPetaKerawanan;

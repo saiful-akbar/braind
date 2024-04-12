@@ -21,9 +21,9 @@ const options = [
 ];
 
 /**
- * Komponen form filter galeri
+ * Komponen form filter peta kerawanan
  */
-const FormFilterGaleri = memo(() => {
+const FormFilterPetaKerawanan = memo(() => {
   const { app } = usePage().props;
   const { params } = app.url;
 
@@ -48,7 +48,7 @@ const FormFilterGaleri = memo(() => {
    */
   const handleInputChange = (e) => {
     setValue(e.target.value);
-    router.visit(route("galeri"), {
+    router.visit(route("peta-kerawanan"), {
       method: "get",
       data: {
         ...params,
@@ -78,4 +78,4 @@ const FormFilterGaleri = memo(() => {
   );
 });
 
-export default FormFilterGaleri;
+export default FormFilterPetaKerawanan;
