@@ -37,7 +37,7 @@ class StoreUserRequest extends FormRequest
             'kota' => 'nullable|string|max:50',
             'kode_pos' => 'nullable|string|max:10',
             'alamat' => 'nullable|string|max:200',
-            'telepon' => 'nullable|unique:users,phone|regex:/^[0-9]{10,13}+$/',
+            'telepon' => 'nullable|unique:users,telepon|regex:/^[0-9]{10,13}+$/',
             'email' => 'nullable|email:filter|unique:users,email'
         ];
     }

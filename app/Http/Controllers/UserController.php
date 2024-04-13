@@ -10,11 +10,12 @@ use App\Exports\UserExport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Users\UserRequest;
 use App\Http\Requests\Users\StoreUserRequest;
+use App\Http\Requests\Users\UpdateUserRequest;
 use App\Http\Requests\Users\StoreAccessUserRequest;
 use App\Http\Requests\Users\UpdateAccessUserRequest;
-use App\Http\Requests\Users\UpdateUserRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class UserController extends Controller
@@ -179,6 +180,12 @@ class UserController extends Controller
         $user = User::onlyTrashed()->findOrFail($id);
 
         if (!is_null($user)) {
+
+            // Hapus foto user
+            $photoUrl = str_replace(storage_url(), '', $user->foto);
+            Storage::disk('public')->delete($photoUrl);
+
+            // Hapus user
             $user->forceDelete();
         }
 
