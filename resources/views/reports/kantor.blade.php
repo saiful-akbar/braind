@@ -1,7 +1,5 @@
 <x-layouts.report title="Report Kantor">
-    <x-slot:header>
-        Kantor
-    </x-slot:header>
+    <x-slot:header>Kantor</x-slot:header>
 
     <table class="table" width="100%">
         <thead>

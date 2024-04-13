@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Models\PerusahaanExport;
+use Illuminate\Http\JsonResponse;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
 use App\Exports\PerusahaanExportExport;
@@ -13,9 +14,10 @@ use App\Exports\Templates\PerusahaanExportTemplateExport;
 use App\Http\Requests\PerusahaanExport\PerusahaanExportRequest;
 use App\Http\Requests\PerusahaanExport\StorePerusahaanExportRequest;
 use App\Http\Requests\PerusahaanExport\ImportPerusahaanExportRequest;
-use App\Http\Requests\PerusahaanExport\TopFivePerusahaanExportRequest;
+use App\Http\Requests\PerusahaanExport\ReportPerusahaanExportRequest;
 use App\Http\Requests\PerusahaanExport\UpdatePerusahaanExportRequest;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\PerusahaanExport\TopFivePerusahaanExportRequest;
+use Illuminate\Http\Response as HttpResponse;
 
 class PerusahaanExportController extends Controller
 {
@@ -186,5 +188,18 @@ class PerusahaanExportController extends Controller
     public function topFive(TopFivePerusahaanExportRequest $request): JsonResponse
     {
         return $this->jsonResponse(data: $request->read());
+    }
+
+    /**
+     * Cetak report PDF Perusahaan export
+     *
+     * @param ReportPerusahaanExportRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportPerusahaanExportRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('perusahaan-export')
+        );
     }
 }

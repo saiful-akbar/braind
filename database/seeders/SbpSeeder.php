@@ -16,9 +16,9 @@ class SbpSeeder extends Seeder
     public function run(): void
     {
         $kantor = Kantor::where('nama', 'pusat')->first();
-        $user = User::where('username', 'admin')->first();
+        $user = User::where('username', 'Kanwil')->first();
 
-        for ($i = 1; $i <= 1000; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             Sbp::create([
                 'kantor_id' => $kantor->id,
                 'user_id' => $user->id,

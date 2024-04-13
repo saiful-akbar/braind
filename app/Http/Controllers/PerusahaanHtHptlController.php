@@ -11,11 +11,13 @@ use App\Imports\PerusahaanHtHptlImport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Exports\Templates\PerusahaanHtHptlTemplateExport;
 use App\Http\Requests\PerusahaanHtHptl\PerusahaanHtHptlRequest;
+use App\Http\Requests\PerusahaanHtHptl\ReportPerusahaanHtHptlRequest;
 use App\Http\Requests\PerusahaanHtHptl\StorePerusahaanHtHptlRequest;
 use App\Http\Requests\PerusahaanHtHptl\TopFivePerusahaanHtHptlRequest;
 use App\Http\Requests\PerusahaanHtHptl\UpdatePerusahaanHtHptlRequest;
 use App\Models\PerusahaanHtHptl;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response as HttpResponse;
 
 class PerusahaanHtHptlController extends Controller
 {
@@ -168,5 +170,16 @@ class PerusahaanHtHptlController extends Controller
         return $this->jsonResponse(
             data: $request->read(),
         );
+    }
+
+    /**
+     * Report PDF perusahaan HT + HPTL
+     *
+     * @param ReportPerusahaanHtHptlRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportPerusahaanHtHptlRequest $request): HttpResponse
+    {
+        return $request->printPdf(access: $this->getAccessByRoute('perusahaan-hthptl'));
     }
 }

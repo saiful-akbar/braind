@@ -16,6 +16,8 @@ use App\Http\Requests\Sbp\ChartSbpRequest;
 use App\Http\Requests\Sbp\StoreSbpRequest;
 use App\Http\Requests\Sbp\UpdateSbpRequest;
 use App\Exports\Templates\SbpTemplateExport;
+use App\Http\Requests\Sbp\ReportSbpRequest;
+use Illuminate\Http\Response as HttpResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SbpController extends Controller
@@ -205,5 +207,16 @@ class SbpController extends Controller
             ->get();
 
         return $this->jsonResponse(data: $years);
+    }
+
+    /**
+     * SBP report PDF.
+     *
+     * @param ReportSbpRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportSbpRequest $request): HttpResponse
+    {
+        return $request->printPdf(access: $this->getAccessByRoute('sbp'));
     }
 }

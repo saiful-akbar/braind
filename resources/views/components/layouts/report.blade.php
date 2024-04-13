@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{{ $title }}</title>
+    <title>{{ $title }} - {{ config('app.name') }}</title>
 
     <style>
         @page {
@@ -35,7 +35,7 @@
         }
 
         .main-content {
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         .text-left {
@@ -56,7 +56,7 @@
 
         .table tr th,
         .table tr td {
-            padding: 5px;
+            padding: 5px 7px;
             border-bottom: 1px solid black;
         }
 
@@ -97,6 +97,11 @@
                 <th class="text-left">Periode</th>
                 <td>:</td>
                 <td>{{ request('start_period') }} ~ {{ request('end_period') }}</td>
+            </tr>
+            <tr>
+                <th class="text-left">Status</th>
+                <td>:</td>
+                <td>{{ ucfirst(request('status', 'aktif')) }}</td>
             </tr>
             <tr>
                 <th class="text-left">Tanggal</th>

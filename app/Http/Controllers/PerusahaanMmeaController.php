@@ -9,11 +9,13 @@ use Inertia\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\PerusahaanMmea\PerusahaanMmeaRequest;
+use App\Http\Requests\PerusahaanMmea\ReportPerusahaanMmeaRequest;
 use App\Http\Requests\PerusahaanMmea\StorePerusahaanMmeaRequest;
 use App\Http\Requests\PerusahaanMmea\TopFivePerusahaanMmeaRequest;
 use App\Http\Requests\PerusahaanMmea\UpdatePerusahaanMmeaRequest;
 use App\Models\PerusahaanMmea;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response as HttpResponse;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -191,6 +193,19 @@ class PerusahaanMmeaController extends Controller
     {
         return $this->jsonResponse(
             data: $request->read()
+        );
+    }
+
+    /**
+     * Report PDF perusahaan cukai MMEA
+     *
+     * @param ReportPerusahaanMmeaRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportPerusahaanMmeaRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('perusahaan-mmea')
         );
     }
 }

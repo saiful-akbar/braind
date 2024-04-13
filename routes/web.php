@@ -226,8 +226,9 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/sbp')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:sbp,read');
-            Route::post('/store', 'store')->name('.store')->middleware('access:sbp,create');
             Route::get('/export', 'export')->name('.export')->middleware('access:sbp,read');
+            Route::get('/report', 'report')->name('.report')->middleware('access:sbp,read');
+            Route::post('/store', 'store')->name('.store')->middleware('access:sbp,create');
             Route::patch('/{sbp}', 'update')->name('.update')->middleware('access:sbp,update');
             Route::delete('/{sbp}', 'remove')->name('.remove')->middleware('access:sbp,remove');
             Route::patch('/{sbp}/restore', 'restore')->name('.restore')->middleware('access:sbp,destroy');
@@ -258,6 +259,7 @@ Route::middleware('auth')->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan-hthptl,read');
             Route::get('/create', 'create')->name('.create')->middleware('access:perusahaan-hthptl,create');
             Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-hthptl,read');
+            Route::get('/report', 'report')->name('.report')->middleware('access:perusahaan-hthptl,read');
             Route::post('/', 'store')->name('.store')->middleware('access:perusahaan-hthptl,create');
             Route::patch('/{id}', 'update')->name('.update')->middleware('access:perusahaan-hthptl,update');
             Route::delete('/{id}', 'remove')->name('.remove')->middleware('access:perusahaan-hthptl,remove');
@@ -280,12 +282,13 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/perusahaan-mmea')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan-mmea,read');
+            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-mmea,read');
+            Route::get('/report', 'report')->name('.report')->middleware('access:perusahaan-mmea,read');
             Route::post('/', 'store')->name('.store')->middleware('access:perusahaan-mmea,create');
             Route::patch('/{perusahaan}', 'update')->name('.update')->middleware('access:perusahaan-mmea,update');
             Route::delete('/{perusahaan}', 'remove')->name('.remove')->middleware('access:perusahaan-mmea,remove');
             Route::patch('/{perusahaan}/restore', 'restore')->name('.restore')->middleware('access:perusahaan-mmea,destroy');
             Route::delete('/{perusahaan}/destroy', 'destroy')->name('.destroy')->middleware('access:perusahaan-mmea,destroy');
-            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-mmea,read');
 
             Route::name('.import')
                 ->prefix('/import')
@@ -305,12 +308,13 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/perusahaan-export')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan-export,read');
+            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-export,read');
+            Route::get('/report', 'report')->name('.report')->middleware('access:perusahaan-export,read');
             Route::post('/', 'store')->name('.store')->middleware('access:perusahaan-export,create');
             Route::patch('/{perusahaan}', 'update')->name('.update')->middleware('access:perusahaan-export,update');
             Route::delete('/{perusahaan}', 'remove')->name('.remove')->middleware('access:perusahaan-export,remove');
             Route::patch('/{perusahaan}/restore', 'restore')->name('.restore')->middleware('access:perusahaan-export,destroy');
             Route::delete('/{perusahaan}/destroy', 'destroy')->name('.destroy')->middleware('access:perusahaan-export,destroy');
-            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-export,read');
 
             Route::name('.import')
                 ->prefix('/import')
@@ -330,12 +334,13 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/perusahaan-import')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:perusahaan-import,read');
+            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-import,read');
+            Route::get('/report', 'report')->name('.report')->middleware('access:perusahaan-import,read');
             Route::post('/', 'store')->name('.store')->middleware('access:perusahaan-import,create');
             Route::patch('/{perusahaan}', 'update')->name('.update')->middleware('access:perusahaan-import,update');
             Route::delete('/{perusahaan}', 'remove')->name('.remove')->middleware('access:perusahaan-import,remove');
             Route::patch('/{perusahaan}/restore', 'restore')->name('.restore')->middleware('access:perusahaan-import,destroy');
             Route::delete('/{perusahaan}/destroy', 'destroy')->name('.destroy')->middleware('access:perusahaan-import,destroy');
-            Route::get('/export', 'export')->name('.export')->middleware('access:perusahaan-import,read');
 
             Route::name('.import')
                 ->prefix('/import')

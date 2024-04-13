@@ -69,7 +69,7 @@ const columns = (access, status) => {
     },
     {
       field: "jumlah_liter",
-      label: "jumlah_liter",
+      label: "Jumlah Liter",
       align: "right",
       format: "number",
       show: true,
@@ -77,7 +77,7 @@ const columns = (access, status) => {
     },
     {
       field: "jumlah_cukai",
-      label: "jumlah_cukai",
+      label: "Jumlah Cukai",
       align: "right",
       format: "decimal",
       show: true,

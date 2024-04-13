@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Models\PerusahaanImport;
+use Illuminate\Http\JsonResponse;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
 use App\Exports\PerusahaanImportExport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Exports\Templates\PerusahaanImportTemplateExport;
+use App\Http\Requests\PerusahaanImport\PerusahaanImportRequest;
+use App\Http\Requests\PerusahaanImport\ReportPerusahaanImportRequest;
+use App\Http\Requests\PerusahaanImport\StorePerusahaanImportRequest;
 use App\Http\Requests\PerusahaanImport\TopFivePerusahaanImportRequest;
-use App\Http\Requests\PerusahaanImports\PerusahaanImportRequest;
-use App\Http\Requests\PerusahaanImports\StorePerusahaanImportRequest;
-use App\Http\Requests\PerusahaanImports\ImportPerusahaanImportRequest;
-use App\Http\Requests\PerusahaanImports\UpdatePerusahaanImportRequest;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\PerusahaanImport\ImportPerusahaanImportRequest;
+use App\Http\Requests\PerusahaanImport\UpdatePerusahaanImportRequest;
+use Illuminate\Http\Response as HttpResponse;
 
 class PerusahaanImportController extends Controller
 {
@@ -187,6 +189,19 @@ class PerusahaanImportController extends Controller
     {
         return $this->jsonResponse(
             data: $request->read(),
+        );
+    }
+
+    /**
+     * Cetak report PDF Perusahaan import
+     *
+     * @param ReportPerusahaanImportRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportPerusahaanImportRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('perusahaan-import')
         );
     }
 }

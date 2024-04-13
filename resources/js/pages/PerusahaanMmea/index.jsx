@@ -74,6 +74,17 @@ const PerusahaanMmea = (props) => {
     dispatch(openFormImportExcel());
   }, [dispatch]);
 
+  /**
+   * fungsi untuk cetak laporan PDF perusahaan MMEA
+   */
+  const handlePrint = () => {
+    window.open(
+      route("perusahaan-mmea.report", {
+        _query: params,
+      })
+    );
+  };
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
@@ -84,24 +95,26 @@ const PerusahaanMmea = (props) => {
         <CardPaper>
           <CardContent>
             <Grid container spacing={3} justifyContent="space-between">
-              <Grid item xs={12} md={4.5}>
+              <Grid item xs={12} md={4}>
                 <FormSearchPerusahaanMmea />
               </Grid>
 
               {access.destroy && (
-                <Grid item xs={12} md={4.5}>
+                <Grid item xs={12} md={4}>
                   <FilterStatusPerusahaanMmea />
                 </Grid>
               )}
 
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={4}>
                 <TableActionButton
                   reload
                   export
+                  print
                   import={access.create}
                   onReload={handleReload}
                   onExport={handleExport}
                   onImport={handleOpenFormImportExcel}
+                  onPrint={handlePrint}
                 />
               </Grid>
 

@@ -61,7 +61,7 @@ class PdfKantorRequest extends FormRequest
         ];
 
         return Pdf::loadView('reports.kantor', $data)
-            ->setPaper('a4', 'potrait')
+            ->setPaper('a4', 'landscape')
             ->stream();
     }
 }

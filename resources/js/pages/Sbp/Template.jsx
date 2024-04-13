@@ -22,7 +22,19 @@ import { Add } from "@mui/icons-material";
 const SbpTemplate = ({ children }) => {
   const { exportExcel, reload, openModalForm } = useSbp();
   const { openForm: openFormImport } = useSbp().importExcel;
-  const { access } = usePage().props;
+  const { access, app } = usePage().props;
+  const { params } = app.url;
+
+  /**
+   * fungsi untuk menangani print PDF
+   */
+  const handlePrint = () => {
+    window.open(
+      route("sbp.report", {
+        _query: params,
+      })
+    );
+  };
 
   return (
     <Fragment>
@@ -54,22 +66,24 @@ const SbpTemplate = ({ children }) => {
             <CardPaper>
               <CardContent>
                 <Grid container spacing={3} justifyContent="space-between">
-                  <Grid item xs={12} md={4.5}>
+                  <Grid item xs={12} md={4}>
                     <SearchSbp />
                   </Grid>
 
-                  <Grid item xs={12} md={4.5}>
+                  <Grid item xs={12} md={4}>
                     <FilterStatusSbp />
                   </Grid>
 
-                  <Grid item xs={12} md={3}>
+                  <Grid item xs={12} md={4}>
                     <TableActionButton
                       reload
                       import
                       export
+                      print
                       onReload={reload}
                       onExport={exportExcel}
                       onImport={openFormImport}
+                      onPrint={handlePrint}
                     />
                   </Grid>
                 </Grid>
