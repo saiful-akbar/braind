@@ -189,6 +189,17 @@ const Pengawasan = (props) => {
     dispatch(openFormlImport());
   }, [dispatch]);
 
+  /**
+   * Cetak report PDF
+   */
+  const handlePrint = () => {
+    window.open(
+      route("pengawasan.report", {
+        _query: params,
+      })
+    );
+  };
+
   return (
     <Fragment>
       <Header
@@ -219,24 +230,26 @@ const Pengawasan = (props) => {
             <CardPaper>
               <CardContent>
                 <Grid container spacing={3} justifyContent="space-between">
-                  <Grid item md={4.5} xs={12}>
+                  <Grid item md={4} xs={12}>
                     <FormSearchPengawasan />
                   </Grid>
 
                   {access.destroy && (
-                    <Grid item md={4.5} xs={12}>
+                    <Grid item md={4} xs={12}>
                       <FormFilterStatusPengawasan />
                     </Grid>
                   )}
 
-                  <Grid item md={3} xs={12}>
+                  <Grid item md={4} xs={12}>
                     <TableActionButton
                       reload
                       export
+                      print
                       import={access.create}
                       onReload={handleReload}
                       onExport={handleExport}
                       onImport={handleOpenFormImport}
+                      onPrint={handlePrint}
                     />
                   </Grid>
 

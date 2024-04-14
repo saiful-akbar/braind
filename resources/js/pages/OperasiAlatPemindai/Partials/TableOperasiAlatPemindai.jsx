@@ -45,7 +45,7 @@ const columns = (access, status) => {
     },
     {
       field: "merek",
-      label: "merek",
+      label: "Merek",
       align: "left",
       format: "none",
       show: true,
@@ -53,7 +53,7 @@ const columns = (access, status) => {
     },
     {
       field: "tipe",
-      label: "tipe",
+      label: "Tipe",
       align: "left",
       format: "none",
       show: true,

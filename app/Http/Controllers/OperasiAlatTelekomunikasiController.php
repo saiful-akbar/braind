@@ -13,7 +13,9 @@ use App\Http\Requests\OperasiAlatTelekomunikasi\OperasiAlatTelekomunikasiRequest
 use App\Http\Requests\OperasiAlatTelekomunikasi\StoreOperasiAlatTelekomunikasiRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\OperasiAlatTelekomunikasi\ImportOperasiAlatTelekomunikasiRequest;
+use App\Http\Requests\OperasiAlatTelekomunikasi\ReportOperasiAlatTelekomunikasiRequest;
 use App\Http\Requests\OperasiAlatTelekomunikasi\UpdateOperasiAlatTelekomunikasiRequest;
+use Illuminate\Http\Response as HttpResponse;
 
 class OperasiAlatTelekomunikasiController extends Controller
 {
@@ -173,5 +175,18 @@ class OperasiAlatTelekomunikasiController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Cetak report PDF
+     *
+     * @param ReportOperasiAlatTelekomunikasiRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportOperasiAlatTelekomunikasiRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('operasi-alat-telekomunikasi'),
+        );
     }
 }

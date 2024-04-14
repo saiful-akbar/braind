@@ -189,6 +189,17 @@ const OperasilSenjataApi = (props) => {
     dispatch(openFormlImport());
   }, [dispatch]);
 
+  /**
+   * print report PDF
+   */
+  const handlePrint = () => {
+    window.open(
+      route("operasi-senjata-api.report", {
+        _query: params,
+      })
+    );
+  };
+
   return (
     <Fragment>
       <Header
@@ -219,24 +230,26 @@ const OperasilSenjataApi = (props) => {
             <CardPaper>
               <CardContent>
                 <Grid container spacing={3} justifyContent="space-between">
-                  <Grid item md={4.5} xs={12}>
+                  <Grid item md={4} xs={12}>
                     <FormSearchOperasilSenjataApi />
                   </Grid>
 
                   {access.destroy && (
-                    <Grid item md={4.5} xs={12}>
+                    <Grid item md={4} xs={12}>
                       <FormFilterStatusOperasilSenjataApi />
                     </Grid>
                   )}
 
-                  <Grid item md={3} xs={12}>
+                  <Grid item md={4} xs={12}>
                     <TableActionButton
                       reload
                       export
+                      print
                       import={access.create}
                       onReload={handleReload}
                       onExport={handleExport}
                       onImport={handleOpenFormImport}
+                      onPrint={handlePrint}
                     />
                   </Grid>
 

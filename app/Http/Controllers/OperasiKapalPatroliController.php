@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use Inertia\Response;
-use App\Models\OperasiKapalPatroli;
 use Illuminate\Http\Request;
-use App\Exports\OperasiKapalPatroliExport;
+use App\Models\OperasiKapalPatroli;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
+use App\Exports\OperasiKapalPatroliExport;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Exports\Templates\OperasiKapalPatroliTemplateExport;
 use App\Http\Requests\OperasiKapalPatroli\OperasiKapalPatroliRequest;
 use App\Http\Requests\OperasiKapalPatroli\StoreOperasiKapalPatroliRequest;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\OperasiKapalPatroli\ImportOperasiKapalPatroliRequest;
+use App\Http\Requests\OperasiKapalPatroli\ReportOperasiKapalPatroliRequest;
 use App\Http\Requests\OperasiKapalPatroli\UpdateOperasiKapalPatroliRequest;
+use Illuminate\Http\Response as HttpResponse;
 
 class OperasiKapalPatroliController extends Controller
 {
@@ -173,5 +175,18 @@ class OperasiKapalPatroliController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Cetak report PDF
+     *
+     * @param ReportOperasiKapalPatroliRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportOperasiKapalPatroliRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('operasi-kapal-patroli'),
+        );
     }
 }

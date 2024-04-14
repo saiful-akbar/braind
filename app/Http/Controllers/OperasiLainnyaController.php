@@ -13,7 +13,9 @@ use App\Http\Requests\OperasiLainnya\OperasiLainnyaRequest;
 use App\Http\Requests\OperasiLainnya\StoreOperasiLainnyaRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\OperasiLainnya\ImportOperasiLainnyaRequest;
+use App\Http\Requests\OperasiLainnya\ReportOperasiLainnyaRequest;
 use App\Http\Requests\OperasiLainnya\UpdateOperasiLainnyaRequest;
+use Illuminate\Http\Response as HttpResponse;
 
 class OperasiLainnyaController extends Controller
 {
@@ -173,5 +175,18 @@ class OperasiLainnyaController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Print report PDF
+     *
+     * @param ReportOperasiLainnyaRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportOperasiLainnyaRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('operasi-lainnya')
+        );
     }
 }

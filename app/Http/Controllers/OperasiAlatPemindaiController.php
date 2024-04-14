@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use Inertia\Response;
-use App\Models\OperasiAlatPemindai;
 use Illuminate\Http\Request;
-use App\Exports\OperasiAlatPemindaiExport;
+use App\Models\OperasiAlatPemindai;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
+use App\Exports\OperasiAlatPemindaiExport;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Exports\Templates\OperasiAlatPemindaiTemplateExport;
 use App\Http\Requests\OperasiAlatPemindai\OperasiAlatPemindaiRequest;
 use App\Http\Requests\OperasiAlatPemindai\StoreOperasiAlatPemindaiRequest;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\OperasiAlatPemindai\ImportOperasiAlatPemindaiRequest;
+use App\Http\Requests\OperasiAlatPemindai\ReportOperasiAlatPemindaiRequest;
 use App\Http\Requests\OperasiAlatPemindai\UpdateOperasiAlatPemindaiRequest;
+use Illuminate\Http\Response as HttpResponse;
 
 class OperasiAlatPemindaiController extends Controller
 {
@@ -173,5 +175,18 @@ class OperasiAlatPemindaiController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Cetak laporan PDF.
+     *
+     * @param ReportOperasiAlatPemindaiRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportOperasiAlatPemindaiRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('operasi-alat-pemindai')
+        );
     }
 }

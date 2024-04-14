@@ -13,7 +13,9 @@ use App\Http\Requests\Penindakan\PenindakanRequest;
 use App\Http\Requests\Penindakan\StorePenindakanRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\Penindakan\ImportPenindakanRequest;
+use App\Http\Requests\Penindakan\ReportPenindakanRequest;
 use App\Http\Requests\Penindakan\UpdatePenindakanRequest;
+use Illuminate\Http\Response as HttpResponse;
 
 class PenindakanController extends Controller
 {
@@ -173,5 +175,18 @@ class PenindakanController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Cetak laporan PDF.
+     *
+     * @param ReportPenindakanRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportPenindakanRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('penindakan')
+        );
     }
 }

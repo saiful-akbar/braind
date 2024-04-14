@@ -192,6 +192,17 @@ const OperasilAlatPemindai = (props) => {
     dispatch(openFormlImport());
   }, [dispatch]);
 
+  /**
+   * cetak laporan PDF
+   */
+  const handlePrint = () => {
+    window.open(
+      route("operasi-alat-pemindai.report", {
+        _query: params,
+      })
+    );
+  };
+
   return (
     <Fragment>
       <Header
@@ -222,24 +233,26 @@ const OperasilAlatPemindai = (props) => {
             <CardPaper>
               <CardContent>
                 <Grid container spacing={3} justifyContent="space-between">
-                  <Grid item md={4.5} xs={12}>
+                  <Grid item md={4} xs={12}>
                     <FormSearchOperasilAlatPemindai />
                   </Grid>
 
                   {access.destroy && (
-                    <Grid item md={4.5} xs={12}>
+                    <Grid item md={4} xs={12}>
                       <FormFilterStatusOperasilAlatPemindai />
                     </Grid>
                   )}
 
-                  <Grid item md={3} xs={12}>
+                  <Grid item md={4} xs={12}>
                     <TableActionButton
                       reload
                       export
+                      print
                       import={access.create}
                       onReload={handleReload}
                       onExport={handleExport}
                       onImport={handleOpenFormImport}
+                      onPrint={handlePrint}
                     />
                   </Grid>
 

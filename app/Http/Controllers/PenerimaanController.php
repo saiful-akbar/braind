@@ -16,7 +16,9 @@ use App\Http\Requests\Penerimaan\ChartPenerimaanRequest;
 use App\Http\Requests\Penerimaan\StorePenerimaanRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\Penerimaan\ImportPenerimaanRequest;
+use App\Http\Requests\Penerimaan\ReportPenerimaanRequest;
 use App\Http\Requests\Penerimaan\UpdatePenerimaanRequest;
+use Illuminate\Http\Response as HttpResponse;
 
 class PenerimaanController extends Controller
 {
@@ -204,5 +206,18 @@ class PenerimaanController extends Controller
             ->get();
 
         return $this->jsonResponse(data: $years);
+    }
+
+    /**
+     * Penerimaan report PDF
+     *
+     * @param ReportPenerimaanRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportPenerimaanRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('penerimaan'),
+        );
     }
 }

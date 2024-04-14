@@ -13,7 +13,9 @@ use App\Http\Requests\OperasiSenjataApi\OperasiSenjataApiRequest;
 use App\Http\Requests\OperasiSenjataApi\StoreOperasiSenjataApiRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\OperasiSenjataApi\ImportOperasiSenjataApiRequest;
+use App\Http\Requests\OperasiSenjataApi\ReportOperasiSenjataApiRequest;
 use App\Http\Requests\OperasiSenjataApi\UpdateOperasiSenjataApiRequest;
+use Illuminate\Http\Response as HttpResponse;
 
 class OperasiSenjataApiController extends Controller
 {
@@ -173,5 +175,18 @@ class OperasiSenjataApiController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Print report PDF
+     *
+     * @param ReportOperasiSenjataApiRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportOperasiSenjataApiRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('operasi-senjata-api')
+        );
     }
 }

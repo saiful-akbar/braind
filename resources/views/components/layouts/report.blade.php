@@ -23,6 +23,8 @@
 
         .header-divider {
             margin: 10px 0;
+            width: 100%;
+            border-bottom: 3px solid black
         }
 
         .border-bottom {
@@ -90,7 +92,7 @@
             </thead>
         </table>
 
-        <hr class="header-divider">
+        <div class="header-divider"></div>
 
         <table class="periode" border="0" cellspacing="5" cellpadding="0">
             <tr>

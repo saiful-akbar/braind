@@ -360,12 +360,13 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/penerimaan')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:penerimaan,read');
+            Route::get('/export', 'export')->name('.export')->middleware('access:penerimaan,read');
+            Route::get('/report', 'report')->name('.report')->middleware('access:penerimaan,read');
             Route::post('/', 'store')->name('.store')->middleware('access:penerimaan,create');
             Route::patch('/{penerimaan}', 'update')->name('.update')->middleware('access:penerimaan,update');
             Route::delete('/{penerimaan}', 'remove')->name('.remove')->middleware('access:penerimaan,remove');
             Route::patch('/{penerimaan}/restore', 'restore')->name('.restore')->middleware('access:penerimaan,destroy');
             Route::delete('/{penerimaan}/destroy', 'destroy')->name('.destroy')->middleware('access:penerimaan,destroy');
-            Route::get('/export', 'export')->name('.export')->middleware('access:penerimaan,read');
 
             Route::name('.import')
                 ->prefix('/import')
@@ -390,12 +391,13 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/pengawasan')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:pengawasan,read');
+            Route::get('/export', 'export')->name('.export')->middleware('access:pengawasan,read');
+            Route::get('/report', 'report')->name('.report')->middleware('access:pengawasan,read');
             Route::post('/', 'store')->name('.store')->middleware('access:pengawasan,create');
             Route::patch('/{pengawasan}', 'update')->name('.update')->middleware('access:pengawasan,update');
             Route::delete('/{pengawasan}', 'remove')->name('.remove')->middleware('access:pengawasan,remove');
             Route::patch('/{pengawasan}/restore', 'restore')->name('.restore')->middleware('access:pengawasan,destroy');
             Route::delete('/{pengawasan}/destroy', 'destroy')->name('.destroy')->middleware('access:pengawasan,destroy');
-            Route::get('/export', 'export')->name('.export')->middleware('access:pengawasan,read');
 
             Route::name('.import')
                 ->prefix('/import')
@@ -413,12 +415,13 @@ Route::middleware('auth')->group(function (): void {
         ->prefix('/penindakan')
         ->group(function (): void {
             Route::get('/', 'index')->middleware('access:penindakan,read');
+            Route::get('/export', 'export')->name('.export')->middleware('access:penindakan,read');
+            Route::get('/report', 'report')->name('.report')->middleware('access:penindakan,read');
             Route::post('/', 'store')->name('.store')->middleware('access:penindakan,create');
             Route::patch('/{penindakan}', 'update')->name('.update')->middleware('access:penindakan,update');
             Route::delete('/{penindakan}', 'remove')->name('.remove')->middleware('access:penindakan,remove');
             Route::patch('/{penindakan}/restore', 'restore')->name('.restore')->middleware('access:penindakan,destroy');
             Route::delete('/{penindakan}/destroy', 'destroy')->name('.destroy')->middleware('access:penindakan,destroy');
-            Route::get('/export', 'export')->name('.export')->middleware('access:penindakan,read');
 
             Route::name('.import')
                 ->prefix('/import')
@@ -441,6 +444,7 @@ Route::middleware('auth')->group(function (): void {
             Route::delete('/{operasi}', 'remove')->name('.remove')->middleware('access:operasi-alat-pemindai,remove');
             Route::patch('/{operasi}/restore', 'restore')->name('.restore')->middleware('access:operasi-alat-pemindai,destroy');
             Route::delete('/{operasi}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-alat-pemindai,destroy');
+            Route::get('/report', 'report')->name('.report')->middleware('access:operasi-alat-pemindai,read');
             Route::get('/export', 'export')->name('.export')->middleware('access:operasi-alat-pemindai,read');
 
             Route::name('.import')
@@ -464,6 +468,7 @@ Route::middleware('auth')->group(function (): void {
             Route::delete('/{operasi}', 'remove')->name('.remove')->middleware('access:operasi-alat-telekomunikasi,remove');
             Route::patch('/{operasi}/restore', 'restore')->name('.restore')->middleware('access:operasi-alat-telekomunikasi,destroy');
             Route::delete('/{operasi}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-alat-telekomunikasi,destroy');
+            Route::get('/report', 'report')->name('.report')->middleware('access:operasi-alat-telekomunikasi,read');
             Route::get('/export', 'export')->name('.export')->middleware('access:operasi-alat-telekomunikasi,read');
 
             Route::name('.import')
@@ -487,6 +492,7 @@ Route::middleware('auth')->group(function (): void {
             Route::delete('/{operasi}', 'remove')->name('.remove')->middleware('access:operasi-kapal-patroli,remove');
             Route::patch('/{operasi}/restore', 'restore')->name('.restore')->middleware('access:operasi-kapal-patroli,destroy');
             Route::delete('/{operasi}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-kapal-patroli,destroy');
+            Route::get('/report', 'report')->name('.report')->middleware('access:operasi-kapal-patroli,read');
             Route::get('/export', 'export')->name('.export')->middleware('access:operasi-kapal-patroli,read');
 
             Route::name('.import')
@@ -510,6 +516,7 @@ Route::middleware('auth')->group(function (): void {
             Route::delete('/{operasi}', 'remove')->name('.remove')->middleware('access:operasi-senjata-api,remove');
             Route::patch('/{operasi}/restore', 'restore')->name('.restore')->middleware('access:operasi-senjata-api,destroy');
             Route::delete('/{operasi}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-senjata-api,destroy');
+            Route::get('/report', 'report')->name('.report')->middleware('access:operasi-senjata-api,read');
             Route::get('/export', 'export')->name('.export')->middleware('access:operasi-senjata-api,read');
 
             Route::name('.import')
@@ -533,6 +540,7 @@ Route::middleware('auth')->group(function (): void {
             Route::delete('/{operasi}', 'remove')->name('.remove')->middleware('access:operasi-lainnya,remove');
             Route::patch('/{operasi}/restore', 'restore')->name('.restore')->middleware('access:operasi-lainnya,destroy');
             Route::delete('/{operasi}/destroy', 'destroy')->name('.destroy')->middleware('access:operasi-lainnya,destroy');
+            Route::get('/report', 'report')->name('.report')->middleware('access:operasi-lainnya,read');
             Route::get('/export', 'export')->name('.export')->middleware('access:operasi-lainnya,read');
 
             Route::name('.import')

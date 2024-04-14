@@ -13,7 +13,9 @@ use App\Http\Requests\Pengawasan\PengawasanRequest;
 use App\Http\Requests\Pengawasan\StorePengawasanRequest;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Requests\Pengawasan\ImportPengawasanRequest;
+use App\Http\Requests\Pengawasan\ReportPengawasanRequest;
 use App\Http\Requests\Pengawasan\UpdatePengawasanRequest;
+use Illuminate\Http\Response as HttpResponse;
 
 class PengawasanController extends Controller
 {
@@ -175,5 +177,18 @@ class PengawasanController extends Controller
             'flash.status' => 'success',
             'flash.message' => 'Import berhasil.'
         ]);
+    }
+
+    /**
+     * Pengawasan report PDF
+     *
+     * @param ReportPengawasanRequest $request
+     * @return HttpResponse
+     */
+    public function report(ReportPengawasanRequest $request): HttpResponse
+    {
+        return $request->printPdf(
+            access: $this->getAccessByRoute('pengawasan'),
+        );
     }
 }

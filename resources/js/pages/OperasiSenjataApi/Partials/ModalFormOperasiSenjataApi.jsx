@@ -182,7 +182,7 @@ const ModalFormOperasiSenjataApi = memo(() => {
       title={title}
       loading={processing}
       onClose={handleClose}
-      maxWidth="lg"
+      maxWidth="md"
       component="form"
       autoComplete="off"
       onSubmit={handleSubmit}

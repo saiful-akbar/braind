@@ -166,7 +166,7 @@ const ModalFormPengawasan = memo(() => {
       title={pengawasan.form.title}
       loading={form.processing}
       onClose={handleClose}
-      maxWidth="lg"
+      maxWidth="md"
       component="form"
       autoComplete="off"
       onSubmit={handleSubmit}
@@ -177,7 +177,7 @@ const ModalFormPengawasan = memo(() => {
             <Grid item xs={12} md={6}>
               <SelectInput
                 fullWidth
-                label="ID Kantor"
+                label="Kantor"
                 name="kantor_id"
                 id="kantor_id"
                 items={kantor}
