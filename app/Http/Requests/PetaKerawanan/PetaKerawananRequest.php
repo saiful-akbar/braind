@@ -54,16 +54,12 @@ class PetaKerawananRequest extends FormRequest
             $sql->where('kantor_id', $this->query('kantor_id'));
         }
 
-        // periksa jika ada requets "type" dengan nilai "gambar"
-        // tampilkan hanya data gambar saja
-        if ($this->query('type') == 'gambar') {
-            $sql->whereNotNull('gambar_url');
-        }
-
         // periksa jika ada request "type" dengan nilai "video",
         // tampilkan hanya data video saja
         if ($this->query('type') == 'video') {
             $sql->whereNotNull('video_url');
+        } else {
+            $sql->whereNotNull('gambar_url');
         }
 
         // Periksa jika ada request "search", tambahkan query pencarian

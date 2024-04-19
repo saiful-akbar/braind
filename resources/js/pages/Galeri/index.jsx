@@ -4,6 +4,7 @@ import AuthLayout from "@/layouts/AuthLayout";
 import {
   closeDeleteConfirmation,
   openCreateForm,
+  setSlides,
 } from "@/redux/reducers/galeriReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { router } from "@inertiajs/react";
@@ -24,7 +25,7 @@ import PaginationGaleri from "./Partials/PaginationGaleri";
  * @returns {React.ReactElement}
  */
 const Galeri = (props) => {
-  const { access, auth, app } = props;
+  const { access, auth, app, data } = props;
   const { user } = auth;
   const { params } = app.url;
   const dispatch = useDispatch();
@@ -34,6 +35,23 @@ const Galeri = (props) => {
    * state
    */
   const [deleteting, setDeleting] = React.useState(false);
+
+  /**
+   * Set slides pada preview image.
+   */
+  React.useEffect(() => {
+    const type = params.type ?? "gambar";
+
+    if (type === "gambar") {
+      dispatch(
+        setSlides(
+          data.map((galeri) => ({
+            src: galeri.gambar_url,
+          }))
+        )
+      );
+    }
+  }, [params]);
 
   /**
    * fungsi untuk membuka modal form

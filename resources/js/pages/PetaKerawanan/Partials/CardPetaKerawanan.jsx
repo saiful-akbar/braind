@@ -5,6 +5,7 @@ import { DeleteForever } from "@mui/icons-material";
 import {
   Button,
   Card,
+  CardActionArea,
   CardActions,
   CardContent,
   CardHeader,
@@ -19,7 +20,8 @@ import { useDispatch } from "react-redux";
  * Komponen card untuk peta kerawanan.
  */
 const CardPetaKerawanan = memo((props) => {
-  const { isVideo, src, judul, keterangan, kantor, id, createdAt } = props;
+  const { isVideo, src, judul, keterangan, kantor, id, createdAt, onPreview } =
+    props;
   const { access } = usePage().props;
   const dispatch = useDispatch();
 
@@ -50,16 +52,27 @@ const CardPetaKerawanan = memo((props) => {
           title: kantor,
         }}
       />
-      <CardMedia
-        component={isVideo ? "iframe" : "img"}
-        frameBorder="0"
-        src={src}
-        loading="lazy"
-        sx={{
-          height: 200,
-          objectFit: "cover",
-        }}
-      />
+
+      {isVideo ? (
+        <CardMedia
+          component="iframe"
+          frameBorder="0"
+          src={src}
+          sx={{ height: 200 }}
+        />
+      ) : (
+        <CardActionArea onClick={onPreview}>
+          <CardMedia
+            component="img"
+            src={src}
+            loading="lazy"
+            sx={{
+              height: 200,
+              objectFit: "cover",
+            }}
+          />
+        </CardActionArea>
+      )}
 
       <CardContent sx={{ height: "100px", overflow: "hidden" }}>
         <Typography variant="body2" color="text.primary" sx={{ mt: 1 }}>
@@ -108,6 +121,7 @@ CardPetaKerawanan.propTypes = {
   kantor: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
+  onPreview: PropTypes.func.isRequired,
 };
 
 /**

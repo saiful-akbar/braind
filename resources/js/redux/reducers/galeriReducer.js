@@ -15,6 +15,8 @@ const galeriSlice = createSlice({
       open: false,
       id: null,
     },
+
+    slides: [],
   },
 
   reducers: {
@@ -36,6 +38,10 @@ const galeriSlice = createSlice({
       state.delete.open = false;
       state.delete.id = null;
     },
+
+    setSlides: (state, action) => {
+      state.slides = action.payload;
+    },
   },
 });
 
@@ -44,6 +50,7 @@ export const {
   closeForm,
   openDeleteConfirmation,
   closeDeleteConfirmation,
+  setSlides,
 } = galeriSlice.actions;
 
 export default galeriSlice.reducer;

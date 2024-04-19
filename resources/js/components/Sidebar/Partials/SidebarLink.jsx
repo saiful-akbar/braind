@@ -44,7 +44,6 @@ const SidebarLink = (props) => {
           dense
           component={Link}
           href={url}
-          preserveScroll
           onClick={handleCloseMobileSidebar}
           sx={{
             borderRadius: 2,

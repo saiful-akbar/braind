@@ -15,6 +15,8 @@ const petaKerawananSlice = createSlice({
       open: false,
       id: null,
     },
+
+    slides: [],
   },
 
   reducers: {
@@ -36,6 +38,10 @@ const petaKerawananSlice = createSlice({
       state.delete.open = false;
       state.delete.id = null;
     },
+
+    setSlides: (state, action) => {
+      state.slides = action.payload;
+    },
   },
 });
 
@@ -44,6 +50,7 @@ export const {
   closeForm,
   openDeleteConfirmation,
   closeDeleteConfirmation,
+  setSlides,
 } = petaKerawananSlice.actions;
 
 export default petaKerawananSlice.reducer;

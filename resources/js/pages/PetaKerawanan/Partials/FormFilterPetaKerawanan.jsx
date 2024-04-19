@@ -7,10 +7,6 @@ import React, { memo } from "react";
  */
 const options = [
   {
-    label: "Semua",
-    value: "",
-  },
-  {
     label: "Gambar",
     value: "gambar",
   },
@@ -30,7 +26,7 @@ const FormFilterPetaKerawanan = memo(() => {
   /**
    * State
    */
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState("gambar");
 
   /**
    * update value sesaat seltelah komponen dirender
@@ -38,8 +34,8 @@ const FormFilterPetaKerawanan = memo(() => {
   React.useEffect(() => {
     const type = params?.type ?? "";
 
-    if (type === "gambar" || type === "video") {
-      setValue(type);
+    if (type === "video") {
+      setValue("video");
     }
   }, []);
 

@@ -9,7 +9,7 @@ import { openNotification } from "@/redux/reducers/notificationReducer";
 import { router } from "@inertiajs/react";
 import { Add } from "@mui/icons-material";
 import { Box, Button, Divider, Grid } from "@mui/material";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContentPetaKerawanan from "./Partials/ContentPetaKerawanan";
 import FormFilterKantorPetaKerawanan from "./Partials/FormFilterKantorPetaKerawanan";
@@ -17,6 +17,7 @@ import FormFilterPetaKerawanan from "./Partials/FormFilterPetaKerawanan";
 import FormSearchPetaKerawanan from "./Partials/FormSearchPetaKerawanan";
 import ModalFormPetaKerawanan from "./Partials/ModalFormPetaKerawanan";
 import PaginationPetaKerawanan from "./Partials/PaginationPetaKerawanan";
+import { setSlides } from "@/redux/reducers/galeriReducer";
 
 /**
  * Halaman peta kerawanan kantor.
@@ -24,7 +25,7 @@ import PaginationPetaKerawanan from "./Partials/PaginationPetaKerawanan";
  * @returns {React.ReactElement}
  */
 const PetaKerawanan = (props) => {
-  const { access, auth, app } = props;
+  const { access, auth, app, data } = props;
   const { user } = auth;
   const { params } = app.url;
   const dispatch = useDispatch();
@@ -34,6 +35,23 @@ const PetaKerawanan = (props) => {
    * state
    */
   const [deleteting, setDeleting] = React.useState(false);
+
+  /**
+   * Set slide image
+   */
+  useEffect(() => {
+    const type = params.type ?? "gambar";
+
+    if (type === "gambar") {
+      dispatch(
+        setSlides(
+          data.map((peta) => ({
+            src: peta.gambar_url,
+          }))
+        )
+      );
+    }
+  }, [params]);
 
   /**
    * fungsi untuk membuka modal form

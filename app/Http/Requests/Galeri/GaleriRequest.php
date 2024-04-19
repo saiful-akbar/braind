@@ -55,16 +55,12 @@ class GaleriRequest extends FormRequest
             $galeri->where('kantor_id', $this->query('kantor'));
         }
 
-        // periksa jika ada request "type" dengan nilai "gambar"
-        // tampilkan hanya data yang berupa gambar
-        if ($this->query('type') == 'gambar') {
-            $galeri->whereNull('video_url');
-        }
-
         // periksa jika ada request "type" dengan nilai "video"
         // tampilkan hanya data yang berupa "video"
         if ($this->query('type') == 'video') {
             $galeri->whereNotNull('video_url');
+        } else {
+            $galeri->whereNotNull('gambar_url');
         }
 
         // Periksa jika ada request pencarian
