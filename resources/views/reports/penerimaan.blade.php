@@ -4,14 +4,14 @@
     <table width="100%" class="table">
         <thead>
             <tr>
-                <th class="text-left">No</th>
-                <th class="text-left">Nama Kantor</th>
-                <th class="text-right">Target Bea Masuk</th>
-                <th class="text-right">Realisasi Bea Masuk</th>
-                <th class="text-right">Target Bea Keluar</th>
-                <th class="text-right">Realisasi Bea Keluar</th>
-                <th class="text-right">Target Cukai</th>
-                <th class="text-right">Realisasi Cukai</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Kantor</th>
+                <th class="text-center">Target Bea Masuk</th>
+                <th class="text-center">Realisasi Bea Masuk</th>
+                <th class="text-center">Target Bea Keluar</th>
+                <th class="text-center">Realisasi Bea Keluar</th>
+                <th class="text-center">Target Cukai</th>
+                <th class="text-center">Realisasi Cukai</th>
             </tr>
         </thead>
 

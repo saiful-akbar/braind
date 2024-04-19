@@ -4,21 +4,21 @@
     <table width="100%" class="table">
         <thead>
             <tr>
-                <th class="text-left">No</th>
-                <th class="text-left">Nama Kantor</th>
-                <th class="text-left">Pemindai</th>
-                <th class="text-left">Nama Alat</th>
-                <th class="text-left">Ukuran</th>
-                <th class="text-left">Merek</th>
-                <th class="text-left">Tipe</th>
-                <th class="text-left">Nomor Seri</th>
-                {{-- <th class="text-left">Tampilan</th> --}}
-                <th class="text-right">Tahun Peolehan</th>
-                <th class="text-left">Kondisi</th>
-                <th class="text-left">Lokasi Penempatan</th>
-                <th class="text-right">Jam Oprasi</th>
-                <th class="text-right">Jam Pemindaian</th>
-                <th class="text-right">Jumlah Pemindaian</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Kantor</th>
+                <th class="text-center">Pemindai</th>
+                <th class="text-center">Nama Alat</th>
+                <th class="text-center">Ukuran</th>
+                <th class="text-center">Merek</th>
+                <th class="text-center">Tipe</th>
+                <th class="text-center">Nomor Seri</th>
+                {{-- <th class="text-center">Tampilan</th> --}}
+                <th class="text-center">Tahun Peolehan</th>
+                <th class="text-center">Kondisi</th>
+                <th class="text-center">Lokasi Penempatan</th>
+                <th class="text-center">Jam Oprasi</th>
+                <th class="text-center">Jam Pemindaian</th>
+                <th class="text-center">Jumlah Pemindaian</th>
                 {{-- <th class="text-left">Hasil Keluaran</th> --}}
                 {{-- <th class="text-left">Catatan</th> --}}
             </tr>

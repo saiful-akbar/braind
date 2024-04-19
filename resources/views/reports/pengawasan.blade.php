@@ -4,14 +4,14 @@
     <table width="100%" class="table">
         <thead>
             <tr>
-                <th class="text-left">No</th>
-                <th class="text-left">Nama Kantor</th>
-                <th class="text-left">Tipe Pengawasan</th>
-                <th class="text-left">SBP</th>
-                <th class="text-left">Kantor</th>
-                <th class="text-right">Nilai Barang</th>
-                <th class="text-right">Total Kerugian</th>
-                <th class="text-right">Potensi Kerugian</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Kantor</th>
+                <th class="text-center">Tipe Pengawasan</th>
+                <th class="text-center">SBP</th>
+                <th class="text-center">Kantor</th>
+                <th class="text-center">Nilai Barang</th>
+                <th class="text-center">Total Kerugian</th>
+                <th class="text-center">Potensi Kerugian</th>
             </tr>
         </thead>
 

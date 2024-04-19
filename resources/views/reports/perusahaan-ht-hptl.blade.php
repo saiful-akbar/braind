@@ -4,14 +4,14 @@
     <table width="100%" class="table">
         <thead>
             <tr>
-                <th class="text-left">No.</th>
-                <th class="text-left">Nama Kantor</th>
-                <th class="text-left">Nama Perusahaan</th>
-                <th class="text-left">NPPBKC</th>
-                <th class="text-right">CK-1</th>
-                <th class="text-left">Jenis BKC</th>
-                <th class="text-right">Jumlah</th>
-                <th class="text-right">Jumlah Cukai</th>
+                <th class="text-center">No.</th>
+                <th class="text-center">Nama Kantor</th>
+                <th class="text-center">Nama Perusahaan</th>
+                <th class="text-center">NPPBKC</th>
+                <th class="text-center">CK-1</th>
+                <th class="text-center">Jenis BKC</th>
+                <th class="text-center">Jumlah</th>
+                <th class="text-center">Jumlah Cukai</th>
             </tr>
         </thead>
 

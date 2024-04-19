@@ -4,14 +4,14 @@
     <table width="100%" class="table">
         <thead>
             <tr>
-                <th class="text-left">No</th>
-                <th class="text-left">Nama Kantor</th>
-                <th class="text-left">Jenis Operasi</th>
-                <th class="text-left">Merek</th>
-                <th class="text-left">Tipe</th>
-                <th class="text-left">Lokasi Penempatan</th>
-                <th class="text-left">Kondisi</th>
-                <th class="text-left">Catatan</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Kantor</th>
+                <th class="text-center">Jenis Operasi</th>
+                <th class="text-center">Merek</th>
+                <th class="text-center">Tipe</th>
+                <th class="text-center">Lokasi Penempatan</th>
+                <th class="text-center">Kondisi</th>
+                <th class="text-center">Catatan</th>
             </tr>
         </thead>
 

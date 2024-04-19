@@ -11,7 +11,7 @@
         }
 
         .header-title {
-            font-size: 35px;
+            font-size: 30px;
             font-weight: 600;
         }
 
@@ -58,8 +58,8 @@
 
         .table tr th,
         .table tr td {
-            padding: 5px 7px;
-            border-bottom: 1px solid black;
+            padding: 5px;
+            border: 0.3px solid black;
         }
 
         .table tr th {

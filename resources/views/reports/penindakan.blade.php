@@ -4,17 +4,17 @@
     <table width="100%" class="table">
         <thead>
             <tr>
-                <th class="text-left">No</th>
-                <th class="text-left">Nama Kantor</th>
-                <th class="text-left">KPPBC</th>
-                <th class="text-left">Nomor SBP</th>
-                <th class="text-left">Tanggal SBP</th>
-                <th class="text-left">Kode Komoditi</th>
-                <th class="text-right">Jumlah</th>
-                <th class="text-left">Uraian Detail Barang</th>
-                <th class="text-right">Perkiraan Nilai Barang</th>
-                <th class="text-right">Potensi Kurang Bayar</th>
-                <th class="text-right">Tidak Lanjut</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Kantor</th>
+                <th class="text-center">KPPBC</th>
+                <th class="text-center">Nomor SBP</th>
+                <th class="text-center">Tanggal SBP</th>
+                <th class="text-center">Kode Komoditi</th>
+                <th class="text-center">Jumlah</th>
+                <th class="text-center">Uraian Detail Barang</th>
+                <th class="text-center">Perkiraan Nilai Barang</th>
+                <th class="text-center">Potensi Kurang Bayar</th>
+                <th class="text-center">Tidak Lanjut</th>
             </tr>
         </thead>
 

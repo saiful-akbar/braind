@@ -4,15 +4,15 @@
     <table width="100%" class="table">
         <thead>
             <tr>
-                <th class="text-left">No</th>
-                <th class="text-left">Nama Kantor</th>
-                <th class="text-left">No. Lambung</th>
-                <th class="text-left">Kondisi</th>
-                <th class="text-left">No. SPB</th>
-                <th class="text-left">Tanggal SPB</th>
-                <th class="text-left">Penerbit SPB</th>
-                <th class="text-right">Jumlah Hari</th>
-                <th class="text-left">Catatan</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Kantor</th>
+                <th class="text-center">No. Lambung</th>
+                <th class="text-center">Kondisi</th>
+                <th class="text-center">No. SPB</th>
+                <th class="text-center">Tanggal SPB</th>
+                <th class="text-center">Penerbit SPB</th>
+                <th class="text-center">Jumlah Hari</th>
+                <th class="text-center">Catatan</th>
             </tr>
         </thead>
 

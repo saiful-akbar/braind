@@ -4,15 +4,15 @@
     <table width="100%" class="table">
         <thead>
             <tr>
-                <th class="text-left">No</th>
-                <th class="text-left">Nama Kantor</th>
-                <th class="text-left">Nama Perusahaan</th>
-                <th class="text-right">PIB</th>
-                <th class="text-right">Pembayaran Bea Masuk</th>
-                <th class="text-right">Netto</th>
-                <th class="text-right">Bruto</th>
-                <th class="text-right">Total Pembayaran</th>
-                <th class="text-right">Bea Masuk</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Kantor</th>
+                <th class="text-center">Nama Perusahaan</th>
+                <th class="text-center">PIB</th>
+                <th class="text-center">Pembayaran Bea Masuk</th>
+                <th class="text-center">Netto</th>
+                <th class="text-center">Bruto</th>
+                <th class="text-center">Total Pembayaran</th>
+                <th class="text-center">Bea Masuk</th>
             </tr>
         </thead>
 

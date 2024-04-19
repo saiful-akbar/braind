@@ -4,16 +4,16 @@
     <table width="100%" class="table">
         <thead>
             <tr>
-                <th class="text-left">No</th>
-                <th class="text-left">Nama Kantor</th>
-                <th class="text-left">Nama Perusahaan</th>
-                <th class="text-right">PEB</th>
-                <th class="text-right">Bruto</th>
-                <th class="text-right">Netto</th>
-                <th class="text-right">Devisa</th>
-                <th class="text-right">Bea Keluar</th>
-                <th class="text-right">Jumlah Liter</th>
-                <th class="text-right">Jumlah Cukai</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Kantor</th>
+                <th class="text-center">Nama Perusahaan</th>
+                <th class="text-center">PEB</th>
+                <th class="text-center">Bruto</th>
+                <th class="text-center">Netto</th>
+                <th class="text-center">Devisa</th>
+                <th class="text-center">Bea Keluar</th>
+                <th class="text-center">Jumlah Liter</th>
+                <th class="text-center">Jumlah Cukai</th>
             </tr>
         </thead>
 

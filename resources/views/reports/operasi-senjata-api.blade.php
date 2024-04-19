@@ -4,18 +4,18 @@
     <table width="100%" class="table">
         <thead>
             <tr>
-                <th class="text-left">No</th>
-                <th class="text-left">Nama Kantor</th>
-                <th class="text-left">Jenis Kaliber</th>
-                <th class="text-left">No. Senjata</th>
-                <th class="text-left">Nama Pemegang</th>
-                <th class="text-left">Pangkat Pemegang</th>
-                <th class="text-left">Jabatan Pemegang</th>
-                <th class="text-left">No. Buku PAS</th>
-                <th class="text-left">Masa Berlaku</th>
-                <th class="text-left">Kondisi</th>
-                <th class="text-right">Jumlah Amunisi</th>
-                <th class="text-left">Catatan</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Kantor</th>
+                <th class="text-center">Jenis Kaliber</th>
+                <th class="text-center">No. Senjata</th>
+                <th class="text-center">Nama Pemegang</th>
+                <th class="text-center">Pangkat Pemegang</th>
+                <th class="text-center">Jabatan Pemegang</th>
+                <th class="text-center">No. Buku PAS</th>
+                <th class="text-center">Masa Berlaku</th>
+                <th class="text-center">Kondisi</th>
+                <th class="text-center">Jumlah Amunisi</th>
+                <th class="text-center">Catatan</th>
             </tr>
         </thead>
 
