@@ -11,8 +11,9 @@
         }
 
         .header-title {
-            font-size: 30px;
+            font-size: 20px;
             font-weight: 600;
+            text-transform: capitalize;
         }
 
         .header-logo {
@@ -87,7 +88,7 @@
             <thead>
                 <tr>
                     <td class="header-title">{{ $header }}</td>
-                    <td class="header-logo">{{ config('app.name') }} Report</td>
+                    <td class="header-logo">{{ config('app.name') }}</td>
                 </tr>
             </thead>
         </table>

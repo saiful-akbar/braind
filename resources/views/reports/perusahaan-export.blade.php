@@ -1,5 +1,5 @@
-<x-layouts.report title="Report Perusahaan Export">
-    <x-slot:header>Perusahaan Export</x-slot:header>
+<x-layouts.report title="LAPORAN Perusahaan Export">
+    <x-slot:header>LAPORAN PERUSAHAAN EXPORT</x-slot:header>
 
     <table width="100%" class="table">
         <thead>

@@ -14,7 +14,7 @@ if (!function_exists('user')) {
     }
 }
 
-if (!function_exists('menu_access')) {
+if (!function_exists('menu')) {
 
     /**
      * Helper untuk mengambil data akses menu yang

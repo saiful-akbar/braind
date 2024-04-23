@@ -1,5 +1,5 @@
-<x-layouts.report title="Report Operasi Kapal Patroli">
-    <x-slot:header>Operasi Kapal Patroli</x-slot:header>
+<x-layouts.report title="Laporan Operasi Kapal Patroli">
+    <x-slot:header>LAPORAN OPERASI KAPAL PARTOLI</x-slot:header>
 
     <table width="100%" class="table">
         <thead>

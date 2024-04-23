@@ -1,5 +1,5 @@
-<x-layouts.report title="Report Perusahaan Cukai MMEA">
-    <x-slot:header>Perusahaan Cukai MMEA</x-slot:header>
+<x-layouts.report title="Laporan Perusahaan Cukai MMEA">
+    <x-slot:header>LAPORAN PERUSAHAAN CUKAI MMEA</x-slot:header>
 
     <table width="100%" class="table">
         <thead>

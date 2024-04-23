@@ -82,11 +82,7 @@ const ChartSbp = () => {
   const currentMonth = useCallback(() => {
     const month = date.getMonth() + 1;
 
-    if (month < 10) {
-      return `0${month}`;
-    }
-
-    return month;
+    return month < 10 ? `0${month}` : month;
   }, [date]);
 
   /**
@@ -280,6 +276,7 @@ const ChartSbp = () => {
 
             <Grid item xs={12}>
               <BarChart
+                margin={{ left: 100 }}
                 height={350}
                 series={series}
                 xAxis={[{ data: xLabels, scaleType: "band" }]}

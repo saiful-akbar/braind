@@ -1,5 +1,5 @@
-<x-layouts.report title="Report SBP">
-    <x-slot:header>SBP</x-slot:header>
+<x-layouts.report title="Laporan SBP">
+    <x-slot:header>LAPORAN SBP</x-slot:header>
 
     <table width="100%" class="table">
         <thead>
