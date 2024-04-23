@@ -2,7 +2,7 @@
 
 ## 1. Instalasi
 
-- **Persyaratan Sistem**
+### 1.1. Persyaratan Sistem
 
   - php >= 8.1
   - composer >= 2.6
@@ -12,54 +12,50 @@
 
 ## 2. Panduan Pengguna
 
-- **Masuk (Login)**
+### 2.1. Navigasi
 
-  - Login dengan menggunakan username dan password.
+#### Dashboard
 
-- **Navigasi**
+#### Kantor
 
-  - **Dashboard**
+- Profil
+- Galeri
+- Peta Kerawanan
 
-  - **Kantor**
+#### Data Master
 
-    - Profil
-    - Galeri
-    - Peta Kerawanan
+- Kantor
+- Kode Komoditi
+- Perusahaan
+- SBP
+- User
 
-  - **Data Master**
+#### Data Perusahaan
 
-    - Kantor
-    - Kode Komoditi
-    - Perusahaan
-    - SBP
-    - User
+- Cukai HT + HPTL
+- Cukai MMEA
+- Ekspor
+- Impor
 
-  - **Perusahaan**
+#### Data Penerimaan
 
-    - Cukai HT + HPTL
-    - Cukai MMEA
-    - Ekspor
-    - Impor
+- Penerimaan
 
-  - **Penerimaan**
+#### Data Pengawasan
 
-    - Penerimaan
+- Pengawasan
+- Penindakan
 
-  - **Pengawasan**
+#### Sarana Operasi
 
-    - Pengawasan
-    - Penindakan
+- Alat Pemindai dan Pendeteksi
+- Alat Telekomunikasi
+- Kapal Patroli
+- Senjata Api
+- Sarana Operasi Lainnya
 
-  - **Sarana Operasi**
+#### Pengaturan Akun
 
-    - Alat Pemindai dan Pendeteksi
-    - Alat Telekomunikasi
-    - Kapal Patroli
-    - Senjata Api
-    - Sarana Operasi Lainnya
-
-- **Pengaturan Akun**
-
-  - Klik foto profil pada bagian bilah kiri aplikasi.
-  - Pilih profil untuk melihat atau memperbarui data akun pengguna yang sedang login.
-  - Pilih pengaturan untuk merubah tema aplikasi.
+- Klik foto profil pada bagian bilah kiri aplikasi.
+- Pilih profil untuk melihat atau memperbarui data akun pengguna.
+- Pilih pengaturan untuk merubah tema aplikasi.
