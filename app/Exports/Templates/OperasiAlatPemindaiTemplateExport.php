@@ -67,6 +67,7 @@ class OperasiAlatPemindaiTemplateExport implements WithStyles, ShouldAutoSize, W
             'Hasil Keluaran',
             'Catatan',
             'Tanggal Input',
+            'Cetak Laporan',
         ];
     }
 }

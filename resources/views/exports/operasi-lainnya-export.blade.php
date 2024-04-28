@@ -18,6 +18,7 @@
                 <th>Kondisi</th>
                 <th>Catatan</th>
                 <th>Tanggal Input</th>
+                <th>Cetak Laporan</th>
             </tr>
         </thead>
 
@@ -33,6 +34,7 @@
                     <td>{{ $item->kondisi }}</td>
                     <td>{{ $item->catatan }}</td>
                     <td>{{ $item->tanggal_input }}</td>
+                    <td>{{ $item->cetak ? 'Ya' : 'Tidak' }}</td>
                 </tr>
             @endforeach
         </tbody>

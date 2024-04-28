@@ -145,7 +145,7 @@ class OperasiAlatPemindaiExport implements FromView, WithStyles, ShouldAutoSize
             ],
 
             // style untuk semua cell
-            "A1:R{$count}" => [
+            "A1:S{$count}" => [
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,

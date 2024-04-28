@@ -20,6 +20,7 @@ class OperasiLainnyaRequest extends FormRequest
         'kondisi',
         'catatan',
         'tanggal_input',
+        'cetak',
         'created_at',
         'updated_at',
         'deleted_at',

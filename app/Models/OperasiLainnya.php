@@ -26,6 +26,11 @@ class OperasiLainnya extends Model
         'kondisi',
         'catatan',
         'tanggal_input',
+        'cetak'
+    ];
+
+    protected $casts = [
+        'cetak' => 'boolean',
     ];
 
     /**

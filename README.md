@@ -62,14 +62,7 @@
 
 # Fitur Laporan
 
-- Tambah menu Report dalam group sarana operasi
-- Menu report hanya menampilkan modal untuk input `nomor`, `tanggal cetak` dan `waktu pelaporan`.
-- laporan terbagi menjadi 3 format
-  - Format 1 `Laporan Pengoperasian Sarana Operasi`
-  - Formar 2 `Rekapitulasi Monitoring Sarana Operasi`
-  - Formar 3 `Daftar Pemeliharan Sarana Operasi`
-- Dalam 1 format laporan mencakup semua laporan sarana operasi.
-- Tambahakan field baru pada tabel operasi_kapal_patroli
+- [x] Tambahakan field baru pada tabel operasi_kapal_patroli
   - Jenis Kapal
   - Merk Tipe Mesin
   - Jumlah Mesin
@@ -79,5 +72,12 @@
   - Kondisi Mesin Kapal
   - Status Pengoperasian (aktif/tidak aktif)
   - Kondisi Aktif
-- Tambahkan field `cetak` disemua tabel sarana operasi untuk menetuka apakah data ini dicetak atau tidak.
-- Cetak laporan hanya data yang sesuai dengan kantor user yang sedang login.
+- [x] Tambahkan field `cetak` disemua tabel sarana operasi untuk menetuka apakah data ini dicetak atau tidak.
+- [x] Tambah menu Report dalam group sarana operasi
+- [ ] Menu report hanya menampilkan modal untuk input `nomor`, `tanggal cetak` dan `waktu pelaporan`.
+- [ ] laporan terbagi menjadi 3 format
+  - [ ] Format 1 `Laporan Pengoperasian Sarana Operasi`
+  - [ ] Formar 2 `Rekapitulasi Monitoring Sarana Operasi`
+  - [ ] Formar 3 `Daftar Pemeliharan Sarana Operasi`
+- [ ] Dalam 1 format laporan mencakup semua laporan sarana operasi.
+- [ ] Cetak laporan hanya data yang sesuai dengan kantor user yang sedang login.

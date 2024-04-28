@@ -27,6 +27,7 @@
                 <th>Hasil Keluaran</th>
                 <th>Catatan</th>
                 <th>Tanggal Input</th>
+                <th>Cetak Laporan</th>
             </tr>
         </thead>
 
@@ -51,6 +52,7 @@
                     <td>{{ $item->hasil_keluaran }}</td>
                     <td>{{ $item->catatan }}</td>
                     <td>{{ $item->tanggal_input }}</td>
+                    <td>{{ $item->cetak ? 'Ya' : 'Tidak' }}</td>
                 </tr>
             @endforeach
         </tbody>

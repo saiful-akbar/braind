@@ -34,6 +34,11 @@ class OperasiAlatTelekomunikasi extends Model
         'lokasi_penempatan',
         'catatan',
         'tanggal_input',
+        'cetak',
+    ];
+
+    protected $casts = [
+        'cetak' => 'boolean',
     ];
 
     /**

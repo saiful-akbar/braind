@@ -140,6 +140,11 @@ class MenuSeeder extends Seeder
                     'url' => '/operasi-lainnya',
                     'route' => 'operasi-lainnya',
                 ],
+                [
+                    'nama' => 'Report',
+                    'url' => '/report',
+                    'route' => 'report',
+                ],
             ],
         ],
     ];

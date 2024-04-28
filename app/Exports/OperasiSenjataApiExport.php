@@ -34,6 +34,7 @@ class OperasiSenjataApiExport implements FromView, WithStyles, ShouldAutoSize
         'jumlah_amunisi',
         'catatan',
         'tanggal_input',
+        'cetak',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -146,7 +147,7 @@ class OperasiSenjataApiExport implements FromView, WithStyles, ShouldAutoSize
             ],
 
             // style untuk semua cell
-            "A1:M{$count}" => [
+            "A1:N{$count}" => [
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,

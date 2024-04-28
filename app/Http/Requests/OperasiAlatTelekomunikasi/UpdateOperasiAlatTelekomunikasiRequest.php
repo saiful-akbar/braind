@@ -41,6 +41,7 @@ class UpdateOperasiAlatTelekomunikasiRequest extends FormRequest
             'lokasi_penempatan' => 'required|string|max:50',
             'catatan'           => 'required|string|max:250',
             'tanggal_input'     => 'nullable|date',
+            'cetak'             => 'boolean',
         ];
     }
 
@@ -69,6 +70,7 @@ class UpdateOperasiAlatTelekomunikasiRequest extends FormRequest
         $this->operasi->status            = $this->status;
         $this->operasi->lokasi_penempatan = $this->lokasi_penempatan;
         $this->operasi->catatan           = $this->catatan;
+        $this->operasi->cetak             = $this->cetak;
 
         if (user()->admin && !empty($this->tanggal_input)) {
             $this->operasi->tanggal_input = $this->tanggal_input;

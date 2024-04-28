@@ -22,6 +22,7 @@
                 <th>Jumlah Amunisi</th>
                 <th>Catatan</th>
                 <th>Tanggal Input</th>
+                <th>Cetak Laporan</th>
             </tr>
         </thead>
 
@@ -41,6 +42,7 @@
                     <td>{{ $item->jumlah_amunisi }}</td>
                     <td>{{ $item->catatan }}</td>
                     <td>{{ $item->tanggal_input }}</td>
+                    <td>{{ $item->cetak ? 'Ya' : 'Tidak' }}</td>
                 </tr>
             @endforeach
         </tbody>

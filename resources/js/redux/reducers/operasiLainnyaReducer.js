@@ -18,6 +18,7 @@ export const operasiLainnyaSlice = createSlice({
         kondisi: "",
         catatan: "",
         tanggal_input: null,
+        cetak: true,
       },
     },
 
@@ -54,6 +55,7 @@ export const operasiLainnyaSlice = createSlice({
         kondisi: "",
         catatan: "",
         tanggal_input: null,
+        cetak: true,
       };
     },
 
@@ -66,11 +68,12 @@ export const operasiLainnyaSlice = createSlice({
         kantor_id: action.payload.kantor_id,
         jenis_operasi: action.payload.jenis_operasi,
         merek: action.payload.merek,
-        tipe: action.payload.tipr,
+        tipe: action.payload.tipe,
         lokasi_penempatan: action.payload.lokasi_penempatan,
         kondisi: action.payload.kondisi,
         catatan: action.payload.catatan,
         tanggal_input: action.payload.tanggal_input,
+        cetak: action.payload.cetak,
       };
     },
 

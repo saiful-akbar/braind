@@ -27,6 +27,7 @@ export const operasiAlatPemindaiSlice = createSlice({
         hasil_keluaran: "",
         catatan: "",
         tanggal_input: null,
+        cetak: true,
       },
     },
 
@@ -72,6 +73,7 @@ export const operasiAlatPemindaiSlice = createSlice({
         hasil_keluaran: "",
         catatan: "",
         tanggal_input: null,
+        cetak: true,
       };
     },
 
@@ -98,6 +100,7 @@ export const operasiAlatPemindaiSlice = createSlice({
         hasil_keluaran: action.payload.hasil_keluaran,
         catatan: action.payload.catatan,
         tanggal_input: action.payload.tanggal_input,
+        cetak: action.payload.cetak,
       };
     },
 

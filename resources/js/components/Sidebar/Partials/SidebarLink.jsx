@@ -19,7 +19,7 @@ import { useDispatch } from "react-redux";
  * @returns {React.ReactElement}
  */
 const SidebarLink = (props) => {
-  const { name, icon, url, route: routeName, ...rest } = props;
+  const { name, url, route: routeName, ...rest } = props;
   const dispatch = useDispatch();
 
   /**
@@ -99,11 +99,6 @@ SidebarLink.propTypes = {
   name: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
-  icon: PropTypes.oneOfType([PropTypes.string, () => null]),
-};
-
-SidebarLink.defaultProps = {
-  icon: null,
 };
 
 export default SidebarLink;

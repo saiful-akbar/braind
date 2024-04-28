@@ -5,23 +5,32 @@ import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { closeForm } from "@/redux/reducers/operasiAlatPemindaiReducer";
 import Kantor from "@/services/kantorService";
-import dateFormat, { timeFormat } from "@/utils";
+import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
-import { Close, Save } from "@mui/icons-material";
+import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
+import {
+  DialogActions,
+  DialogContent,
+  FormControlLabel,
+  Grid,
+  Switch,
+} from "@mui/material";
 import dayjs from "dayjs";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+/**
+ * Opsi untuk form select tampilan.
+ */
 const tampilanOptions = [
   {
     label: "Tunggal",
-    value: "tunggal",
+    value: "Tunggal",
   },
   {
     label: "Ganda",
-    value: "ganda",
+    value: "Ganda",
   },
 ];
 
@@ -59,7 +68,6 @@ const ModalFormOperasiAlatPemindai = memo(() => {
    * State
    */
   const [kantor, setKantor] = useState([]);
-  const [komoditi, setKomoditi] = useState([]);
 
   /**
    * Ambil data kantor dan penindakan.
@@ -114,8 +122,13 @@ const ModalFormOperasiAlatPemindai = memo(() => {
    */
   const handleInputChange = useCallback(
     (e) => {
-      const { name, value } = e.target;
-      setData(name, value);
+      const { name, value, type } = e.target;
+
+      if (type === "checkbox") {
+        setData(name, e.target.checked);
+      } else {
+        setData(name, value);
+      }
     },
     [setData]
   );
@@ -142,8 +155,16 @@ const ModalFormOperasiAlatPemindai = memo(() => {
       preserveScroll: true,
       preserveState: true,
       onSuccess: () => reset(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "422 - Periksa kembali inputan anda.",
+          })
+        );
+      },
     });
-  }, [post, reset, params]);
+  }, [post, reset, params, dispatch]);
 
   /**
    * fungsi untuk memperbarui data sarana operasi alat pemindai ke database.
@@ -158,8 +179,16 @@ const ModalFormOperasiAlatPemindai = memo(() => {
       preserveScroll: true,
       preserveState: true,
       onSuccess: () => handleClose(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "422 - Periksa kembali inputan anda.",
+          })
+        );
+      },
     });
-  }, [patch, data, params, handleClose]);
+  }, [patch, data, params, handleClose, dispatch]);
 
   /**
    * fungsi untuk menangani ketika form di submit
@@ -183,7 +212,7 @@ const ModalFormOperasiAlatPemindai = memo(() => {
       title={title}
       loading={processing}
       onClose={handleClose}
-      maxWidth="lg"
+      maxWidth="md"
       component="form"
       autoComplete="off"
       onSubmit={handleSubmit}
@@ -369,7 +398,7 @@ const ModalFormOperasiAlatPemindai = memo(() => {
             <TextInput
               fullWidth
               required
-              type="text"
+              type="number"
               label="Jam Operasi"
               name="jam_operasi"
               id="jam_operasi"
@@ -385,7 +414,7 @@ const ModalFormOperasiAlatPemindai = memo(() => {
             <TextInput
               fullWidth
               required
-              type="text"
+              type="number"
               label="Jam Pemindaian"
               name="jam_pemindaian"
               id="jam_pemindaian"
@@ -460,27 +489,28 @@ const ModalFormOperasiAlatPemindai = memo(() => {
               />
             </Grid>
           )}
+
+          <Grid item xs={12} md={6}>
+            <FormControlLabel
+              label="Cetak Laporan"
+              control={
+                <Switch
+                  color="secondary"
+                  checked={formData.cetak}
+                  onChange={handleInputChange}
+                  name="cetak"
+                />
+              }
+            />
+          </Grid>
         </Grid>
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          color="primary"
-          variant="outlined"
-          size="large"
-          disabled={processing}
-          onClick={handleClose}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
           color="primary"
           variant="contained"
-          size="large"
           loading={processing}
           startIcon={<Save />}
         >

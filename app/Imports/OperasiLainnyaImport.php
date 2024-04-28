@@ -22,7 +22,9 @@ class OperasiLainnyaImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function prepareForValidation(array $data, int $index): array
     {
-        $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+        if (gettype($data['tanggal_input']) == 'integer') {
+            $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+        }
 
         return $data;
     }
@@ -43,6 +45,7 @@ class OperasiLainnyaImport implements ToModel, WithHeadingRow, WithValidation
             'kondisi'           => 'required|string|max:50',
             'catatan'           => 'required|string|max:250',
             'tanggal_input'     => 'nullable|date',
+            'cetak_laporan'     => 'in:Ya,ya,Tidak,tidak',
         ];
     }
 
@@ -62,6 +65,7 @@ class OperasiLainnyaImport implements ToModel, WithHeadingRow, WithValidation
             'kondisi'           => 'kondisi',
             'catatan'           => 'catatan',
             'tanggal_input'     => 'tanggal input',
+            'cetak_laporan'     => 'cetak laporan'
         ];
     }
 
@@ -73,18 +77,18 @@ class OperasiLainnyaImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row): void
     {
-        // Jika user sebagai admin dan dan request kantor_id tidak kosong...
-        // ...ambil data kantor_id dari request. Jika user bukan admin atau request...
-        // ...kantor_id kosong ambil data kantor_id dari user yang sedang login.
+        // Jika user sebagai admin dan dan request kantor_id tidak kosong
+        // ambil data kantor_id dari request. Jika user bukan admin atau request
+        // kantor_id kosong ambil data kantor_id dari user yang sedang login.
         if (user()->admin && !empty($row['kantor_id'])) {
             $kantorId = $row['kantor_id'];
         } else {
             $kantorId = user()->kantor_id;
         }
 
-        // Jika user sebagai admin dan tanggal_input tidak kosong...
-        // ...ambil data tanggal_input dari request. Selain dari itu...
-        // ...ambil tanggal hari ini.
+        // Jika user sebagai admin dan tanggal_input tidak kosong
+        // ambil data tanggal_input dari request. Selain dari itu
+        // ambil tanggal hari ini.
         if (user()->admin && !empty($row['tanggal_input'])) {
             $tanggalInput = $row['tanggal_input'];
         } else {
@@ -101,6 +105,7 @@ class OperasiLainnyaImport implements ToModel, WithHeadingRow, WithValidation
             'kondisi'           => $row['kondisi'],
             'catatan'           => $row['catatan'],
             'tanggal_input'     => $tanggalInput,
+            'cetak'             => strtolower($row['cetak_laporan']) === 'ya',
         ]);
     }
 }

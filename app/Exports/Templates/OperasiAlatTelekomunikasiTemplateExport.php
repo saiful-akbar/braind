@@ -66,6 +66,7 @@ class OperasiAlatTelekomunikasiTemplateExport implements WithStyles, ShouldAutoS
             'Lokasi Penempatan',
             'Catatan',
             'Tanggal Input',
+            'Cetak Laporan',
         ];
     }
 }

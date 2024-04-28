@@ -7,9 +7,15 @@ import { closeForm } from "@/redux/reducers/operasiLainnyaReducer";
 import Kantor from "@/services/kantorService";
 import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
-import { Close, Save } from "@mui/icons-material";
+import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
+import {
+  DialogActions,
+  DialogContent,
+  FormControlLabel,
+  Grid,
+  Switch,
+} from "@mui/material";
 import dayjs from "dayjs";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,15 +26,18 @@ import { useDispatch, useSelector } from "react-redux";
  * @returns {React.ReactElement}
  */
 const ModalFormOperasiLainnya = memo(() => {
-  const { open, type, title, data } = useSelector(
-    (state) => state.operasiLainnya.form
-  );
-
-  const dispatch = useDispatch();
   const { app, access, auth } = usePage().props;
   const { params } = app.url;
   const { csrf } = app;
   const { user } = auth;
+
+  /**
+   * Redux dispatch & state
+   */
+  const dispatch = useDispatch();
+  const { open, type, title, data } = useSelector(
+    (state) => state.operasiLainnya.form
+  );
 
   /**
    * Form data
@@ -89,11 +98,7 @@ const ModalFormOperasiLainnya = memo(() => {
   useEffect(() => {
     if (open) {
       clearErrors();
-
-      setData({
-        ...data,
-        _token: csrf,
-      });
+      setData({ ...data, _token: csrf });
     }
   }, [open]);
 
@@ -109,14 +114,14 @@ const ModalFormOperasiLainnya = memo(() => {
    */
   const handleInputChange = useCallback(
     (e) => {
-      const { name, value } = e.target;
-      setData(name, value);
+      const { name, value, type } = e.target;
+      setData(name, type === "checkbox" ? e.target.checked : value);
     },
     [setData]
   );
 
   /**
-   * fungsi untuk mengatasi ketika form date diisi
+   * fungsi untuk mengatasi ketika form bertipe date diisi
    */
   const handleDateInputChange = useCallback(
     (name, dateValue) => {
@@ -138,8 +143,16 @@ const ModalFormOperasiLainnya = memo(() => {
       preserveScroll: true,
       preserveState: true,
       onSuccess: () => reset(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "422 - Periksa kembali inputan anda.",
+          })
+        );
+      },
     });
-  }, [post, reset, params]);
+  }, [post, reset, params, dispatch]);
 
   /**
    * fungsi request untuk memperbarui data
@@ -155,8 +168,16 @@ const ModalFormOperasiLainnya = memo(() => {
       preserveScroll: true,
       preserveState: true,
       onSuccess: () => handleClose(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "422 - Periksa kembali inputan anda.",
+          })
+        );
+      },
     });
-  }, [patch, data, params, handleClose]);
+  }, [patch, data, params, handleClose, dispatch]);
 
   /**
    * fungsi untuk menangani ketika form di submit
@@ -182,7 +203,7 @@ const ModalFormOperasiLainnya = memo(() => {
       title={title}
       loading={processing}
       onClose={handleClose}
-      maxWidth="lg"
+      maxWidth="md"
       component="form"
       autoComplete="off"
       onSubmit={handleSubmit}
@@ -316,27 +337,28 @@ const ModalFormOperasiLainnya = memo(() => {
               />
             </Grid>
           )}
+
+          <Grid item xs={12} md={6}>
+            <FormControlLabel
+              label="Cetak Laporan"
+              control={
+                <Switch
+                  name="cetak"
+                  color="secondary"
+                  checked={formData.cetak}
+                  onChange={handleInputChange}
+                />
+              }
+            />
+          </Grid>
         </Grid>
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          color="primary"
-          variant="outlined"
-          size="large"
-          disabled={processing}
-          onClick={handleClose}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
           color="primary"
           variant="contained"
-          size="large"
           loading={processing}
           startIcon={<Save />}
         >

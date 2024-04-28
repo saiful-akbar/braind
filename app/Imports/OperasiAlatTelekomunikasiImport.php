@@ -17,12 +17,13 @@ class OperasiAlatTelekomunikasiImport implements ToModel, WithHeadingRow, WithVa
      * Persiapan sebelum data divalidasi.
      *
      * @param array $data
-     * @param int $index
      * @return array
      */
-    public function prepareForValidation(array $data, int $index): array
+    public function prepareForValidation(array $data): array
     {
-        $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+        if (gettype($data['tanggal_input']) == 'integer') {
+            $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+        }
 
         return $data;
     }
@@ -54,6 +55,7 @@ class OperasiAlatTelekomunikasiImport implements ToModel, WithHeadingRow, WithVa
             'lokasi_penempatan' => 'required|string|max:50',
             'catatan'           => 'required|string|max:250',
             'tanggal_input'     => 'nullable|date',
+            'cetak_laporan'     => 'in:Ya,ya,Tidak,tidak',
         ];
     }
 
@@ -81,6 +83,7 @@ class OperasiAlatTelekomunikasiImport implements ToModel, WithHeadingRow, WithVa
             'lokasi_penempatan' => 'lokasi penempatan',
             'catatan'           => 'catatan',
             'tanggal_input'     => 'tanggal input',
+            'cetak_laporan'     => 'Cetak Laporan'
         ];
     }
 
@@ -128,6 +131,7 @@ class OperasiAlatTelekomunikasiImport implements ToModel, WithHeadingRow, WithVa
             'lokasi_penempatan' => $row['lokasi_penempatan'],
             'catatan'           => $row['catatan'],
             'tanggal_input'     => $tanggalInput,
+            'cetak'             => strtolower($row['cetak_laporan']) === 'ya',
         ]);
     }
 }

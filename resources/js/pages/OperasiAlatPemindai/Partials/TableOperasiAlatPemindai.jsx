@@ -9,6 +9,14 @@ import { router, usePage } from "@inertiajs/react";
 import React, { memo, useCallback } from "react";
 import { useDispatch } from "react-redux";
 
+/**
+ * Fungsi untuk menampilkan daftar kolom pada tabel
+ * sarana operasi alat pemindai.
+ *
+ * @param {object} access
+ * @param {string} status
+ * @returns {array}
+ */
 const columns = (access, status) => {
   return [
     {
@@ -172,6 +180,8 @@ const TableOperasiAlatPemindai = memo(() => {
   const isUpdate = access.update;
   const isRemove = access.remove;
   const isDestroy = access.destroy;
+
+  // redux dispatch
   const dispatch = useDispatch();
 
   /**

@@ -20,13 +20,16 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
      * @param int $index
      * @return array
      */
-    public function prepareForValidation(array $data, int $index): array
+    public function prepareForValidation(array $data): array
     {
-        $data['tanggal_input']  = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
         $data['ukuran']         = (string) $data['ukuran'];
         $data['nomor_seri']     = (string) $data['nomor_seri'];
         $data['hasil_keluaran'] = (string) $data['hasil_keluaran'];
         $data['tampilan']       = ucfirst($data['tampilan']);
+
+        if (gettype($data['tanggal_input']) == 'integer') {
+            $data['tanggal_input']  = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
+        }
 
         return $data;
     }
@@ -59,6 +62,7 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
             'hasil_keluaran'    => 'required|string|max:250',
             'catatan'           => 'required|string|max:250',
             'tanggal_input'     => 'nullable|date',
+            'cetak_laporan'     => 'in:Ya,ya,Tidak,tidak',
         ];
     }
 
@@ -87,6 +91,7 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
             'hasil_keluaran'    => 'hasil keluaran',
             'catatan'           => 'catatan',
             'tanggal_input'     => 'tanggal input',
+            'cetak_laporan'     => 'Cetak Laporan',
         ];
     }
 
@@ -135,6 +140,7 @@ class OperasiAlatPemindaiImport implements ToModel, WithHeadingRow, WithValidati
             'hasil_keluaran'    => $row['hasil_keluaran'],
             'catatan'           => $row['catatan'],
             'tanggal_input'     => $tanggalInput,
+            'cetak'             => strtolower($row['cetak_laporan']) === 'ya',
         ]);
     }
 }

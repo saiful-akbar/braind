@@ -62,6 +62,7 @@ class OperasiSenjataApiTemplateExport implements WithStyles, ShouldAutoSize, Wit
             'Jumlah Amunisi',
             'Catatan',
             'Tanggal Input',
+            'Cetak Laporan',
         ];
     }
 }

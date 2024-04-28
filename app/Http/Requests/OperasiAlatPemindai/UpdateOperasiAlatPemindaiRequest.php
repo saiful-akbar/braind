@@ -32,7 +32,7 @@ class UpdateOperasiAlatPemindaiRequest extends FormRequest
             'merek'             => 'required|string|max:30',
             'tipe'              => 'required|string|max:20',
             'nomor_seri'        => 'required|string|max:30',
-            'tampilan'          => 'required|string|in:tunggal,ganda',
+            'tampilan'          => 'required|string|in:Tunggal,Ganda',
             'tahun_perolehan'   => "required|integer|digits:4|min:$minYear|max:$maxYear",
             'kondisi'           => 'required|string|max:50',
             'lokasi_penempatan' => 'required|string|max:50',
@@ -42,6 +42,7 @@ class UpdateOperasiAlatPemindaiRequest extends FormRequest
             'hasil_keluaran'    => 'required|string|max:250',
             'catatan'           => 'required|string|max:250',
             'tanggal_input'     => 'nullable|date',
+            'cetak'             => 'boolean'
         ];
     }
 
@@ -71,6 +72,7 @@ class UpdateOperasiAlatPemindaiRequest extends FormRequest
         $this->operasi->jumlah_pemindaian = $this->jumlah_pemindaian;
         $this->operasi->hasil_keluaran    = $this->hasil_keluaran;
         $this->operasi->catatan           = $this->catatan;
+        $this->operasi->cetak             = $this->cetak;
 
         if (user()->admin && !empty($this->tanggal_input)) {
             $this->operasi->tanggal_input = $this->tanggal_input;

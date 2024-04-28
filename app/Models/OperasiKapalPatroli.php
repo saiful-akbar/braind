@@ -27,6 +27,11 @@ class OperasiKapalPatroli extends Model
         'jumlah_hari',
         'catatan',
         'tanggal_input',
+        'cetak'
+    ];
+
+    protected $casts = [
+        'cetak' => 'boolean',
     ];
 
     /**

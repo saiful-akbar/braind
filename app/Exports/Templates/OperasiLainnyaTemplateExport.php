@@ -58,6 +58,7 @@ class OperasiLainnyaTemplateExport implements WithStyles, ShouldAutoSize, WithHe
             'Kondisi',
             'Catatan',
             'Tanggal Input',
+            'Cetak Laporan',
         ];
     }
 }

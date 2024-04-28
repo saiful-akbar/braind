@@ -30,6 +30,11 @@ class OperasiSenjataApi extends Model
         'jumlah_amunisi',
         'catatan',
         'tanggal_input',
+        'cetak',
+    ];
+
+    protected $casts = [
+        'cetak' => 'boolean',
     ];
 
     /**

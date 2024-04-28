@@ -34,6 +34,7 @@ class UpdateOperasiSenjataApiRequest extends FormRequest
             'jumlah_amunisi'           => 'required|integer|max:1000000',
             'catatan'                  => 'required|string|max:250',
             'tanggal_input'            => 'nullable|date',
+            'cetak'                    => 'boolean',
         ];
     }
 
@@ -58,6 +59,7 @@ class UpdateOperasiSenjataApiRequest extends FormRequest
         $this->operasi->kondisi                  = $this->kondisi;
         $this->operasi->jumlah_amunisi           = $this->jumlah_amunisi;
         $this->operasi->catatan                  = $this->catatan;
+        $this->operasi->cetak                    = $this->cetak;
 
         if (user()->admin && !empty($this->tanggal_input)) {
             $this->operasi->tanggal_input = $this->tanggal_input;

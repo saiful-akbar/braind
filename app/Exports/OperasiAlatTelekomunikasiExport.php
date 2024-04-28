@@ -37,6 +37,7 @@ class OperasiAlatTelekomunikasiExport implements FromView, WithStyles, ShouldAut
         'lokasi_penempatan',
         'catatan',
         'tanggal_input',
+        'cetak',
     ];
 
     private string $orderBy = 'kantor_nama';
@@ -148,7 +149,7 @@ class OperasiAlatTelekomunikasiExport implements FromView, WithStyles, ShouldAut
             ],
 
             // style untuk semua cell
-            "A1:Q{$count}" => [
+            "A1:R{$count}" => [
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,

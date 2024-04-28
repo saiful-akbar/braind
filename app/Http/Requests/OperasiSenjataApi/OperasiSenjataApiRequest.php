@@ -24,6 +24,7 @@ class OperasiSenjataApiRequest extends FormRequest
         'jumlah_amunisi',
         'catatan',
         'tanggal_input',
+        'cetak',
         'created_at',
         'updated_at',
         'deleted_at',

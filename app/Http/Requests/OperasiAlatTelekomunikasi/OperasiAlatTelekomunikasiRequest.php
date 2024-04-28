@@ -28,6 +28,7 @@ class OperasiAlatTelekomunikasiRequest extends FormRequest
         'lokasi_penempatan',
         'catatan',
         'tanggal_input',
+        'cetak',
         'created_at',
         'updated_at',
         'deleted_at',

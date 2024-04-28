@@ -17,18 +17,18 @@ class OperasiSenjataApiImport implements ToModel, WithHeadingRow, WithValidation
      * Persiapan sebelum data divalidasi.
      *
      * @param array $data
-     * @param int $index
      * @return array
      */
-    public function prepareForValidation(array $data, int $index): array
+    public function prepareForValidation(array $data): array
     {
-        $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
         $data['nomor_senjata'] = (string) $data['nomor_senjata'];
 
-        $types = ['integer', 'double', 'decimal', 'float'];
-
-        if (in_array(gettype($data['masa_berlaku']), $types)) {
+        if (gettype($data['masa_berlaku']) == 'integer') {
             $data['masa_berlaku'] = Date::excelToDateTimeObject($data['masa_berlaku'])->format('Y-m-d');
+        }
+
+        if (gettype($data['tanggal_input']) == 'integer') {
+            $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
         }
 
         return $data;
@@ -54,6 +54,7 @@ class OperasiSenjataApiImport implements ToModel, WithHeadingRow, WithValidation
             'jumlah_amunisi'           => 'required|integer|max:1000000',
             'catatan'                  => 'required|string|max:250',
             'tanggal_input'            => 'nullable|date',
+            'cetak_laporan'            => 'in:Ya,ya,Tidak,tidak',
         ];
     }
 
@@ -88,18 +89,18 @@ class OperasiSenjataApiImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row): void
     {
-        // Jika user sebagai admin dan dan request kantor_id tidak kosong...
-        // ...ambil data kantor_id dari request. Jika user bukan admin atau request...
-        // ...kantor_id kosong ambil data kantor_id dari user yang sedang login.
+        // Jika user sebagai admin dan dan request kantor_id tidak kosong
+        // ambil data kantor_id dari request. Jika user bukan admin atau request
+        // kantor_id kosong ambil data kantor_id dari user yang sedang login.
         if (user()->admin && !empty($row['kantor_id'])) {
             $kantorId = $row['kantor_id'];
         } else {
             $kantorId = user()->kantor_id;
         }
 
-        // Jika user sebagai admin dan tanggal_input tidak kosong...
-        // ...ambil data tanggal_input dari request. Selain dari itu...
-        // ...ambil tanggal hari ini.
+        // Jika user sebagai admin dan tanggal_input tidak kosong
+        // ambil data tanggal_input dari request. Selain dari itu
+        // ambil tanggal hari ini.
         if (user()->admin && !empty($row['tanggal_input'])) {
             $tanggalInput = $row['tanggal_input'];
         } else {
@@ -120,6 +121,7 @@ class OperasiSenjataApiImport implements ToModel, WithHeadingRow, WithValidation
             'jumlah_amunisi'           => $row['jumlah_amunisi'],
             'catatan'                  => $row['catatan'],
             'tanggal_input'            => $tanggalInput,
+            'cetak'                    => strtolower($row['cetak_laporan']) === 'ya',
         ]);
     }
 }

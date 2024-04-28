@@ -2,12 +2,11 @@ import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { closeFormlImport } from "@/redux/reducers/operasiLainnyaReducer";
 import { useForm, usePage } from "@inertiajs/react";
-import { Close, Download, Upload } from "@mui/icons-material";
+import { Download, Upload } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   Box,
-  Button,
   DialogActions,
   DialogContent,
   Grid,
@@ -200,21 +199,8 @@ const ModalFormImportOperasiLainnya = memo(() => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          size="large"
-          color="primary"
-          variant="outlined"
-          onClick={handleClose}
-          disabled={processing}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
-          size="large"
           color="primary"
           variant="contained"
           loading={processing}

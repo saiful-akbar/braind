@@ -31,6 +31,7 @@ class StoreOperasiLainnyaRequest extends FormRequest
             'kondisi'           => 'required|string|max:50',
             'catatan'           => 'required|string|max:250',
             'tanggal_input'     => 'nullable|date',
+            'cetak'             => 'boolean',
         ];
     }
 
@@ -41,18 +42,18 @@ class StoreOperasiLainnyaRequest extends FormRequest
      */
     public function insert(): void
     {
-        // Jika user sebagai admin dan dan request kantor_id tidak kosong...
-        // ...ambil data kantor_id dari request. Jika user bukan admin atau request...
-        // ...kantor_id kosong ambil data kantor_id dari user yang sedang login.
+        // Jika user sebagai admin dan dan request kantor_id tidak kosong
+        // ambil data kantor_id dari request. Jika user bukan admin atau request
+        // kantor_id kosong ambil data kantor_id dari user yang sedang login.
         if (user()->admin && !empty($this->kantor_id)) {
             $kantorId = $this->kantor_id;
         } else {
             $kantorId = user()->kantor_id;
         }
 
-        // Jika user sebagai admin dan tanggal_input tidak kosong...
-        // ...ambil data tanggal_input dari request. Selain dari itu...
-        // ...ambil tanggal hari ini.
+        // Jika user sebagai admin dan tanggal_input tidak kosong
+        // ambil data tanggal_input dari request. Selain dari itu
+        // ambil tanggal hari ini.
         if (user()->admin && !empty($this->tanggal_input)) {
             $tanggalInput = $this->tanggal_input;
         } else {
@@ -69,6 +70,7 @@ class StoreOperasiLainnyaRequest extends FormRequest
             'kondisi'           => $this->kondisi,
             'catatan'           => $this->catatan,
             'tanggal_input'     => $tanggalInput,
+            'cetak'             => $this->cetak,
         ]);
     }
 }

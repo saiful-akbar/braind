@@ -33,7 +33,7 @@ class StoreOperasiAlatPemindaiRequest extends FormRequest
             'merek'             => 'required|string|max:30',
             'tipe'              => 'required|string|max:20',
             'nomor_seri'        => 'required|string|max:30',
-            'tampilan'          => 'required|string|in:tunggal,ganda',
+            'tampilan'          => 'required|string|in:Tunggal,Ganda',
             'tahun_perolehan'   => "required|integer|digits:4|min:$minYear|max:$maxYear",
             'kondisi'           => 'required|string|max:50',
             'lokasi_penempatan' => 'required|string|max:50',
@@ -43,6 +43,7 @@ class StoreOperasiAlatPemindaiRequest extends FormRequest
             'hasil_keluaran'    => 'required|string|max:250',
             'catatan'           => 'required|string|max:250',
             'tanggal_input'     => 'nullable|date',
+            'cetak'             => 'boolean'
         ];
     }
 
@@ -91,6 +92,7 @@ class StoreOperasiAlatPemindaiRequest extends FormRequest
             'hasil_keluaran'    => $this->hasil_keluaran,
             'catatan'           => $this->catatan,
             'tanggal_input'     => $tanggalInput,
+            'cetak'             => $this->cetak,
         ]);
     }
 }

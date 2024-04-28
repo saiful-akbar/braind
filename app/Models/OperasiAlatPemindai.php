@@ -35,6 +35,11 @@ class OperasiAlatPemindai extends Model
         'hasil_keluaran',
         'catatan',
         'tanggal_input',
+        'cetak',
+    ];
+
+    protected $casts = [
+        'cetak' => 'boolean',
     ];
 
     /**

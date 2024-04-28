@@ -69,7 +69,6 @@ export default function SidebarContent() {
                 <SidebarLink
                   key={subMenu.route}
                   name={subMenu.nama}
-                  icon={subMenu.icon}
                   url={subMenu.url}
                   route={subMenu.route}
                 />

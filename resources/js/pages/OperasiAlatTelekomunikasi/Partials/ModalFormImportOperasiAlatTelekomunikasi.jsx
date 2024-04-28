@@ -2,18 +2,17 @@ import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { closeFormlImport } from "@/redux/reducers/operasiAlatTelekomunikasiReducer";
 import { useForm, usePage } from "@inertiajs/react";
-import { Close, Download, Upload } from "@mui/icons-material";
+import { Download, Upload } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   Box,
-  Button,
   DialogActions,
   DialogContent,
   Grid,
   TextField,
 } from "@mui/material";
-import React, { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
@@ -205,21 +204,8 @@ const ModalFormImportOperasiAlatTelekomunikasi = memo(() => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          size="large"
-          color="primary"
-          variant="outlined"
-          onClick={handleClose}
-          disabled={processing}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
-          size="large"
           color="primary"
           variant="contained"
           loading={processing}

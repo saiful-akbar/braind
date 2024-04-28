@@ -26,6 +26,7 @@ export const operasiAlatTelekomunikasiSlice = createSlice({
         lokasi_penempatan: "",
         catatan: "",
         tanggal_input: null,
+        cetak: true,
       },
     },
 
@@ -70,6 +71,7 @@ export const operasiAlatTelekomunikasiSlice = createSlice({
         lokasi_penempatan: "",
         catatan: "",
         tanggal_input: null,
+        cetak: true,
       };
     },
 
@@ -95,6 +97,7 @@ export const operasiAlatTelekomunikasiSlice = createSlice({
         lokasi_penempatan: action.payload.lokasi_penempatan,
         catatan: action.payload.catatan,
         tanggal_input: action.payload.tanggal_input,
+        cetak: action.payload.cetak,
       };
     },
 

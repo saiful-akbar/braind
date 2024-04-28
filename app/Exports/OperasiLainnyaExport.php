@@ -30,6 +30,7 @@ class OperasiLainnyaExport implements FromView, WithStyles, ShouldAutoSize
         'kondisi',
         'catatan',
         'tanggal_input',
+        'cetak',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -138,7 +139,7 @@ class OperasiLainnyaExport implements FromView, WithStyles, ShouldAutoSize
             ],
 
             // style untuk semua cell
-            "A1:I{$count}" => [
+            "A1:J{$count}" => [
                 'borders' => [
                     'allBorders' => [
                         'borderStyle' => Border::BORDER_THIN,
