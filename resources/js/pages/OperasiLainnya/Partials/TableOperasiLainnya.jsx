@@ -75,6 +75,14 @@ const columns = (access, status) => {
       sort: true,
     },
     {
+      field: "cetak",
+      label: "Cetak Laporan",
+      align: "center",
+      format: "boolean",
+      show: true,
+      sort: true,
+    },
+    {
       field: "tanggal_input",
       label: "Tanggal Input",
       align: "left",

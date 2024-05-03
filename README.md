@@ -74,7 +74,7 @@
   - Kondisi Aktif
 - [x] Tambahkan field `cetak` disemua tabel sarana operasi untuk menetuka apakah data ini dicetak atau tidak.
 - [x] Tambah menu Report dalam group sarana operasi
-- [ ] Menu report hanya menampilkan modal untuk input `nomor`, `tanggal cetak` dan `waktu pelaporan`.
+- [ ] Halaman report hanya menampilkan modal untuk input `nomor`, `tanggal cetak` dan `waktu pelaporan`.
 - [ ] laporan terbagi menjadi 3 format
   - [ ] Format 1 `Laporan Pengoperasian Sarana Operasi`
   - [ ] Formar 2 `Rekapitulasi Monitoring Sarana Operasi`

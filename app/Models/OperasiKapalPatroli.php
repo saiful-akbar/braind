@@ -27,10 +27,20 @@ class OperasiKapalPatroli extends Model
         'jumlah_hari',
         'catatan',
         'tanggal_input',
-        'cetak'
+        'jenis_kapal',
+        'merk_tipe_mesin',
+        'jumlah_mesin',
+        'tahun_pembuatan',
+        'tahun_rehab',
+        'kondisi_badan_kapal',
+        'kondisi_mesin_kapal',
+        'status_pengoperasian',
+        'kondisi_aktif',
+        'cetak',
     ];
 
     protected $casts = [
+        'kondisi_aktif' => 'boolean',
         'cetak' => 'boolean',
     ];
 

@@ -58,6 +58,16 @@ class OperasiKapalPatroliTemplateExport implements WithStyles, ShouldAutoSize, W
             'Penerbit SPB',
             'Jumlah Hari',
             'Catatan',
+            'Jenis Kapal',
+            'Merk Tipe Mesin',
+            'Jumlah Mesin',
+            'Tahun Pembuatan',
+            'Tahun Rehab',
+            'Kondisi Badan Kapal',
+            'Kondisi Mesin Kapal',
+            'Status Pengoperasian',
+            'Kondisi Aktif',
+            'Cetak Laporan',
             'Tanggal Input',
         ];
     }

@@ -22,6 +22,7 @@ return new class extends Migration
                 $table->string('kondisi_mesin_kapal', 100)->nullable();
                 $table->enum('status_pengoperasian', ['Aktif', 'Tidak Aktif'])->default('Aktif');
                 $table->boolean('kondisi_aktif')->default(true);
+                $table->boolean('cetak')->default(true);
             });
         });
     }

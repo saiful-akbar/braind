@@ -18,6 +18,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RestoreIcon from "@mui/icons-material/Restore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { numberFormat, utcToLocale } from "@/utils";
+import { Check, Close } from "@mui/icons-material";
 
 /**
  * Komponen datatable
@@ -136,6 +137,18 @@ const DataTable = memo((props) => {
                     );
                   }
 
+                  if (column.format.toLowerCase() === "boolean") {
+                    return (
+                      <TableCell key={columnKey} align={column.align}>
+                        {row[column.field] ? (
+                          <Check color="success" />
+                        ) : (
+                          <Close color="error" />
+                        )}
+                      </TableCell>
+                    );
+                  }
+
                   return (
                     <TableCell
                       key={columnKey}
@@ -214,7 +227,8 @@ const columnsType = PropTypes.shape({
   field: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   align: PropTypes.string.isRequired,
-  format: PropTypes.oneOf(["none", "time", "number", "decimal"]).isRequired,
+  format: PropTypes.oneOf(["none", "time", "number", "decimal", "boolean"])
+    .isRequired,
   show: PropTypes.bool.isRequired,
   sort: PropTypes.bool.isRequired,
 });

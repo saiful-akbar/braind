@@ -21,6 +21,16 @@ class OperasiKapalPatroliRequest extends FormRequest
         'jumlah_hari',
         'catatan',
         'tanggal_input',
+        'jenis_kapal',
+        'merk_tipe_mesin',
+        'jumlah_mesin',
+        'tahun_pembuatan',
+        'tahun_rehab',
+        'kondisi_badan_kapal',
+        'kondisi_mesin_kapal',
+        'status_pengoperasian',
+        'kondisi_aktif',
+        'cetak',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -104,7 +114,11 @@ class OperasiKapalPatroliRequest extends FormRequest
                     ->orWhere('operasi_kapal_patroli.kondisi', 'like', "%{$search}%")
                     ->orWhere('operasi_kapal_patroli.nomor_spb', 'like', "%{$search}%")
                     ->orWhere('operasi_kapal_patroli.penerbit_spb', 'like', "%{$search}%")
-                    ->orWhere('operasi_kapal_patroli.catatan', 'like', "%{$search}%");
+                    ->orWhere('operasi_kapal_patroli.catatan', 'like', "%{$search}%")
+                    ->orWhere('operasi_kapal_patroli.jenis_kapal', 'like', "%{$search}%")
+                    ->orWhere('operasi_kapal_patroli.merk_tipe_mesin', 'like', "%{$search}%")
+                    ->orWhere('operasi_kapal_patroli.kondisi_badan_kapal', 'like', "%{$search}%")
+                    ->orWhere('operasi_kapal_patroli.kondisi_mesin_kapal', 'like', "%{$search}%");
             });
         }
 

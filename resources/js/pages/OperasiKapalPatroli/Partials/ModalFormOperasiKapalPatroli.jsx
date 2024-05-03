@@ -1,19 +1,35 @@
 import DateInput from "@/components/Input/DateInput";
 import SelectInput from "@/components/Input/SelectInput";
 import TextInput from "@/components/Input/TextInput";
-import TimeInput from "@/components/Input/TimeInput";
 import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { closeForm } from "@/redux/reducers/operasiKapalPatroliReducer";
 import Kantor from "@/services/kantorService";
-import dateFormat, { timeFormat } from "@/utils";
+import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
-import { Close, Save } from "@mui/icons-material";
+import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
+import {
+  DialogActions,
+  DialogContent,
+  FormControlLabel,
+  Grid,
+  Switch,
+} from "@mui/material";
 import dayjs from "dayjs";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+const statusPengoperasianOptions = [
+  {
+    label: "Aktif",
+    value: "Aktif",
+  },
+  {
+    label: "Tidak Aktif",
+    value: "Tidak Aktif",
+  },
+];
 
 /**
  * Komponen modal form untuk data sarana kapal patroli.
@@ -90,11 +106,7 @@ const ModalFormOperasiKapalPatroli = memo(() => {
   useEffect(() => {
     if (open) {
       clearErrors();
-
-      setData({
-        ...data,
-        _token: csrf,
-      });
+      setData({ ...data, _token: csrf });
     }
   }, [open]);
 
@@ -110,8 +122,8 @@ const ModalFormOperasiKapalPatroli = memo(() => {
    */
   const handleInputChange = useCallback(
     (e) => {
-      const { name, value } = e.target;
-      setData(name, value);
+      const { name, value, type } = e.target;
+      setData(name, type === "checkbox" ? e.target.checked : value);
     },
     [setData]
   );
@@ -139,8 +151,16 @@ const ModalFormOperasiKapalPatroli = memo(() => {
       preserveScroll: true,
       preserveState: true,
       onSuccess: () => reset(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "422 - Periksa kembali inputan anda.",
+          })
+        );
+      },
     });
-  }, [post, reset, params]);
+  }, [post, reset, params, dispatch]);
 
   /**
    * fungsi request untuk memperbarui data
@@ -156,8 +176,16 @@ const ModalFormOperasiKapalPatroli = memo(() => {
       preserveScroll: true,
       preserveState: true,
       onSuccess: () => handleClose(),
+      onError: () => {
+        dispatch(
+          openNotification({
+            status: "error",
+            message: "422 - Periksa kembali inputan anda.",
+          })
+        );
+      },
     });
-  }, [patch, data, params, handleClose]);
+  }, [patch, data, params, handleClose, dispatch]);
 
   /**
    * fungsi untuk menangani ketika form di submit
@@ -183,7 +211,7 @@ const ModalFormOperasiKapalPatroli = memo(() => {
       title={title}
       loading={processing}
       onClose={handleClose}
-      maxWidth="lg"
+      maxWidth="md"
       component="form"
       autoComplete="off"
       onSubmit={handleSubmit}
@@ -315,6 +343,125 @@ const ModalFormOperasiKapalPatroli = memo(() => {
             />
           </Grid>
 
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              type="text"
+              label="Jenis Kapal"
+              name="jenis_kapal"
+              id="jenis_kapal"
+              value={formData.jenis_kapal}
+              onChange={handleInputChange}
+              disabled={processing}
+              error={Boolean(errors.jenis_kapal)}
+              helperText={errors.jenis_kapal}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              type="text"
+              label="Merk Tipe Mesin"
+              name="merk_tipe_mesin"
+              id="merk_tipe_mesin"
+              value={formData.merk_tipe_mesin}
+              onChange={handleInputChange}
+              disabled={processing}
+              error={Boolean(errors.merk_tipe_mesin)}
+              helperText={errors.merk_tipe_mesin}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              type="number"
+              label="Jumlah Mesin"
+              name="jumlah_mesin"
+              id="jumlah_mesin"
+              value={formData.jumlah_mesin}
+              onChange={handleInputChange}
+              disabled={processing}
+              error={Boolean(errors.jumlah_mesin)}
+              helperText={errors.jumlah_mesin}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              type="number"
+              label="Tahun Pembuatan"
+              name="tahun_pembuatan"
+              id="tahun_pembuatan"
+              value={formData.tahun_pembuatan}
+              onChange={handleInputChange}
+              disabled={processing}
+              error={Boolean(errors.tahun_pembuatan)}
+              helperText={errors.tahun_pembuatan}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              type="number"
+              label="Tahun Rehab"
+              name="tahun_rehab"
+              id="tahun_rehab"
+              value={formData.tahun_rehab}
+              onChange={handleInputChange}
+              disabled={processing}
+              error={Boolean(errors.tahun_rehab)}
+              helperText={errors.tahun_rehab}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              type="text"
+              label="Kondisi Badan Kapal"
+              name="kondisi_badan_kapal"
+              id="kondisi_badan_kapal"
+              value={formData.kondisi_badan_kapal}
+              onChange={handleInputChange}
+              disabled={processing}
+              error={Boolean(errors.kondisi_badan_kapal)}
+              helperText={errors.kondisi_badan_kapal}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextInput
+              fullWidth
+              type="text"
+              label="Kondisi Mesin Kapal"
+              name="kondisi_mesin_kapal"
+              id="kondisi_mesin_kapal"
+              value={formData.kondisi_mesin_kapal}
+              onChange={handleInputChange}
+              disabled={processing}
+              error={Boolean(errors.kondisi_mesin_kapal)}
+              helperText={errors.kondisi_mesin_kapal}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <SelectInput
+              fullWidth
+              label="Status Pengoperasian"
+              name="status_pengoperasian"
+              items={statusPengoperasianOptions}
+              value={formData.status_pengoperasian}
+              onChange={handleInputChange}
+              disabled={processing}
+              error={Boolean(errors.status_pengoperasian)}
+              helperText={errors.status_pengoperasian}
+            />
+          </Grid>
+
           {user.admin && (
             <Grid item xs={12} md={6}>
               <DateInput
@@ -330,27 +477,42 @@ const ModalFormOperasiKapalPatroli = memo(() => {
               />
             </Grid>
           )}
+
+          <Grid item xs={12} md={3}>
+            <FormControlLabel
+              label="Kondisi Aktif"
+              control={
+                <Switch
+                  name="kondisi_aktif"
+                  color="secondary"
+                  checked={formData.kondisi_aktif}
+                  onChange={handleInputChange}
+                />
+              }
+            />
+          </Grid>
+
+          <Grid item xs={12} md={3}>
+            <FormControlLabel
+              label="Cetak Laporan"
+              control={
+                <Switch
+                  name="cetak"
+                  color="secondary"
+                  checked={formData.cetak}
+                  onChange={handleInputChange}
+                />
+              }
+            />
+          </Grid>
         </Grid>
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          color="primary"
-          variant="outlined"
-          size="large"
-          disabled={processing}
-          onClick={handleClose}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
           color="primary"
           variant="contained"
-          size="large"
           loading={processing}
           startIcon={<Save />}
         >
