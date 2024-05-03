@@ -25,6 +25,7 @@ use App\Http\Controllers\OperasiAlatPemindaiController;
 use App\Http\Controllers\OperasiKapalPatroliController;
 use App\Http\Controllers\OperasiAlatTelekomunikasiController;
 use App\Http\Controllers\PetaKerawananController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -564,5 +565,17 @@ Route::middleware('auth')->group(function (): void {
             Route::patch('/kontak', 'updateKontak')->name('.update-kontak');
             Route::patch('/akun', 'updateAkun')->name('.update-akun');
             Route::patch('/password', 'updatePassword')->name('.update-password');
+        });
+
+    /**
+     * Report sarana operasi
+     */
+    Route::controller(ReportController::class)
+        ->name('report')
+        ->prefix('/report')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:report,read');
+            Route::get('/lpso', 'lpso')->name('.lpso')->middleware('access:report,read');
+            Route::get('/rsm', 'rsm')->name('.rsm')->middleware('access:report,read');
         });
 });

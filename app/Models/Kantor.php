@@ -46,4 +46,54 @@ class Kantor extends Model
     {
         return $this->hasMany(Sbp::class, 'kantor_id', 'id');
     }
+
+    /**
+     * Get all of the operasiKapalPtroli for the Kantor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function operasiKapalPatroli(): HasMany
+    {
+        return $this->hasMany(OperasiKapalPatroli::class, 'kantor_id', 'id');
+    }
+
+    /**
+     * Get all of the operasiAlatTelekomunikasi for the Kantor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function operasiAlatTelekomunikasi(): HasMany
+    {
+        return $this->hasMany(OperasiAlatTelekomunikasi::class, 'kantor_id', 'id');
+    }
+
+    /**
+     * Get all of the operasiSenjataApi for the Kantor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function operasiSenjataApi(): HasMany
+    {
+        return $this->hasMany(OperasiSenjataApi::class, 'kantor_id', 'id');
+    }
+
+    /**
+     * Get all of the operasiAlatPemindai for the Kantor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function operasiAlatPemindai(): HasMany
+    {
+        return $this->hasMany(OperasiAlatPemindai::class, 'kantor_id', 'id');
+    }
+
+    /**
+     * Get all of the operasiLainnya for the Kantor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function operasiLainnya(): HasMany
+    {
+        return $this->hasMany(OperasiLainnya::class, 'kantor_id', 'id');
+    }
 }
