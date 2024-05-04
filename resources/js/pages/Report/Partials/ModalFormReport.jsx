@@ -7,7 +7,7 @@ import dateFormat from "@/utils";
 import { useForm } from "@inertiajs/react";
 import { Button, DialogActions, DialogContent, Stack } from "@mui/material";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
@@ -86,6 +86,20 @@ const ModalFormReport = () => {
     tahun_pelaporan: "",
     tanggal_cetak: "",
   });
+
+  /**
+   * Hapus form data jika modal dibuka kembali
+   */
+  useEffect(() => {
+    if (open) {
+      setData({
+        nomor: "",
+        bulan_pelaporan: "",
+        tahun_pelaporan: "",
+        tanggal_cetak: "",
+      });
+    }
+  }, [open]);
 
   /**
    * fungsi untuk menutup modal form.

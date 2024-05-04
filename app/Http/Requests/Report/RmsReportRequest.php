@@ -5,13 +5,10 @@ namespace App\Http\Requests\Report;
 use App\Models\Kantor;
 use Illuminate\Http\Response;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\OperasiKapalPatroli;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class LpsoReportRequest extends FormRequest
+class RmsReportRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -44,10 +41,10 @@ class LpsoReportRequest extends FormRequest
         ];
 
         return [
-            'nomor'           => 'required|string|max:50',
+            'nomor' => 'required|string|max:50',
             'bulan_pelaporan' => 'required|in:' . implode(',', $month),
             'tahun_pelaporan' => 'required|date_format:Y',
-            'tanggal_cetak'   => 'required|date_format:Y-m-d',
+            'tanggal_cetak' => 'required|date_format:Y-m-d',
         ];
     }
 
@@ -58,19 +55,18 @@ class LpsoReportRequest extends FormRequest
      */
     private function getData(): Kantor
     {
-
         return Kantor::findOrFail(user()->kantor_id)->select('id', 'nama')
             ->with([
-                'operasiKapalPatroli'       => fn (HasMany $query) => $query->where('cetak', true),
+                'operasiKapalPatroli' => fn (HasMany $query) => $query->where('cetak', true),
                 'operasiAlatTelekomunikasi' => fn (HasMany $query) => $query->where('cetak', true),
-                'operasiSenjataApi'         => fn (HasMany $query) => $query->where('cetak', true),
-                'operasiAlatPemindai'       => fn (HasMany $query) => $query->where('cetak', true),
-                'operasiLainnya'            => fn (HasMany $query) => $query->where('cetak', true),
+                'operasiSenjataApi' => fn (HasMany $query) => $query->where('cetak', true),
+                'operasiAlatPemindai' => fn (HasMany $query) => $query->where('cetak', true),
+                'operasiLainnya' => fn (HasMany $query) => $query->where('cetak', true),
             ])->first();
     }
 
     /**
-     * Cetak PDF Laporan Pengoperasian Sarana Operasi (LPSO)
+     * Cetak PDF rekapitulasi monitoring sarana operasi (RMS)
      *
      * @return Response
      */
@@ -81,7 +77,7 @@ class LpsoReportRequest extends FormRequest
             'data' => $this->getData(),
         ];
 
-        return Pdf::loadView('reports.lpso', $data)
+        return Pdf::loadView('reports.rms', $data)
             ->setPaper('a4', 'landscape')
             ->stream();
     }

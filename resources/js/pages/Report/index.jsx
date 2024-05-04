@@ -38,7 +38,7 @@ const Report = () => {
           <Grid item sm={6} xs={12}>
             <CardButton
               title="Rekapitulasi Monitoring Sarana Operasi (RMS)"
-              onClick={() => handleOpenForm("RMS", "report.rsm")}
+              onClick={() => handleOpenForm("RMS", "report.rms")}
             />
           </Grid>
         </Grid>

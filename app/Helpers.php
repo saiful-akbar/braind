@@ -51,3 +51,17 @@ if (!function_exists('storage_url')) {
         return asset("storage/" . ltrim($path, '/'), $secure);
     }
 }
+
+if (!function_exists('is_empty')) {
+
+    /**
+     * Helper untuk memriksa apakah data bernilai kosong atau tidak.
+     *
+     * @param string|integer|float $value
+     * @return string|integer|float
+     */
+    function is_empty(string|int|float $value): string|int|float
+    {
+        return empty($value) ? '-' : $value;
+    }
+}
