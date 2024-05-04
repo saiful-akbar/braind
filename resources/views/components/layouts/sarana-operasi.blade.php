@@ -7,7 +7,7 @@
 
     <style>
         @page {
-            margin: 30px;
+            margin: 40px;
         }
 
         * {

@@ -1,4 +1,4 @@
-<x-layouts.sarana-operasi title="Laporan Pengoperasian Sarana Operasi (LPSO)">
+<x-layouts.sarana-operasi title="Rekapitulasi Monitoring Sarana Operasi (RMS)">
     <x-slot:logo>
         KEMENTERIAN KEUANGAN REPUBLIK INDONESIA DIREKTORAT JENDERAL BEA DAN CUKAI KANTOR WILAYAH {{ $data->nama }}
     </x-slot:logo>
@@ -8,7 +8,7 @@
     <x-slot:tanggal>{{ $tanggal_cetak }}</x-slot:tanggal>
 
     <x-slot:jenis-laporan>
-        LAPORAN PENGOPERASIAN SARANA OPERASI (LPSO) <br /> BULAN {{ strtoupper($bulan_pelaporan) }} TAHUN
+        REKAPITULASI MONITORING SARANA OPERASI (RMS) <br /> BULAN {{ strtoupper($bulan_pelaporan) }} TAHUN
         {{ $tahun_pelaporan }}
     </x-slot:jenis-laporan>
 
@@ -21,44 +21,66 @@
             <thead>
                 <tr>
                     <th rowspan="2">No.</th>
+                    <th rowspan="2">Nama Kantor</th>
                     <th rowspan="2">Nomor Lambung</th>
-                    <th colspan="2">Kondisi</th>
-                    <th rowspan="2">Nomor SPP</th>
-                    <th rowspan="2">Tanggal SPP</th>
-                    <th rowspan="2">Penerbit SPP</th>
-                    <th rowspan="2">Jumlah Hari</th>
+                    <th rowspan="2">Jenis Kapal</th>
+                    <th rowspan="2">Merk, Tipe Mesin</th>
+                    <th rowspan="2">Jumlah Mesin</th>
+                    <th colspan="2">Tahun</th>
+                    <th colspan="2">Kondisi (B/RR/BR)</th>
+                    <th rowspan="2">Pengoperasian (Aktif / Tidak Aktif)</th>
+                    <th rowspan="2">Waktu Pelaporan</th>
                     <th rowspan="2">Ket</th>
                 </tr>
 
                 <tr>
-                    <th>Aktif</th>
-                    <th>Tidak Aktif</th>
+                    <th>Pembuatan</th>
+                    <th>Rehab</th>
+                    <th>Badan Kapal</th>
+                    <th>Mesin Kapal</th>
                 </tr>
             </thead>
 
             <tbody>
+                @php
+                    $columns = 13;
+                @endphp
+
                 <tr>
-                    @for ($i = 1; $i <= 9; $i++)
+                    @for ($i = 1; $i <= $columns; $i++)
                         <td class="text-center">{{ $i }}</td>
                     @endfor
                 </tr>
+
                 @if (count($data->operasiKapalPatroli) > 0)
                     @foreach ($data->operasiKapalPatroli as $kapalPatroli)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}.</td>
+                            <td class="text-center">{{ is_empty($data->nama) }}</td>
                             <td class="text-center">{{ is_empty($kapalPatroli->nomor_lambung) }}</td>
-                            <td class="text-center">{{ $kapalPatroli->kondisi_aktif ? 'Aktif' : '-' }}</td>
-                            <td class="text-center">{{ !$kapalPatroli->kondisi_aktif ? 'Tidak AKtif' : '-' }}</td>
-                            <td class="text-center">{{ is_empty($kapalPatroli->nomor_spb) }}</td>
-                            <td class="text-center">{{ is_empty($kapalPatroli->tanggal_spb) }}</td>
-                            <td class="text-center">{{ is_empty($kapalPatroli->penerbit_spb) }}</td>
-                            <td class="text-center">{{ is_empty($kapalPatroli->jumlah_hari) }}</td>
+                            <td class="text-center">{{ is_empty($kapalPatroli->jenis_kapal) }}</td>
+                            <td class="text-center">{{ is_empty($kapalPatroli->merk_tipe_mesin) }}</td>
+                            <td class="text-center">
+                                {{ is_empty(number_format($kapalPatroli->jumlah_mesin)) }} Unit
+                            </td>
+                            <td class="text-center">{{ is_empty($kapalPatroli->tahun_pembuatan) }}</td>
+                            <td class="text-center">{{ is_empty($kapalPatroli->tahun_rehab) }}</td>
+                            <td class="text-center">{{ is_empty($kapalPatroli->kondisi_badan_kapal) }}</td>
+                            <td class="text-center">{{ is_empty($kapalPatroli->kondisi_mesin_kapal) }}</td>
+                            <td class="text-center">
+                                @if ($kapalPatroli->status_pengoperasian)
+                                    Aktif
+                                @else
+                                    Tidak Aktif
+                                @endif
+                            </td>
+                            <td class="text-center">{{ $bulan_pelaporan }}</td>
                             <td class="text-center">{{ is_empty($kapalPatroli->catatan) }}</td>
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <th colspan="9">- NIHIL -</th>
+                        <th colspan="{{ $columns }}">- NIHIL -</th>
                     </tr>
                 @endif
             </tbody>
@@ -84,7 +106,7 @@
                     <th>Tipe</th>
                     <th>Range Frekuensi</th>
                     <th>Teknologi (Analog/Digital)</th>
-                    <th>Kondisi (B/RR/BR)</th>
+                    <th>Kondisi (B/RR/RB)</th>
                     <th>Status (Aktif/Tidak Aktif)</th>
                     <th>Lokasi Penempatan</th>
                     <th>Ket</th>
@@ -92,8 +114,12 @@
             </thead>
 
             <tbody>
+                @php
+                    $columns = 15;
+                @endphp
+
                 <tr>
-                    @for ($i = 1; $i <= 15; $i++)
+                    @for ($i = 1; $i <= $columns; $i++)
                         <td class="text-center">{{ $i }}</td>
                     @endfor
                 </tr>
@@ -122,7 +148,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <th colspan="15">- NIHIL -</th>
+                        <th colspan="{{ $columns }}">- NIHIL -</th>
                     </tr>
                 @endif
             </tbody>
@@ -140,7 +166,7 @@
                     <th rowspan="2">No.</th>
                     <th colspan="3">Senjata Api Dinas</th>
                     <th rowspan="2">Berlaku S/D</th>
-                    <th rowspan="2">Kondisi (B/RR/BR)</th>
+                    <th rowspan="2">Kondisi (B/RR/RB)</th>
                     <th colspan="3">Pemegang Senjata</th>
                     <th rowspan="2">Jumlah Amunisi</th>
                     <th rowspan="2">Ket</th>
@@ -157,36 +183,21 @@
             </thead>
 
             <tbody>
+                @php
+                    $columns = 11;
+                @endphp
+
                 <tr>
-                    @for ($i = 1; $i <= 11; $i++)
+                    @for ($i = 1; $i <= $columns; $i++)
                         <td class="text-center">{{ $i }}</td>
                     @endfor
                 </tr>
 
                 @if (count($data->operasiSenjataApi) > 0)
-
-                    @php
-                        $count = [];
-                        foreach ($data->operasiSenjataApi as $senjataApi) {
-                            if (!isset($count[$senjataApi->jenis_kaliber])) {
-                                $count[$senjataApi->jenis_kaliber] = 1;
-                            } else {
-                                $count[$senjataApi->jenis_kaliber] += 1;
-                            }
-                        }
-                    @endphp
-
-
                     @foreach ($data->operasiSenjataApi as $senjataApi)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}.</td>
-
-                            @if (in_array($senjataApi->jenis_kaliber, array_keys($count)))
-                                <td class="text-center" rowspan="{{ $count[$senjataApi->jenis_kaliber] }}">
-                                    {{ is_empty($senjataApi->jenis_kaliber) }}
-                                </td>
-                            @endif
-
+                            <td class="text-center">{{ is_empty($senjataApi->jenis_kaliber) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->nomor_senjata) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->nomor_buku_pas) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->masa_berlaku) }}</td>
@@ -194,23 +205,13 @@
                             <td class="text-center">{{ is_empty($senjataApi->nama_pemegang_senjata) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->pangkat_pemegang_senjata) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->jabatan_pemegang_senjata) }}</td>
-
-                            @if (in_array($senjataApi->jenis_kaliber, array_keys($count)))
-                                <td class="text-center" rowspan="{{ $count[$senjataApi->jenis_kaliber] }}">
-                                    {{ is_empty(number_format($senjataApi->jumlah_amunisi)) }}
-                                </td>
-
-                                @php
-                                    unset($count[$senjataApi->jenis_kaliber]);
-                                @endphp
-                            @endif
-
+                            <td class="text-center">{{ is_empty(number_format($senjataApi->jumlah_amunisi)) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->catatan) }}</td>
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <th colspan="11">- NIHIL -</th>
+                        <th colspan="{{ $columns }}">- NIHIL -</th>
                     </tr>
                 @endif
             </tbody>
@@ -240,7 +241,7 @@
                     <th>Nomor Seri Mesin</th>
                     <th>Single/Dual View</th>
                     <th>Tahun Perolehan</th>
-                    <th>Kondisi (B/RR/BR)</th>
+                    <th>Kondisi (B/RR/RB)</th>
                     <th>Lokasi Penempatan</th>
                     <th>Jam Operasi</th>
                     <th>Jam Scan</th>
@@ -250,8 +251,12 @@
             </thead>
 
             <tbody>
+                @php
+                    $columns = 16;
+                @endphp
+
                 <tr>
-                    @for ($i = 1; $i <= 16; $i++)
+                    @for ($i = 1; $i <= $columns; $i++)
                         <td class="text-center">{{ $i }}</td>
                     @endfor
                 </tr>
@@ -291,7 +296,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <th colspan="16">- NIHIL -</th>
+                        <th colspan="{{ $columns }}">- NIHIL -</th>
                     </tr>
                 @endif
             </tbody>
@@ -321,18 +326,22 @@
             </thead>
 
             <tbody>
+                @php
+                    $columns = 7;
+                @endphp
+
                 <tr>
-                    @for ($i = 1; $i <= 7; $i++)
+                    @for ($i = 1; $i <= $columns; $i++)
                         <td class="text-center">{{ $i }}</td>
                     @endfor
                 </tr>
+
 
                 @if (count($data->operasiLainnya) > 0)
                     @foreach ($data->operasiLainnya as $lainnya)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}.</td>
                             <td class="text-center">{{ is_empty($lainnya->jenis_operasi) }}</td>
-
                             <td class="text-center">
                                 @if (empty($lainnya->tipe))
                                     @if (empty($lainnya->merek))
@@ -348,7 +357,6 @@
                                     @endif
                                 @endif
                             </td>
-
                             <td class="text-center">{{ is_empty($lainnya->lokasi_penempatan) }}</td>
                             <td class="text-center">
                                 {{ strtolower($lainnya->kondisi) == 'aktif' ? 'Aktif' : '-' }}
@@ -361,7 +369,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <th colspan="7">- NIHIL -</th>
+                        <th colspan="{{ $columns }}">- NIHIL -</th>
                     </tr>
                 @endif
             </tbody>

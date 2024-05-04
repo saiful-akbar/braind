@@ -84,7 +84,7 @@
                     <th>Tipe</th>
                     <th>Range Frekuensi</th>
                     <th>Teknologi (Analog/Digital)</th>
-                    <th>Kondisi (B/RR/BR)</th>
+                    <th>Kondisi (B/RR/RB)</th>
                     <th>Status (Aktif/Tidak Aktif)</th>
                     <th>Lokasi Penempatan</th>
                     <th>Ket</th>
@@ -140,7 +140,7 @@
                     <th rowspan="2">No.</th>
                     <th colspan="3">Senjata Api Dinas</th>
                     <th rowspan="2">Berlaku S/D</th>
-                    <th rowspan="2">Kondisi (B/RR/BR)</th>
+                    <th rowspan="2">Kondisi (B/RR/RB)</th>
                     <th colspan="3">Pemegang Senjata</th>
                     <th rowspan="2">Jumlah Amunisi</th>
                     <th rowspan="2">Ket</th>
@@ -180,13 +180,7 @@
                     @foreach ($data->operasiSenjataApi as $senjataApi)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}.</td>
-
-                            @if (in_array($senjataApi->jenis_kaliber, array_keys($count)))
-                                <td class="text-center" rowspan="{{ $count[$senjataApi->jenis_kaliber] }}">
-                                    {{ is_empty($senjataApi->jenis_kaliber) }}
-                                </td>
-                            @endif
-
+                            <td class="text-center">{{ is_empty($senjataApi->jenis_kaliber) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->nomor_senjata) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->nomor_buku_pas) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->masa_berlaku) }}</td>
@@ -194,17 +188,8 @@
                             <td class="text-center">{{ is_empty($senjataApi->nama_pemegang_senjata) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->pangkat_pemegang_senjata) }}</td>
                             <td class="text-center">{{ is_empty($senjataApi->jabatan_pemegang_senjata) }}</td>
-
-                            @if (in_array($senjataApi->jenis_kaliber, array_keys($count)))
-                                <td class="text-center" rowspan="{{ $count[$senjataApi->jenis_kaliber] }}">
-                                    {{ is_empty(number_format($senjataApi->jumlah_amunisi)) }}
-                                </td>
-
-                                @php
-                                    unset($count[$senjataApi->jenis_kaliber]);
-                                @endphp
-                            @endif
-
+                            <td class="text-center">{{ is_empty(number_format($senjataApi->jumlah_amunisi)) }}
+                            </td>
                             <td class="text-center">{{ is_empty($senjataApi->catatan) }}</td>
                         </tr>
                     @endforeach
@@ -240,7 +225,7 @@
                     <th>Nomor Seri Mesin</th>
                     <th>Single/Dual View</th>
                     <th>Tahun Perolehan</th>
-                    <th>Kondisi (B/RR/BR)</th>
+                    <th>Kondisi (B/RR/RB)</th>
                     <th>Lokasi Penempatan</th>
                     <th>Jam Operasi</th>
                     <th>Jam Scan</th>
