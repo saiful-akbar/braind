@@ -577,5 +577,6 @@ Route::middleware('auth')->group(function (): void {
             Route::get('/', 'index')->middleware('access:report,read');
             Route::get('/lpso', 'lpso')->name('.lpso')->middleware('access:report,read');
             Route::get('/rms', 'rms')->name('.rms')->middleware('access:report,read');
+            Route::get('/dpso', 'dpso')->name('.dpso')->middleware('access:report,read');
         });
 });

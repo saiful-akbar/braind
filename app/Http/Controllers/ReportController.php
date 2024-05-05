@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Report\LpsoReportRequest;
-use App\Http\Requests\Report\RmsReportRequest;
+use Inertia\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
-use Inertia\Response;
+use App\Http\Requests\Report\RmsReportRequest;
+use App\Http\Requests\Report\DpsoReportRequest;
+use App\Http\Requests\Report\LpsoReportRequest;
 
 class ReportController extends Controller
 {
@@ -40,6 +41,17 @@ class ReportController extends Controller
      * @return HttpResponse
      */
     public function rms(RmsReportRequest $request): HttpResponse
+    {
+        return $request->printPdf();
+    }
+
+    /**
+     * Cetak PDF daftar pemeliharaan sarana operasi (DPSO)
+     *
+     * @param RmsReportRequest $request
+     * @return HttpResponse
+     */
+    public function dpso(DpsoReportRequest $request): HttpResponse
     {
         return $request->printPdf();
     }

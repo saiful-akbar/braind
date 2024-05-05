@@ -7,11 +7,11 @@
 
     <style>
         @page {
-            margin: 40px;
+            margin: 30px;
         }
 
         * {
-            font-size: 14px
+            font-size: 13px
         }
 
         header {
@@ -54,6 +54,11 @@
 
         .text-left {
             text-align: left
+        }
+
+        #dpso-alatPemindai table tr th,
+        #dpso-alatPemindai table tr td {
+            font-size: 11px;
         }
     </style>
 </head>

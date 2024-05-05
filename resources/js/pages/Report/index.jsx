@@ -28,17 +28,24 @@ const Report = () => {
 
       <Box component="main" sx={{ mt: 5 }}>
         <Grid container spacing={3}>
-          <Grid item sm={6} xs={12}>
+          <Grid item sm={4} xs={12}>
             <CardButton
               title="Laporan Pengoperasian Sarana Operasi (LPSO)"
               onClick={() => handleOpenForm("LPSO", "report.lpso")}
             />
           </Grid>
 
-          <Grid item sm={6} xs={12}>
+          <Grid item sm={4} xs={12}>
             <CardButton
               title="Rekapitulasi Monitoring Sarana Operasi (RMS)"
               onClick={() => handleOpenForm("RMS", "report.rms")}
+            />
+          </Grid>
+
+          <Grid item sm={4} xs={12}>
+            <CardButton
+              title="Daftar Pemeliharaan Sarana Operasi (DPSO)"
+              onClick={() => handleOpenForm("DPSO", "report.dpso")}
             />
           </Grid>
         </Grid>
