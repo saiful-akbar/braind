@@ -19,7 +19,7 @@
         }
 
         header .logo {
-            padding-right: 300px;
+            padding-right: 350px;
             width: 70%;
             font-size: 14px;
         }
