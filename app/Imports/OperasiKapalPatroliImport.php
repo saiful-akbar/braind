@@ -20,13 +20,13 @@ class OperasiKapalPatroliImport implements ToModel, WithHeadingRow, WithValidati
      * @param int $index
      * @return array
      */
-    public function prepareForValidation(array $data, int $index): array
+    public function prepareForValidation(array $data): array
     {
         if (gettype($data['tanggal_input']) == 'integer') {
             $data['tanggal_input'] = Date::excelToDateTimeObject($data['tanggal_input'])->format('Y-m-d');
         }
 
-        if (gettype($data['tanggal_input']) == 'integer') {
+        if (gettype($data['tanggal_spb']) == 'integer') {
             $data['tanggal_spb'] = Date::excelToDateTimeObject($data['tanggal_spb'])->format('Y-m-d');
         }
 
