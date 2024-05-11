@@ -1,7 +1,7 @@
 <x-layouts.sarana-operasi title="Daftar Pemeliharaan Sarana Operasi (DPSO)">
     <x-slot:logo>
-        KEMENTERIAN KEUANGAN REPUBLIK INDONESIA DIREKTORAT JENDERAL BEA DAN CUKAI KANTOR WILAYAH
-        {{ user()->admin ? 'KPPBC TMP A DENPASAR' : $data->nama }}
+        KEMENTRIAN KEUANGAN REPUBLIK INDONESIA <br> DIREKTORAT JENDERAL BEA DAN CUKAI <br>
+        {{ user()->admin ? 'KANTOR WILAYAH DJBC BALI, NTB DAN NTT' : $data->nama }}
     </x-slot:logo>
 
     <x-slot:nomor>{{ $nomor }}</x-slot:nomor>

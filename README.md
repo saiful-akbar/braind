@@ -62,22 +62,9 @@
 
 # Fitur Laporan
 
-- [x] Tambahakan field baru pada tabel operasi_kapal_patroli
-  - Jenis Kapal
-  - Merk Tipe Mesin
-  - Jumlah Mesin
-  - Tahun Pembuatan
-  - Tahun Rehab
-  - Kondisi Badan Kapal
-  - Kondisi Mesin Kapal
-  - Status Pengoperasian (aktif/tidak aktif)
-  - Kondisi Aktif
-- [x] Tambahkan field `cetak` disemua tabel sarana operasi untuk menetuka apakah data ini dicetak atau tidak.
-- [x] Tambah menu Report dalam group sarana operasi
-- [ ] Halaman report hanya menampilkan modal untuk input `nomor`, `tanggal cetak` dan `waktu pelaporan`.
-- [ ] laporan terbagi menjadi 3 format
-  - [ ] Format 1 `Laporan Pengoperasian Sarana Operasi`
-  - [ ] Formar 2 `Rekapitulasi Monitoring Sarana Operasi`
-  - [ ] Formar 3 `Daftar Pemeliharan Sarana Operasi`
-- [ ] Dalam 1 format laporan mencakup semua laporan sarana operasi.
-- [ ] Cetak laporan hanya data yang sesuai dengan kantor user yang sedang login.
+- [x] Perbaikan kop header pada report pdf
+- [x] perbaikan presisi pada tabel
+- [x] perbaikan select kantor pada halaman peta kerawanan yang tidak muncul
+- [x] perbaikan default view menjadi video pada halaman peta kerawanan dan galeri
+- [x] penambahan tab kantor pada grafik penerimaan di halaman dashboard (seperti tab sbp)
+- [ ] perubahan header pada semua print pdf sarana operasi (menambahkan teks kementrian)

@@ -11,15 +11,15 @@
         }
 
         .header-title {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 500;
             text-transform: capitalize;
         }
 
         .header-logo {
+            font-size: 14px;
             text-align: right;
-            font-size: 20px;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         .header-divider {
@@ -87,8 +87,11 @@
         <table border="0" cellspacing="0" cellpadding="0" width="100%">
             <thead>
                 <tr>
-                    <td class="header-title">{{ $header }}</td>
-                    <td class="header-logo">{{ config('app.name') }}</td>
+                    <td class="header-logo text-left">
+                        KEMENTRIAN KEUANGAN REPUBLIK INDONESIA <br> DIREKTORAT JENDERAL BEA DAN CUKAI
+                    </td>
+
+                    <td class="header-title text-right">{{ $header }}</td>
                 </tr>
             </thead>
         </table>

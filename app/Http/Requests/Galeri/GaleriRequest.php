@@ -57,10 +57,10 @@ class GaleriRequest extends FormRequest
 
         // periksa jika ada request "type" dengan nilai "video"
         // tampilkan hanya data yang berupa "video"
-        if ($this->query('type') == 'video') {
-            $galeri->whereNotNull('video_url');
-        } else {
+        if ($this->query('type') == 'gambar') {
             $galeri->whereNotNull('gambar_url');
+        } else {
+            $galeri->whereNotNull('video_url');
         }
 
         // Periksa jika ada request pencarian

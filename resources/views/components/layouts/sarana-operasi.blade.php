@@ -67,7 +67,7 @@
     <header>
         <table width="100%" border="0" cellspacing="0" cellpadding="1">
             <tr>
-                <td rowspan="3" class="logo">{{ strtoupper($logo) }}</td>
+                <td rowspan="3" class="logo">{!! strtoupper($logo) !!}</td>
                 <td colspan="3">Lampiran Surat Pengantar</td>
             </tr>
             <tr>

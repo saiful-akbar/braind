@@ -7,12 +7,12 @@ import React, { memo } from "react";
  */
 const options = [
   {
-    label: "Gambar",
-    value: "gambar",
-  },
-  {
     label: "Video",
     value: "video",
+  },
+  {
+    label: "Gambar",
+    value: "gambar",
   },
 ];
 
@@ -26,7 +26,7 @@ const FormFilterGaleri = memo(() => {
   /**
    * State
    */
-  const [value, setValue] = React.useState("gambar");
+  const [value, setValue] = React.useState("video");
 
   /**
    * update value sesaat seltelah komponen dirender
