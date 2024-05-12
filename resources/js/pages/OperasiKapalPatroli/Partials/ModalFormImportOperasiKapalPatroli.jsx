@@ -135,7 +135,7 @@ const ModalFormImportOperasiKapalPatroli = memo(() => {
 
   return (
     <Modal
-      title="Import Excel"
+      title="Impor Excel"
       open={open}
       onClose={handleClose}
       loading={processing}
@@ -200,27 +200,14 @@ const ModalFormImportOperasiKapalPatroli = memo(() => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          size="large"
-          color="primary"
-          variant="outlined"
-          onClick={handleClose}
-          disabled={processing}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
-          size="large"
           color="primary"
           variant="contained"
           loading={processing}
           startIcon={<Upload />}
         >
-          Import
+          Impor
         </LoadingButton>
       </DialogActions>
     </Modal>

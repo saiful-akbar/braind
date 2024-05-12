@@ -2,12 +2,11 @@ import Modal from "@/components/Modal";
 import { closeModalImportKantor } from "@/redux/reducers/kantorReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { useForm, usePage } from "@inertiajs/react";
-import { Close, Download, Upload } from "@mui/icons-material";
+import { Download, Upload } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   Box,
-  Button,
   DialogActions,
   DialogContent,
   Grid,
@@ -130,7 +129,7 @@ const ModalImportKantor = () => {
 
   return (
     <Modal
-      title="Import Excel"
+      title="Impor Excel"
       open={open}
       onClose={handleCloseModal}
       loading={form.processing}
@@ -195,27 +194,14 @@ const ModalImportKantor = () => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          size="large"
-          color="primary"
-          variant="outlined"
-          onClick={handleCloseModal}
-          disabled={form.processing}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
-          size="large"
           color="primary"
           variant="contained"
           loading={form.processing}
           startIcon={<Upload />}
         >
-          Import
+          Impor
         </LoadingButton>
       </DialogActions>
     </Modal>

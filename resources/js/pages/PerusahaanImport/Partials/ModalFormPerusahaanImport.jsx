@@ -184,7 +184,7 @@ const ModalFormPerusahaanImport = memo(() => {
       title={title}
       loading={form.processing}
       onClose={handleClose}
-      maxWidth="lg"
+      maxWidth="md"
       component="form"
       autoComplete="off"
       onSubmit={handleSubmit}
@@ -357,23 +357,10 @@ const ModalFormPerusahaanImport = memo(() => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          color="primary"
-          variant="outlined"
-          size="large"
-          disabled={form.processing}
-          onClick={handleClose}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
           color="primary"
           variant="contained"
-          size="large"
           loading={form.processing}
           startIcon={<Save />}
         >

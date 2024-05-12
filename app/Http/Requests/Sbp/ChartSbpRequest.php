@@ -129,7 +129,7 @@ class ChartSbpRequest extends FormRequest
      *
      * @return mixed
      */
-    public function getChartByKantor(): mixed
+    public function getChartByKantor(): array
     {
         // ambil data sbp dan join dengan tabel kantor.
         // lalu filter datanya dari "tanggal_input" bersadarkan tahun yang direquest.

@@ -127,7 +127,7 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
   return (
     <Modal
       open={open}
-      title="Import Excel"
+      title="Impor Excel"
       maxWidth="sm"
       onClose={handleClose}
       component="form"
@@ -190,27 +190,14 @@ const ImportExcel = ({ open, onClose, ...rest }) => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          size="large"
-          type="button"
-          color="primary"
-          variant="outlined"
-          onClick={handleClose}
-          disabled={form.processing}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
           color="primary"
           variant="contained"
-          size="large"
           loading={form.processing}
           startIcon={<Upload />}
         >
-          Import
+          Impor
         </LoadingButton>
       </DialogActions>
     </Modal>

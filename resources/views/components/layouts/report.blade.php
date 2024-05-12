@@ -10,14 +10,16 @@
             margin: 40px;
         }
 
+        * {
+            font-size: 13px;
+        }
+
         .header-title {
-            font-size: 14px;
             font-weight: 500;
             text-transform: capitalize;
         }
 
         .header-logo {
-            font-size: 14px;
             text-align: right;
             font-weight: 500;
         }
@@ -30,11 +32,6 @@
 
         .border-bottom {
             border-bottom: 1px solid black
-        }
-
-        .header .periode tr th,
-        .header .periode tr td {
-            font-size: 13px;
         }
 
         .main-content {
@@ -64,12 +61,7 @@
         }
 
         .table tr th {
-            font-size: 14px;
             font-weight: 700;
-        }
-
-        .table tr td {
-            font-size: 13px;
         }
 
         .page-break {

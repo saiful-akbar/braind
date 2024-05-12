@@ -2,17 +2,10 @@ import TextInput from "@/components/Input/TextInput";
 import Modal from "@/components/Modal";
 import { closeFormKomoditi } from "@/redux/reducers/komoditiReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
-import { router, usePage, useForm } from "@inertiajs/react";
-import { Close, Save } from "@mui/icons-material";
+import { useForm, usePage } from "@inertiajs/react";
+import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
+import { DialogActions, DialogContent } from "@mui/material";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -151,23 +144,10 @@ const FormKomoditi = React.memo(() => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          variant="outlined"
-          color="primary"
-          size="large"
-          startIcon={<Close />}
-          disabled={processing}
-          onClick={handleClose}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
           variant="contained"
           color="primary"
-          size="large"
           startIcon={<Save />}
           loading={processing}
         >

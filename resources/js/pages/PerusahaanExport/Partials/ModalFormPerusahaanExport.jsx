@@ -8,9 +8,9 @@ import Perusahaan from "@/services/PerusahaanService";
 import Kantor from "@/services/kantorService";
 import dateFormat from "@/utils";
 import { useForm, usePage } from "@inertiajs/react";
-import { Close, Save } from "@mui/icons-material";
+import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { Button, DialogActions, DialogContent, Grid } from "@mui/material";
+import { DialogActions, DialogContent, Grid } from "@mui/material";
 import dayjs from "dayjs";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -184,7 +184,7 @@ const ModalFormPerusahaanExport = memo(() => {
       title={title}
       loading={form.processing}
       onClose={handleClose}
-      maxWidth="lg"
+      maxWidth="md"
       component="form"
       autoComplete="off"
       onSubmit={handleSubmit}
@@ -374,23 +374,10 @@ const ModalFormPerusahaanExport = memo(() => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          color="primary"
-          variant="outlined"
-          size="large"
-          disabled={form.processing}
-          onClick={handleClose}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
           color="primary"
           variant="contained"
-          size="large"
           loading={form.processing}
           startIcon={<Save />}
         >

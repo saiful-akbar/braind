@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Penerimaan;
 
+use App\Models\Kantor;
 use App\Models\Penerimaan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,17 +25,18 @@ class ChartPenerimaanRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'tab' => 'in:perkantor,semua',
             'year' => 'nullable|date_format:Y',
             'month' => 'nullable|date_format:m',
         ];
     }
 
     /**
-     * ambil data penerimaan untuk chart pada dashboard.
+     * Mengambil data chart untuk semua kantor
      *
      * @return array
      */
-    public function read(): array
+    private function getChartByAllKantor(): array
     {
         $year = !empty($this->year) ? $this->year : date('Y');
         $month = !empty($this->month) ? $this->month : date('m');
@@ -72,7 +74,7 @@ class ChartPenerimaanRequest extends FormRequest
             ]
         ];
 
-        foreach ($query->get() as $key => $value) {
+        foreach ($query->get() as $value) {
             $data['series'][0]['data'][0] = (float) $value->target_bea_masuk;
             $data['series'][0]['data'][1] = (float) $value->target_bea_keluar;
             $data['series'][0]['data'][2] = (float) $value->target_cukai;
@@ -82,42 +84,85 @@ class ChartPenerimaanRequest extends FormRequest
         }
 
         return $data;
+    }
 
-        // isikan $result dengan data hasil query sesuai dengan posisi bulannya.
-        // foreach ($data as $penerimaan) {
-        //     foreach ($dataset as $key => $value) {
-        //         switch ($value['column']) {
-        //             case 'target_bea_masuk':
-        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->target_bea_masuk;
-        //                 break;
+    /**
+     * Ambil data chart berdasarkan kantor
+     *
+     * @return array
+     */
+    private function getChartByKantor(): mixed
+    {
+        $year = $this->query('year');
+        $month = $this->query('month');
+        $date = "$year-$month";
 
-        //             case 'target_bea_keluar':
-        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->target_bea_keluar;
-        //                 break;
+        $query = Kantor::select([
+            'kantor.nama AS kantor_nama',
+            DB::raw('SUM(penerimaan.target_bea_masuk) AS target_bea_masuk'),
+            DB::raw('SUM(penerimaan.realisasi_bea_masuk) AS realisasi_bea_masuk'),
+            DB::raw('SUM(penerimaan.target_bea_keluar) AS target_bea_keluar'),
+            DB::raw('SUM(penerimaan.realisasi_bea_keluar) AS realisasi_bea_keluar'),
+            DB::raw('SUM(penerimaan.target_cukai) AS target_cukai'),
+            DB::raw('SUM(penerimaan.realisasi_cukai) AS realisasi_cukai'),
+        ])
+            ->join('penerimaan', 'penerimaan.kantor_id', '=', 'kantor.id')
+            ->where('penerimaan.tanggal_input', 'like', "$date%");
 
-        //             case 'target_cukai':
-        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->target_cukai;
-        //                 break;
+        // Grouping query
+        $query->groupBy('kantor.nama');
 
-        //             case 'realisasi_bea_masuk':
-        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->realisasi_bea_masuk;
-        //                 break;
+        // buat variable untuk data kosong.
+        $data = [
+            'series' => [],
+            'x_labels' => []
+        ];
 
-        //             case 'realisasi_bea_keluar':
-        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->realisasi_bea_keluar;
-        //                 break;
+        // isikan valiable $data dari hasil query.
+        foreach ($query->get() as $value) {
+            $data['series'][0]['data'][] = (float) $value->target_bea_masuk;
+            $data['series'][0]['label'] = 'Target Bea Masuk';
+            $data['series'][0]['id'] = 'target_bea_masuk';
 
-        //             case 'realisasi_cukai':
-        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = $penerimaan->realisasi_cukai;
-        //                 break;
+            $data['series'][1]['data'][] = (float) $value->realisasi_bea_masuk;
+            $data['series'][1]['label'] = 'Realisasi Bea Masuk';
+            $data['series'][1]['id'] = 'realisasi_bea_masuk';
 
-        //             default:
-        //                 $result[$key]['data'][(int) $penerimaan->bulan - 1] = 0;
-        //                 break;
-        //         }
+            $data['series'][2]['data'][] = (float) $value->target_bea_keluar;
+            $data['series'][2]['label'] = 'Target Bea Keluar';
+            $data['series'][2]['id'] = 'target_bea_keluar';
 
-        //         unset($result[$key]['column']);
-        //     }
-        // }
+            $data['series'][3]['data'][] = (float) $value->realisasi_bea_keluar;
+            $data['series'][3]['label'] = 'Realisasi Bea Keluar';
+            $data['series'][3]['id'] = 'realisasi_bea_keluar';
+
+            $data['series'][4]['data'][] = (float) $value->target_cukai;
+            $data['series'][4]['label'] = 'Target Cukai';
+            $data['series'][4]['id'] = 'target_cukai';
+
+            $data['series'][5]['data'][] = (float) $value->realisasi_cukai;
+            $data['series'][5]['label'] = 'Realisasi Cukai';
+            $data['series'][5]['id'] = 'realisasi_cukai';
+
+            $data['x_labels'][] = $value->kantor_nama;
+        }
+
+        return $data;
+    }
+
+    /**
+     * ambil data penerimaan untuk chart pada dashboard.
+     *
+     * @return array
+     */
+    public function read(): mixed
+    {
+        if ($this->query('tab') == 'semua') {
+            return $this->getChartByAllKantor();
+        }
+
+        if ($this->query('tab') == 'perkantor' && user()->admin) {
+            return $this->getChartByKantor();
+        }
     }
 }

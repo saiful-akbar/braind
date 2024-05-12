@@ -335,23 +335,10 @@ const ModalForm = () => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          variant="outlined"
-          color="primary"
-          size="large"
-          disabled={processing}
-          onClick={handleClose}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
           color="primary"
           variant="contained"
-          size="large"
           loading={processing}
           startIcon={<Save />}
         >

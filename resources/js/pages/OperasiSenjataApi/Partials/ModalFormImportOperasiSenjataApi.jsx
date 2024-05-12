@@ -134,7 +134,7 @@ const ModalFormImportOperasiSenjataApi = memo(() => {
 
   return (
     <Modal
-      title="Import Excel"
+      title="Impor Excel"
       open={open}
       onClose={handleClose}
       loading={processing}
@@ -206,7 +206,7 @@ const ModalFormImportOperasiSenjataApi = memo(() => {
           loading={processing}
           startIcon={<Upload />}
         >
-          Import
+          Impor
         </LoadingButton>
       </DialogActions>
     </Modal>

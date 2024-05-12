@@ -29,19 +29,19 @@ const TableActionButton = (props) => {
 
       {print && (
         <Button type="button" onClick={onPrint}>
-          Print
+          Cetak
         </Button>
       )}
 
       {exportExcel && (
         <Button type="button" onClick={onExport}>
-          Export
+          Ekspor
         </Button>
       )}
 
       {importExcel && (
         <Button type="button" onClick={onImport}>
-          Import
+          Impor
         </Button>
       )}
     </ButtonGroup>

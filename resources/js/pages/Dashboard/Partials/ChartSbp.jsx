@@ -276,8 +276,8 @@ const ChartSbp = () => {
 
             <Grid item xs={12}>
               <BarChart
-                margin={{ left: 100 }}
-                height={350}
+                margin={{ left: 100, top: 70 }}
+                height={400}
                 series={series}
                 xAxis={[{ data: xLabels, scaleType: "band" }]}
               />

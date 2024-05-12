@@ -2,18 +2,17 @@ import Modal from "@/components/Modal";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { closeFormlImport } from "@/redux/reducers/penindakanReducer";
 import { useForm, usePage } from "@inertiajs/react";
-import { Close, Download, Upload } from "@mui/icons-material";
+import { Download, Upload } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   Box,
-  Button,
   DialogActions,
   DialogContent,
   Grid,
   TextField,
 } from "@mui/material";
-import React, { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
@@ -125,7 +124,7 @@ const ModalFormImportPenindakan = memo(() => {
 
   return (
     <Modal
-      title="Import Excel"
+      title="Impor Excel"
       open={open}
       onClose={handleClose}
       loading={form.processing}
@@ -190,27 +189,14 @@ const ModalFormImportPenindakan = memo(() => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          size="large"
-          color="primary"
-          variant="outlined"
-          onClick={handleClose}
-          disabled={form.processing}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
-          size="large"
           color="primary"
           variant="contained"
           loading={form.processing}
           startIcon={<Upload />}
         >
-          Import
+          Impor
         </LoadingButton>
       </DialogActions>
     </Modal>

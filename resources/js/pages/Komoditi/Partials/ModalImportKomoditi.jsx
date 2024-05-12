@@ -2,20 +2,19 @@ import Modal from "@/components/Modal";
 import { closeModalImportKomoditi } from "@/redux/reducers/komoditiReducer";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { useForm, usePage } from "@inertiajs/react";
+import { Download, Upload } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Alert,
   Box,
-  Button,
   DialogActions,
   DialogContent,
   Grid,
   TextField,
 } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { saveAs } from "file-saver";
-import { Close, Download, Upload } from "@mui/icons-material";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
  * Komponen modal untuk import data kode komoditi
@@ -127,8 +126,8 @@ const ModalImportKomoditi = () => {
 
   return (
     <Modal
+      title="Impor Excel"
       open={komoditi.import.open}
-      title="Import Excel"
       onClose={handleClose}
       loading={form.processing}
       component="form"
@@ -191,27 +190,14 @@ const ModalImportKomoditi = () => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          size="large"
-          color="primary"
-          variant="outlined"
-          onClick={handleClose}
-          disabled={form.processing}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
-          size="large"
           color="primary"
           variant="contained"
           loading={form.processing}
           startIcon={<Upload />}
         >
-          Import
+          Impor
         </LoadingButton>
       </DialogActions>
     </Modal>

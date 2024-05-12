@@ -1,13 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm, usePage } from "@inertiajs/react";
+import TextInput from "@/components/Input/TextInput";
 import Modal from "@/components/Modal";
 import { closeFormKantor } from "@/redux/reducers/kantorReducer";
-import TextInput from "@/components/Input/TextInput";
+import { useForm, usePage } from "@inertiajs/react";
+import { Save } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { DialogContent, DialogActions, Button } from "@mui/material";
-import { Close, Save } from "@mui/icons-material";
+import { DialogActions, DialogContent } from "@mui/material";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
  * Komponen partial untuk form create & edit data kantor.
@@ -113,21 +112,8 @@ export default function ModalFormKantor(props) {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          size="large"
-          color="primary"
-          variant="outlined"
-          disabled={processing}
-          onClick={handleClose}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
-          size="large"
           color="primary"
           variant="contained"
           loading={processing}

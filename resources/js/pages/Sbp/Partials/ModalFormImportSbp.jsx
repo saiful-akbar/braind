@@ -123,7 +123,7 @@ const ModalFormImportSbp = () => {
 
   return (
     <Modal
-      title="Import Excel"
+      title="Impor Excel"
       maxWidth="sm"
       open={open}
       onClose={handleClose}
@@ -185,27 +185,14 @@ const ModalFormImportSbp = () => {
       </DialogContent>
 
       <DialogActions sx={{ p: 3 }}>
-        <Button
-          type="button"
-          color="primary"
-          variant="outlined"
-          size="large"
-          onClick={handleClose}
-          disabled={form.processing}
-          startIcon={<Close />}
-        >
-          Tutup
-        </Button>
-
         <LoadingButton
           type="submit"
           color="primary"
           variant="contained"
-          size="large"
           loading={form.processing}
           startIcon={<Save />}
         >
-          Import
+          Impor
         </LoadingButton>
       </DialogActions>
     </Modal>
