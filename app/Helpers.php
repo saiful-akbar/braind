@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Models\MenuGroup;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 if (!function_exists('user')) {
@@ -22,7 +24,29 @@ if (!function_exists('menu')) {
      */
     function menu(): Collection
     {
-        return collect(session('menu'));
+        // return collect(session('menu'));
+
+        $menu = MenuGroup::with([
+            'subMenu' => function (HasMany $query): void {
+                $columns = [
+                    'menu.*',
+                    'menu_user.create',
+                    'menu_user.read',
+                    'menu_user.update',
+                    'menu_user.remove',
+                    'menu_user.destroy',
+                ];
+
+                $query->select($columns)
+                    ->join('menu_user', 'menu.id', '=', 'menu_user.menu_id')
+                    ->where('menu_user.user_id', user()?->id)
+                    ->where('menu_user.read', 1);
+            }
+        ])
+            ->whereRelation('subMenu.userWithReadAccess', 'user_id', '=', user()?->id)
+            ->get();
+
+        return collect($menu);
     }
 }
 
@@ -33,7 +57,9 @@ if (!function_exists('access')) {
      */
     function access(): Collection
     {
-        return collect(session('access'));
+        // return collect(session('access'));
+
+        return collect(user()?->menu);
     }
 }
 

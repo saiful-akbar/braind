@@ -147,6 +147,16 @@ class MenuSeeder extends Seeder
                 ],
             ],
         ],
+        [
+            'nama' => 'Dokumen',
+            'sub_menu' => [
+                [
+                    'nama' => 'Dokumen',
+                    'url' => '/dokumen',
+                    'route' => 'dokumen',
+                ],
+            ],
+        ],
     ];
 
     /**
@@ -169,11 +179,11 @@ class MenuSeeder extends Seeder
             foreach ($users as $user) {
                 foreach (Menu::all() as $menu) {
                     $user->menu()->attach($menu->id, [
-                        'create' => $user->username === "Kanwil",
-                        'read' => $user->username === "Kanwil",
-                        'update' => $user->username === "Kanwil",
-                        'remove' => $user->username === "Kanwil",
-                        'destroy' => $user->username === "Kanwil",
+                        'create'     => $user->username === "Kanwil",
+                        'read'       => $user->username === "Kanwil",
+                        'update'     => $user->username === "Kanwil",
+                        'remove'     => $user->username === "Kanwil",
+                        'destroy'    => $user->username === "Kanwil",
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);

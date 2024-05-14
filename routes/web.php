@@ -9,6 +9,7 @@ use App\Http\Controllers\KantorController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\PengawasanController;
@@ -578,5 +579,20 @@ Route::middleware('auth')->group(function (): void {
             Route::get('/lpso', 'lpso')->name('.lpso')->middleware('access:report,read');
             Route::get('/rms', 'rms')->name('.rms')->middleware('access:report,read');
             Route::get('/dpso', 'dpso')->name('.dpso')->middleware('access:report,read');
+        });
+
+    /**
+     * Dokumen
+     */
+    Route::controller(DokumenController::class)
+        ->name('dokumen')
+        ->prefix('/dokumen')
+        ->group(function (): void {
+            Route::get('/', 'index')->middleware('access:dokumen,read');
+            Route::get('/{dokumen}/download', 'download')->name('.download')->middleware('access:dokumen,read');
+            Route::post('/', 'store')->name('.store')->middleware('access:dokumen,create');
+            Route::patch('/{dokumen}', 'update')->name('.update')->middleware('access:dokumen,update');
+            Route::delete('/{dokumen}', 'remove')->name('.remove')->middleware('access:dokumen,remove');
+            Route::delete('/{dokumen}/destroy', 'destroy')->name('.destroy')->middleware('access:dokumen,destroy');
         });
 });
