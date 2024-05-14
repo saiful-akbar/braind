@@ -12,7 +12,7 @@ export function utcToLocale(utc) {
     "Feb",
     "Mar",
     "Apr",
-    "Mai",
+    "Mei",
     "Jun",
     "Jul",
     "Agu",
@@ -28,7 +28,6 @@ export function utcToLocale(utc) {
   const day = date.getDay().toLocaleString();
   const hours = date.getHours().toLocaleString();
   const minutes = date.getMinutes().toLocaleString();
-  const seconds = date.getSeconds().toLocaleString();
 
   return `${day} ${month} ${year} ${hours}:${minutes}`;
 }

@@ -76,12 +76,12 @@ class MenuSeeder extends Seeder
                     'route' => 'perusahaan-mmea',
                 ],
                 [
-                    'nama' => 'Export',
+                    'nama' => 'Ekspor',
                     'url' => '/perusahaan-export',
                     'route' => 'perusahaan-export',
                 ],
                 [
-                    'nama' => 'Import',
+                    'nama' => 'Impor',
                     'url' => '/perusahaan-import',
                     'route' => 'perusahaan-import',
                 ],

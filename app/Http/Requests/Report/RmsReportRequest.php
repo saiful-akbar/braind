@@ -55,14 +55,16 @@ class RmsReportRequest extends FormRequest
      */
     private function getData(): Kantor
     {
-        return Kantor::findOrFail(user()->kantor_id)->select('id', 'nama')
+        return Kantor::select('id', 'nama')
             ->with([
                 'operasiKapalPatroli' => fn (HasMany $query) => $query->where('cetak', true),
                 'operasiAlatTelekomunikasi' => fn (HasMany $query) => $query->where('cetak', true),
                 'operasiSenjataApi' => fn (HasMany $query) => $query->where('cetak', true),
                 'operasiAlatPemindai' => fn (HasMany $query) => $query->where('cetak', true),
                 'operasiLainnya' => fn (HasMany $query) => $query->where('cetak', true),
-            ])->first();
+            ])
+            ->where('id', user()->kantor_id)
+            ->first();
     }
 
     /**

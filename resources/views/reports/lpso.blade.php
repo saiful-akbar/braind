@@ -1,7 +1,10 @@
 <x-layouts.sarana-operasi title="Laporan Pengoperasian Sarana Operasi (LPSO)">
     <x-slot:logo>
-        KEMENTRIAN KEUANGAN REPUBLIK INDONESIA <br> DIREKTORAT JENDERAL BEA DAN CUKAI <br>
-        {{ user()->admin ? 'KANTOR WILAYAH DJBC BALI, NTB DAN NTT' : $data->nama }}
+        KEMENTRIAN KEUANGAN REPUBLIK INDONESIA <br> DIREKTORAT JENDERAL BEA DAN CUKAI <br> KANTOR WILAYAH DJBC BALI, NTB
+        DAN NTT <br>
+        @if (!user()->admin)
+            {{ $data->nama }}
+        @endif
     </x-slot:logo>
 
     <x-slot:nomor>{{ $nomor }}</x-slot:nomor>
