@@ -38,12 +38,12 @@ class OperasiLainnyaImport implements ToModel, WithHeadingRow, WithValidation
     {
         return [
             'kantor_id'         => 'nullable|exists:kantor,id',
-            'jenis_operasi'     => 'required|string|max:30',
-            'merek'             => 'required|string|max:30',
-            'tipe'              => 'required|string|max:30',
-            'lokasi_penempatan' => 'required|string|max:30',
-            'kondisi'           => 'required|string|max:50',
-            'catatan'           => 'required|string|max:250',
+            'jenis_operasi'     => 'required|max:30',
+            'merek'             => 'required|max:30',
+            'tipe'              => 'required|max:30',
+            'lokasi_penempatan' => 'required|max:30',
+            'kondisi'           => 'required|max:50',
+            'catatan'           => 'required|max:250',
             'tanggal_input'     => 'nullable|date',
             'cetak_laporan'     => 'in:Ya,ya,Tidak,tidak',
         ];
