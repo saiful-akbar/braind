@@ -66,8 +66,8 @@ const Login = () => {
             height: "100%",
             backgroundImage: (theme) => {
               return theme.palette.mode === "dark"
-                ? "linear-gradient(to right, rgba(22, 28, 36, 0.6), rgba(22, 28, 36, 1))"
-                : "linear-gradient(to right, rgba(244, 246, 248, 0.6), rgba(244, 246, 248, 1))";
+                ? "linear-gradient(to right, rgba(22, 28, 36, 0.5), rgba(22, 28, 36, 1))"
+                : "linear-gradient(to right, rgba(244, 246, 248, 0.5), rgba(244, 246, 248, 1))";
             },
           },
         }}

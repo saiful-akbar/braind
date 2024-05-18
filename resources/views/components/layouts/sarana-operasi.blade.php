@@ -14,6 +14,10 @@
             font-size: 13px
         }
 
+        .page-break {
+            page-break-after: always;
+        }
+
         header {
             font-weight: 400;
         }
@@ -30,18 +34,24 @@
             font-size: 14px;
         }
 
+        .table-container {
+            margin-top: 20px;
+        }
+
+        .table {
+            width: 100%;
+            page-break-inside: avoid;
+        }
+
         .table-title {
             font-size: 14px;
-            text-transform: capitalize;
-            margin-top: 30px;
-            margin-bottom: 5px;
-            font-weight: 400;
+            margin-bottom: 10px;
         }
 
         .table tr th,
         .table tr td {
             border: .5px solid #000;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .text-center {
