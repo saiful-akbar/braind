@@ -27,6 +27,7 @@ import { useDispatch } from "react-redux";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import RestoreConfirmation from "@/components/RestoreConfirmation";
+import { Check, Close } from "@mui/icons-material";
 
 /**
  * Halaman user
@@ -51,43 +52,49 @@ const User = (props) => {
     {
       field: "nama_lengkap",
       label: "Nama",
+      format: "none",
+      align: "left",
       sort: true,
-      timeFormat: false,
       show: true,
     },
     {
       field: "admin",
       label: "Admin",
+      format: "none",
+      align: "left",
       sort: true,
-      timeFormat: false,
       show: true,
     },
     {
       field: "email",
       label: "Email",
+      format: "none",
+      align: "left",
       sort: true,
-      timeFormat: false,
       show: true,
     },
     {
       field: "kantor_nama",
       label: "kantor",
+      format: "none",
+      align: "left",
       sort: true,
-      timeFormat: false,
       show: true,
     },
     {
       field: "updated_at",
       label: "Diabuat atau diperbarui",
+      format: "time",
+      align: "left",
       sort: true,
-      timeFormat: true,
       show: status === "aktif",
     },
     {
       field: "deleted_at",
       label: "Dihapus",
+      format: "time",
+      align: "left",
       sort: true,
-      timeFormat: true,
       show: Boolean(access.destroy && status === "dihapus"),
     },
   ];
@@ -291,7 +298,11 @@ const User = (props) => {
 
                   if (column.field === "nama_lengkap") {
                     return (
-                      <TableCell key={column.field} title={user.nama_lengkap}>
+                      <TableCell
+                        key={column.field}
+                        title={user.nama_lengkap}
+                        align={column.align}
+                      >
                         <Box
                           sx={{
                             display: "flex",
@@ -318,17 +329,23 @@ const User = (props) => {
                       <TableCell
                         key={column.field}
                         title={user.admin ? "Ya" : "Tidak"}
+                        align={column.align}
                       >
-                        {user.admin ? "Ya" : "Tidak"}
+                        {user.admin ? (
+                          <Check color="success" />
+                        ) : (
+                          <Close color="error" />
+                        )}
                       </TableCell>
                     );
                   }
 
-                  if (column.timeFormat) {
+                  if (column.format === "time") {
                     return (
                       <TableCell
                         key={column.field}
                         title={utcToLocale(user[column.field])}
+                        align={column.align}
                       >
                         {utcToLocale(user[column.field])}
                       </TableCell>
@@ -336,7 +353,11 @@ const User = (props) => {
                   }
 
                   return (
-                    <TableCell key={column.field} title={user[column.field]}>
+                    <TableCell
+                      key={column.field}
+                      title={user[column.field]}
+                      align={column.align}
+                    >
                       {user[column.field]}
                     </TableCell>
                   );

@@ -23,13 +23,17 @@ export function utcToLocale(utc) {
   ];
 
   const date = new Date(utc);
-  const year = date.getFullYear().toLocaleString();
-  const month = months[date.getMonth().toLocaleString()];
-  const day = date.getDay().toLocaleString();
-  const hours = date.getHours().toLocaleString();
-  const minutes = date.getMinutes().toLocaleString();
+  const year = date.getFullYear();
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  let month = date.getMonth() + 1;
 
-  return `${day} ${month} ${year} ${hours}:${minutes}`;
+  if (date.getMonth() < 9) {
+    month = `0${date.getMonth() + 1}`;
+  }
+
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
 /**

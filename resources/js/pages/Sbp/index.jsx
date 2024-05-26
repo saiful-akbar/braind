@@ -21,16 +21,8 @@ const Sbp = (props) => {
 
   const columns = [
     {
-      field: "kantor_id",
-      label: "ID Kantor",
-      align: "left",
-      format: "none",
-      sort: true,
-      show: true,
-    },
-    {
       field: "kantor_nama",
-      label: "Nama Kantor",
+      label: "Kantor",
       align: "left",
       format: "none",
       sort: true,

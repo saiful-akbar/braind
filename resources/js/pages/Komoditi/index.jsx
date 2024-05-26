@@ -30,14 +30,6 @@ const Komoditi = (props) => {
 
   const columns = [
     {
-      field: "id",
-      label: "ID",
-      align: "left",
-      format: "none",
-      show: true,
-      sort: true,
-    },
-    {
       field: "kode",
       label: "Kode Komoditi",
       align: "left",

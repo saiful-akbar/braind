@@ -11,14 +11,6 @@ import { useDispatch } from "react-redux";
 const columns = (access, status) => {
   return [
     {
-      field: "id",
-      label: "ID",
-      align: "left",
-      format: "none",
-      show: true,
-      sort: true,
-    },
-    {
       field: "nama",
       label: "Nama Perusahaan",
       align: "left",
