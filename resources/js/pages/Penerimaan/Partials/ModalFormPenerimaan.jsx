@@ -185,6 +185,20 @@ const ModalFormPenerimaan = memo(() => {
             </Grid>
           )}
 
+          {user.admin && (
+            <Grid item xs={12} md={6}>
+              <DateInput
+                fullWidth
+                label="Tanggal Input"
+                value={dayjs(form.data.tanggal_input)}
+                onChange={handleDateInputChange}
+                disabled={form.processing}
+                error={Boolean(form.errors.tanggal_input)}
+                helperText={form.errors.tanggal_input}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12} md={6}>
             <TextInput
               fullWidth
@@ -280,20 +294,6 @@ const ModalFormPenerimaan = memo(() => {
               helperText={form.errors.realisasi_cukai}
             />
           </Grid>
-
-          {user.admin && (
-            <Grid item xs={12} md={6}>
-              <DateInput
-                fullWidth
-                label="Tanggal Input"
-                value={dayjs(form.data.tanggal_input)}
-                onChange={handleDateInputChange}
-                disabled={form.processing}
-                error={Boolean(form.errors.tanggal_input)}
-                helperText={form.errors.tanggal_input}
-              />
-            </Grid>
-          )}
         </Grid>
       </DialogContent>
 
