@@ -44,7 +44,7 @@ const Login = () => {
             xs:
               theme.palette.mode === "dark"
                 ? "linear-gradient(to right bottom, rgba(22, 28, 36, 0.9), rgba(22, 28, 36, 1))"
-                : "linear-gradient(to right bottom, rgba(244, 246, 248, 0.9), rgba(244, 246, 248, 1))",
+                : "linear-gradient(to right bottom, rgba(249, 250, 241, 0.9), rgba(249, 250, 241, 1))",
           },
         })}
       >
@@ -67,7 +67,7 @@ const Login = () => {
             backgroundImage: (theme) => {
               return theme.palette.mode === "dark"
                 ? "linear-gradient(to right, rgba(22, 28, 36, 0.5), rgba(22, 28, 36, 1))"
-                : "linear-gradient(to right, rgba(244, 246, 248, 0.5), rgba(244, 246, 248, 1))";
+                : "linear-gradient(to right, rgba(249, 250, 241, 0.5), rgba(249, 250, 241, 1))";
             },
           },
         }}

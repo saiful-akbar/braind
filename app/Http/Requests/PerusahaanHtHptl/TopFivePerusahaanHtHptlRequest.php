@@ -18,6 +18,18 @@ class TopFivePerusahaanHtHptlRequest extends FormRequest
     }
 
     /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'year' => 'date_format:Y'
+        ];
+    }
+
+    /**
      * Ambil data perusahaan HT HPTL
      *
      * @return Collection
@@ -30,9 +42,9 @@ class TopFivePerusahaanHtHptlRequest extends FormRequest
             DB::raw('sum(jumlah_cukai) AS jumlah_cukai'),
         );
 
-        // filter data berdasarkan tahun saat ini dari tanggal_input
-        $currentYear = date('Y');
-        $query->where('tanggal_input', 'like', "$currentYear%");
+        // filter data berdasarkan tahun yang dipilih dari tanggal_input
+        $year = $this->query('year') ?? date('Y');
+        $query->where('tanggal_input', 'like', "$year%");
 
         // Periksa jika user bukan sebagai admin, tampilkan hanya data
         // dengan "kantor_id" yang sesuai dengan "kantor_id" milik user yang sedang login.

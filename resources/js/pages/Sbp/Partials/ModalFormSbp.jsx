@@ -173,6 +173,19 @@ const ModalFormSbp = () => {
           )}
 
           <Grid item xs={12} md={6}>
+            <DateInput
+              fullWidth
+              label="Tanggal Input"
+              name="tanggal_input"
+              value={dayjs(data.tanggal_input)}
+              onChange={(value) => handleDateInputChange(value)}
+              disabled={processing}
+              error={Boolean(errors.tanggal_input)}
+              helperText={errors.tanggal_input}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
             <TextInput
               required
               fullWidth
@@ -201,19 +214,6 @@ const ModalFormSbp = () => {
               error={Boolean(errors.tindak_lanjut)}
               helperText={errors.tindak_lanjut}
               disabled={processing}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <DateInput
-              fullWidth
-              label="Tanggal Input"
-              name="tanggal_input"
-              value={dayjs(data.tanggal_input)}
-              onChange={(value) => handleDateInputChange(value)}
-              disabled={processing}
-              error={Boolean(errors.tanggal_input)}
-              helperText={errors.tanggal_input}
             />
           </Grid>
         </Grid>

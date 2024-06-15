@@ -11,10 +11,6 @@ class KantorSeeder extends Seeder
 {
     private array $data = [
         [
-            "id" => "9b85c132-4cf4-4afe-85c2-5ecedeb98921",
-            "nama" => "Pusat"
-        ],
-        [
             "id" => "9b7b9219-a318-4356-afdc-2a4520ae31c0",
             "nama" => "Kanwil DJBC Bali, NTB dan NTT"
         ],

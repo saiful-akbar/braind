@@ -22,6 +22,7 @@ import operasiLainnyaReducer from "./reducers/operasiLainnyaReducer";
 import galeriReducer from "./reducers/galeriReducer";
 import petaKerawananReducer from "./reducers/petaKerawananReducer";
 import reportReducer from "./reducers/reportReducer";
+import dashboardReducer from "./reducers/dashboardReducer";
 import dokumenReducer from "./reducers/dokumenReducer";
 
 const store = configureStore({
@@ -49,6 +50,7 @@ const store = configureStore({
     galeri: galeriReducer,
     petaKerawanan: petaKerawananReducer,
     report: reportReducer,
+    dashboard: dashboardReducer,
     dokumen: dokumenReducer,
   },
 });

@@ -186,7 +186,7 @@ class PenerimaanController extends Controller
      * @param ChartPenerimaanRequest $request
      * @return JsonResponse
      */
-    public function chart(ChartPenerimaanRequest $request)
+    public function chart(ChartPenerimaanRequest $request): JsonResponse
     {
         return $this->jsonResponse(
             data: $request->read()
@@ -194,7 +194,7 @@ class PenerimaanController extends Controller
     }
 
     /**
-     * Mengambil tahun untuk chart dashboard.
+     * Mengambil tahun pada data penerimaan untuk chart dashboard.
      *
      * @return JsonResponse
      */

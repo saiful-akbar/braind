@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
  * Komponen untuk menampilkan 5 data perusahaan HT HPTL terbesar.
@@ -20,7 +20,9 @@ import { useDispatch } from "react-redux";
  */
 const TopPerusahaanHtHptl = () => {
   const dispatch = useDispatch();
-  const currentYear = new Date().getFullYear();
+  const selectedYear = useSelector(
+    (state) => state.dashboard.topFiveCompanies.year
+  );
 
   /**
    * state
@@ -30,40 +32,46 @@ const TopPerusahaanHtHptl = () => {
   /**
    * fungsi untuk request data 5 besar perusahaan HT HPTL.
    */
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await axios({
-        method: "get",
-        url: route("perusahaan-hthptl.top-five"),
-        responseType: "json",
-      });
+  const fetchData = useCallback(
+    async (year = selectedYear) => {
+      try {
+        const response = await axios({
+          method: "get",
+          url: route("perusahaan-hthptl.top-five"),
+          responseType: "json",
+          params: {
+            year,
+          },
+        });
 
-      if (response.status === 200) {
-        setData(response.data.data);
+        if (response.status === 200) {
+          setData(response.data.data);
+        }
+      } catch (error) {
+        const { status } = error.response;
+
+        dispatch(
+          openNotification({
+            status: "error",
+            message: `${status} - Gagal mengambil data perusahaan HT HPTL.`,
+          })
+        );
       }
-    } catch (error) {
-      const { status } = error.response;
-
-      dispatch(
-        openNotification({
-          status: "error",
-          message: `${status} - Gagal mengambil data perusahaan HT HPTL.`,
-        })
-      );
-    }
-  }, [dispatch, setData]);
+    },
+    [dispatch, setData]
+  );
 
   /**
    * request data untuk pertama kali setelah komponen dirender.
    */
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(selectedYear);
+  }, [selectedYear]);
 
   return (
     <CardPaper
-      title="Perusahaan HT HPTL"
-      subheader={`Daftar 5 besar perusahaan HT HPTL tahun ${currentYear}`}
+      title="Perusahaan HT + HPTL"
+      subheader={`Daftar 5 besar perusahaan HT + HPTL tahun ${selectedYear}`}
       sx={{
         minHeight: 250,
       }}
@@ -84,7 +92,7 @@ const TopPerusahaanHtHptl = () => {
               {data.length <= 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} align="center">
-                    Tidak ada data perusahaan HT HPTL.
+                    Tidak ada data perusahaan.
                   </TableCell>
                 </TableRow>
               ) : (

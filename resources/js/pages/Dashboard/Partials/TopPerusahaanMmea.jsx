@@ -14,16 +14,18 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
  * Komponen untuk menampilkan 5 data perusahaan MMEA terbesar.
  *
  * @returns {React.ReactElement}
  */
-const TopPerusahaanHtHptl = () => {
+const TopPerusahaanMMEA = () => {
   const dispatch = useDispatch();
-  const currentYear = new Date().getFullYear();
+  const selectedYear = useSelector(
+    (state) => state.dashboard.topFiveCompanies.year
+  );
 
   /**
    * state
@@ -33,40 +35,46 @@ const TopPerusahaanHtHptl = () => {
   /**
    * fungsi untuk request data 5 besar perusahaan MMEA.
    */
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await axios({
-        method: "get",
-        url: route("perusahaan-mmea.top-five"),
-        responseType: "json",
-      });
+  const fetchData = useCallback(
+    async (year = selectedYear) => {
+      try {
+        const response = await axios({
+          method: "get",
+          url: route("perusahaan-mmea.top-five"),
+          responseType: "json",
+          params: {
+            year,
+          },
+        });
 
-      if (response.status === 200) {
-        setData(response.data.data);
+        if (response.status === 200) {
+          setData(response.data.data);
+        }
+      } catch (error) {
+        const { status } = error.response;
+
+        dispatch(
+          openNotification({
+            status: "error",
+            message: `${status} - Gagal mengambil data perusahaan MMEA.`,
+          })
+        );
       }
-    } catch (error) {
-      const { status } = error.response;
-
-      dispatch(
-        openNotification({
-          status: "error",
-          message: `${status} - Gagal mengambil data perusahaan MMEA.`,
-        })
-      );
-    }
-  }, [dispatch, setData]);
+    },
+    [dispatch, setData]
+  );
 
   /**
    * request data untuk pertama kali setelah komponen dirender.
    */
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(selectedYear);
+  }, [selectedYear]);
 
   return (
     <CardPaper
-      title="Perusahaan MMEA"
-      subheader={`Daftar 5 besar perusahaan MMEA tahun ${currentYear}`}
+      title="Perusahaan EA & MMEA"
+      subheader={`Daftar 5 besar perusahaan EA & MMEA tahun ${selectedYear}`}
       sx={{
         minHeight: 250,
       }}
@@ -88,7 +96,7 @@ const TopPerusahaanHtHptl = () => {
               {data.length <= 0 ? (
                 <TableRow>
                   <TableCell colSpan={5} align="center">
-                    Tidak ada data perusahaan HT HPTL.
+                    Tidak ada data perusahaan.
                   </TableCell>
                 </TableRow>
               ) : (
@@ -131,4 +139,4 @@ const TopPerusahaanHtHptl = () => {
   );
 };
 
-export default TopPerusahaanHtHptl;
+export default TopPerusahaanMMEA;

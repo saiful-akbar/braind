@@ -2,14 +2,7 @@ import CardPaper from "@/components/CardPaper";
 import SelectInput from "@/components/Input/SelectInput";
 import { openNotification } from "@/redux/reducers/notificationReducer";
 import { TabContext, TabList } from "@mui/lab";
-import {
-  Box,
-  CardContent,
-  Divider,
-  Grid,
-  Tab,
-  Typography,
-} from "@mui/material";
+import { Box, CardContent, Grid, Tab, Typography } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -222,17 +215,11 @@ const ChartSbp = () => {
       <CardContent>
         <Grid
           container
-          spacing={3}
+          spacing={{ md: 5, xs: 3 }}
           justifyContent="space-between"
           alignItems="center"
         >
-          <Grid item xs={12} md={6}>
-            <Typography variant="h6" component="div">
-              Grafik SBP
-            </Typography>
-          </Grid>
-
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12}>
             <TabContext value={query.tab}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList
@@ -282,6 +269,25 @@ const ChartSbp = () => {
                 xAxis={[{ data: xLabels, scaleType: "band" }]}
               />
             </Grid>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                borderTop: 1,
+                borderColor: "divider",
+                pt: 2,
+              }}
+            >
+              <Typography variant="subtitle2">
+                Tindak Tanjut meliputi :
+              </Typography>
+
+              <Typography variant="body2">
+                BMN (Barang Milik Negara), Penyidikan, Ultimum Remidium dan
+                Tidak ada pelanggaran
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
       </CardContent>

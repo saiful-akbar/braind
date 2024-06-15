@@ -96,14 +96,4 @@ class Kantor extends Model
     {
         return $this->hasMany(OperasiLainnya::class, 'kantor_id', 'id');
     }
-
-    /**
-     * Get all of the dokumen for the Kantor
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function dokumen(): HasMany
-    {
-        return $this->hasMany(Dokumen::class, 'kantor_id', 'id');
-    }
 }

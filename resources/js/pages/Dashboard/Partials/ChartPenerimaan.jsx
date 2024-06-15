@@ -1,6 +1,7 @@
 import CardPaper from "@/components/CardPaper";
 import SelectInput from "@/components/Input/SelectInput";
 import { openNotification } from "@/redux/reducers/notificationReducer";
+import Kantor from "@/services/kantorService";
 import { usePage } from "@inertiajs/react";
 import { TabContext, TabList } from "@mui/lab";
 import {
@@ -11,7 +12,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { BarChart } from "@mui/x-charts";
+import { BarChart } from "@mui/x-charts/BarChart";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -94,6 +95,14 @@ export default function ChartPenerimaan() {
    */
   const [series, setSeries] = useState([]);
   const [xLabels, setXLabels] = useState([]);
+
+  const [kantorOptions, setKantorOptions] = useState([
+    {
+      label: "Semua Kantor",
+      value: "all",
+    },
+  ]);
+
   const [yearsOptions, setYearsOptions] = useState([
     {
       label: currentYear,
@@ -105,6 +114,7 @@ export default function ChartPenerimaan() {
     tab: "semua",
     year: currentYear,
     month: currentMonth(),
+    kantor: "all",
   });
 
   /**
@@ -175,11 +185,39 @@ export default function ChartPenerimaan() {
   }, [setYearsOptions, dispatch]);
 
   /**
+   * fungsi untuk mengambil data kantor untuk select kantor
+   */
+  const fetchKantor = useCallback(async () => {
+    try {
+      const response = await Kantor.getAll();
+      const data = response.data.map((kantor) => ({
+        label: kantor.nama,
+        value: kantor.id,
+      }));
+
+      if (response.code === 200) {
+        setKantorOptions((prevState) => prevState.concat(data));
+      }
+    } catch (error) {
+      dispatch(
+        openNotification({
+          status: "error",
+          message: "Gagal mengambil data kantor untuk grafik penerimaan.",
+        })
+      );
+    }
+  }, []);
+
+  /**
    * Request data grafik penerimaan saat setelah komponen selessai di render.
    */
   useEffect(() => {
     fetchYear();
     fetchData(query);
+
+    if (user.admin) {
+      fetchKantor();
+    }
   }, []);
 
   /**
@@ -218,18 +256,12 @@ export default function ChartPenerimaan() {
       <CardContent>
         <Grid
           container
-          spacing={3}
+          spacing={{ md: 5, xs: 3 }}
           justifyContent="space-between"
           alignItems="center"
         >
-          <Grid item md={user.admin ? 6 : 12} xs={12}>
-            <Typography variant="h6" component="div">
-              Grafik Penerimaan
-            </Typography>
-          </Grid>
-
           {user.admin && (
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <TabContext value={query.tab}>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   <TabList
@@ -245,7 +277,7 @@ export default function ChartPenerimaan() {
             </Grid>
           )}
 
-          <Grid item md={6} xs={12}>
+          <Grid item md={user.admin ? 4 : 6} xs={12}>
             <SelectInput
               fullWidth
               size="small"
@@ -257,7 +289,7 @@ export default function ChartPenerimaan() {
             />
           </Grid>
 
-          <Grid item md={6} xs={12}>
+          <Grid item md={user.admin ? 4 : 6} xs={12}>
             <SelectInput
               fullWidth
               size="small"
@@ -269,15 +301,45 @@ export default function ChartPenerimaan() {
             />
           </Grid>
 
+          {user.admin && (
+            <Grid item md={4} xs={12}>
+              <SelectInput
+                fullWidth
+                size="small"
+                label="Kantor"
+                name="kantor"
+                value={query.kantor}
+                items={kantorOptions}
+                onChange={handleInputChange}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={12}>
             <BarChart
-              height={matches ? 500 : 450}
+              height={400}
               series={series}
-              xAxis={[{ scaleType: "band", data: xLabels }]}
               margin={{
                 left: 100,
-                top: Boolean(matches && query.tab === "perkantor") ? 210 : 80,
+                top: Boolean(matches && query.tab === "perkantor") ? 220 : 90,
               }}
+              xAxis={[
+                {
+                  scaleType: "band",
+                  data: xLabels,
+                  colorMap: {
+                    type: "ordinal",
+                    colors: [
+                      "#ccebc5",
+                      "#a8ddb5",
+                      "#7bccc4",
+                      "#4eb3d3",
+                      "#2b8cbe",
+                      "#08589e",
+                    ],
+                  },
+                },
+              ]}
             />
           </Grid>
         </Grid>

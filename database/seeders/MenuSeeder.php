@@ -71,7 +71,7 @@ class MenuSeeder extends Seeder
                     'route' => 'perusahaan-hthptl',
                 ],
                 [
-                    'nama' => 'Cukai MMEA',
+                    'nama' => 'Cukai EA & MMEA',
                     'url' => '/perusahaan-mmea',
                     'route' => 'perusahaan-mmea',
                 ],
@@ -144,16 +144,6 @@ class MenuSeeder extends Seeder
                     'nama' => 'Report',
                     'url' => '/report',
                     'route' => 'report',
-                ],
-            ],
-        ],
-        [
-            'nama' => 'Dokumen',
-            'sub_menu' => [
-                [
-                    'nama' => 'Dokumen',
-                    'url' => '/dokumen',
-                    'route' => 'dokumen',
                 ],
             ],
         ],

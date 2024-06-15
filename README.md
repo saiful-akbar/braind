@@ -125,21 +125,22 @@ sh build.sh
 
 # Evaluasi
 
-- Penulisan Import dan Export di dashboard rubah jadi bahasa indonesia.
-- Menu data perusahaan dirubah namanya
-  - Cukai MMEA => CUkai EA & MMEA
+- [x] Penulisan Import dan Export di dashboard rubah jadi bahasa indonesia.
+- [x] Tambah select untuk pemilihan kantor pada grafik penerimaan di dashboard untuk login Kanwil (admin)
+- [x] Ubah posisi graph batang pada grafik penerimaan.
+  - Target
+  - Realisasi
+- [x] Bedakan warna antara target dan realisasi untuk grafik penerimaan.
+- [x] Tambahkan select options untuk memilih tahun pada 5 besar data perusahaan di dasboard.
+- [x] Pada graph SPB di dashboard tambahkan note untuk tindak lanjut
+  - BMN (Barang Milik Negara)
+  - Penyidikan
+  - Ultimum Remidium
+  - Tidak ada pelanggaran
+- [x] Menu data perusahaan dirubah namanya
+  - Cukai MMEA => Cukai EA & MMEA
   - Import => Impor
   - Export => Ekspor
-- Tambahkan select options untuk memilih tahun pada 5 besar data perusahaan di dasboard.
-- Form input penerimaan ubah posisi `Tanggal Input` di samping `ID Kantor`
-- Untuk grafik penerimaan ubah posisi graph batangnya, dan bedakan warna antara target dan realisasi.
-  - Target Bea Masuk
-  - Realisasi Bea Masuk
-- Tambah select untuk pemilihan kantor pada grafik penerimaan di dashboard untuk login Kanwil (admin)
-- Pada graph SPB di dashboard tambahkan note untuk tindak lanjut
-  1. BMN (Barang Milik Negara)
-  2. Penyidikan
-  3. Ultimum Remidium
-  4. Tidak ada pelanggaran
-- Tambah field kode_kantor pada tabel kantor.
-- Hide kolom id pada view untuk Master Kode Komoditi dan Master Perusahaan.
+- [x] Form input penerimaan ubah posisi `Tanggal Input` di samping `ID Kantor`
+- [x] Tambah field kode_kantor pada tabel kantor.
+- [x] Hide kolom id pada view untuk Master Kode Komoditi dan Master Perusahaan.

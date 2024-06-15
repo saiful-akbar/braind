@@ -17,6 +17,23 @@ class TopFivePerusahaanMmeaRequest extends FormRequest
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'year' => 'date_format:Y'
+        ];
+    }
+
+    /**
+     * Ambil data 5 besar perusahaan MMEA
+     *
+     * @return Collection
+     */
     public function read(): Collection
     {
         $query = PerusahaanMmea::select(
@@ -33,9 +50,9 @@ class TopFivePerusahaanMmeaRequest extends FormRequest
             $query->where('kantor_id', user()->kantor_id);
         }
 
-        // filter data tahun saat ini berdasarkan kolom "tanggal_input"
-        $currentYear = date('Y');
-        $query->where('tanggal_input', 'like', "$currentYear%");
+        // filter data berdasarkan tahun yang dipilih dari tanggal_input
+        $year = $this->query('year') ?? date('Y');
+        $query->where('tanggal_input', 'like', "$year%");
 
         return $query->groupBy('nama_perusahaan')
             ->orderBy(DB::raw('SUM(jumlah_cukai)'), 'desc')

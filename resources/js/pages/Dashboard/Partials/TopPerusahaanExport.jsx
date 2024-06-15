@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
  * Komponen untuk menampilkan 5 data perusahaan export terbesar.
@@ -22,7 +22,9 @@ import { useDispatch } from "react-redux";
  */
 const TopPerusahaanExport = () => {
   const dispatch = useDispatch();
-  const currentYear = new Date().getFullYear();
+  const selectedYear = useSelector(
+    (state) => state.dashboard.topFiveCompanies.year
+  );
 
   /**
    * state
@@ -34,13 +36,14 @@ const TopPerusahaanExport = () => {
    * fungsi untuk request data 5 besar perusahaan export.
    */
   const fetchData = useCallback(
-    async (by = "peb") => {
+    async (by = "peb", year = selectedYear) => {
       try {
         const response = await axios({
           method: "get",
           url: route("perusahaan-export.top-five"),
           params: {
             by,
+            year,
           },
           responseType: "json",
         });
@@ -66,8 +69,8 @@ const TopPerusahaanExport = () => {
    * request data untuk pertama kali setelah komponen dirender.
    */
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(tabValue, selectedYear);
+  }, [selectedYear]);
 
   /**
    * fungsi untuk menangani ketika tab di-klik atau dirubah.
@@ -75,15 +78,15 @@ const TopPerusahaanExport = () => {
   const handleTabChange = useCallback(
     (event, value) => {
       setTabValue(value);
-      fetchData(value);
+      fetchData(value, selectedYear);
     },
-    [setTabValue, fetchData]
+    [setTabValue, fetchData, selectedYear]
   );
 
   return (
     <CardPaper
-      title="Perusahaan Export"
-      subheader={`Daftar 5 besar perusahaan export tahun ${currentYear}`}
+      title="Perusahaan Ekspor"
+      subheader={`Daftar 5 besar perusahaan ekspor tahun ${selectedYear}`}
       sx={{
         minHeight: 250,
       }}
@@ -110,7 +113,7 @@ const TopPerusahaanExport = () => {
               {data.length <= 0 ? (
                 <TableRow>
                   <TableCell colSpan={3} align="center">
-                    Tidak ada data perusahaan export.
+                    Tidak ada data perusahaan.
                   </TableCell>
                 </TableRow>
               ) : (

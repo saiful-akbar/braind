@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function (): void {
         ->name('dashboard')
         ->group(function (): void {
             Route::get('/', 'index');
+            Route::get('/company-top-five-years', 'topFiveYears')->name('.company-top-five-years');
         });
 
     /**
@@ -579,20 +580,5 @@ Route::middleware('auth')->group(function (): void {
             Route::get('/lpso', 'lpso')->name('.lpso')->middleware('access:report,read');
             Route::get('/rms', 'rms')->name('.rms')->middleware('access:report,read');
             Route::get('/dpso', 'dpso')->name('.dpso')->middleware('access:report,read');
-        });
-
-    /**
-     * Dokumen
-     */
-    Route::controller(DokumenController::class)
-        ->name('dokumen')
-        ->prefix('/dokumen')
-        ->group(function (): void {
-            Route::get('/', 'index')->middleware('access:dokumen,read');
-            Route::get('/{dokumen}/download', 'download')->name('.download')->middleware('access:dokumen,read');
-            Route::post('/', 'store')->name('.store')->middleware('access:dokumen,create');
-            Route::patch('/{dokumen}', 'update')->name('.update')->middleware('access:dokumen,update');
-            Route::delete('/{dokumen}', 'remove')->name('.remove')->middleware('access:dokumen,remove');
-            Route::delete('/{dokumen}/destroy', 'destroy')->name('.destroy')->middleware('access:dokumen,destroy');
         });
 });

@@ -25,7 +25,8 @@ class TopFivePerusahaanExportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'by' => 'nullable|in:peb,devisa,netto,bea_keluar'
+            'by' => 'nullable|in:peb,devisa,netto,bea_keluar',
+            'year' => 'date_format:Y'
         ];
     }
 
@@ -35,6 +36,7 @@ class TopFivePerusahaanExportRequest extends FormRequest
         // sebagai "peb". Jika request "by" ada dan validasi berhasil ambil data dari
         // request query string.
         $by = empty($this->query('by')) ? 'peb' : $this->query('by');
+        $year = $this->query('year') ?? date('Y');
 
         // Ambil data 5 besar perusahaan export
         $query = PerusahaanExport::select(
@@ -50,7 +52,7 @@ class TopFivePerusahaanExportRequest extends FormRequest
         }
 
         // filter data berdasarkan tanggal input pada tahun saat ini.
-        $query->where('tanggal_input', 'like', date('Y') . '%');
+        $query->where('tanggal_input', 'like', "$year%");
 
         return $query->groupBy('nama_perusahaan')
             ->orderBy(DB::raw("SUM($by)"), 'desc')

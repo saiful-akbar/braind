@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 /**
  * Komponen untuk menampilkan 5 data perusahaan import terbesar.
@@ -22,7 +22,9 @@ import { useDispatch } from "react-redux";
  */
 const TopPerusahaanImport = () => {
   const dispatch = useDispatch();
-  const currentYear = new Date().getFullYear();
+  const selectedYear = useSelector(
+    (state) => state.dashboard.topFiveCompanies.year
+  );
 
   /**
    * state
@@ -34,15 +36,15 @@ const TopPerusahaanImport = () => {
    * fungsi untuk request data 5 besar perusahaan import.
    */
   const fetchData = useCallback(
-    async (by = "pib") => {
+    async (by = "pib", year = selectedYear) => {
       try {
         const response = await axios({
           method: "get",
           url: route("perusahaan-import.top-five"),
           params: {
             by,
+            year,
           },
-          responseType: "json",
         });
 
         if (response.status === 200) {
@@ -66,8 +68,8 @@ const TopPerusahaanImport = () => {
    * request data untuk pertama kali setelah komponen dirender.
    */
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(tabValue, selectedYear);
+  }, [selectedYear]);
 
   /**
    * fungsi untuk menangani ketika tab di-klik atau dirubah.
@@ -75,15 +77,15 @@ const TopPerusahaanImport = () => {
   const handleTabChange = useCallback(
     (event, value) => {
       setTabValue(value);
-      fetchData(value);
+      fetchData(value, selectedYear);
     },
-    [setTabValue, fetchData]
+    [setTabValue, fetchData, selectedYear]
   );
 
   return (
     <CardPaper
-      title="Perusahaan Import"
-      subheader={`Daftar 5 besar perusahaan import tahun ${currentYear}`}
+      title="Perusahaan Impor"
+      subheader={`Daftar 5 besar perusahaan impor tahun ${selectedYear}`}
       sx={{
         minHeight: 250,
       }}
@@ -109,7 +111,7 @@ const TopPerusahaanImport = () => {
               {data.length <= 0 ? (
                 <TableRow>
                   <TableCell colSpan={3} align="center">
-                    Tidak ada data perusahaan import.
+                    Tidak ada data perusahaan.
                   </TableCell>
                 </TableRow>
               ) : (

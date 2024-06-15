@@ -24,10 +24,17 @@ class ChartPenerimaanRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->query('kantor') != 'all') {
+            $kantorRules = "exists:kantor,id";
+        } else {
+            $kantorRules = 'in:all';
+        }
+
         return [
             'tab' => 'in:perkantor,semua',
             'year' => 'nullable|date_format:Y',
             'month' => 'nullable|date_format:m',
+            'kantor' => $kantorRules
         ];
     }
 
@@ -58,6 +65,11 @@ class ChartPenerimaanRequest extends FormRequest
             $query->where('kantor_id', user()->kantor_id);
         }
 
+        // jika ada request kantor, filter data berdasarkan id kantor yang dipilih
+        if ($this->query('kantor') != 'all') {
+            $query->where('kantor_id', $this->query('kantor'));
+        }
+
         // filter data berdasarkan tahun dan bulan yang di request
         $query->where('tanggal_input', 'like', "{$date}%");
 
@@ -65,22 +77,39 @@ class ChartPenerimaanRequest extends FormRequest
         $data = [
             'series' => [],
             'x_labels' => [
-                'Target Bea Masuk',
-                'Target Bea Keluar',
-                'Target Cukai',
-                'Realisasi Bea Masuk',
-                'Realisasi Bea Keluar',
-                'Realisasi Cukai',
-            ]
+                'Bea Masuk',
+                'Bea Keluar',
+                'Cukai',
+            ],
+            // 'x_labels' => [
+            //     'Target Bea Masuk',
+            //     'Realisasi Bea Masuk',
+            //     'Target Bea Keluar',
+            //     'Realisasi Bea Keluar',
+            //     'Target Cukai',
+            //     'Realisasi Cukai',
+            // ]
         ];
 
         foreach ($query->get() as $value) {
+            // $data['series'][0]['data'][0] = (float) $value->target_bea_masuk;
+            // $data['series'][0]['data'][1] = (float) $value->realisasi_bea_masuk;
+            // $data['series'][0]['data'][2] = (float) $value->target_bea_keluar;
+            // $data['series'][0]['data'][3] = (float) $value->realisasi_bea_keluar;
+            // $data['series'][0]['data'][4] = (float) $value->target_cukai;
+            // $data['series'][0]['data'][5] = (float) $value->realisasi_cukai;
+
             $data['series'][0]['data'][0] = (float) $value->target_bea_masuk;
             $data['series'][0]['data'][1] = (float) $value->target_bea_keluar;
             $data['series'][0]['data'][2] = (float) $value->target_cukai;
-            $data['series'][0]['data'][3] = (float) $value->realisasi_bea_masuk;
-            $data['series'][0]['data'][4] = (float) $value->realisasi_bea_keluar;
-            $data['series'][0]['data'][5] = (float) $value->realisasi_cukai;
+            $data['series'][0]['label'] = 'Target';
+            $data['series'][0]['id'] = 'target';
+
+            $data['series'][1]['data'][0] = (float) $value->realisasi_bea_keluar;
+            $data['series'][1]['data'][1] = (float) $value->realisasi_bea_keluar;
+            $data['series'][1]['data'][2] = (float) $value->realisasi_cukai;
+            $data['series'][1]['label'] = 'Realisasi';
+            $data['series'][1]['id'] = 'realisasi';
         }
 
         return $data;
@@ -109,7 +138,12 @@ class ChartPenerimaanRequest extends FormRequest
             ->join('penerimaan', 'penerimaan.kantor_id', '=', 'kantor.id')
             ->where('penerimaan.tanggal_input', 'like', "$date%");
 
-        // Grouping query
+        // Jika ada request kantor, filter data berdasarkan id kantor yang dipilih
+        if ($this->query('kantor') != 'all') {
+            $query->where('kantor.id', $this->query('kantor'));
+        }
+
+        // Tambahkan query group by
         $query->groupBy('kantor.nama');
 
         // buat variable untuk data kosong.
@@ -157,12 +191,10 @@ class ChartPenerimaanRequest extends FormRequest
      */
     public function read(): mixed
     {
-        if ($this->query('tab') == 'semua') {
-            return $this->getChartByAllKantor();
-        }
-
         if ($this->query('tab') == 'perkantor' && user()->admin) {
             return $this->getChartByKantor();
         }
+
+        return $this->getChartByAllKantor();
     }
 }
