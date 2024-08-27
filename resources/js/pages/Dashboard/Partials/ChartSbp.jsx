@@ -280,7 +280,7 @@ const ChartSbp = () => {
               }}
             >
               <Typography variant="subtitle2">
-                Tindak Tanjut meliputi :
+                Tindak Lanjut meliputi :
               </Typography>
 
               <Typography variant="body2">

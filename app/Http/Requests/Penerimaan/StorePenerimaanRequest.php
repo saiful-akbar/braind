@@ -53,11 +53,11 @@ class StorePenerimaanRequest extends FormRequest
         // Jika user sebagai admin dan tanggal_input tidak kosong...
         // ...ambil data tanggal_input dari request. Selain dari itu...
         // ...ambil tanggal hari ini.
-        if (user()->admin && !empty($this->tanggal_input)) {
-            $tanggalInput = $this->tanggal_input;
-        } else {
-            $tanggalInput = date('Y-m-d');
-        }
+        // if (user()->admin && !empty($this->tanggal_input)) {
+        //     $tanggalInput = $this->tanggal_input;
+        // } else {
+        //     $tanggalInput = date('Y-m-d');
+        // }
 
         Penerimaan::create([
             'user_id'              => user()->id,
@@ -68,7 +68,7 @@ class StorePenerimaanRequest extends FormRequest
             'realisasi_bea_keluar' => $this->realisasi_bea_keluar,
             'target_cukai'         => $this->target_cukai,
             'realisasi_cukai'      => $this->realisasi_cukai,
-            'tanggal_input'        => $tanggalInput,
+            'tanggal_input'        => $this->tanggal_input,
         ]);
     }
 }
