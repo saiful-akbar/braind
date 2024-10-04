@@ -1,12 +1,6 @@
 import { openMobileSidebar } from "@/redux/reducers/sidebarReducer";
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-  Container,
-  Grid,
-  IconButton,
-  Typography,
-  Tooltip,
-} from "@mui/material";
+import { Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,9 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 /**
  * Komponen page header
  */
-const Header = memo((props) => {
-  const { title, action, children, ...rest } = props;
-
+const Header = memo(({ title, action = null, children = null }) => {
   // redux state & dispatch
   const sidebar = useSelector((state) => state.sidebar);
   const dispatch = useDispatch();
@@ -80,14 +72,6 @@ Header.propTypes = {
   title: PropTypes.string.isRequired,
   action: PropTypes.element,
   children: PropTypes.node,
-};
-
-/**
- * default props
- */
-Header.defaultProps = {
-  action: null,
-  children: null,
 };
 
 export default Header;

@@ -15,7 +15,7 @@ import React from "react";
  * Komponen modal untuk konfirmasi hepus
  */
 const DeleteConfirmation = React.memo((props) => {
-  const { open, title, loading, onDelete, onClose } = props;
+  const { open, title = "Hapus", loading = false, onDelete, onClose } = props;
 
   /**
    * fungsi untuk menutup modal
@@ -72,14 +72,6 @@ DeleteConfirmation.propTypes = {
   onDelete: PropTypes.func.isRequired,
   title: PropTypes.string,
   loading: PropTypes.bool,
-};
-
-/**
- * Default props.
- */
-DeleteConfirmation.defaultProps = {
-  title: "Hapus",
-  loading: false,
 };
 
 export default DeleteConfirmation;

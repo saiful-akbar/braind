@@ -6,7 +6,7 @@ import { Card, CardHeader } from "@mui/material";
  * Komponen Card
  */
 const CardPaper = memo(
-  ({ title, subheader, children, action, sx, ...rest }) => {
+  ({ title = "", subheader = "", children, action, sx = {}, ...rest }) => {
     return (
       <Card
         elevation={3}
@@ -53,15 +53,6 @@ CardPaper.propTypes = {
   action: PropTypes.node,
   children: PropTypes.node.isRequired,
   sx: PropTypes.object,
-};
-
-/**
- * Default props
- */
-CardPaper.defaultProps = {
-  title: "",
-  subheader: "",
-  sx: {},
 };
 
 export default CardPaper;

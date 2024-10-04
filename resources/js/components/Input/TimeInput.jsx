@@ -9,7 +9,14 @@ import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
  * Komponen input time
  */
 const TimeInput = React.memo((props) => {
-  const { label, error, helperText, size, required, ...rest } = props;
+  const {
+    label,
+    error = false,
+    helperText,
+    size = "medium",
+    required = false,
+    ...rest
+  } = props;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -41,12 +48,6 @@ TimeInput.propTypes = {
   helperText: PropTypes.node,
   size: PropTypes.oneOf(["small", "medium", "large"]),
   required: PropTypes.bool,
-};
-
-TimeInput.defaultProps = {
-  error: false,
-  size: "medium",
-  required: false,
 };
 
 export default TimeInput;

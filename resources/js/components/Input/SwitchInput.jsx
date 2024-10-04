@@ -6,7 +6,7 @@ import { FormControlLabel, Switch } from "@mui/material";
  * Komponen switch input
  */
 const SwitchInput = memo((props) => {
-  const { label, labelPlacement, ...rest } = props;
+  const { label, labelPlacement = "end", ...rest } = props;
 
   return (
     <FormControlLabel
@@ -20,10 +20,6 @@ const SwitchInput = memo((props) => {
 SwitchInput.propTypes = {
   label: PropTypes.string,
   labelPlacement: PropTypes.string,
-};
-
-SwitchInput.defaultProps = {
-  labelPlacement: "end",
 };
 
 export default SwitchInput;

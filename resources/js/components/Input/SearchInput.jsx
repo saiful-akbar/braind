@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
  * Komponen search input
  */
 const SearchInput = React.memo((props) => {
-  const { value, onClear, InputProps, disabled, ...rest } = props;
+  const { value = "", onClear, InputProps, disabled = false, ...rest } = props;
   const { app } = usePage().props;
   const { params } = app.url;
 
@@ -61,14 +61,6 @@ SearchInput.propTypes = {
   value: PropTypes.string,
   InputProps: PropTypes.object,
   disabled: PropTypes.bool,
-};
-
-/**
- * Default props
- */
-SearchInput.defaultProps = {
-  value: "",
-  disabled: false,
 };
 
 export default SearchInput;

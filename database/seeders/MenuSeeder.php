@@ -165,9 +165,12 @@ class MenuSeeder extends Seeder
                     ->createMany($menuGroup['sub_menu']);
             }
 
+            // Select semua data menu
+            $menus = Menu::all();
+
             // Tambahkan hak akses menu pada user.
             foreach ($users as $user) {
-                foreach (Menu::all() as $menu) {
+                foreach ($menus as $menu) {
                     $user->menu()->attach($menu->id, [
                         'create'     => $user->username === "Kanwil",
                         'read'       => $user->username === "Kanwil",

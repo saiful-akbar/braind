@@ -52,7 +52,6 @@ const descriptions = [
  * Halaman edit akses user.
  */
 const EditAccessUser = (props) => {
-  console.log(props);
   const { menu: menus, user } = props.data;
   const dispatch = useDispatch();
   const { data, setData, processing, put } = useForm(

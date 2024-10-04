@@ -7,18 +7,16 @@ import { Refresh } from "@mui/icons-material";
 /**
  * Komponen button reload, export dan import excel untuk table
  */
-const TableActionButton = (props) => {
-  const {
-    export: exportExcel,
-    import: importExcel,
-    reload,
-    print,
-    onExport,
-    onImport,
-    onReload,
-    onPrint,
-  } = props;
-
+const TableActionButton = ({
+  export: exportExcel = false,
+  import: importExcel = false,
+  reload = false,
+  print = false,
+  onExport = () => {},
+  onImport = () => {},
+  onReload = () => {},
+  onPrint = () => {},
+}) => {
   return (
     <ButtonGroup fullWidth color="secondary" variant="contained">
       {reload && (
@@ -57,17 +55,6 @@ TableActionButton.propTypes = {
   onImport: PropTypes.func,
   onReload: PropTypes.func,
   onPrint: PropTypes.func,
-};
-
-TableActionButton.defaultProps = {
-  export: false,
-  import: false,
-  reload: false,
-  print: false,
-  onExport: () => {},
-  onImport: () => {},
-  onReload: () => {},
-  onPrint: () => {},
 };
 
 export default TableActionButton;

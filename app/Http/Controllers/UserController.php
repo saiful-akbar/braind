@@ -81,7 +81,7 @@ class UserController extends Controller
         }
 
         $menu = MenuGroup::with([
-            'subMenu' => fn ($query) => $query->orderBy('menu.nama', 'asc')
+            'subMenu' => fn($query) => $query->orderBy('menu.nama', 'asc')
         ])->orderBy('nama', 'asc')->get();
 
         return $this->render('User/Access/Create/index', [

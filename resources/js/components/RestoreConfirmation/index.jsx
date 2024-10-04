@@ -15,7 +15,13 @@ import React from "react";
  * Komponen modal untuk konfirmasi hepus
  */
 const RestoreConfirmation = React.memo((props) => {
-  const { open, title, loading, onRestore, onClose, ...rest } = props;
+  const {
+    open,
+    title = "Pulihkan",
+    loading = false,
+    onRestore,
+    onClose,
+  } = props;
 
   /**
    * fungsi untuk menutup modal
@@ -72,14 +78,6 @@ RestoreConfirmation.propTypes = {
   onRestore: PropTypes.func.isRequired,
   title: PropTypes.string,
   loading: PropTypes.bool,
-};
-
-/**
- * Default props.
- */
-RestoreConfirmation.defaultProps = {
-  title: "Pulihkan",
-  loading: false,
 };
 
 export default RestoreConfirmation;

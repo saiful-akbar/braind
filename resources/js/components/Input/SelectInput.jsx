@@ -13,14 +13,14 @@ import {
  */
 const SelectInput = memo((props) => {
   const {
-    label,
-    error,
-    fullWidth,
-    helperText,
     items,
-    inputProps,
-    size,
-    required,
+    label = "",
+    error = false,
+    fullWidth = false,
+    helperText = "",
+    inputProps = {},
+    size = "medium",
+    required = false,
     ...rest
   } = props;
 
@@ -84,19 +84,6 @@ SelectInput.propTypes = {
   inputProps: PropTypes.object,
   size: PropTypes.string,
   required: PropTypes.bool,
-};
-
-/**
- * Default props
- */
-SelectInput.defaultProps = {
-  label: "",
-  error: false,
-  fullWidth: false,
-  helperText: "",
-  inputProps: {},
-  size: "medium",
-  required: false,
 };
 
 export default SelectInput;
