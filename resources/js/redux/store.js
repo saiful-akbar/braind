@@ -23,7 +23,7 @@ import galeriReducer from "./reducers/galeriReducer";
 import petaKerawananReducer from "./reducers/petaKerawananReducer";
 import reportReducer from "./reducers/reportReducer";
 import dashboardReducer from "./reducers/dashboardReducer";
-import dokumenReducer from "./reducers/dokumenReducer";
+import ekspedisiReducer from "./reducers/ekspedisiReducer";
 
 const store = configureStore({
   reducer: {
@@ -51,7 +51,7 @@ const store = configureStore({
     petaKerawanan: petaKerawananReducer,
     report: reportReducer,
     dashboard: dashboardReducer,
-    dokumen: dokumenReducer,
+    ekspedisi: ekspedisiReducer,
   },
 });
 

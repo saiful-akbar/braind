@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SbpController;
 use App\Http\Controllers\AuthController;
@@ -9,7 +8,7 @@ use App\Http\Controllers\KantorController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KomoditiController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\EkspedisiController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\PengawasanController;
@@ -580,5 +579,15 @@ Route::middleware('auth')->group(function (): void {
             Route::get('/lpso', 'lpso')->name('.lpso')->middleware('access:report,read');
             Route::get('/rms', 'rms')->name('.rms')->middleware('access:report,read');
             Route::get('/dpso', 'dpso')->name('.dpso')->middleware('access:report,read');
+        });
+
+    /**
+     * Master ekspedisi
+     */
+    Route::controller(EkspedisiController::class)
+        ->name('ekspedisi')
+        ->prefix('/ekspedisi')
+        ->group(function (): void {
+            Route::get('/', 'index');
         });
 });

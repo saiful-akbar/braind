@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             MenuSeeder::class,
             PerusahaanSeeder::class,
+            MenuKirimanSeeder::class,
         ]);
     }
 }
